@@ -1,0 +1,88 @@
+# Built with Zensical (https://zensical.org), not mkdocs - this file keeps the
+# mkdocs.yml name/format because Zensical reads it natively ("your current
+# settings just work"); see doc_tools/README.md for the reasoning. TOC.md, the
+# internal planning doc for this rewrite, lives at the repo root rather than
+# under docs_dir so it's never a candidate for publishing in the first place.
+site_name: Happy Hare
+site_description: Universal Automated Filament Changer / MMU driver for Klipper
+repo_url: https://github.com/moggieuk/Happy-Hare
+docs_dir: doc
+
+theme:
+  name: material
+  variant: classic
+  logo: assets/images/logo.jpg
+  favicon: assets/images/favicon.png
+  # Pink is the brand's own colour, not a pick from Material's swatch list for its
+  # own sake: HH's warning text is #FF69B4 (see test/README.md, "why a warning
+  # shows up on a pink background") and the wiki/README logo is that same hot pink
+  # rendered as a neon sign. Black keeps the header/nav that neon-over-brick dark
+  # in both light and dark reading modes, rather than flipping to white in light mode.
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: pink
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: pink
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - content.code.copy
+    - search.suggest
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - tables
+  - fenced_code
+  - codehilite
+  - admonition
+  - attr_list
+  - md_in_html
+  # NOT pymdownx.superfences/mermaid: Zensical's custom-fence handling was observed
+  # non-deterministic (~1 build in 4 rendered a ```mermaid block as a diagram; the
+  # rest rendered raw source as plain code) even with --clean. Diagrams in this
+  # Developer Guide are plain ASCII in fenced code blocks instead - guaranteed to
+  # render the same everywhere, including a raw GitHub view of the same file.
+  #
+  # codehilite, not pymdownx.highlight, for the SAME reason: adding
+  # pymdownx.highlight + pymdownx.superfences (Material's normal syntax-highlighting
+  # recipe) reproduced the identical flakiness on ordinary (non-mermaid) code fences
+  # - 2 of 4 clean rebuilds silently rendered with zero highlighting. The flakiness
+  # is in superfences' custom-fence machinery generally, not specific to mermaid.
+  # codehilite is Python-Markdown's original highlighter, not part of that
+  # machinery, and was deterministic across 6/6 clean rebuilds in the same test -
+  # but it wraps output in <div class="codehilite">, which Material's shipped CSS
+  # doesn't style (Material only styles pymdownx.highlight's <div class="highlight">).
+  # doc/assets/stylesheets/extra.css re-points codehilite's Pygments token classes
+  # at Material's own --md-code-hl-*-color variables to compensate - see the
+  # comment there before touching either half of this.
+
+nav:
+  - Getting Started:
+      - Box Turtle: GettingStartedWithBoxTurtle.md
+  - Features:
+      - eSpooler: Feature-Espooler.md
+  - Reference:
+      - Command Reference: Command-Reference.md
+      - Printer Variables: Printer-Variables.md
+  - Developer Guide:
+      - Code Layout: Dev-Code-Layout.md
+      - Kconfig & Installer Architecture: Dev-Kconfig-Structure.md
+      - Testing: Dev-Testing.md
+      - The Simulator: Dev-Simulator.md
+      - Documentation Tooling: Dev-Doc-Tooling.md
+      - Installer Dev (Docker): Dev-Installer-Docker.md
+      - Contributing: Dev-Contributing.md
