@@ -97,6 +97,12 @@ a reader could be shown.
   the same machine) and writes a config. A checked-in `.mmu_config` would go stale
   silently as Kconfig gains options; generating means the seed always matches the
   tree being documented.
+* **`ercf`.** Generated the same way, selecting `MMU_TYPE_ERCF_3_0` (the
+  Kconfig choice's own default version) instead. Reach for this seed when a
+  screen's story fits a moving-carriage/servo design better than Box
+  Turtle's gear-per-gate one — e.g. `Feature-NFC.md`'s shared-reader setup,
+  where "present a spool by hand to one reader" reads more naturally for a
+  vendor without a reader on every gate.
 * **A real config: `--seed path/to/.mmu_config`.** Whatever is on your printer.
 * **A unit of a multi-unit setup: `--seed path/to/.mmu_config_gru`.** The `_gru`
   suffix is recognised, so the session parses as unit `gru` with `F_MULTI_UNIT=y`,

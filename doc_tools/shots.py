@@ -201,6 +201,56 @@ def _feature_espooler(mc, shot):
     shot('espooler-pins')                            # one row of rewind/forward/enable/trigger per gate
 
 
+def _feature_sync_feedback_buffer(mc, shot):
+    """
+    For doc/Feature-Sync-Feedback-Buffer.md - the buffer hardware screen and the
+    separate motor-sync screen. Uses the boxturtle seed (default), which already has
+    a Turtle Neck v2 (dual switch) buffer fitted, so both menus are reachable without
+    any setup in the scene itself.
+    """
+    mc.enter('MMU Features / Additions')
+    mc.enter('Buffer config')
+    shot('buffer-config')                            # range/maxrange, spring state, both switch pins fitted
+    mc.back()
+    mc.back()                                        # -> (Top)
+
+    mc.enter('Other Settings')
+    mc.enter('MMU/Extruder sync')
+    shot('motor-sync')                                # dynamic sync feedback + synchronized gear current
+
+
+def _feature_nfc(mc, shot):
+    """
+    For doc/Feature-NFC.md - the shared-reader half of NFC reader config. Uses the
+    'ercf' seed rather than the default boxturtle: NFC is opt-in and off by default
+    for every MMU type (BETA), so enabling it is scene setup regardless of vendor -
+    but ERCF's moving-carriage/servo design is the more natural fit for "present a
+    spool to one shared reader by hand" than Box Turtle's gear-per-gate layout,
+    matching how the page itself frames a shared reader.
+    """
+    mc.enter('MMU Features / Additions')
+    mc.select('Has NFC reader(s) for RFID tag?')
+    mc.toggle()
+    mc.autofit()                                      # new items just appeared below
+    mc.enter('NFC reader config')
+    mc.select('Has common NFC reader?')
+    mc.toggle()
+    mc.autofit()                                       # reader name/type/pin fields just appeared
+    mc.select('Has common NFC reader?')
+    shot('shared-reader-config')                       # name/type/CS pin/SPI bus/speed - RC522 defaults
+
+
+def _feature_endless_spool_runout(mc, shot):
+    """
+    For doc/Feature-Endless-Spool-Runout.md - the EndlessSpool section of Software
+    Options. Generic, not MMU-type-specific, so the boxturtle seed (default) needs
+    no setup - this section is always present.
+    """
+    mc.enter('Software Options')
+    mc.select('Enable EndlessSpool?')
+    shot('endless-spool-options')                    # both EndlessSpool checkboxes, off by default
+
+
 SESSIONS = [
     {
         'name': 'getting-started-boxturtle',
@@ -214,6 +264,25 @@ SESSIONS = [
         'caption': 'doc/Feature-Espooler.md - the eSpooler pins menuconfig screen',
         'scenes': _feature_espooler,
         'outdir': 'Feature-Espooler',
+    },
+    {
+        'name': 'feature-endless-spool-runout',
+        'caption': 'doc/Feature-Endless-Spool-Runout.md - the EndlessSpool options screen',
+        'scenes': _feature_endless_spool_runout,
+        'outdir': 'Feature-Endless-Spool-Runout',
+    },
+    {
+        'name': 'feature-sync-feedback-buffer',
+        'caption': 'doc/Feature-Sync-Feedback-Buffer.md - buffer hardware and motor-sync screens',
+        'scenes': _feature_sync_feedback_buffer,
+        'outdir': 'Feature-Sync-Feedback-Buffer',
+    },
+    {
+        'name': 'feature-nfc',
+        'caption': 'doc/Feature-NFC.md - shared NFC reader config screen (ercf seed)',
+        'scenes': _feature_nfc,
+        'outdir': 'Feature-NFC',
+        'seed': 'ercf',
     },
     {
         'name': 'getting-started-vivid',

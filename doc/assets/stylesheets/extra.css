@@ -268,3 +268,45 @@ body {
 .md-grid {
   max-width: 75rem;
 }
+
+/*
+ * Mermaid diagrams (see doc/assets/javascripts/hh-mermaid.js) are deliberately
+ * marked class="hh-mermaid", NOT "mermaid" - the plain "mermaid" class is what
+ * mermaid.min.js's own bundled auto-render scans for on page load, which races
+ * (and loses) against our own controlled render pass. Material's shipped CSS
+ * therefore never sees these nodes either; this re-states its one rule for
+ * ".mermaid" under our own class so the diagrams still get the same spacing.
+ */
+/*
+ * White card behind every diagram, always - Mermaid's default theme (loaded
+ * plain, no darkMode config) hard-codes dark text/lines calibrated for a
+ * light page, and the SVG itself has no background of its own. Re-theming
+ * Mermaid per-scheme would need re-rendering on every palette toggle
+ * (hh-mermaid.js has no hook for that), so instead this card is unconditional
+ * and dark scheme gets its own look via a CSS filter below rather than a
+ * different Mermaid theme.
+ */
+.hh-mermaid {
+  line-height: normal;
+  margin: 1em 0;
+  background: #fff;
+  border-radius: 0.2rem;
+  padding: 0.75rem;
+}
+/*
+ * Dark scheme: invert the whole card instead of leaving it a white rectangle
+ * on an otherwise dark page. invert(1) flips the white background to black
+ * and every dark line/glyph to light; hue-rotate(180deg) then un-rotates the
+ * hue shift invert() introduces on Mermaid's few non-grey colours (the pale
+ * lavender actor-box fill/border), so they read as a dark, still-lavender-
+ * tinted colour instead of inversion's default sickly yellow-green. Verified
+ * directly against a real diagram's actual SVG (not just this rule's own
+ * output): text glyphs land near-white, actor boxes land dark navy - not the
+ * literal Mermaid "dark" theme's palette, but a legible dark-mode equivalent
+ * of this site's existing light-mode diagrams, with no re-render needed.
+ * Material sets this attribute on <body>, not <html> - checked directly
+ * before relying on it here.
+ */
+[data-md-color-scheme="slate"] .hh-mermaid {
+  filter: invert(1) hue-rotate(180deg);
+}

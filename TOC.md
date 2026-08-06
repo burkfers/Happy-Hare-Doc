@@ -41,9 +41,12 @@ repo root (not under `doc/`) specifically so it's never a candidate for publishi
 - **No `[TOC]` marker on any page** — superseded partway through: the theme's own
   "On this page" sidebar makes an inline copy pure duplication, on every page,
   not just generated ones. See `doc_tools/README.md`'s Page Conventions section.
-- **No Mermaid diagrams** — tried, and reverted; see **Zensical rough edges**.
+- **No ` ```mermaid ` fenced code blocks** — tried, found non-deterministic
+  across clean rebuilds, and reverted; see **Zensical rough edges**.
   Architecture diagrams in the Developer Guide are plain ASCII in fenced code
-  blocks instead.
+  blocks instead. `Feature-Spoolman.md` later re-introduced Mermaid via a
+  different mechanism (raw `<pre class="mermaid">` HTML, not a fence) — see
+  item 33 below before assuming this bullet still means "no Mermaid anywhere."
 - **Getting Started scope (v1):** Box Turtle only, walked deep. Everything else gets
   a comparison table + "same pattern, different Kconfig starter" note. Multi-unit and
   additional MMUs come later as their own pages.
@@ -260,7 +263,7 @@ anything. Don't silently decide something wasn't worth keeping.
 
 | Page | Source | Status |
 |---|---|---|
-| `index.md` (Home) | `README.md` + `wiki/Home.md` | **done (v1)** — hero logo, tagline, card grid to what exists so far, ASCII bunny. Card grid needs a new entry every time a section gains its first page. |
+| `index.md` (Home) | `README.md` + `wiki/Home.md` | **done (v2)** — see item 34 below for the full rewrite. v1's "card grid needs a new entry every time a section gains its first page" rule is retired: v2's card grid is one card per top-level nav section (5 cards: Getting Started, Concepts, Features, Reference, Developer Guide) rather than one per page-that-happened-to-be-first, and doesn't need touching again as pages are added within an existing section. |
 
 ### 1. Getting Started
 
@@ -301,16 +304,17 @@ anything. Don't silently decide something wasn't worth keeping.
 | `MMU-Calibration-Virtual-Selector.md` | `wiki/MMU-Calibration-TypeB.md` | ⚠️ rewrite, retitle |
 | Toolhead calibration | folded into a Features page (§5) | — |
 
-### 5. Features — template proved out on eSpooler, 13 pages to go
+### 5. Features — template proved out on six pages, 8 to go
 
 | Feature page | Kconfig source | Wiki source | Status |
 |---|---|---|---|
 | `Feature-Espooler.md` | `Kconfig.espooler` | `wiki/Espooler-Support.md` | **done (v3)** — first page written against the template (see below); code-verified against `mmu_espooler.py`, `mmu_filament_movement.py`'s `_wrap_espooler()`, and `mmu_unit_parameters.py`. v1 over-compressed the ported wiki content; v2 restored the UI screenshots, TIP/IMPORTANT callouts, the `espooler_speed_exponent` worked example, and the per-mode setup walkthroughs, added a real `doc_tools/shots.py` session for the eSpooler pins menuconfig screen; v3 dropped the leading provenance paragraph, all developer-jargon (class/method names), the (nonexistent in v4) pin-alias example, and fixed "sync-feedback" → "filament (catchment)" buffer naming — see the decisions above and the session log |
 | `Feature-Encoder.md` | `Kconfig.encoder` | `wiki/Clog-Runout-EndlessSpool.md` (Optional Encoder + Clog Detection + Flowrate Monitoring sections only) | **done** - code-verified against `unit/mmu_encoder.py`, `commands/mmu_encoder.py`, `mmu_constants.py`'s `ENCODER_*`/`VARS_MMU_ENCODER_*` constants, and the `[mmu_encoder]`/`gate_endstop_to_encoder`/bowden-verification blocks in `config/base/*.cfg`. Reused `wiki/Synchronized-Gear-Extruder/Encoder_Meter.png` (an annotated FlowGuard-meter diagram, already carrying v4's real `flowguard_encoder_max_motion` param name) as the UI illustration. See the session log for what got routed to other pages and what was corrected. |
-| `Feature-Sync-Feedback-Buffer.md` | `Kconfig.sync_feedback_buffer`, `Kconfig.motor_sync` | `wiki/Synchronized-Gear-Extruder.md` |
-| `Feature-NFC-Spoolman.md` | `Kconfig.nfc_reader` | `wiki/Spoolman-Support.md` |
+| `Feature-Sync-Feedback-Buffer.md` | `Kconfig.sync_feedback_buffer`, `Kconfig.motor_sync` | `wiki/Synchronized-Gear-Extruder.md` (Synchronized Gear/Extruder + Sync-Feedback Buffer Sensors + AutoTuner sections only — the FlowGuard clog/tangle/telemetry sections stayed off this page, see the session log) | **done** — code-verified against the real `[mmu_buffer <unit_name>]`/`mmu_parameters.cfg` keys and the live `MMU Features / Additions → Buffer config` / `Other Settings → MMU/Extruder sync` menuconfig screens (real screenshots, `feature-sync-feedback-buffer` session, boxturtle seed). Reused `Typical_Buffer.png` (with a corrective note for its stale pin names) and `Sync_Feedback_Meter.png`/two small UI-icon images from the wiki; skipped the FlowGuard telemetry/simulation images as out of scope for this page. |
+| `Feature-Spoolman.md` | — (software integration, no Kconfig) | `wiki/Spoolman-Support.md` | **done** — split off the originally-planned single `Feature-NFC-Spoolman.md` into two pages (this one + `Feature-NFC.md` below), per explicit request; the two cross-reference heavily in both directions. Code-verified against `mmu_controller.py`'s `_spoolman_*` methods, `mmu_server.py` (Moonraker component), and `mmu_gate_maps.py`'s `gate_map_to_string()`. Corrected several stale wiki details: the console gate-map status labels are `On spool`/`Buffered`/`Empty`/`Unknown` (not `Spool`/`Buffer`) and the field is `Id:` not `SpoolId:`; `pending_spool_id_timeout` is actually `spoolman_pending_id_timeout`, living in `mmu.cfg` not `mmu_parameters.cfg`; the Spoolman-version requirement (0.18.1+) applies to every mode above `off`, not just push/pull (confirmed in `mmu_server.py` — `readonly` needs it too, since the same extra-fields gate blocks it); and Spoolman now has a third extra field, `RFID` (alongside `Printer Name`/`MMU Gate`), not in the wiki at all. Re-introduced the wiki's Mermaid sequence diagrams under Tuning (split `off`/`readonly`/`push`/`pull` into 6 diagrams total) via raw `<pre class="mermaid">` HTML rather than a ` ```mermaid ` fence — see item 33 below for the mechanism and its verification status. Reused all 6 of the wiki's Spoolman-UI screenshots as-is (verified each against current field names/labels — none were stale, unlike the sensor-name screenshots skipped elsewhere) plus the RFID/QR "auto-setting" workflow, generalized (see `Feature-NFC.md`'s split below). |
+| `Feature-NFC.md` | `Kconfig.nfc_reader` | new (no v3 wiki page — the closest wiki content, RFID/QR tag auto-setting, was folded into `Feature-Spoolman.md`'s generic-external-reader workflow instead; NFC hardware readers, `MMU_NFC`/`MMU_NFC_SCAN`, and Spoolman auto-create are all new in v4) | **done** — the reader/hardware half of the original combined plan, cross-referencing `Feature-Spoolman.md` heavily both ways. Code-verified against `unit/mmu_nfc_manager.py`, `unit/nfc/mmu_nfc_reader.py` and `mmu_nfc_endstop.py`, `commands/mmu_nfc.py`/`mmu_nfc_scan.py`, and the `_preload_gate()`/`_home_to_gate_with_nfc()` integration in `mmu_filament_movement.py`. Marked **beta** on the page itself, matching the Kconfig's own `[[B]](BETA)[[/B]]` tag — and specifically flagged the per-gate homing-endstop path (used automatically by `MMU_PRELOAD`) as confirmed on RC522 only, per a "PROTOTYPE" comment in `mmu_nfc_endstop.py` saying PN532/PN7160 still need bench verification. No wiki content was actually stale here since none existed to be stale — this is genuinely new v4 surface, not a port. No menuconfig screenshot: the Box Turtle seed used for this site's other captures doesn't select `MMU_HAS_NFC_READER`; skipped rather than faked, same reasoning as `Feature-Encoder.md`. |
 | `Feature-LEDs.md` | `Kconfig.leds` | `wiki/Led-Support.md` |
-| `Feature-Endless-Spool-Runout.md` | (no dedicated Kconfig — sensor-driven) | `wiki/Clog-Runout-EndlessSpool.md` (Runout Detection + EndlessSpool + Designated Waste Gate sections only — the Optional Encoder/Clog Detection/Flowrate Monitoring sections went to `Feature-Encoder.md` instead) |
+| `Feature-Endless-Spool-Runout.md` | (no dedicated Kconfig — sensor-driven) | `wiki/Clog-Runout-EndlessSpool.md` (Runout Detection + EndlessSpool + Designated Waste Gate sections only — the Optional Encoder/Clog Detection/Flowrate Monitoring sections went to `Feature-Encoder.md` instead) | **done** — code-verified against the runout/clog-vs-tangle decision logic, the EndlessSpool group-cycling and eject-gate handling, and the real `mmu.cfg`/`Kconfig.options` settings. Real menuconfig screenshot (`feature-endless-spool-runout` session, boxturtle seed, no scene setup needed since this section isn't MMU-type-specific). See the session log for what got corrected from the wiki. |
 | `Feature-Gate-TTG-Maps.md` | `Kconfig.gates` | `wiki/Tool-and-Gate-Maps.md` |
 | `Feature-Statistics-Counters.md` | — | `wiki/Statistics-and-Consumption-Counters.md` |
 | `Feature-State-Persistence.md` | — | `wiki/State-Persistence.md` |
@@ -948,21 +952,325 @@ anything. Don't silently decide something wasn't worth keeping.
       (showing the connection-type row and the resolved "Other / manually
       entered" device row together) are the reproducible part of that same
       story.
+30. **Third Feature page: `Feature-Endless-Spool-Runout.md`** - the other
+    half of `wiki/Clog-Runout-EndlessSpool.md` (Runout Detection + EndlessSpool
+    + Designated Waste Gate sections; the encoder-specific sections went to
+    `Feature-Encoder.md`, see item 24). No dedicated Kconfig source, so
+    verification meant reading the actual decision logic in code rather than
+    a `.cfg` template:
+    - **Clog/tangle vs. genuine runout is a real, code-level distinction**,
+      not just wiki framing: Happy Hare checks the fitted switch sensors
+      first, and only if they're inconclusive *and* an encoder is fitted
+      does it nudge the gear motor and watch for encoder movement to settle
+      the question. Clog/tangle always pauses regardless of EndlessSpool;
+      EndlessSpool only ever acts on a confirmed runout. This is stated
+      as plain fact on the page, not attributed to "the code" anywhere -
+      per this session's explicit no-code-references instruction, on top of
+      the standing page-genre-wide rule.
+    - **Stale wiki content corrected, not ported**: `encoder_clog_detection_enabled`
+      references (that content now lives on `Feature-Encoder.md`, not this
+      page, so not even mentioned here); the wiki's combined
+      `MMU_ENDLESS_SPOOL`+gate-status console example was replaced with the
+      real, much simpler output (`EndlessSpool Groups: / Group A: Gates: ...`)
+      - groups are set with numbers but reported back as letters (`0`→`A`,
+        `1`→`B`, ...), confirmed directly in the formatting logic.
+      - `MMU_TEST_RUNOUT` now takes an optional `TYPE=runout|clog` - the wiki's
+        plain no-argument form still works but doesn't demonstrate the
+        clog path.
+    - **A real, easily-missed behaviour found by reading the eject-gate code
+      path, not the wiki**: `endless_spool_eject_gate` is checked with `> 0`,
+      so gate `0` can never be the designated waste gate through this
+      setting - only gates numbered `1` and up. Stated as a plain usage rule
+      on the page ("must be `1` or higher") rather than a caveat, since a
+      reader hand-editing this value needs to know it either way.
+    - **Image**: skipped `wiki/Quick-Start-QuattroBox/quattrobox_endless.png`
+      and `wiki/Installation/questions_endless.png` deliberately - both are
+      screenshots of the old v3 line-by-line install wizard (`Enable clog
+      detection (y/n)?` prompts), a UI that no longer exists in v4's real
+      menuconfig. Captured a fresh, real menuconfig screenshot instead (new
+      `feature-endless-spool-runout` session in `doc_tools/shots.py`, plain
+      boxturtle seed - this section isn't MMU-type-specific so needed no
+      scene setup, same shape as the `feature-espooler` session).
+    - **Waste-gate incompatibility claim softened**: the wiki flatly asserted
+      "may be incompatible with type-B or C MMU designs." No such check
+      exists in code either way, so the page states the real underlying
+      requirement instead (a selector that can be commanded to visit an
+      arbitrary gate on demand) and lets the reader judge their own design
+      against it, rather than repeating an unverifiable type-letter claim.
+31. **Fourth Feature page: `Feature-Sync-Feedback-Buffer.md`.** Source wiki
+    page (`wiki/Synchronized-Gear-Extruder.md`) is unusually large and
+    already uses v4 terminology throughout (FlowGuard, AutoTune,
+    `mmu_vars.cfg`) - still verified everything against real code rather
+    than trusting that, and found real gaps anyway:
+    - **The wiki's `[mmu_sensors]` section name is wrong for v4** - the real
+      generated section is `[mmu_buffer <unit_name>]` (confirmed directly in
+      `config/base/mmu_hardware.cfg`), analogous to `[mmu_encoder ...]` and
+      `[mmu_espooler ...]`. The wiki's `sync_feedback_tension_pin`/
+      `sync_feedback_compression_pin` key names are wrong too - the real keys
+      are plain `tension_pin`/`compression_pin` inside that section. Kept the
+      wiki's `Typical_Buffer.png` diagram (it's an annotated, editable
+      diagram, not live output - same reuse rule as `Conceptual-MMU.md`) but
+      added a corrective note under it for exactly this key-name mismatch,
+      rather than silently republishing the wrong keys as an image caption
+      with no counter-signal in the text.
+    - **`sync_gear_current`'s real default is `100`**, not the wiki
+      example's `50` - confirmed in `Kconfig.motor_sync`.
+    - **The wiki's `MMU_QUERY_PSENSOR` command doesn't exist in v4** - raw
+      proportional-sensor readings are now reported by the general
+      `MMU_SENSORS` command instead (confirmed directly in its output
+      formatting code, which special-cases the proportional sensor to show
+      both normalised and `(raw: ...)` values). Not ported.
+    - **Scope boundary held firm**: FlowGuard's clog/tangle detection,
+      tangle-prevention current boost, and the whole telemetry/tuning
+      section (`sync_feedback_debug_log`'s plot script, interpreting
+      telemetry, the AutoTune simulation plots) all stayed off this page,
+      on the same "own Kconfig, own future page" reasoning as
+      `Feature-Encoder.md`'s FlowGuard boundary (item 24) - mentioned only
+      by parameter name (`flowguard_enabled`, `flowguard_max_relief`,
+      `tangle_prevention_enabled`), no link, no deep dive. Confirmed via a
+      live menuconfig dump that "FlowGuard (clog/tangle/runout detection)"
+      is in fact its own separate submenu (`Other Settings → FlowGuard`),
+      not nested under sync-feedback at all - the boundary is real, not
+      just a documentation convenience.
+    - **Images**: reused `Sync_Feedback_Meter.png` (an annotated diagram,
+      same style and already-correct-param-names pattern as
+      `Encoder_Meter.png` on `Feature-Encoder.md`) plus two small UI-icon
+      images (`Switch_Based_Sensor_Compressed.png`, `P_Sensor_Position.png`)
+      with no naming issues. Skipped `FilamentStatus.png` deliberately - a
+      real Mainsail/Fluidd screenshot with "Pre-Gate"/"Gate" labels baked in,
+      the exact pre-v4 sensor names `Conceptual-MMU.md` already corrected.
+      Skipped every FlowGuard simulation/telemetry plot as out of scope for
+      this page (see above), not because of any staleness issue with them.
+    - **Real menuconfig screenshots** (`feature-sync-feedback-buffer`
+      session, boxturtle seed - already ships a dual-switch Turtle Neck v2
+      buffer, so no scene setup needed) for **Buffer config** and
+      **Other Settings → MMU/Extruder sync**. The second screen only shows
+      the buffer-feedback toggle and gear current on this seed - Box
+      Turtle's gear-per-gate design always grips filament, so the
+      `sync_to_extruder`/`sync_form_tip`/`sync_purge` toggles (genuine
+      choices on a design that can release its grip) don't even appear -
+      confirmed live rather than assumed, and stated as fact on the page
+      with the screenshot cited as the example of the forced-on case.
+
+32. **Split the planned single `Feature-NFC-Spoolman.md` into two pages**,
+    `Feature-Spoolman.md` and `Feature-NFC.md`, per explicit request -
+    Spoolman is a pure software/Moonraker integration with no Kconfig of its
+    own, while NFC is genuinely new v4 hardware-reader surface, and the user
+    wanted them cross-referencing each other rather than one combined page.
+    Both are code-verified, not ported uncritically - see the §5 table
+    entries above for the specific corrections found in each (stale gate-map
+    status labels and a wrong/misplaced parameter name on the Spoolman page;
+    the RC522-only homing-endstop caveat on the NFC page). `Feature-Spoolman.md`
+    deviates from the template's "Hardware Setup" section name (retitled
+    "Moonraker Setup", since there's no physical hardware to wire) - flagged
+    for the user rather than silently decided, since every other Feature
+    page so far has had real hardware. The wiki's four Mermaid sequence
+    diagrams (one per `spoolman_support` mode) were initially dropped in
+    favour of plain numbered steps under Tuning, since ` ```mermaid ` fences
+    don't render reliably on this site (see **Zensical rough edges**) - later
+    re-introduced by explicit request; see item 33 below. `Feature-NFC.md` is marked **beta**
+    on the page itself, matching the Kconfig's own tag. Added both to
+    `mkdocs.yml`'s nav; no new `index.md` card (Features already has one).
+
+33. **Follow-up, same day: ERCF shared-reader screenshot on `Feature-NFC.md`,
+    and Mermaid diagrams re-introduced on `Feature-Spoolman.md`, both by
+    explicit request.**
+    - The NFC screenshot half is fully done and verified: added an `ercf`
+      seed to `doc_tools/capture.py`'s `BUILTIN_SEEDS`, a `_feature-nfc` scene
+      to `doc_tools/shots.py` (toggles "Has NFC reader(s)" then "Has common
+      NFC reader?" under the ERCF seed rather than the default Box Turtle —
+      ERCF's moving-carriage/servo design fits "present one spool to one
+      shared reader by hand" better than Box Turtle's gear-per-gate layout,
+      matching how the page frames a shared reader), captured
+      `doc/Feature-NFC/shared-reader-config.png`, and added it to the
+      Hardware Setup section with explanatory prose.
+    - The Mermaid half: item 32 above dropped the wiki's diagrams because
+      ` ```mermaid ` fences hit the incremental-build-cache bug in
+      **Zensical rough edges**. Re-introducing them here uses a different
+      mechanism specifically to dodge that bug — raw `<pre class="hh-mermaid">`
+      HTML (passed through untouched by the already-enabled `md_in_html`
+      extension, so there's no fence-extraction step to race on), rendered
+      client-side by `doc/assets/javascripts/hh-mermaid.js` against a
+      pinned-version Mermaid v10 CDN script (`mermaid@10.9.1`, not a floating
+      major tag) added to `mkdocs.yml`'s `extra_javascript`. **Verified
+      rendering correctly, 6/6 diagrams with zero error placeholders, across
+      5 separate loads (fresh tabs and same-tab reloads) plus one real
+      in-app instant-navigation link click (not just a hard reload)** - see
+      `doc/Feature-Spoolman.md`'s Tuning section. Getting there surfaced
+      three real, distinct bugs, not one:
+        1. **Mermaid's own bundled auto-render steals `class="mermaid"`
+           nodes before this file's `mermaid.initialize({startOnLoad:
+           false})` call can take effect** - the CDN script self-registers
+           a DOMContentLoaded auto-render at load time, before
+           `hh-mermaid.js` (loaded after it) runs at all, so by the time our
+           code executes, auto-render has often already grabbed the nodes,
+           started an async render, and lost the layout race below with
+           nothing listening to retry it - confirmed directly by checking
+           `document.querySelectorAll('pre.mermaid')` immediately on a
+           fresh load and finding 0 (already converted and emptied). Fixed
+           by never using `class="mermaid"` at all - diagrams use
+           `class="hh-mermaid"` instead (styled to match via
+           `doc/assets/stylesheets/extra.css`'s `.hh-mermaid` rule, since
+           Material's shipped CSS only styles `.mermaid`), and
+           `hh-mermaid.js` passes those nodes to `mermaid.run({nodes})`
+           explicitly. This also means mermaid's own `data-processed`
+           bookkeeping (tied to its own auto-scan) isn't something to rely
+           on for a differently-named class - the script tracks
+           processed-state itself via its own `data-hh-processed` attribute.
+        2. **Material's `document$` observable fires more than once per
+           load**, and calling `mermaid.run()` the instant it fires
+           reliably loses a race against the browser's own layout of the
+           just-swapped content — thrown outright (`Cannot read properties
+           of null (reading 'getBBox')`) on an immediate call, or, just as
+           often, swallowed internally by Mermaid itself and rendered as its
+           own silent `aria-roledescription="error"` placeholder SVG instead
+           of a real diagram, with no thrown error and no build warning
+           either way (confirmed independently: `mermaid.parse()` said the
+           exact source that produced a placeholder was syntactically valid,
+           and a manual `mermaid.run()` moments later rendered the same
+           source correctly). **Checking for `svg` presence alone is
+           therefore not a valid render-success check** — check
+           `svg[aria-roledescription="error"]` specifically. Mitigated with
+           a real async readiness signal (`document.fonts.ready` + double
+           `requestAnimationFrame`) before the first render attempt, a
+           window-scoped serial queue (`window.__hhMermaidQueue`, not a
+           script-local closure variable — this script's own top-level code
+           was directly observed executing more than once against the same
+           `window`/DOM, and a closure-local queue only serializes firings
+           within its own execution, not against a second execution's
+           queue), and explicit error-placeholder detection with one retry
+           pass.
+        3. **`requestAnimationFrame` never fires while a page is hidden**
+           (backgrounded/inactive tab, per the Page Visibility API) - the
+           double-rAF readiness signal from fix 2 hung indefinitely, with
+           zero console output, whenever this happened. Confirmed directly:
+           `document.hidden === true` on an affected tab, and a bare
+           `requestAnimationFrame` call left permanently pending in that
+           state. This isn't just a test-tool quirk — a real user who opens
+           the page in a background browser tab would hit the identical
+           stall. Fixed by racing the double-rAF against a 300ms fallback
+           `setTimeout` in `hhMermaidReady()`, so the readiness gate can
+           never hang forever regardless of tab visibility.
+      Left in per the user's own explicit instruction to try it anyway
+      ("even if they don't always render .. if I see a problem I will
+      comment them out and replace with images") - that fallback ended up
+      not being needed, but if a diagram ever does render broken for a real
+      reader, note `doc/Feature-Spoolman/` only holds the wiki's UI
+      screenshots reused elsewhere on the page, not pre-rendered images of
+      these diagrams — a static-image fallback would need those re-exported
+      from the wiki's original Mermaid source first.
+
+34. **Follow-up, same day: made every Mermaid diagram legible in dark mode,
+    and rewrote `index.md` (the Home page) from scratch**, both by explicit
+    request.
+    - The Mermaid fix, in two passes. First pass: item 33's diagrams were
+      unreadable in dark mode - Mermaid's default theme hard-codes dark
+      text/lines calibrated for a light page, and the SVG itself has no
+      background of its own, so dark scheme showed dark text directly on
+      the site's own dark background. Fixed with one rule in
+      `doc/assets/stylesheets/extra.css`
+      (`.hh-mermaid { background: #fff; ... }`), unconditionally on both
+      schemes, rather than re-theming Mermaid itself - simpler, and doesn't
+      need hh-mermaid.js to re-render on every palette toggle. Verified past
+      the obvious trap: checking only the container's own
+      `background-color` would have missed a real bug - Mermaid's default
+      theme fills actor boxes with a pale `#ECECFF`, which reads as "light
+      color, might be a dark-mode leak" out of context. Checked the actual
+      painted glyph color instead (`getComputedStyle(tspan).fill` on a real
+      label, in a tab confirmed via
+      `document.body.getAttribute('data-md-color-scheme') === "slate"`) and
+      got solid black text - the pale fill is the actor box background by
+      design, sitting fine on the forced-white card, not a leftover dark-
+      scheme color.
+      Second pass, same day: user pointed out a white card in the middle of
+      a dark page still doesn't *look* like it belongs - asked for a real
+      dark background with light text/lines instead of light-mode-colours-
+      on-a-white-island. Landed on a CSS filter rather than a second Mermaid
+      render: `[data-md-color-scheme="slate"] .hh-mermaid { filter:
+      invert(1) hue-rotate(180deg); }`, layered on top of the always-white
+      card from the first pass. `invert(1)` alone flips the white
+      background to black and dark text to light, but also drags Mermaid's
+      one non-grey colour (the pale lavender `#ECECFF` actor-box fill)
+      through a hue flip into a sickly yellow-green; `hue-rotate(180deg)`
+      un-rotates exactly that shift, landing back on a dark, still
+      lavender-tinted box instead. Verified against a real diagram's actual
+      SVG markup pulled out of a live page (not a hand-built approximation)
+      rendered standalone in an isolated test document side-by-side with
+      the unfiltered version, and again in the real page by firing
+      Material's own palette toggle (`input[name="__palette"]`) rather than
+      just setting the attribute by hand - light scheme still shows the
+      plain white card with no filter (`getComputedStyle(...).filter ===
+      "none"`), dark scheme shows the inverted one. Not the literal Mermaid
+      "dark" theme's exact palette, but a legible, on-brand dark-mode
+      equivalent of this site's own light-mode diagrams, with no re-render
+      needed on toggle.
+    - The Home page: previous version (v1, see the §1 table entry above) was
+      an explicit placeholder - "under construction," a stale 4-page card
+      grid, no real content. Rewritten using `wiki/Home.md` and the actual
+      Happy-Hare repo's `README.md` (`.happy-hare-src/README.md` when
+      cloned locally - not this doc repo's own `README.md`, which is about
+      building *this site*, not about Happy Hare itself) as source
+      material, per explicit request. Specific content decisions:
+        - Dropped the wiki's "Organization" section entirely (flagged by the
+          user as incorrect) rather than trying to correct it in place - its
+          job (which vendor uses which selector mechanism) is already done
+          correctly and in more depth by `Conceptual-MMU.md`'s "Which
+          vendors use which mechanism" table, so Home now just links there
+          instead of maintaining a second, competing hardware list.
+        - Dropped the wiki's Carrot Collective / TradRack Discord mention
+          from "Getting help" (flagged by the user as old) - kept the main
+          Happy Hare Discord and GitHub issues only.
+        - Dropped README's donation appeal/paragraph and the personal
+          "my setup" poem/photo (`my_voron_and_ercf.jpg`) - neither serves
+          orientation, which is this page's one job per the request.
+        - **Card grid rule changed**: v1's grid added one card the first
+          time each *page* landed, which is why Reference had two separate
+          cards (`Command-Reference.md`, then `Printer-Variables.md`) while
+          Concepts had none at all despite `Conceptual-MMU.md` existing for
+          days. v2 is one card per top-level *nav section* (5 total -
+          Getting Started, Concepts, Features, Reference, Developer Guide),
+          matching `mkdocs.yml`'s nav exactly - adding the tenth Feature
+          page won't need touching this again, only a genuinely new
+          top-level section will. See the updated §1 table entry above.
+        - **Splash images**: three photos from the wiki's `resources/`
+          (`universal_mmu_driver.png`, `my_klipperscreen.png`,
+          `example_mmu_print.png`) - none are technical labeled diagrams, so
+          the "reuse editable diagrams, skip stale real-output screenshots"
+          rule doesn't bite here; these are just photos/UI collages used for
+          orientation, not documentation of specific current field names.
+          Re-encoded as JPEG and downsized before committing though (source
+          PNGs were phone-camera-sized, ~4MB each for the two photos -
+          `sips -Z <width> -s format jpeg -s formatOptions 82`, following
+          `doc/index/` for the folder name per the established
+          page-name-matched-folder convention, same as every `Feature-*`
+          page's own image folder). Total added to the repo: ~800KB across
+          all three, versus ~6.4MB for the untouched source PNGs.
+        - Added a short "How this site is organized" section (Getting
+          Started / Concepts / Features / Reference / Developer Guide, what
+          each is for) plus the `MMU_LIKE_THIS`/`like_this.cfg`/
+          `printer.mmu.like_this`/warning-vs-tip notational conventions -
+          this is genuinely new content, not ported from either source;
+          the user asked for "conventions and norms" and neither the wiki
+          nor the README had anything like it since neither was written as
+          a multi-page site with its own house style.
+        - Kept (trimmed) the wiki's "browser plugin" analogy for what Happy
+          Hare conceptually is - still accurate, still a good non-technical
+          explainer, not something either source deprecated.
 
 **To pick this back up:** the §5 Feature-page template has now been proven
-out across two different pages (eSpooler, Encoder) - copy either one's
-current structure and section order for the remaining twelve pages in the
-table above, and follow **Before finishing a Feature page** (proofread
-against the wiki source, report what didn't carry forward) before calling
-any of them done. Several remaining Feature pages share the same
-"combined v3 wiki page, split across several v4 pages" shape `Feature-Encoder.md`
-just went through (e.g. `Feature-Endless-Spool-Runout.md` is the other half
-of the same `Clog-Runout-EndlessSpool.md` wiki page) - check the §5 table's
-"Wiki source" column for other combined pages before assuming a 1:1 mapping.
-§2's other two pages (`Understanding-Operation.md`, `Print-Job-State-Machine.md`)
-are still open too, and should lean on `Conceptual-MMU.md`'s terminology
-rather than re-defining it. The four `Configuring-mmu*.cfg.md` generators for
-§3 are also still open, following the exact `gen_command_reference.py`
-pattern already proven out. Whatever's next, run `./venv/bin/zensical build
---clean` before calling it done, not a plain `zensical build` - see
-**Zensical rough edges**.
+out across six pages (eSpooler, Encoder, EndlessSpool & Runout Detection,
+Sync-Feedback Buffer, Spoolman, NFC) - copy any of their structure and
+section order for the remaining eight pages in the table above, and follow
+**Before finishing a Feature page** (proofread against the wiki source,
+report what didn't carry forward) before calling any of them done. Several
+remaining Feature pages share the same "combined v3 wiki page, split across
+several v4 pages" shape `Feature-Encoder.md`/`Feature-Endless-Spool-Runout.md`
+and `Feature-Spoolman.md`/`Feature-NFC.md` just went through - check the §5
+table's "Wiki source" column for other combined pages before assuming a 1:1
+mapping. §2's other two pages (`Understanding-Operation.md`,
+`Print-Job-State-Machine.md`) are still open too, and should lean on
+`Conceptual-MMU.md`'s terminology rather than re-defining it. The four
+`Configuring-mmu*.cfg.md` generators for §3 are also still open, following
+the exact `gen_command_reference.py` pattern already proven out. Whatever's
+next, run `./venv/bin/zensical build --clean` before calling it done, not a
+plain `zensical build` - see **Zensical rough edges**.

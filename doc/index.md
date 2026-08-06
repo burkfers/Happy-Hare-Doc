@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="assets/images/logo.jpg" alt="Happy Hare" width="220">
-</p>
+# THIS NEW DOC SITE IS UNDER CONSTRUCTION
 
 # Happy Hare
 
@@ -8,11 +6,103 @@
 
 Happy Hare is the original open-source filament changer controller for multi-colour
 printing. Its philosophy is to provide a universal control system that adapts to
-your choice of MMU (Multi-Material Unit) - switch hardware and the software
+your choice of MMU (Multi-Material Unit): switch hardware and the software
 transitions seamlessly with you.
 
-This site is under construction - see `TOC.md` in the repository root for the
-planned structure. A few pages exist so far:
+It's implemented as a Klipper extension, driving the hardware directly and
+exposing everything else through ordinary Klipper macros - if you can write a
+`gcode_macro`, you can customize how Happy Hare behaves. If it helps to think of
+it in web-browser terms: Klipper is the browser, and Happy Hare is an extension
+that adds a whole new capability, without changing anything about how Klipper
+itself works underneath.
+
+<p align="center">
+  <img src="index/universal_mmu_driver.jpg" alt="Happy Hare driving several different MMUs through Mainsail, Fluidd, KlipperScreen and the console" width="100%">
+</p>
+
+## What it drives
+
+Happy Hare doesn't assume one piece of hardware - it supports most of the
+MMU/AFC designs the community has built, from the original ERCF through
+gear-per-gate designs like Box Turtle to fully custom builds, and it's actively
+gaining more. See [What Is an MMU?](Conceptual-MMU.md) for how those designs
+differ and which family yours falls into - that page is the real reference for
+supported hardware, so this one won't repeat it.
+
+Pair it with [KlipperScreen for Happy Hare](https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition)
+for dedicated touchscreen control, or drive everything from the Happy Hare
+panel that ships with Mainsail and Fluidd - both are shown above.
+
+## What it does
+
+A short list of what's actually in Happy Hare - most of these are their own
+Feature page once you're ready for the detail:
+
+- Tool-to-gate mapping, so any physical spool can be assigned to any tool
+- [EndlessSpool & runout detection](Feature-Endless-Spool-Runout.md) - a
+  depleted gate hands off to a spare automatically, mid-print
+- [Spoolman integration](Feature-Spoolman.md) for tracking usage, weight and
+  attributes across a whole spool collection
+- [NFC/RFID reading](Feature-NFC.md) so gates identify their spool by tag
+  instead of by hand
+- [Encoder-based](Feature-Encoder.md) movement validation, clog detection and
+  flow-rate verification
+- [Sync-feedback](Feature-Sync-Feedback-Buffer.md) control to keep the gear
+  and extruder steppers working together instead of fighting each other
+- [Motorized eSpooler](Feature-Espooler.md) support for active rewind and
+  print-time assist
+- LED support for at-a-glance gate status
+- A `menuconfig`-driven installer, so setup is a guided series of choices
+  rather than hand-editing config files from scratch
+- Moonraker update-manager integration, so it updates like any other Klipper
+  plugin
+
+<p align="center">
+  <img src="index/example_mmu_print.jpg" alt="Three small multi-colour 3D prints - a penguin, an astronaut, and a sheep - each printed in several filament colours" width="70%">
+</p>
+
+## How this site is organized
+
+The pages here are grouped by what you're trying to do, not by MMU brand:
+
+- **Getting Started** walks through a real `menuconfig` install for one MMU
+  type, screen by screen - the closest thing to "follow along and end up with
+  a working setup."
+- **Concepts** covers terminology and hardware taxonomy that's shared across
+  every MMU type - worth reading once, regardless of which hardware you have.
+- **Features** has one page per capability (Spoolman, NFC, eSpooler, and so
+  on) - dip into whichever ones you actually plan to use.
+- **Reference** is generated straight from Happy Hare's source - every
+  `MMU_*` command and every `printer.mmu.*` variable, always in sync with
+  what a real printer would show you.
+- **Developer Guide** is for contributing to Happy Hare itself, not for
+  running it - skip it unless you're reading or changing the code.
+
+A few notational conventions carry across all of them: `MMU_LIKE_THIS` is a
+gcode command, `like_this.cfg` is a config file, and `printer.mmu.like_this`
+is a printer variable read from a macro or UI panel. A **warning** box means
+something that can genuinely bite you if skipped; a plain **tip** is a
+shortcut, not a requirement.
+
+## Getting help
+
+Join the [Happy Hare Discord](https://discord.gg/aABQUjkZPk) - there are
+channels dedicated to each MMU type as well as the main extensions. The
+[GitHub issue tracker](https://github.com/moggieuk/Happy-Hare/issues) works
+too, checked on a less immediate cadence.
+
+Whichever you use, having these ready up front gets you a faster answer:
+
+- `klippy.log` and `mmu.log`
+- version info (`MMU_STATUS SHOWCONFIG=1` output)
+- the exact error text
+- what you were doing when it happened, and a picture if it's physical
+
+!!! tip
+    The easiest way to grab logs is through Mainsail: **Machine** tab →
+    the dropdown at top → **Logs** → right-click the file you want → Download.
+
+## Where to start
 
 <div class="grid cards" markdown>
 
@@ -20,37 +110,36 @@ planned structure. A few pages exist so far:
 
     ---
 
-    New to Happy Hare? Walk through installing and configuring a Box Turtle from
+    New to Happy Hare? Walk through installing and configuring an MMU from
     scratch, `menuconfig` screen by screen.
 
     [Box Turtle guide &rarr;](GettingStartedWithBoxTurtle.md)
 
--   **Command Reference**
+-   **Concepts**
 
     ---
 
-    Every `MMU_*` command - parameters and examples generated straight from the
-    source, never hand-transcribed.
+    Terminology, selector mechanisms, and which vendors use which - read this
+    once regardless of which MMU you have.
 
-    [Command Reference &rarr;](Command-Reference.md)
+    [What Is an MMU? &rarr;](Conceptual-MMU.md)
 
--   **Printer Variables**
-
-    ---
-
-    Every `printer.mmu.*` variable, and the deprecated ones still kept around
-    for KlipperScreen/Mainsail/Fluidd.
-
-    [Printer Variable Reference &rarr;](Printer-Variables.md)
-
--   **Features: eSpooler**
+-   **Features**
 
     ---
 
-    How Happy Hare drives a DC-motor eSpooler - continuous rewind/assist tied
-    to gear speed, plus burst-triggered in-print assist.
+    One page per capability - Spoolman, NFC/RFID, eSpooler, encoder, and more.
 
     [eSpooler &rarr;](Feature-Espooler.md)
+
+-   **Reference**
+
+    ---
+
+    Every `MMU_*` command and `printer.mmu.*` variable, generated straight
+    from the source.
+
+    [Command Reference &rarr;](Command-Reference.md)
 
 -   **Developer Guide**
 
