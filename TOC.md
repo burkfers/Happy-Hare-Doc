@@ -152,6 +152,44 @@ repo root (not under `doc/`) specifically so it's never a candidate for publishi
   every page (present and future) rather than per-page markup. Added
   2026-08-06 on request ("liked the visual color icons... helps provide
   visual separation").
+- **Reuse a wiki diagram even if its labels are stale — but only if it's an
+  editable diagram, not a screenshot of real output.** Added 2026-08-06 after
+  the user pushed back on `Conceptual-MMU.md` skipping the wiki's images
+  entirely: a labeled mechanism drawing (`typeA_mmu.png` etc.) still shows a
+  true concept even with renamed sensor labels, and gets a corrective
+  caption/tip instead of being dropped. A live Mainsail/console screenshot of
+  actual sensor names (`filament_sensors.png`, `endstops.png`,
+  `mmu_sensors.png`) is different — that's *real output*, and republishing it
+  with old names presents something a v4 reader would never actually see, no
+  caption fixes that. Skipped those three specifically, flagged why rather
+  than silently dropping them.
+- **Previous/Next page footer nav, Discord icon, taller header with a bigger
+  logo + tagline, smaller footer ASCII-art font** — all added 2026-08-06,
+  site-wide via `doc/assets/stylesheets/extra.css` +
+  `doc/assets/javascripts/hh-page-nav.js` + `mkdocs.yml`'s `extra.social`.
+  Two non-obvious findings if touching any of this again:
+  - Zensical renders **no** prev/next footer nav at all (no
+    `.md-footer__link` markup on any page, checked directly) — this isn't a
+    missing config flag, it's just not implemented. `hh-page-nav.js`
+    computes it client-side instead, by reading the already-rendered primary
+    sidebar (which lists every real page in nav order already, mixed with
+    the current page's own on-page anchors — filtering out any `href`
+    containing `#` leaves exactly the flat page list, so there's no second
+    copy of the nav order to keep in sync with `mkdocs.yml`). Must run on
+    `document$.subscribe(...)`, not `DOMContentLoaded` — `navigation.instant`
+    swaps page content via `history.pushState` after the first load, and a
+    plain load-event listener never fires again after that.
+  - `.md-header__title`/`.md-header__ellipsis`/`.md-header__topic` have a
+    hard-coded height that's load-bearing for Material's site-name → page
+    -title slide-swap-on-scroll animation — making that box itself taller
+    (e.g. via a naive `::after` tagline with `display:block`) doesn't grow
+    it, the extra content just overflows past `.md-header`'s own background
+    and appears to spill onto the page below. The tagline is instead
+    `position:absolute; top:100%` off the site-name topic specifically
+    (`position:relative` added there as the anchor), so it floats below
+    without affecting that box's own height/animation at all;
+    `.md-header__inner` separately gets a plain `min-height` bump so there's
+    header background for it to float onto.
 - **Don't drop wiki illustrations, admonitions, or worked examples without a
   specific reason** (added 2026-08-06) — the first `Feature-Espooler.md` draft
   over-compressed the ported wiki content (dropped the UI screenshots, the
@@ -235,7 +273,7 @@ anything. Don't silently decide something wasn't worth keeping.
 
 | Page | Source | Status |
 |---|---|---|
-| `Conceptual-MMU.md` | `wiki/Conceptual-MMU.md` | **done** — rewritten around the real v4 selector hierarchy (three research passes: sensor renames, vendor→selector mapping, combiner/EndlessSpool verification — see session log). Old Type-A/B/C diagrams (raster PNGs with stale "pre-gate"/"gate" sensor labels baked in) replaced with ASCII diagrams using correct names; vendor table extended well past the old wiki's ERCF/Tradrack/Box-Turtle set |
+| `Conceptual-MMU.md` | `wiki/Conceptual-MMU.md` | **done (v2)** — rewritten around the real v4 selector hierarchy (three research passes: sensor renames, vendor→selector mapping, combiner/EndlessSpool verification — see session log); vendor table extended well past the old wiki's ERCF/Tradrack/Box-Turtle set. v1 swapped the wiki's Type-A/B/C diagrams for ASCII to avoid their stale "pre-gate"/"gate" labels; v2 restored the real diagrams (`typeA/B/C_mmu.png`, `default_ercf/tradrack/box_turtle.png`) per user request, with a correction tip instead — kept skipping the three live sensor-list screenshots (`filament_sensors.png`, `endstops.png`, `mmu_sensors.png`), which show real old output rather than an editable diagram |
 | `Understanding-Operation.md` | `wiki/Understanding-Operation.md` | ⚠️ verify |
 | `Print-Job-State-Machine.md` | `wiki/Print-Job-State-Machine.md` | ⚠️ verify against `mmu_print_state_machine.py` |
 
@@ -613,6 +651,19 @@ anything. Don't silently decide something wasn't worth keeping.
       table this page ships. No other planned page currently owns that depth
       - compressed here to keep a *conceptual* page from reading like a
       reference page, but flagged rather than silently decided.
+21. User pushed back on item 20's ASCII-diagram substitution - restored the
+    real wiki diagrams on `Conceptual-MMU.md` (with a correction tip instead
+    of a swap), except the three live sensor-list screenshots, which show
+    real v3 console/UI output rather than an editable diagram - see the new
+    "Reuse a wiki diagram..." decision above for where the line is drawn.
+    Also did a round of general layout requests, all site-wide rather than
+    per-page: Previous/Next footer nav (Zensical doesn't render Material's
+    own - built client-side in `hh-page-nav.js` instead, off the
+    already-rendered sidebar), a Discord footer icon (`extra.social`), and a
+    taller header with a bigger logo + tagline (the tagline needed
+    absolute-positioning off the site-name title block rather than growing
+    that block directly - see the new decision above for why). Smaller
+    footer ASCII-art font size too.
 
 **To pick this back up:** the §5 Feature-page template is proven out across
 three rounds of revision (v1 → v2 → v3) - copy `Feature-Espooler.md`'s
