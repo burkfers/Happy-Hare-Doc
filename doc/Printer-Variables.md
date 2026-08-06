@@ -75,7 +75,7 @@ everywhere else (contiguous across units, see `printer.mmu_machine` below).
 |---|---|---|
 | `ttg_map` | list[int] | Gate assigned to each tool |
 | `endless_spool_groups` | list[int] | EndlessSpool group membership per tool |
-| `endless_spool_enabled` | int | `0` off, `1` on, `2` on + pre-gate sensor |
+| `endless_spool_enabled` | int | `0` off, `1` on |
 | `gate_status` | list[int] | Per gate: `-1` unknown, `0` empty, `1` available, `2` available from buffer |
 | `gate_filament_name` | list[string] | Filament name per gate |
 | `gate_material` | list[string] | Material per gate |

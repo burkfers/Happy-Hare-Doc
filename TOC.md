@@ -235,7 +235,7 @@ anything. Don't silently decide something wasn't worth keeping.
 
 | Page | Source | Status |
 |---|---|---|
-| `Conceptual-MMU.md` | `wiki/Conceptual-MMU.md` | ⚠️ rewrite — selector taxonomy is different in v4 |
+| `Conceptual-MMU.md` | `wiki/Conceptual-MMU.md` | **done** — rewritten around the real v4 selector hierarchy (three research passes: sensor renames, vendor→selector mapping, combiner/EndlessSpool verification — see session log). Old Type-A/B/C diagrams (raster PNGs with stale "pre-gate"/"gate" sensor labels baked in) replaced with ASCII diagrams using correct names; vendor table extended well past the old wiki's ERCF/Tradrack/Box-Turtle set |
 | `Understanding-Operation.md` | `wiki/Understanding-Operation.md` | ⚠️ verify |
 | `Print-Job-State-Machine.md` | `wiki/Print-Job-State-Machine.md` | ⚠️ verify against `mmu_print_state_machine.py` |
 
@@ -567,20 +567,62 @@ anything. Don't silently decide something wasn't worth keeping.
     needed there either). Happy-Hare's own repo had `doc/`, `doc_tools/`,
     `mkdocs.yml` and this file removed, plus the now-dead doc-related Makefile
     targets and the `.gitignore` `site/` entry.
+20. Wrote `Conceptual-MMU.md` (§2), the first page outside §5/§10/§12 in this
+    rewrite. Ran three research passes in parallel (against the
+    `HAPPY_HARE_SRC`-fetched checkout, same as any other page) rather than
+    porting the wiki's Type-A/B/C framing directly, since TOC.md already
+    flagged that framing as not mapping cleanly onto v4:
+    - **Sensor renames.** The wiki's "pre-gate"/"gate"/"post-gear" sensors
+      are `mmu_entry_X`/`mmu_shared_exit`/`mmu_exit_X` in v4 - confirmed by a
+      literal old→new mapping table in `mmu_sensor_manager.py`'s own
+      backward-compat shim (`('mmu_pre_gate', SENSOR_ENTRY_PREFIX), ('mmu_gear',
+      SENSOR_EXIT_PREFIX), ('mmu_gate', SENSOR_SHARED_EXIT)`). The wiki's
+      standalone `collision` endstop no longer exists by that name - it's
+      folded into an encoder-based extruder-homing *mode*
+      (`extruder_homing_endstop: encoder`), not a separate endstop identifier.
+    - **Vendor → selector mechanism.** Cross-checked `installer/mmu_types/Kconfig.*`
+      against `extras/mmu/mmu_unit.py`'s `VENDOR_PROFILES` (both must agree,
+      and did): Box Turtle/Night Owl/Angry Beaver/3MS/Quattro Box/KMS/EMU are
+      all the gear-per-gate family; ERCF/Tradrack use a moving carriage +
+      servo; BTT ViViD uses per-gate index switches; 3D Chameleon/MMX6/Low
+      Rider are rotary; MMX/PicoMMU are servo-driven. The gear-per-gate +
+      moving-carriage hybrid (old wiki's "purely theoretical" type-C) is real
+      in code but not a default for any vendor yet - custom-MMU-only, and one
+      variant of it (`LinearMultiGearServoSelector`) has no menuconfig path
+      at all, config-file-only.
+    - **Combiner/splitter has no code footprint at all**, in v3 or v4 - the
+      old wiki's claim that "Happy Hare will ensure different units are not
+      used at the same time" to protect a shared combiner has no backing
+      anywhere in `extras/mmu/**` (confirmed by grepping for
+      combiner/splitter/mutual-exclusion terms) - dropped rather than ported.
+    - **Found and fixed a real bug while verifying EndlessSpool**: this
+      session's own `Printer-Variables.md` had carried over the wiki's stale
+      claim that `endless_spool_enabled` has a value `2` ("on + pre-gate
+      sensor"). The real parameter is a strict 0/1 boolean everywhere it's
+      read or written (`ParamSpec(..., limits=dict(minval=0, maxval=1))`,
+      every consumer branches on it as a plain boolean) - fixed on that page
+      too, not just avoided here.
+    - Replaced the wiki's Type-A/B/C diagrams entirely rather than reusing
+      them: they're raster PNGs with sensor labels baked in as pixels
+      ("pre-gate", "gate" sensor), which would have re-published exactly the
+      naming this page just corrected. ASCII diagrams (same convention as
+      `Dev-Code-Layout.md`) with the correct v4 names instead.
+    - Judgment call flagged for the user, not resolved unilaterally: the
+      wiki's per-sensor prose was much more detailed (multi-paragraph
+      Primary/Secondary Functions per sensor) than the one-line-per-sensor
+      table this page ships. No other planned page currently owns that depth
+      - compressed here to keep a *conceptual* page from reading like a
+      reference page, but flagged rather than silently decided.
 
-**To pick this back up:** the §5 Feature-page template is now proven out
-across three rounds of revision (v1 → v2 → v3) — copy `Feature-Espooler.md`'s
+**To pick this back up:** the §5 Feature-page template is proven out across
+three rounds of revision (v1 → v2 → v3) - copy `Feature-Espooler.md`'s
 *current* structure and section order (no provenance paragraph, no dev-jargon,
 ends with the footer) for the remaining thirteen pages in the table above, and
 follow **Before finishing a Feature page** (proofread against the wiki source,
-report what didn't carry forward) before calling any of them done. The
-no-developer-references and no-v3-narrative rules are now both confirmed
-page-genre-wide and applied to every existing page — no more open questions
-on scope there. The other previously-noted targets are still open and
-roughly equally good next steps: (a) the four `Configuring-mmu*.cfg.md`
-generators for §3, since they follow the exact `gen_command_reference.py`
-pattern already proven out, or (b) `Conceptual-MMU.md` (§2), since
-`Dev-Code-Layout.md`'s selector hierarchy work means the hard part —
-figuring out what the *real* v4 taxonomy is — is already done. Whatever's
-next, run `./venv/bin/zensical build --clean` before calling it done, not a
-plain `zensical build` — see **Zensical rough edges**.
+report what didn't carry forward) before calling any of them done. §2's other
+two pages (`Understanding-Operation.md`, `Print-Job-State-Machine.md`) are
+now open too, and should lean on `Conceptual-MMU.md`'s terminology rather than
+re-defining it. The four `Configuring-mmu*.cfg.md` generators for §3 are also
+still open, following the exact `gen_command_reference.py` pattern already
+proven out. Whatever's next, run `./venv/bin/zensical build --clean` before
+calling it done, not a plain `zensical build` - see **Zensical rough edges**.
