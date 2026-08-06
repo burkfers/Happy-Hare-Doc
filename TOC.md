@@ -53,12 +53,14 @@ repo root (not under `doc/`) specifically so it's never a candidate for publishi
   already established for screenshots. The four Configuration Reference pages
   (§3) are still planned as generated but not yet built. Everything else is
   hand-written prose, informed by the wiki.
-- **v3→v4 flag:** any page ported from `wiki/` gets a ⚠️ until someone verifies it
-  against v4 code. The riskiest is the Type-A/Type-B taxonomy — v4's real selector
-  classes (`LinearSelector`, `LinearServoSelector`, `ServoSelector`,
-  `IndexedSelector`, `RotarySelector`, `VirtualSelector`, plus multi-gear variants,
-  now fully documented in `doc/Dev-Code-Layout.md`) don't map cleanly onto the old
-  binary split, so that page needs a rewrite, not a port.
+- **v3→v4 flag:** any page ported from `wiki/` gets a ⚠️ in its status table
+  entry until someone verifies it against v4 code. The riskiest one flagged
+  this way was the Type-A/Type-B taxonomy on `Conceptual-MMU.md` — v4's real
+  selector classes (`LinearSelector`, `LinearServoSelector`, `ServoSelector`,
+  `IndexedSelector`, `RotarySelector`, `VirtualSelector`, plus multi-gear
+  variants, documented in `doc/Dev-Code-Layout.md`) don't map cleanly onto
+  the old binary split — that page is now done (§2), rewritten around the
+  real hierarchy rather than ported; see the session log for how.
 - **Avoid explicit counts that go stale** (test counts, command counts). Prefer
   ">900 tests" / "browse the source" phrasing over a number that will be wrong
   by the next PR — learned the hard way when a ported "69 commands, 14 tested"
