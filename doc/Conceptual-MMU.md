@@ -56,6 +56,14 @@ community has informal shorthand for the three oldest of these - "Type-A",
 shorthand internally, so it's worth knowing even though it's not a rigid
 specification:
 
+!!! tip
+    The diagrams below show every optional sensor a design *could* have, not
+    what any one build necessarily does - and use the sensor names of an
+    older Happy Hare version. Wherever they say **pre-gate sensor**, read
+    that as today's **entry sensor**; wherever they say **gate sensor** or
+    **post-gear sensor**, read that as today's **exit sensor**. See
+    [Supported sensors](#supported-sensors) below for the current names.
+
 ### Shared gear stepper, moving selector ("Type-A")
 
 One gear stepper is shared across every gate, and a separate mechanism moves
@@ -65,24 +73,25 @@ Tradrack both work this way. The actual moving mechanism varies by design: a
 linear carriage, one index switch per gate, a rotary carriage, or a
 servo-driven arm.
 
-```text
-gate 0 ── entry sensor (option) ──┐
-gate 1 ── entry sensor (option) ──┤
-gate 2 ── entry sensor (option) ──┼──▶ [ shared gear stepper + moving selector ]
-   ...                            │
-gate N ── entry sensor (option) ──┘
-                                          │
-                          exit sensor (option) ── encoder (option)
-                                          │
-                        sync-feedback (option) ── bowden tube
-                                          │
-      extruder entry sensor (option) ── extruder ── toolhead sensor (option) ── nozzle
-```
+<p align="center">
+  <img src="Conceptual-MMU/typeA_mmu.png" alt="Type A: single shared gear stepper and filament drive, with a moving selector choosing the gate" width="90%">
+</p>
 
 **Trade-offs:** cost-effective for a large number of gates, straightforward
 bypass support, scales well - but the moving selector itself needs a
 higher-quality build and tends to need more tuning/troubleshooting than a
 gear-per-gate design.
+
+**Examples:**
+
+<p align="center">
+  <img src="Conceptual-MMU/default_ercf.png" alt="Default ERCF sensor layout: pre-gate sensors, encoder, toolhead sensor" width="47%">
+  <img src="Conceptual-MMU/default_tradrack.png" alt="Default Tradrack sensor layout: gate sensor, toolhead sensor" width="47%">
+</p>
+
+ERCF relies on the encoder exclusively for gate homing and move validation;
+Tradrack uses an exit sensor as its reference point instead, with an encoder
+as an optional reliability add-on.
 
 ### Gear-per-gate, no moving selector ("Type-B")
 
@@ -95,15 +104,9 @@ gates per unit before the electronics get unwieldy. A physical combiner
 merges every gate's bowden into one feed to the toolhead (see
 [Terminology](#terminology) above).
 
-```text
-gate 0 ── entry sensor ── [gear stepper 0] ── exit sensor ──┐
-gate 1 ── entry sensor ── [gear stepper 1] ── exit sensor ──┼──▶ combiner ──▶ shared exit sensor (option)
-gate 2 ── entry sensor ── [gear stepper 2] ── exit sensor ──┘
-                                                                        │
-                                                    sync-feedback (option) ── bowden tube
-                                                                        │
-                          extruder entry sensor (option) ── extruder ── toolhead sensor (option) ── nozzle
-```
+<p align="center">
+  <img src="Conceptual-MMU/typeB_mmu.png" alt="Type B: one gear stepper per gate, filament combiner, no moving selector" width="90%">
+</p>
 
 **Trade-offs:** easy to build, needs less tuning - but a more costly build
 per gate, generally capped at a handful of gates, and bypass support is
@@ -113,15 +116,26 @@ combined into one Happy Hare machine to get past the per-unit gate cap - see
 coordinate two *combiners* on the same bowden path, since that's not
 something it models.
 
+**Example:**
+
+<p align="center">
+  <img src="Conceptual-MMU/default_box_turtle.png" alt="Default Box Turtle sensor layout: pre-gate and post-gear sensors per lane, shared hub sensor, turtle-neck sync-feedback" width="70%">
+</p>
+
 ### Gear-per-gate *and* a moving selector ("Type-C")
 
 A hybrid: every gate has its own gear stepper (as in Type-B), *and* there's
 still a physical carriage that moves to line the selected gate up with the
-extruder path (as in Type-A). No vendor defaults to this yet, but it's
-available as a manual selection for a custom MMU, and would in principle
-combine Type-B's per-gate driving force with Type-A's more forgiving
-gate-count scaling, at the cost of needing both a selector *and* a full set
-of gear motors.
+extruder path (as in Type-A).
+
+<p align="center">
+  <img src="Conceptual-MMU/typeC_mmu.png" alt="Type C: one gear stepper per gate, plus a moving selector" width="90%">
+</p>
+
+No vendor defaults to this yet, but it's available as a manual selection for
+a custom MMU, and would in principle combine Type-B's per-gate driving force
+with Type-A's more forgiving gate-count scaling, at the cost of needing both
+a selector *and* a full set of gear motors.
 
 ### Fully custom, no built-in mechanism
 

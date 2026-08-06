@@ -24,9 +24,10 @@ BOOTSTRAP_PY := $(if $(shell command -v $(PY) 2>/dev/null),$(PY),python3)
 
 .PHONY: fetch-source clean-source shots command_reference docs docs_build docs_preview
 
-##########################
+
+###########################
 ##### Source fetching #####
-##########################
+###########################
 
 # Only 'shots' and 'command_reference' need this - they read Happy-Hare's source
 # tree directly (extras/mmu/**, installer/Kconfig*, installer/lib/kconfiglib).
@@ -46,9 +47,10 @@ fetch-source: $(HAPPY_HARE_SRC)/.git
 clean-source:
 	$(Q)rm -rf $(HAPPY_HARE_SRC)
 
-##########################
-##### Python venv    #####
-##########################
+
+#######################
+##### Python venv #####
+#######################
 
 $(VENV_PY):
 	$(Q)echo "Creating virtualenv in venv/"
@@ -58,9 +60,10 @@ $(VENV)/.hh-doc_tools-requirements: doc_tools/requirements.txt | $(VENV_PY)
 	$(Q)$(VENV_PY) -m pip install --quiet --disable-pip-version-check -r "$<"
 	$(Q)touch "$@"
 
-##################################
-##### Documentation targets  #####
-##################################
+
+#################################
+##### Documentation targets #####
+#################################
 
 # Documentation screenshots: runs a real menuconfig session against the fetched
 # Happy-Hare checkout and renders its screens to per-page image folders under

@@ -95,9 +95,92 @@ body {
   padding: 0;
   margin: 1rem 0 0;
   line-height: 1.3;
+  font-size: 0.7rem;
 }
 .hh-footer-copyright {
   font-size: 0.6rem;
   color: var(--md-default-fg-color--light);
   margin: 0.4rem 0 0;
+}
+
+/*
+ * Previous/Next page nav. Injected by extra_javascript/hh-page-nav.js, not
+ * written into each page's markdown - it reads the already-rendered primary
+ * sidebar (which already has every real page in nav order, indistinguishable
+ * from mkdocs.yml's own nav: list) rather than duplicating that order here.
+ * Zensical doesn't render Material's own prev/next footer nav (no
+ * .md-footer__link markup at all, checked directly - a real gap, not a config
+ * miss), hence building it ourselves.
+ */
+.hh-page-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.5rem 0 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+.hh-page-nav__link {
+  display: flex;
+  flex-direction: column;
+  max-width: 48%;
+  text-decoration: none;
+  color: var(--md-default-fg-color);
+}
+.hh-page-nav__link:hover .hh-page-nav__title {
+  color: var(--md-accent-fg-color);
+}
+.hh-page-nav__link--next {
+  align-items: flex-end;
+  text-align: right;
+  margin-left: auto;
+}
+.hh-page-nav__label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--md-default-fg-color--light);
+}
+.hh-page-nav__title {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/*
+ * Header: a bit taller, logo bigger, tagline under the site name. Header
+ * height on this theme isn't a separate variable - .md-header__inner is
+ * sized by its tallest child's own box (logo margin+padding+height, or the
+ * title block), so growing the logo and adding a second title line both
+ * just grow the sticky header naturally, no separate height override needed.
+ */
+.md-header__button.md-logo img {
+  height: 1.9rem !important;
+}
+/*
+ * .md-header__title/.md-header__ellipsis/.md-header__topic have a hard 48px
+ * height baked in to support Material's slide-swap animation between the
+ * site name and the current page title on scroll - fighting that (e.g. by
+ * making the title box itself taller) broke the animation's own vertical
+ * math. Instead the tagline is anchored with its own absolute positioning
+ * off the site-name topic (position:relative on it, position:absolute + top:
+ * 100% on the ::after) so it floats below without touching that box's height
+ * or the swap animation at all - and .md-header__inner gets extra min-height
+ * purely so there's visible header background for it to float onto.
+ */
+.md-header__inner {
+  min-height: 4.4rem;
+}
+.md-header__ellipsis > .md-header__topic:first-child {
+  position: relative;
+}
+.md-header__ellipsis > .md-header__topic:first-child::after {
+  content: "Universal Automated Filament Changer / MMU driver for Klipper";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  font-size: 0.6rem;
+  font-weight: 400;
+  opacity: 0.75;
+  margin-top: 0.2rem;
+  white-space: nowrap;
 }
