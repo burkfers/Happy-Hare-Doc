@@ -135,6 +135,61 @@ def _getting_started_boxturtle(mc, shot):
     shot('13-spoolman-readonly')                     # the one setting this page actually changes
 
 
+def _getting_started_vivid(mc, shot):
+    """
+    For doc/GettingStartedWithViViD.md - the installer screens a first-time BTT ViViD
+    owner walks through. Like the Box Turtle session, starts from a bare Kconfig
+    ('seed': None) so selecting MMU Type is the first real action, not something the
+    seed already decided.
+
+    Deliberately NOT entered further: the "Select serial device for ..." rows visible
+    on the 03/04 shots below. They list live /dev/serial/by-id/* entries (see
+    capture.py's REPRODUCIBILITY note) - on this capture machine that is empty, so
+    entering one just shows "Other / manually entered" and nothing else, not the
+    illustrative device names the page's prose uses. The "MCU connection"/"Buffer MCU
+    connection" screens captured here are the reproducible part of that same story -
+    each shows its connection-type row (Serial, already right for a USB board) and
+    the resolved-device row alongside it, without depending on what is plugged in.
+    """
+    mc.enter('MMU Type')
+    mc.select('BTT ViViD')
+    mc.toggle()
+    shot('01-mmu-type-vivid')                        # (X) BTT ViViD; buffer sub-option auto-checked
+    mc.back()                                        # -> (Top)
+
+    mc.enter('Board type')
+    shot('02-board-type')                            # BTT ViViD MCU - the only board this type uses
+    mc.back()
+
+    mc.enter('MCU connection')
+    shot('03-mcu-connection')                        # Serial - already right for the ViViD unit's own MCU
+    mc.back()
+
+    mc.enter('Buffer MCU connection')
+    shot('04-mcu-connection-buffer')                 # a SECOND, separate MCU connection - the buffer's own
+    mc.back()                                        # -> (Top)
+
+    mc.enter('MMU Features / Additions')
+    shot('05-mmu-features')                          # LEDs/env sensor/heater/NFC readers already on
+    mc.back()                                        # -> (Top)
+
+    mc.enter('Toolhead')
+    mc.select('Stealthburner Clockwork2 Revo Voron')
+    mc.toggle()
+    mc.autofit()                                     # settle the resize before re-selecting (see the
+                                                      # Box Turtle session's identical comment)
+    mc.select('Stealthburner Clockwork2 Revo Voron')
+    shot('06-toolhead-selected')                     # same generic choice, not ViViD-specific
+    mc.back()                                        # -> (Top)
+
+    mc.enter('Software Options')
+    mc.select('Auto-create a Spoolman spool from an unknown NFC/RFID tag?')
+    mc.toggle()
+    shot('07-spoolman-nfc-autocreate')               # worth having, since ViViD ships NFC readers already
+    # No mc.enter('Spoolman') step - "Spoolman" is a `comment` section divider on this
+    # same Software Options screen, not a submenu; the item above is selectable in place.
+
+
 def _feature_espooler(mc, shot):
     """
     For doc/Feature-Espooler.md - the per-gate pin entry screen for the eSpooler
@@ -159,6 +214,13 @@ SESSIONS = [
         'caption': 'doc/Feature-Espooler.md - the eSpooler pins menuconfig screen',
         'scenes': _feature_espooler,
         'outdir': 'Feature-Espooler',
+    },
+    {
+        'name': 'getting-started-vivid',
+        'caption': 'doc/GettingStartedWithViViD.md - first menuconfig pass for a BTT ViViD',
+        'scenes': _getting_started_vivid,
+        'outdir': 'GettingStartedWithViViD',
+        'seed': 'none',
     },
 ]
 

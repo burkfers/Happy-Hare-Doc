@@ -79,6 +79,20 @@ body {
 }
 
 /*
+ * "On this page" (the secondary/right-hand sidebar TOC) - nested entries
+ * (H3s under an H2, etc.) get a slightly smaller font than top-level ones.
+ * Material nests a second `nav.md-nav` inside the `li.md-nav__item` of the
+ * heading it belongs under, so "a .md-nav__link inside another .md-nav that
+ * is itself inside a .md-nav__item" is exactly the nested set - top-level
+ * links have no such inner nav ancestor. Scoped to `.md-sidebar--secondary`
+ * specifically: the *primary* left-hand nav (page list) reuses this same
+ * nesting pattern for its own sub-pages, and that one's untouched.
+ */
+.md-sidebar--secondary .md-nav__item .md-nav .md-nav__link {
+  font-size: 0.85em;
+}
+
+/*
  * Closing footer (every page - see TOC.md's "Structure decisions locked
  * in"). Plain <pre>/<p>, not a fenced ```text block: a fenced block goes
  * through codehilite and picks up ITS box/background styling (see above),
@@ -87,20 +101,41 @@ body {
  * monospace handling (needed so the ASCII art's spacing lines up) without
  * the codehilite wrapper, since nothing here is inside a <code> tag.
  */
+/*
+ * Tried an inline-SVG version of this art (viewBox-scaled text, controlled
+ * by a single `width`) to get a reliably small size - reverted: it rendered
+ * with garbled/overlapping lines in practice, worse than the sizing problem
+ * it was meant to fix. Back to plain monospace text, just smaller than the
+ * 0.7rem this had before.
+ */
+/*
+ * .hh-footer lays the art and the copyright line out side by side rather
+ * than stacked (the markdown source still has them as two plain sibling
+ * elements) - a flex row, bottom-aligned so the copyright's baseline sits
+ * level with the *last line* of the ASCII art rather than its vertical
+ * centre, and pushed to the far right with margin-left:auto since it's the
+ * only other item in the row.
+ */
+.hh-footer {
+  display: flex;
+  align-items: flex-end;
+  margin: 0.4rem 0 0;
+}
 .hh-footer-art {
   font-family: var(--md-code-font-family, SFMono-Regular, Consolas, monospace);
   white-space: pre;
   background: none;
   border: none;
   padding: 0;
-  margin: 1rem 0 0;
+  margin: 0;
   line-height: 1.3;
-  font-size: 0.7rem;
+  font-size: 0.5rem;
 }
 .hh-footer-copyright {
-  font-size: 0.6rem;
+  font-size: 0.45rem;
   color: var(--md-default-fg-color--light);
-  margin: 0.4rem 0 0;
+  margin: 0 0 0 auto;
+  text-align: right;
 }
 
 /*
@@ -112,13 +147,19 @@ body {
  * .md-footer__link markup at all, checked directly - a real gap, not a config
  * miss), hence building it ourselves.
  */
+/*
+ * No border-top here: the markdown `---` that already precedes this block on
+ * every page (right before the footer art) renders its own <hr>, which sits
+ * directly above this nav. A second border here doubled up as two visible
+ * separator lines back to back - this nav supplies the spacing, the <hr>
+ * supplies the one rule.
+ */
 .hh-page-nav {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  margin: 1.5rem 0 0.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--md-default-fg-color--lightest);
+  margin: 0.5rem 0 0.4rem;
+  padding-top: 0.5rem;
 }
 .hh-page-nav__link {
   display: flex;
@@ -154,33 +195,76 @@ body {
  * just grow the sticky header naturally, no separate height override needed.
  */
 .md-header__button.md-logo img {
-  height: 1.9rem !important;
+  height: 2.8rem !important;
 }
 /*
  * .md-header__title/.md-header__ellipsis/.md-header__topic have a hard 48px
  * height baked in to support Material's slide-swap animation between the
- * site name and the current page title on scroll - fighting that (e.g. by
- * making the title box itself taller) broke the animation's own vertical
- * math. Instead the tagline is anchored with its own absolute positioning
- * off the site-name topic (position:relative on it, position:absolute + top:
- * 100% on the ::after) so it floats below without touching that box's height
- * or the swap animation at all - and .md-header__inner gets extra min-height
- * purely so there's visible header background for it to float onto.
+ * site name and the current page title on scroll. That swap works by
+ * stacking BOTH .md-header__topic elements (site name, then page title) at
+ * the exact same box - Material's own CSS gives both position:absolute with
+ * no explicit inset, so each one's used position defaults to its "static"
+ * (in-flow) position, which is identical for both only because neither one
+ * actually occupies flow space. Giving the first one position:relative (an
+ * earlier attempt at this) broke exactly that: it started occupying real
+ * flow height again, which pushed the second topic's own static position
+ * down below it instead of overlapping - the page title then rendered in the
+ * tagline's spot instead of sliding into the site-name's spot on scroll.
+ * Anchoring the tagline to .md-header__ellipsis itself instead (already
+ * position:relative in Material's own CSS, and never touched by the topic
+ * swap) avoids all of that: neither .md-header__topic gets modified, so the
+ * swap's stacking is back to stock behaviour, and the tagline just floats
+ * below the ellipsis box regardless of which topic is currently visible in
+ * it. .md-header__inner keeps its extra min-height so there's header
+ * background for the tagline to float onto.
+ *
+ * The tagline itself was rendering past the bottom of that background even
+ * though the maths above says it should just fit - traced to `line-height`:
+ * the ::after inherits the title block's own line-height (sized to the 48px
+ * topic-swap box, for vertically centering "Happy Hare"), so its line box
+ * was ~48px tall regardless of its 0.6rem font-size, pushing its painted
+ * text well below the header's own (shorter) box, onto the page background
+ * behind it. `line-height: 1` here collapses that back down to the glyph's
+ * own height.
  */
 .md-header__inner {
-  min-height: 4.4rem;
+  min-height: 5.6rem;
 }
-.md-header__ellipsis > .md-header__topic:first-child {
+.md-header__ellipsis {
   position: relative;
 }
-.md-header__ellipsis > .md-header__topic:first-child::after {
+.md-header__ellipsis::after {
   content: "Universal Automated Filament Changer / MMU driver for Klipper";
   position: absolute;
   top: 100%;
   left: 0;
   font-size: 0.6rem;
   font-weight: 400;
+  line-height: 1;
   opacity: 0.75;
-  margin-top: 0.2rem;
+  margin-top: 0.3rem;
   white-space: nowrap;
+}
+
+/*
+ * Search box: drop the platform keyboard-shortcut hint ("⌘K"/"Ctrl+K") for a
+ * cleaner look - it's a nice-to-know, not something worth permanent header
+ * real estate. Right padding shrinks to match, now that nothing's reserved
+ * there.
+ */
+[dir="ltr"] .md-search__button {
+  padding-right: 0.8rem;
+}
+.md-search__button::after {
+  display: none;
+}
+
+/*
+ * Widen the main content column. .md-grid's max-width caps the whole header
+ * /main/footer row; the two sidebars are fixed-width, so raising this cap
+ * hands all the extra room straight to .md-content (the actual doc column)
+ * without needing a separate override there.
+ */
+.md-grid {
+  max-width: 75rem;
 }

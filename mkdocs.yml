@@ -47,9 +47,15 @@ extra_javascript:
 
 extra:
   social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/moggieuk/Happy-Hare
+      name: Happy Hare on GitHub
     - icon: fontawesome/brands/discord
       link: https://discord.gg/98TYYUf6f2
       name: Happy Hare on Discord
+    - icon: material/tablet-dashboard
+      link: https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition
+      name: KlipperScreen Happy Hare Edition on GitHub
 
 markdown_extensions:
   - toc:
@@ -82,10 +88,12 @@ markdown_extensions:
 nav:
   - Getting Started:
       - Box Turtle: GettingStartedWithBoxTurtle.md
+      - BTT ViViD: GettingStartedWithViViD.md
   - Concepts:
       - What Is an MMU?: Conceptual-MMU.md
   - Features:
       - eSpooler: Feature-Espooler.md
+      - Encoder: Feature-Encoder.md
   - Reference:
       - Command Reference: Command-Reference.md
       - Printer Variables: Printer-Variables.md

@@ -260,16 +260,6 @@ for the reasons explained in that file's own header comment).
 A few subsystems are explicit about *not* knowing about the rest of Happy
 Hare, in their own words:
 
-- **NFC/RFID readers** (`extras/mmu/unit/nfc/`) - originally a separate
-  project, vendored in. `reader_factory.py`'s header: "Reader drivers own
-  hardware/protocol details only... They know nothing about lanes, Spoolman,
-  or Happy Hare." `mmu_nfc_reader.py` is equally explicit: "It deliberately
-  does not do lane state machines, Spoolman lookups, LED effects, or scan-jog
-  motion - those live in your macros if you want them." `tag_parser.py`
-  carries its own separate copyright line (`(c) 2026 lameandboard`) - it's
-  genuinely a different author's module, integrated rather than rewritten.
-  `MmuNfcManager` (`extras/mmu/unit/mmu_nfc_manager.py`) is the layer that
-  *does* know about lanes/gates, sitting on top of this boundary.
 - **Sync feedback vs. sync control.** `mmu_sync_feedback.py` is the
   MmuUnit-facing interface and status surface (what `printer.mmu` sees - see
   [Printer-Variables.md](Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)).
@@ -297,10 +287,12 @@ Hare, in their own words:
 
 ---
 
+<div class="hh-footer">
 <pre class="hh-footer-art">
   (\_/)
   ( *,*)
   (")_(") Happy Hare Ready
 </pre>
 <p class="hh-footer-copyright">Copyright (C) 2022-2026 Paul Morgan</p>
+</div>
 

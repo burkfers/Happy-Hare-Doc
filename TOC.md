@@ -268,6 +268,7 @@ anything. Don't silently decide something wasn't worth keeping.
 |---|---|---|
 | `Installation.md` | `wiki/Installation.md` | port, verify against `install.sh`/`Makefile` flags |
 | `GettingStartedWithBoxTurtle.md` | existing `doc/` page | **done**, incl. a "Picking a toolhead" step (shared toolhead/extruder geometry database, optional, reduces calibration) with two real screenshots |
+| `GettingStartedWithViViD.md` | new, from `installer/mmu_types/Kconfig.vvd` + `installer/boards/custom/Kconfig.vvd` + `installer/connection/Kconfig.{mmu_mcu,buffer_mcu}` | **done** - second Getting Started page, with a real `getting-started-vivid` `doc_tools/shots.py` session (7 screenshots) for every screen except the two live serial-device-list screens (see session log for why those stay text). Covers the two-separate-MCU serial selection unique to this design, otherwise a lighter walkthrough than Box Turtle's since almost everything defaults correctly for this fully-specified design. |
 | `MMU-Types-Overview.md` (comparison table: all 15 Kconfig types, selector class, gate count, status) | new, from `installer/Kconfig.mmu_types/*` | new |
 | `Upgrading-from-v3.md` | `wiki/Upgrade-Notice.md`, `wiki/Change-Log.md` | rewrite for v4 |
 
@@ -305,11 +306,11 @@ anything. Don't silently decide something wasn't worth keeping.
 | Feature page | Kconfig source | Wiki source | Status |
 |---|---|---|---|
 | `Feature-Espooler.md` | `Kconfig.espooler` | `wiki/Espooler-Support.md` | **done (v3)** — first page written against the template (see below); code-verified against `mmu_espooler.py`, `mmu_filament_movement.py`'s `_wrap_espooler()`, and `mmu_unit_parameters.py`. v1 over-compressed the ported wiki content; v2 restored the UI screenshots, TIP/IMPORTANT callouts, the `espooler_speed_exponent` worked example, and the per-mode setup walkthroughs, added a real `doc_tools/shots.py` session for the eSpooler pins menuconfig screen; v3 dropped the leading provenance paragraph, all developer-jargon (class/method names), the (nonexistent in v4) pin-alias example, and fixed "sync-feedback" → "filament (catchment)" buffer naming — see the decisions above and the session log |
-| `Feature-Encoder.md` | `Kconfig.encoder` | part of `wiki/Clog-Runout-EndlessSpool.md` |
+| `Feature-Encoder.md` | `Kconfig.encoder` | `wiki/Clog-Runout-EndlessSpool.md` (Optional Encoder + Clog Detection + Flowrate Monitoring sections only) | **done** - code-verified against `unit/mmu_encoder.py`, `commands/mmu_encoder.py`, `mmu_constants.py`'s `ENCODER_*`/`VARS_MMU_ENCODER_*` constants, and the `[mmu_encoder]`/`gate_endstop_to_encoder`/bowden-verification blocks in `config/base/*.cfg`. Reused `wiki/Synchronized-Gear-Extruder/Encoder_Meter.png` (an annotated FlowGuard-meter diagram, already carrying v4's real `flowguard_encoder_max_motion` param name) as the UI illustration. See the session log for what got routed to other pages and what was corrected. |
 | `Feature-Sync-Feedback-Buffer.md` | `Kconfig.sync_feedback_buffer`, `Kconfig.motor_sync` | `wiki/Synchronized-Gear-Extruder.md` |
 | `Feature-NFC-Spoolman.md` | `Kconfig.nfc_reader` | `wiki/Spoolman-Support.md` |
 | `Feature-LEDs.md` | `Kconfig.leds` | `wiki/Led-Support.md` |
-| `Feature-Endless-Spool-Runout.md` | (no dedicated Kconfig — sensor-driven) | `wiki/Clog-Runout-EndlessSpool.md` |
+| `Feature-Endless-Spool-Runout.md` | (no dedicated Kconfig — sensor-driven) | `wiki/Clog-Runout-EndlessSpool.md` (Runout Detection + EndlessSpool + Designated Waste Gate sections only — the Optional Encoder/Clog Detection/Flowrate Monitoring sections went to `Feature-Encoder.md` instead) |
 | `Feature-Gate-TTG-Maps.md` | `Kconfig.gates` | `wiki/Tool-and-Gate-Maps.md` |
 | `Feature-Statistics-Counters.md` | — | `wiki/Statistics-and-Consumption-Counters.md` |
 | `Feature-State-Persistence.md` | — | `wiki/State-Persistence.md` |
@@ -666,16 +667,302 @@ anything. Don't silently decide something wasn't worth keeping.
     absolute-positioning off the site-name title block rather than growing
     that block directly - see the new decision above for why). Smaller
     footer ASCII-art font size too.
+22. **Second layout-polish pass (2026-08-06), six more site-wide fixes** before
+    resuming page-writing work:
+    - **Fixed a real bug in item 21's tagline anchoring**: giving
+      `.md-header__topic:first-child` `position: relative` (so the tagline
+      `::after` could hang off it) broke Material's title-swap-on-scroll
+      animation, which depends on BOTH `.md-header__topic` elements being
+      `position: absolute` with no offset (so each defaults to the same
+      "static" position and overlaps exactly, swapping via opacity+translateX
+      only). Making the first one `relative` gave it real flow height again,
+      which pushed the second topic's own static position down below it -
+      the page title rendered in the tagline's spot instead of sliding into
+      the site-name's spot on scroll. Fixed by anchoring the tagline
+      `::after` to `.md-header__ellipsis` instead (already
+      `position:relative` in Material's own CSS, never touched by the swap)
+      and leaving both topics alone.
+    - **Double separator above the footer**: the markdown `---` before the
+      footer block renders an `<hr>`, and `.hh-page-nav`'s own `border-top`
+      sat directly under it - two rules back to back. Dropped the
+      `border-top` from `.hh-page-nav`; the `<hr>` alone is now the one
+      separator (kept in markdown rather than the CSS rule, since it's the
+      copy that still works with JS disabled).
+    - **Footer ASCII art still read as "too big" even after item 21's
+      font-size cut** - monospace-text sizing doesn't behave consistently
+      enough across the box for one font-size value to reliably look small.
+      Replaced the `<pre>` block with an inline SVG (`<text>` elements, one
+      `width` on the wrapping `.hh-footer-art` class controls the whole
+      thing via viewBox scaling) on all 13 pages plus
+      `gen_command_reference.py`'s `render_page()` - same
+      python-bulk-replace-across-files approach as the original footer
+      rollout. Still theme-reactive (`fill: var(--md-default-fg-color--light)`)
+      because it's raw inline SVG markup in the page, not a rasterised `<img>`.
+    - **Prev/Next arrows**: `hh-page-nav.js`'s label strings changed from
+      `"Previous"`/`"Next"` to `"‹ Previous"`/`"Next ›"`.
+    - **Dropped the search box's `⌘K`/`Ctrl+K` shortcut hint** - it's a
+      `.md-search__button::after` pseudo-element in Material's own CSS
+      (`content: "Ctrl+K"`, overridden to `"⌘K"` under
+      `[data-platform^="Mac"]`), not markup; `display:none` on the same
+      selector plus shrinking the button's now-unused right padding.
+    - **Widened the main content column**: `.md-grid`'s `max-width` (61rem
+      -&gt; 75rem). That one class caps the header/main/footer row alike
+      (confirmed via computed styles - all three `.md-grid` instances share
+      it), and since both sidebars are fixed-width, all the extra room
+      lands on `.md-content` specifically with no separate content-only rule
+      needed.
+    - **User caught three problems with the above in the same session, all
+      fixed before moving on**:
+      - The tagline fix still wasn't right - it rendered *below* the header's
+        own black background instead of inside it. Root cause: the `::after`
+        inherits the title block's line-height (sized for the 48px
+        topic-swap box, to vertically-center "Happy Hare"), so its line box
+        was ~48px tall regardless of its small font-size - the box, not the
+        glyph, is what has to fit inside the header, and it didn't. Fixed
+        with an explicit `line-height: 1` on the `::after`, plus bumping
+        `.md-header__inner`'s `min-height` to 5.6rem so there's room for
+        logo + title + tagline all stacked. Verified this one with
+        `document.elementFromPoint` scans down the header rather than
+        screenshots, since screenshots were the unreliable part (see the
+        tooling note below) - a plain rect/coordinate check doesn't have
+        that problem.
+      - The inline-SVG footer (previous session's fix for "still too big")
+        rendered with garbled/overlapping lines in the real browser -
+        reverted to the original `<pre>` text approach, just smaller
+        (0.7rem -&gt; 0.5rem) rather than debugging the SVG further, per
+        explicit request.
+      - Logo bumped again, 1.9rem -&gt; 2.8rem.
+23. **Third layout-polish round (2026-08-06), same session**: a second
+    `fontawesome/brands/github` entry in `mkdocs.yml`'s `extra.social`
+    (pointing at the Happy-Hare repo) alongside the existing Discord one -
+    the header already has a repo widget with star/fork counts, but that's a
+    separate Material feature (`repo_url`) from the footer's social-icon
+    row, and the ask was specifically for the latter. Nested "On this page"
+    entries (H3s under an H2, etc.) get `font-size: 0.85em` - Material nests
+    a second `nav.md-nav` inside the owning heading's `li.md-nav__item`, so
+    "`.md-nav__link` inside another `.md-nav` that's itself inside a
+    `.md-nav__item`" selects exactly the nested set; scoped to
+    `.md-sidebar--secondary` since the *primary* left-hand page-list nav
+    reuses the identical nesting pattern for sub-pages and wasn't supposed
+    to change. (First tried `0.7em` - visibly more than "slightly" smaller,
+    dialed back to `0.85em`.) The footer's `<pre>` art and copyright line
+    were plain stacked siblings with no shared wrapper, so a bottom-aligned
+    right-justified copyright needed one: wrapped both in
+    `<div class="hh-footer">` (flex row, `align-items: flex-end`,
+    copyright gets `margin-left: auto`) across all 13 pages plus
+    `gen_command_reference.py`'s generator - same bulk-replace pattern as
+    the earlier footer edits. Deliberately no `markdown` attribute on that
+    wrapper div (unlike `<div class="grid cards" markdown>` on the home
+    page) - the content inside is plain HTML with no markdown syntax to
+    process, and adding it risked the ASCII art's backslash escapes getting
+    reinterpreted.
+    - **Tooling note for next time**: this session's browser-preview tool
+      produced a real, reproducible artifact when taking a screenshot at any
+      scroll position other than 0 on a page taller than the viewport
+      (either a blank frame or a doubled/stacked composite) - confirmed it
+      was the *tool*, not the site, by growing the viewport height until the
+      whole page fit at `scrollY=0` (`resize_window` + a short page) and
+      getting a clean render every time that condition held. If a future
+      session hits the same blank-screenshot symptom, resize taller before
+      assuming the CSS is broken.
+24. **Second Feature page: `Feature-Encoder.md`** (§5, second page to use the
+    template after eSpooler). Source is `wiki/Clog-Runout-EndlessSpool.md`,
+    but that wiki page is a *combined* v3 page covering five topics - only
+    three belong here:
+    - **Ported/verified here**: the "Optional Encoder", "Clog Detection", and
+      "Flowrate Monitoring" sections.
+    - **Deliberately routed elsewhere, not dropped**: "Runout Detection" and
+      "EndlessSpool" (+ "Designated Waste Gate") belong to
+      `Feature-Endless-Spool-Runout.md` (still open, no dedicated Kconfig) -
+      this page doesn't touch sensor-driven runout/EndlessSpool at all.
+    - Deep clog/tangle/runout *tuning* stayed a one-paragraph pointer rather
+      than a full port, since that logic now lives behind a genuinely
+      separate Kconfig (`Kconfig.flowguard`) and gets its own future page,
+      `Feature-FlowGuard.md` - mentioned by parameter name only
+      (`flowguard_encoder_mode`, `flowguard_encoder_max_motion`), no link,
+      since the page doesn't exist yet and Zensical fails the build on a
+      dangling one.
 
-**To pick this back up:** the §5 Feature-page template is proven out across
-three rounds of revision (v1 → v2 → v3) - copy `Feature-Espooler.md`'s
-*current* structure and section order (no provenance paragraph, no dev-jargon,
-ends with the footer) for the remaining thirteen pages in the table above, and
-follow **Before finishing a Feature page** (proofread against the wiki source,
-report what didn't carry forward) before calling any of them done. §2's other
-two pages (`Understanding-Operation.md`, `Print-Job-State-Machine.md`) are
-now open too, and should lean on `Conceptual-MMU.md`'s terminology rather than
-re-defining it. The four `Configuring-mmu*.cfg.md` generators for §3 are also
-still open, following the exact `gen_command_reference.py` pattern already
-proven out. Whatever's next, run `./venv/bin/zensical build --clean` before
-calling it done, not a plain `zensical build` - see **Zensical rough edges**.
+    Stale wiki content found and corrected rather than ported: `MMU_ENCODER
+    ENABLE=0` doesn't exist in v4 (the real command only takes
+    `POS`/`VALUE`/`QUIET` - encoder-based detection is switched on via
+    `flowguard_encoder_mode` instead, not an ENABLE flag on the encoder
+    itself); `encoder_clog_detection_enabled` is now `flowguard_encoder_mode`;
+    the persisted calibration variable is `mmu_encoder_clog_length`, not the
+    wiki's `mmu_calibration_clog_length`; and the `MMU_ENCODER` sample output
+    block was replaced with the real v4 format (confirmed directly against
+    `commands/mmu_encoder.py`'s `show()` output - "FlowGuard/Runout:
+    Active/Inactive/Off", not "Runout detection: Disabled"). The wiki's
+    `MMU_SENSORS` output block (`mmu_gate`, `mmu_pre_gate_N`) was **not**
+    reproduced anywhere on this page - those are the exact pre-v4 sensor
+    names `Conceptual-MMU.md` already corrected, and republishing them here
+    would undo that.
+
+    Two numbers were verified against the shipped config template rather
+    than the code fallback, since they differ: `desired_headroom` ships as
+    `5.0` in `mmu_hardware.cfg` even though the code default is `6.`; the
+    template has no `detection_length` line at all (it's runtime/FlowGuard-only), so
+    no default is claimed for it. `no_movement_samples: 10` is stated as "10
+    consecutive samples" with no derived duration - the shipped comment's own
+    arithmetic ("default sampling rate is 0.1s so 10=0.5s") doesn't reconcile
+    (10 × 0.1s = 1.0s), so a duration wasn't invented to match it.
+    `Kconfig.encoder`'s two resolution-derivation comments
+    ("23.5mm rotation distance BMG gear" vs. `mmu_hardware.cfg`'s
+    `24 / (2 * teeth)`) don't reconcile with each other either - the page
+    shows only the resulting defaults table, not a formula.
+
+    Reused `wiki/Synchronized-Gear-Extruder/Encoder_Meter.png` (copied to
+    `doc/Feature-Encoder/encoder-meter.png`) as the "Printer variables
+    exposed" UI illustration - checked first that it's safe to reuse per the
+    diagram-reuse rule above: it's an annotated explainer (callout boxes over
+    a real widget), and its callout labels already use the real v4 parameter
+    name `flowguard_encoder_max_motion`, so no correction was needed.
+
+    No menuconfig screenshot: confirmed `Kconfig.box_turtle` (the seed used
+    by every existing screenshot session) doesn't select `MMU_HAS_ENCODER`,
+    so the whole "Encoder config" menu is hidden without extra scene setup
+    that wasn't done this session - omitted rather than silently faked.
+25. **Fixed a footer regression from wrapping the art+copyright in
+    `.hh-footer` (item 23)**: `hh-page-nav.js` inserted the Previous/Next nav
+    "before `.hh-footer-art`", which used to mean "as a block sibling above
+    the footer" back when the art and copyright were plain stacked siblings
+    - but `.hh-footer-art` is now a flex child *inside* `.hh-footer`, so the
+    nav landed as a third flex item in that same row instead, pushing the
+    art/copyright to its right. Fixed by anchoring the JS on `.hh-footer`
+    itself and inserting the nav before *that*, restoring it as a proper
+    block sibling above the row. Caught by the user on `Feature-Encoder.md`;
+    fix applies site-wide since it's the shared script.
+26. **Footer spacing/size tweak, same session**: copyright font-size
+    `0.6rem` -&gt; `0.45rem` (even smaller); `.hh-page-nav`'s `margin`/
+    `padding-top` reduced (`1.5rem`/`1rem` -&gt; `0.5rem`/`0.5rem`) to pull the
+    Previous/Next row closer to the `<hr>` above it; `.hh-footer`'s
+    `margin-top` reduced (`1rem` -&gt; `0.4rem`) to pull the art/copyright row
+    closer to Previous/Next above *it*.
+27. **Fixed a real pin-alias slip on `Feature-Encoder.md`**: the example
+    `[mmu_encoder unit0]` block had `encoder_pin : ^unit0:MMU_ENCODER` -
+    `MMU_ENCODER` is a v3-wiki-style symbolic alias, not a real pin (compare
+    `wiki/Hardware-Configuration.md`'s `encoder_pin: ^mmu:MMU_ENCODER`, which
+    is exactly where this got half-copied from). v4 pin values are always
+    fully-qualified `unit_mcu_name:pin_name` strings, per the "Pin aliases
+    don't exist in v4" decision above - fixed to `^unit0:PA3`, matching the
+    `unit0:PA0`-style pins already used on `Feature-Espooler.md`. Worth
+    grepping any future page's example `.cfg` blocks for a bare symbolic name
+    where a real pin should be, since this is an easy slip to reintroduce.
+28. **Second Getting Started page: `GettingStartedWithViViD.md`.** BTT ViViD
+    is a fully-specified type (`installer/mmu_types/Kconfig.vvd`) - LEDs,
+    dual-sensor environment monitoring, heater, per-gate NFC readers, and the
+    indexed selector are all `select`ed unconditionally, and `BOARD_TYPE`/
+    `PARAM_NUM_GATES` are fixed defaults with no prompt, unlike a modular
+    design. The one part that genuinely needs the reader's own input - and
+    the reason this page exists rather than just a comparison-table row - is
+    that a ViViD unit and its optional buffer board
+    (`installer/boards/custom/Kconfig.vvd`'s `OPTION_VVD_BUFFER`, `imply`'d
+    on by default) are two independent MCUs, each surfaced as its own
+    "Select serial device for ..." menuconfig screen
+    (`installer/connection/Kconfig.mmu_mcu` /`Kconfig.buffer_mcu`). Traced
+    those screens down to the actual shell macro
+    (`serial_device`/`mmu_serial_config`/`buffer_serial_config` in the root
+    `installer/Kconfig`) that lists live `/dev/serial/by-id/*` devices
+    filtered by `Klipper_<chip>` and lets the user pick by literal device
+    name - confirming the user's claim that BTT's own naming (`vivid` vs
+    `buffer` in the device string) is what makes the two screens obvious to
+    tell apart, not any Kconfig-side chip-specific filtering (the filter
+    pattern used for both screens is the generic substring `stm32`, matching
+    either board - a `# PAUL TODO add chip as filter` comment in both
+    `Kconfig.mmu_mcu`/`Kconfig.buffer_mcu` confirms this is a known, not-yet
+    tightened gap upstream, which is exactly why picking the right one by
+    name still matters).
+    - **No real screenshots at all, this round**: confirmed via
+      `doc_tools/capture.py`'s own header comment that `/dev/serial/by-id/*`
+      is globbed live and "cannot be overridden" for reproducibility - a
+      captured screenshot would show whatever's plugged into the capturing
+      machine, not the illustrative device names the user actually asked to
+      document. Used console-block text (`text` fences, not screenshots) for
+      every menuconfig screen on this page instead, consistent with the
+      user's own "should be quite simple" framing. Revisited next session
+      once the user asked for captures after all - see item 29.
+    - **Toolhead selection and the Spoolman NFC auto-create example** are
+      both generic, non-ViViD-specific Kconfig options (same ones
+      `GettingStartedWithBoxTurtle.md` uses) - written fresh rather than
+      copy-pasted, but deliberately parallel in structure. Caught and fixed
+      one own mistake before finishing: first draft implied **Select
+      spoolman spool manager support** defaults to `Push` for ViViD - it
+      doesn't; the default is `Off` regardless of MMU type (checked
+      `Kconfig.options` directly), ViViD's built-in NFC readers just make
+      turning it on worthwhile.
+    - **The `./install.sh` / `./install.sh -i` sections are intentionally
+      near-verbatim copies** of `GettingStartedWithBoxTurtle.md`'s own
+      wording, per explicit request to include that text on this page too
+      rather than just cross-reference it - this is genuinely
+      installer-universal behaviour, not something to vary per MMU type.
+    - **No new `index.md` card**: the "Card grid needs a new entry every
+      time a section gains its first page" rule doesn't apply here - Getting
+      Started already has its first card (pointing at the Box Turtle guide),
+      so a second page in the same section doesn't get a second card.
+29. **Added real menuconfig screenshots to `GettingStartedWithViViD.md`
+    after all**, per explicit follow-up request - a new `getting-started-vivid`
+    session in `doc_tools/shots.py` (seed `'none'`, same first-run approach as
+    `getting-started-boxturtle`), 7 images: MMU Type (BTT ViViD + its buffer
+    sub-option), Board type, the MMU and Buffer MCU-connection submenus, MMU
+    Features/Additions, Toolhead, and the Spoolman NFC auto-create screen.
+    Two real Kconfig-navigation mistakes surfaced and got fixed by actually
+    running the capture rather than assuming the menu tree from reading
+    Kconfig source alone:
+    - The buffer's connection submenu's own internal choice prompt is `"MCU
+      connection for sync-feedback buffer"`, but the enterable *menu* wrapping
+      it (what the reader actually sees and types to reach it from the top
+      level) is titled **`Buffer MCU connection`** - a different string.
+      `mc.enter('MCU connection for sync-feedback buffer')` from the top menu
+      reliably failed to find that text at the top level; fixed by entering
+      `'Buffer MCU connection'` instead, then finding the inner prompt one
+      level down. Same distinction already existed for the MMU side (top
+      menu says `MCU connection`, which happens to equal its own inner
+      choice's prompt too, by coincidence, not because it's the same
+      pattern) - it just wasn't visible as a *distinct* name until the buffer
+      side exposed it.
+    - `"Spoolman"` in the Kconfig source is a `comment` (a plain section
+      divider on the **Software Options** screen), not a `menu` - it isn't
+      enterable at all. `mc.enter('Spoolman')` doesn't error on the comment
+      itself; menuconfig's substring search instead landed the cursor on the
+      *next* row containing the same substring - the **Auto-create...**
+      checkbox further down the same screen - and pressing Enter on a bool
+      item toggles it rather than opening a submenu, so the checkbox silently
+      flipped on as a side effect before the real failure (waiting for a
+      breadcrumb change that could never come) surfaced. Fixed by dropping
+      the `enter('Spoolman')` step entirely - the target checkbox is
+      selectable directly on the **Software Options** screen already reached
+      one level up.
+    - Also corrected the page's prose to match what the real screens showed
+      rather than what reading the Kconfig source alone implied: "MCU
+      connection" and "Buffer MCU connection" are each a *two-row submenu*
+      (connection type + resolved device), not a flat Serial/CANbus toggle;
+      and `MMU Features / Additions` fixes on more than LEDs/environment
+      sensor/heater/NFC - the sync-feedback buffer is fixed on too (supplied
+      by the buffer board), the old-style catchment filament buffer is fixed
+      *off* (superseded by it), and fans/eject-buttons/encoder are the
+      screen's only genuine off-by-default options for this design.
+    - Still deliberately NOT captured: the two "Select serial device for
+      ..." list screens themselves - unchanged reasoning from item 28, this
+      machine has nothing plugged in so they'd show an empty list, not the
+      illustrative device names. The two submenu screens captured instead
+      (showing the connection-type row and the resolved "Other / manually
+      entered" device row together) are the reproducible part of that same
+      story.
+
+**To pick this back up:** the §5 Feature-page template has now been proven
+out across two different pages (eSpooler, Encoder) - copy either one's
+current structure and section order for the remaining twelve pages in the
+table above, and follow **Before finishing a Feature page** (proofread
+against the wiki source, report what didn't carry forward) before calling
+any of them done. Several remaining Feature pages share the same
+"combined v3 wiki page, split across several v4 pages" shape `Feature-Encoder.md`
+just went through (e.g. `Feature-Endless-Spool-Runout.md` is the other half
+of the same `Clog-Runout-EndlessSpool.md` wiki page) - check the §5 table's
+"Wiki source" column for other combined pages before assuming a 1:1 mapping.
+§2's other two pages (`Understanding-Operation.md`, `Print-Job-State-Machine.md`)
+are still open too, and should lean on `Conceptual-MMU.md`'s terminology
+rather than re-defining it. The four `Configuring-mmu*.cfg.md` generators for
+§3 are also still open, following the exact `gen_command_reference.py`
+pattern already proven out. Whatever's next, run `./venv/bin/zensical build
+--clean` before calling it done, not a plain `zensical build` - see
+**Zensical rough edges**.

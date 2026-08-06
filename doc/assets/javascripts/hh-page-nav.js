@@ -16,8 +16,13 @@
 // in-app navigations. document$ is Material's own documented hook for
 // exactly this (an RxJS observable that re-fires after every content swap).
 document$.subscribe(function () {
-  var footerArt = document.querySelector(".hh-footer-art");
-  if (!footerArt) return;
+  // Anchor on .hh-footer (the flex row wrapping the art + copyright), not
+  // .hh-footer-art itself - inserting "before" the art used to work when the
+  // art and copyright were plain stacked siblings, but now that they're flex
+  // children of .hh-footer, inserting there made this nav a THIRD flex item
+  // in that same row instead of a block sibling above it.
+  var footer = document.querySelector(".hh-footer");
+  if (!footer) return;
 
   // A previous injection (from before an instant-navigation swap) would
   // otherwise still be sitting in the DOM alongside a freshly-rendered one.
@@ -69,8 +74,8 @@ document$.subscribe(function () {
 
   var nav = document.createElement("nav");
   nav.className = "hh-page-nav";
-  nav.appendChild(prev ? makeLink(prev, "prev", "Previous") : document.createElement("span"));
-  nav.appendChild(next ? makeLink(next, "next", "Next") : document.createElement("span"));
+  nav.appendChild(prev ? makeLink(prev, "prev", "‹ Previous") : document.createElement("span"));
+  nav.appendChild(next ? makeLink(next, "next", "Next ›") : document.createElement("span"));
 
-  footerArt.parentNode.insertBefore(nav, footerArt);
+  footer.parentNode.insertBefore(nav, footer);
 });
