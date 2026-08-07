@@ -1873,6 +1873,25 @@ anything. Don't silently decide something wasn't worth keeping.
     `Printer Variables` order isn't alphabetical but is a deliberate
     most-used-first ordering) - left untouched.
 
+46. **Header logo switched to `doc_logo2.png`, sized to the header's
+    existing height rather than growing it.** `.md-header__button.md-logo`
+    (Material's compiled CSS) puts `margin:.2rem` + `padding:.4rem` on both
+    top and bottom of the logo `<img>`, so its total box is
+    `img-height + 1.2rem` - `.md-header__inner`'s own `min-height: 5.6rem`
+    (item from the original header-polish pass) is the ceiling before the
+    header itself grows, so `img-height` maxes out at `5.6rem - 1.2rem =
+    4.4rem` (was `2.8rem`). Confirmed via `getBoundingClientRect()` in a
+    live preview, not just arithmetic: header height stayed exactly 112px
+    (5.6rem) at the 1280px-wide/20px-root breakpoint, logo rendered at
+    exactly 88px (4.4rem) tall. `doc_logo2.png` is a wide landscape image
+    (1536x1024, vs. the old logo's ~500x588) - width is left as Material's
+    own default `auto`, so it scales proportionally and comes out
+    noticeably wider (132px vs. roughly 95px before) rather than just
+    taller; checked 1230px/1280px (logo visible, no crowding against
+    search/GitHub stats) and below Material's own sidebar-collapse
+    breakpoint (~1220px and mobile) where the logo is stock-hidden anyway
+    regardless of this change, so no regression there either.
+
 **To pick this back up:** with §5 fully done, the next open sections are
 §1 (`Installation.md`, `MMU-Types-Overview.md`, `Upgrading-from-v3.md`),
 §2's other two pages (`Understanding-Operation.md`,

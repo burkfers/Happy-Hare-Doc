@@ -228,8 +228,18 @@ body {
  * title block), so growing the logo and adding a second title line both
  * just grow the sticky header naturally, no separate height override needed.
  */
+/*
+ * Logo sized to the largest height that still fits inside the header's own
+ * min-height (5.6rem, below) without growing it: Material's compiled CSS
+ * puts `margin:.2rem` + `padding:.4rem` on .md-header__button.md-logo (both
+ * top and bottom), so the logo's total box is img-height + 1.2rem - solving
+ * img-height + 1.2rem = 5.6rem gives the 4.4rem here. width is intentionally
+ * left as `auto` (Material's own default) - doc_logo2.png is a wide
+ * landscape image, so this comes out noticeably wider than the old square-
+ * ish logo, not just taller.
+ */
 .md-header__button.md-logo img {
-  height: 2.8rem !important;
+  height: 4.4rem !important;
 }
 /*
  * .md-header__title/.md-header__ellipsis/.md-header__topic have a hard 48px

@@ -12,7 +12,7 @@ copyright: Copyright (C) 2022-2026 Paul Morgan
 theme:
   name: material
   variant: classic
-  logo: assets/images/logo.jpg
+  logo: assets/images/doc_logo2.png
   favicon: assets/images/favicon.png
   # Pink is the brand's own colour, not a pick from Material's swatch list for its
   # own sake: HH's warning text is #FF69B4 (see test/README.md, "why a warning
