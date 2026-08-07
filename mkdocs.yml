@@ -98,6 +98,7 @@ markdown_extensions:
 
 nav:
   - Getting Started:
+      - Installation: Installation.md
       - Box Turtle: GettingStartedWithBoxTurtle.md
       - BTT ViViD: GettingStartedWithViViD.md
   - Concepts:
@@ -121,6 +122,13 @@ nav:
       - Tip Forming and Purging: Feature-Tip-Forming-Purging.md
   - Advanced Customization:
       - Custom Load/Unload Sequences: Custom-Load-Unload-Sequences.md
+  - Slicer & Toolchange:
+      - Slicer Setup: Slicer-Setup.md
+      - Toolchange Movement: Toolchange-Movement.md
+  - Operation:
+      - Operation: Operation.md
+      - KlipperScreen: KlipperScreen.md
+      - Mainsail / Fluidd: Mainsail-Fluidd-Integration.md
   - Reference:
       - Command Reference: Command-Reference.md
       - Parameters: Parameters.md

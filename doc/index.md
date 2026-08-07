@@ -75,6 +75,11 @@ The pages here are grouped by what you're trying to do, not by MMU brand:
   on) - dip into whichever ones you actually plan to use.
 - **Advanced Customization** covers replacing Happy Hare's own internal
   logic with your own macros - expert-level, and rarely needed.
+- **Slicer & Toolchange** covers the slicer-side setup an MMU print needs,
+  and how toolhead parking/movement works around a toolchange.
+- **Operation** is day-to-day use once everything's configured - the
+  console/UI commands you'll actually run, and what to do when a print
+  pauses.
 - **Reference** is the flat lookup layer: every `MMU_*` command and
   `printer.mmu.*` variable generated straight from Happy Hare's source, plus
   every config and macro-tuning parameter documented from the real shipped
@@ -144,6 +149,23 @@ Whichever you use, having these ready up front gets you a faster answer:
     expert-level, and rarely needed.
 
     [Custom Load/Unload Sequences &rarr;](Custom-Load-Unload-Sequences.md)
+
+-   **Slicer & Toolchange**
+
+    ---
+
+    Setting up your slicer's start/end gcode, and how toolhead parking
+    works around a toolchange.
+
+    [Slicer Setup &rarr;](Slicer-Setup.md)
+
+-   **Operation**
+
+    ---
+
+    Day-to-day commands, and what to do when the MMU pauses mid-print.
+
+    [Operation &rarr;](Operation.md)
 
 -   **Reference**
 

@@ -252,17 +252,19 @@ anything. Don't silently decide something wasn't worth keeping.
 
 | Page | Source | Status |
 |---|---|---|
-| `index.md` (Home) | `README.md` + `wiki/Home.md` | **done (v2)** — see item 34 below for the full rewrite. v1's "card grid needs a new entry every time a section gains its first page" rule is retired: v2's card grid is one card per top-level nav section rather than one per page-that-happened-to-be-first, and doesn't need touching again as pages are added within an existing section — only when a genuinely new section is added, as happened when `Advanced Customization` landed (6 cards now: Getting Started, Concepts, Features, Advanced Customization, Reference, Developer Guide). |
+| `index.md` (Home) | `README.md` + `wiki/Home.md` | **done (v2)** — see item 34 below for the full rewrite. v1's "card grid needs a new entry every time a section gains its first page" rule is retired: v2's card grid is one card per top-level nav section rather than one per page-that-happened-to-be-first, and doesn't need touching again as pages are added within an existing section — only when a genuinely new section is added, as happened when `Advanced Customization` landed, and again when `Slicer & Toolchange`/`Operation` landed (8 cards now: Getting Started, Concepts, Features, Advanced Customization, Slicer & Toolchange, Operation, Reference, Developer Guide). |
 
 ### 1. Getting Started
 
 | Page | Source | Status |
 |---|---|---|
-| `Installation.md` | `wiki/Installation.md` | port, verify against `install.sh`/`Makefile` flags |
+| `Installation.md` | `wiki/Installation.md` | **done** — code-verified against the real `install.sh` (flags, usage text) and `installer/build.py`/`Kconfig.options`. Slots in before the per-type Getting Started pages, deliberately scoped to what those pages *don't* cover: cloning, the real flag reference, client macros, upgrading. Dropped the entire v3 sequential-Q&A "Creating Base Klipper Config" walkthrough (10+ screenshots) - v4 replaced that flow with `menuconfig` entirely, already covered per-type by the two `GettingStartedWith*.md` pages; reusing those stale screenshots of a flow that no longer exists would have been wrong. Also dropped the nonfunctional `-r` (Repetier-Server) flag - commented out/TODO in real `install.sh`, doesn't work; corrected the client-macros mechanism from "hand-edit `printer.cfg`" to the real `menuconfig` yes/no prompt (`INSTALL_CLIENT_MACROS`); dropped the `z_hop_height_error`/`z_hop_speed` pause-mechanics paragraph since that setting doesn't exist in v4 (see item 48's `Operation.md` finding on unified parking) - deferred to `Operation.md` instead. |
 | `GettingStartedWithBoxTurtle.md` | existing `doc/` page | **done**, incl. a "Picking a toolhead" step (shared toolhead/extruder geometry database, optional, reduces calibration) with two real screenshots |
 | `GettingStartedWithViViD.md` | new, from `installer/mmu_types/Kconfig.vvd` + `installer/boards/custom/Kconfig.vvd` + `installer/connection/Kconfig.{mmu_mcu,buffer_mcu}` | **done** - second Getting Started page, with a real `getting-started-vivid` `doc_tools/shots.py` session (7 screenshots) for every screen except the two live serial-device-list screens (see session log for why those stay text). Covers the two-separate-MCU serial selection unique to this design, otherwise a lighter walkthrough than Box Turtle's since almost everything defaults correctly for this fully-specified design. |
 | `MMU-Types-Overview.md` (comparison table: all 15 Kconfig types, selector class, gate count, status) | new, from `installer/Kconfig.mmu_types/*` | new |
 | `Upgrading-from-v3.md` | `wiki/Upgrade-Notice.md`, `wiki/Change-Log.md` | rewrite for v4 |
+| `GettingStartedWith3MS.md` | `wiki/Quick-Start-3MS.md` | new — found during the 2026-08-07 wiki-gap audit (item 47 below), not previously on this table at all. Same genre as the two `GettingStartedWith*.md` pages above (real menuconfig screenshots via `doc_tools/shots.py`, not a port of the wiki's raw command transcript). |
+| `GettingStartedWithQuattroBox.md` | `wiki/Quick-Start-QuattroBox.md` | new — same finding/genre as 3MS above. |
 
 ### 2. Concepts
 
@@ -314,21 +316,20 @@ anything. Don't silently decide something wasn't worth keeping.
 | `Feature-FlowGuard.md` | `Kconfig.flowguard` | new (no v3 equivalent) | **done**, written last per plan — scope defined entirely by what `Feature-Encoder.md` and `Feature-Sync-Feedback-Buffer.md` had already deferred (`flowguard_enabled`, `flowguard_max_relief`, `flowguard_encoder_mode`, `flowguard_encoder_max_motion`, `tangle_prevention_*`), not from a wiki source. Code-verified against `unit/mmu_sync_feedback.py` and `commands/mmu_flowguard.py`: confirmed a clog/tangle event from either detection source (buffer relief-movement or encoder motion) funnels into the exact same runout-handler used by real sensor-based runout — i.e. FlowGuard is purely the *detection* layer, and what happens next is entirely `Feature-Endless-Spool-Runout.md`'s existing pause-vs-EndlessSpool logic, not something to re-explain here. Found the same "shipped template overrides code fallback" pattern already seen elsewhere: `flowguard_max_relief` ships as `40` (confirmed via real menuconfig capture) even though the Python `ParamSpec` fallback is `8.0`. Real menuconfig screenshot (`feature-flowguard` session, boxturtle seed — already has a buffer, so the menu is visible with no scene setup; the encoder-mode section correctly doesn't appear since this seed has no encoder). |
 | `Feature-Addon-Integrations.md` | — | `wiki/Addon-Feature-Setup.md` — **scope narrowed**: of its 4 addons, EREC and Blobifier are now native features routed to `Feature-Tip-Forming-Purging.md` (see that row), and DC eSpooler is fully superseded by the already-written `Feature-Espooler.md` (confirmed via a real v3→v4 pin-rename migration snippet in `installer/upgrades.py`) — only **Eject Buttons** turns out to be genuinely unclaimed native content (`Kconfig.eject_buttons`, sourced under the same **MMU Features / Additions** menu as eSpooler/NFC; a per-gate `[gcode_button ...]` calling `MMU_EJECT` with its hidden `LGATE=`/`UNIT=` params), so this page becomes mostly redirects plus one real Feature-template section for Eject Buttons | **done** — confirmed none of the four addons' old `mmu/addons/*.cfg` files exist in v4 at all (exhaustive grep across `config/`/`installer/`/`extras/` came back empty). Real, easily-missed footgun found and carried onto the page as a warning: eject-button pin polarity depends on the button type — normally-closed wants a plain pull-up pin, normally-open (e.g. EMU's LED Button Board) needs an *inverted* pin, or Klipper can see the button as already pressed right after a restart and eject on its own; this is a real comment already in the shipped `mmu_hardware.cfg` template, not a new finding, but easy to miss since it's buried in a generated-file comment. Reused the wiki's `erec_logo.png`/`blobifier.png` (third-party product photos, no staleness risk) after downsizing/re-encoding to JPEG per the established photo-reuse convention (~4MB combined → ~80KB). Real menuconfig screenshot for eject buttons (`feature-addon-integrations` session, boxturtle seed, toggled on via scene setup). |
 
-### 6. Slicer & Toolchange
+### 6. Slicer & Toolchange — done (both pages)
 
-| Page | Source |
-|---|---|
-| `Slicer-Setup.md` | `wiki/Slicer-Setup.md` |
-| `Toolchange-Movement.md` | `wiki/Toolchange-Movement.md` |
+| Page | Source | Status |
+|---|---|---|
+| `Slicer-Setup.md` | `wiki/Slicer-Setup.md` | **done** — user's own expectation ("should be almost the same as v3") held up well: the core `MMU_START_SETUP`/`MMU_START_CHECK`/`MMU_START_LOAD_INITIAL_TOOL`/`MMU_END` macro sequence is essentially unchanged, confirmed directly against `config/macros/mmu_software.cfg`. Corrected: `variable_eject_tool` → real name `variable_unload_tool`; added `variable_automap_strategy` (new, not in wiki); noted `MMU_END`'s new `UNLOAD=` param. Dropped four inline slicer-textbox screenshots that just re-showed text already in a code block (`start_gcode.png`, `end_gcode.png`, `tool_change_gcode.png`, `after_layer_change_gcode.png`); kept `error_dialog_during_start.png` (real UI, not text-representable) and all four tip-forming-settings screenshots. |
+| `Toolchange-Movement.md` | `wiki/Toolchange-Movement.md` | **done** — fixed a real inconsistency: `variable_enabled_park_standalone`/`variable_enabled_park_disabled` (wiki) don't exist; real names are `variable_enable_park_standalone`/`variable_enable_park_disabled` (matching `enable_park_printing`). Bigger finding: the wiki describes *three* z-hop sources (slicer's own, an immediate Happy-Hare blob-prevention lift via `z_hop_height_toolchange`, and the configurable park move) - `z_hop_height_toolchange` doesn't exist anywhere in real v4 config; that immediate lift has been unified into the single `variable_park_*` mechanism this page already documents. Rewrote "Z-Hop Moves" around two real sources, not three. |
 
-### 7. Operation
+### 7. Operation — done (all 3 pages, consolidated from 4 planned)
 
-| Page | Source |
-|---|---|
-| `Basic-Operation.md` | `wiki/Basic-Operation.md` |
-| `Handling-Errors.md` | `wiki/Handling-Errors.md` |
-| `KlipperScreen.md` | `wiki/KlipperScreen.md` |
-| `Mainsail-Fluidd-Integration.md` | `wiki/Mainsail-Fluidd-Integration.md` |
+| Page | Source | Status |
+|---|---|---|
+| `Operation.md` | `wiki/Basic-Operation.md` + `wiki/Handling-Errors.md` | **done** — merged into one page per explicit request (was two separate rows in this table; the user asked for "the 'Operation' page that should pull from Basic-Operation.md and Handling-Errors.md," singular). Explicitly flagged by the user as possibly stale going in - warranted a full dedicated source-verification pass (not a lighter check like §6 above), which found real corrections: `logfile_level`→`log_file_level`; `encoder_load_retries`→`gate_load_attempts`; `gear_from_spool_speed`→`gear_load_speed`; `gear_from_buffer_speed`/`gear_speed_from_buffer` (wiki uses both, inconsistently)→`gear_from_filament_buffer_speed`; `bowden_allowable_load_delta`→`bowden_allowable_encoder_delta`; `strict_filament_recover`→`strict_filament_recovery`; `extruder_homing_endstop`'s `collision` value is really named `encoder`; a 5th endstop value, `filament_compression`, exists and isn't in the wiki; `mmu_calibration_bowden_length` isn't a real user-facing name (internal persisted state, not something to type). Several settings the wiki locates in `mmu_parameters.cfg` are actually in `mmu.cfg`'s shared section or its `[mmu_toolhead]` section - the same recurring file-location confusion found on multiple other pages. Confirmed accurate as-is: `MMU_PRELOAD`, `MMU_CHECK_GATE TOOLS=`, `MMU_STATUS SHOWCONFIG=`, `MMU_UNLOCK`, `MMU_RECOVER` (all four params, plus a new `BYPASS=1` not in the wiki), `MMU_PAUSE FORCE_IN_PRINT=1`, and the whole pause→fix→resume/recover flow (reproduced as a `<pre class="hh-mermaid">` flowchart, same mechanism as `Feature-Spoolman.md`'s diagrams). Deliberately kept the load/unload sequence walkthrough at overview level and linked out to `Custom-Load-Unload-Sequences.md` for the state-machine/`_MMU_STEP_*` detail that page already owns, rather than duplicating it. Dropped the wiki's "KlipperScreen Happy Hare" subsection entirely - now redundant with the dedicated page below. |
+| `KlipperScreen.md` | `wiki/KlipperScreen.md` | **done** — the wiki source was already fairly accurate (uses the real v4 selector-class taxonomy - Linear/Rotary/Virtual - not the stale Type-A/B binary), so little to correct. The wiki page's own install section was circular ("follow the install directions... included in this wiki here" pointing at itself) - replaced with real install steps fetched directly from the fork's own README (`https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition`): it replaces stock KlipperScreen rather than running alongside it, clone over `~/KlipperScreen`, `cd happy_hare && ./install_ks.sh -g <num_gates>` (also the correct thing to re-run after every update, not just once). Restored all three Manage-panel selector-variant screenshots (linear/rotary/virtual) rather than showing just one. |
+| `Mainsail-Fluidd-Integration.md` | `wiki/Mainsail-Fluidd-Integration.md` | **done** — panel descriptions and `t_macro_color` (all four values: `slicer`/`allgates`/`gatemap`/`off`) verified unchanged against source. Dropped the wiki's specific "Mainsail PR is in queue, Fluidd PR already integrated" claim - couldn't verify current merge status (checked both `mainsail-happy-hare-edition`/`fluidd-happy-hare-edition` forks directly; still active, but their READMEs don't state a merge-status the way the KlipperScreen fork's does) and this site avoids stale point-in-time claims by rule - reworded to a timeless "forks track the newest enhancements" framing instead. Dropped the celebratory `candy.png`/`thumbs_up.png` images, matching this site's tone elsewhere. |
 
 ### 8. Tuning
 
@@ -357,6 +358,7 @@ anything. Don't silently decide something wasn't worth keeping.
 | Page | Source | Status |
 |---|---|---|
 | `Custom-Load-Unload-Sequences.md` | `config/macros/mmu_sequence.cfg` + the real `_MMU_STEP_*` command implementations (`gcode_load_sequence`/`gcode_unload_sequence` override mechanism) | **done** — first page in a new top-level nav section, since this doesn't fit "Feature" (it's a customization mechanism, not a capability) or "Reference" (it's a how-to, not a flat lookup). Deliberately narrow scope: covers the state-machine + step-command override mechanism only, not the lighter `_MMU_SEQUENCE_VARS`/callback-macro layer in detail (mentioned and recommended as the first thing to try, but its many park-position/z-hop/retract-tuning variables are a large enough topic to deserve their own future page rather than a subsection here). All 11 `_MMU_STEP_*` commands are already in `Command-Reference.md` (it walks the whole `extras/mmu` tree) — this page links out to each rather than re-tabulating parameters, and instead does the reference's actual job: explaining the state machine, walking through what the two shipped default sequences actually do, and reproducing the two commented-out alternative examples at the end of the source file (toolhead-sensor homing, and `mmu_ext_touch` stallguard homing) that weren't visible anywhere else. Found one real, verifiable inconsistency while cross-checking the wiki against source: the shipped `_MMU_UNLOAD_SEQUENCE` passes `FULL=1` to `_MMU_STEP_UNLOAD_BOWDEN`, but that command's real parameter list is `LENGTH` only — no `FULL` — so the argument is silently ignored (harmless as shipped, since the step already runs at the calibrated length either way, but a genuine stale leftover in Happy Hare's own reference macro, not a wiki error this time). |
+| `Macro-Customization.md` | `wiki/Macro-Customization.md` (470 lines — Macro Extension vs. Macro Replacement, `MMU_ACTION_CHANGED`/`MMU_PRINT_STATE_CHANGED`/`MMU_EVENT`) | **not started, and not previously on this table at all** — found during the 2026-08-07 wiki-gap audit (item 47 below). This is exactly the "lighter callback-macro layer" `Custom-Load-Unload-Sequences.md` above deliberately deferred rather than covering itself; second page in this nav section once written. |
 
 ### 11. Troubleshooting & FAQ
 
@@ -1892,19 +1894,115 @@ anything. Don't silently decide something wasn't worth keeping.
     breakpoint (~1220px and mobile) where the logo is stock-hidden anyway
     regardless of this change, so no regression there either.
 
-**To pick this back up:** with §5 fully done, the next open sections are
-§1 (`Installation.md`, `MMU-Types-Overview.md`, `Upgrading-from-v3.md`),
-§2's other two pages (`Understanding-Operation.md`,
-`Print-Job-State-Machine.md` - lean on `Conceptual-MMU.md`'s terminology
-rather than re-defining it), §3's four `Configuring-mmu*.cfg.md` generators
-(follow the `gen_command_reference.py` pattern already proven out), §4
-Calibration, §6-§8 (Slicer & Toolchange, Operation, Tuning), §10's
-`Mcu-Reference.md`, §11 (Troubleshooting & FAQ), and §13 (Community &
-Support). None of these have been scoped yet the way the routing pass in
-item 35 scoped §5 up front - worth doing the same wiki-vs-code overlap check
-before drafting, especially for §2/§4/§6-8, which likely share content with
-the now-finished §5 pages (EndlessSpool groups, gate/TTG maps, and sync
-behaviour all come up naturally in an "Operation" or "Toolchange Movement"
-context). Whatever's next, run `./venv/bin/zensical build --clean` before
+47. **Audited every file under `wiki/` (55 total) against this plan's own
+    tables, on request ("what's left in the wiki that we might want to
+    pull into the new v4 doc")** - cross-referenced each wiki filename
+    against every table above rather than re-reading the plan's prose
+    summary, since a page can be *mentioned* in an item's narrative without
+    actually having a table row (found exactly that below). Findings, not
+    already covered by the "still open" section-by-section list itself:
+    - **Two genuinely unplanned pages, not on this table anywhere before
+      today:** `wiki/Macro-Customization.md` (470 lines - Macro Extension
+      vs. Macro Replacement, `MMU_ACTION_CHANGED`/`MMU_PRINT_STATE_CHANGED`/
+      `MMU_EVENT`) is exactly the "lighter callback-macro layer" item 11's
+      own `Custom-Load-Unload-Sequences.md` row deliberately deferred as
+      "a large enough topic to deserve their own future page" - that future
+      page was never actually added to §10a until this pass. `wiki/Quick-
+      Start-3MS.md` and `wiki/Quick-Start-QuattroBox.md` are the same
+      genre as the two already-done `GettingStartedWith*.md` pages (Box
+      Turtle, ViViD) but for two more MMU hardware types - §1's own table
+      only ever named those two, with no row for these at all. All three
+      added to their respective tables above.
+    - **Stray/superseded files, deliberately left off every table (not a
+      gap, don't action these):** `wiki/Testpage.md` is a near-duplicate
+      draft of `wiki/Home.md` (diffed directly - same structure, a couple
+      of stale details like "Amored" for "Armored" and one fewer ERCF
+      version listed), not distinct content. `wiki/Conceptual-MMU-new.md`
+      reads like an abandoned in-progress draft of the same page
+      `Conceptual-MMU.md` (item 20) already sourced from `wiki/Conceptual-
+      MMU.md` - worth one direct diff before writing anything new, in case
+      it has content the shipped page doesn't, but not assumed here.
+      `wiki/Configuration-Reference.md` is a bare links-hub to the four
+      `Configuring-*.cfg` pages with no content of its own - this site's
+      own nav sidebar already does that job. `wiki/Command-Reference.md`,
+      `wiki/Happy-Hare-Parameters.md`, and `wiki/Quick-Start-BoxTurtle.md`
+      are fully superseded by the already-done generated/rewritten
+      `Command-Reference.md`, `Parameters.md`, and
+      `GettingStartedWithBoxTurtle.md` respectively. `wiki/_Footer.md`/
+      `wiki/_Sidebar.md` are wiki chrome, not content.
+    - Reported as a chat summary first, then logged here on request - the
+      summary itself (section-by-section open list, table above) isn't
+      repeated in full in this item; see the tables above for the actual
+      per-page status this pass updated.
+
+48. **§1's `Installation.md` and all of §6/§7 written and shipped in one
+    session, on explicit request (4 numbered items: Installation, then
+    KlipperScreen/Mainsail-Fluidd as separate pages, then Slicer &
+    Toolchange, then a merged Operation page).** Set up cleanly first: a
+    `.happy-hare-src` checkout already existed from prior work but was
+    stale, refreshed to latest `v4` (`git fetch && git reset --hard
+    origin/v4`) before verifying anything against it, since every claim
+    below depends on that checkout actually being current.
+    - Delivered one item at a time with a wiki-proofread carry-forward
+      report after each (per **Before finishing a Feature page** above,
+      applied here even though these aren't Feature pages), not all four
+      silently at once - see the per-page **Status** notes on the §1/§6/§7
+      table rows above for the full per-page detail; not re-duplicated
+      here.
+    - **Link hygiene across a batch of interdependent new pages**: several
+      pages needed to link to each other (`Installation.md` → `Operation.md`,
+      `KlipperScreen.md` → `Operation.md`, `Operation.md` → `Slicer-Setup.md`,
+      etc.) despite being written in sequence, so a page written first
+      couldn't yet link to one written later without breaking the build.
+      Handled by writing forward references as plain text on first pass,
+      then coming back to convert them into real links once every page in
+      the batch existed, with a `zensical build --clean` after each
+      individual page (catches a genuinely broken link immediately) and one
+      final build after the whole batch (catches anything only fixable once
+      every page existed).
+    - **Two research lookups delegated to background agents, run in
+      parallel while writing**: the KlipperScreen fork's real install steps
+      (a live fetch of `github.com/moggieuk/KlipperScreen-Happy-Hare-Edition`'s
+      README, not something derivable from this repo's own source) and a
+      full staleness audit of `Basic-Operation.md`/`Handling-Errors.md`
+      against `.happy-hare-src` (the item the user explicitly flagged as
+      possibly stale, so it got the deepest pass of the four rather than a
+      light check) - not delegated: `Installation.md`'s and
+      §6's own verification, done directly, since both stayed within
+      normal grep-against-source-then-write territory.
+    - **`index.md` updated for the two new top-level nav sections**
+      (`Slicer & Toolchange`, `Operation`) - both a new bullet in "How this
+      site is organized" and a new card in the "Where to start" grid, per
+      this table's own §0 rule about the card grid needing a touch only
+      when a genuinely new section lands, not for every new page. Card
+      count: 6 → 8.
+    - Verified end-to-end in a real browser preview, not just a clean
+      build: every image on all 6 new pages confirmed actually loading
+      (`naturalWidth > 0`, `complete: true` via `getBoundingClientRect`/DOM
+      checks, not just "the build didn't warn"), the new `<pre
+      class="hh-mermaid">` pause/resume/recover flowchart on `Operation.md`
+      confirmed rendering as a real SVG (not garbled text), and the
+      `index.md` card grid confirmed showing exactly 8 cards in the right
+      order.
+
+**To pick this back up:** with §1, §5, §6, and §7 now done, the next open
+sections are §1's remaining pages (`MMU-Types-Overview.md`,
+`Upgrading-from-v3.md`, and the `GettingStartedWith3MS.md`/
+`GettingStartedWithQuattroBox.md` pair from item 47), §2's other two pages
+(`Understanding-Operation.md`, `Print-Job-State-Machine.md` - lean on
+`Conceptual-MMU.md`'s terminology rather than re-defining it), §3's four
+`Configuring-mmu*.cfg.md` generators (follow the `gen_command_reference.py`
+pattern already proven out), §4 Calibration, §8 Tuning, §10's
+`Mcu-Reference.md`, §10a's new `Macro-Customization.md` (item 47), §11
+(Troubleshooting & FAQ), and §13 (Community & Support). None of these have
+been scoped yet the way the routing pass in item 35 scoped §5 (or the ad-hoc
+scoping item 48 just did for §6/§7) up front - worth doing the same
+wiki-vs-code overlap check before drafting, especially for §2/§4/§8, which
+likely share content with the now-finished §5/§7 pages (EndlessSpool groups,
+gate/TTG maps, and load/unload sequencing all come up naturally in an
+"Operation" or "Tuning" context, and now genuinely overlap with material
+`Operation.md`/`Toolchange-Movement.md` already cover - check those two
+pages specifically before drafting §4/§8, not just §5). Whatever's
+next, run `./venv/bin/zensical build --clean` before
 calling it done, not a plain `zensical build` - see **Zensical rough
 edges**.
