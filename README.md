@@ -46,10 +46,10 @@ HAPPY_HARE_SRC=/path/to/your/Happy-Hare make shots
 See `doc_tools/README.md` for how the generators themselves work, and `TOC.md`
 for the planning/status doc behind the current rewrite.
 
-## Porting from the wiki
+## Porting from the (v3) wiki
 
 Some pages are ported from the [Happy Hare wiki](https://github.com/moggieuk/Happy-Hare/wiki).
-Clone it alongside this repo if you're working on those:
+Clone it alongside this repo if you want to easily cross reference.
 
 ```bash
 git clone https://github.com/moggieuk/Happy-Hare.wiki.git
