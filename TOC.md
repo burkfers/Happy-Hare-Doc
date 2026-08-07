@@ -1790,6 +1790,26 @@ anything. Don't silently decide something wasn't worth keeping.
       pick this same content up from the real pinned ref, so there's nothing
       left to redo here beyond re-running it to confirm.
 
+43. **Three small footer polish requests, same session:** moved the "Happy
+    Hare Ready" ASCII art again - out of `.md-footer-meta__inner` and into
+    `.hh-page-nav` itself, as the middle of its three flex children between
+    the Previous and Next links, since visually it reads as decoration for
+    *that* row rather than the copyright/social row below it. Both
+    injections used to live in separate `document$.subscribe` blocks in
+    `hh-page-nav.js`; merged into one now that the art is built alongside
+    the nav's own children rather than into a different element entirely.
+    `.hh-footer-art` swapped its old `margin: auto 0.6rem` (which centred +
+    spaced it inside `.md-footer-meta__inner`) for `align-self: center` with
+    no margin, since `.hh-page-nav`'s own `gap` (`3rem` -> `1.5rem`, tightened
+    now that it spaces three items instead of two) already handles spacing.
+    Also: `.md-copyright__highlight` (the "Copyright (C) ..." line, new
+    2026-08-07 in item 41) got its own `font-size: 0.55rem` - it inherited
+    `.md-copyright`'s own `.64rem` by default, same weight as "Made with
+    Zensical" below it, when the ask was for it to read as the smaller,
+    finer-print line of the two. `.hh-page-nav__label` (the "‹ PREVIOUS"/
+    "NEXT ›" caps line) went `0.65rem` -> `0.55rem` and `.hh-page-nav__title`
+    (the actual page name) went `0.95rem` -> `0.75rem`.
+
 **To pick this back up:** with §5 fully done, the next open sections are
 §1 (`Installation.md`, `MMU-Types-Overview.md`, `Upgrading-from-v3.md`),
 §2's other two pages (`Understanding-Operation.md`,

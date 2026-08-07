@@ -78,34 +78,17 @@ document$.subscribe(function () {
   // the same pairing .md-footer-meta__inner uses for copyright+social.
   nav.className = "hh-page-nav md-grid";
   nav.appendChild(prev ? makeLink(prev, "prev", "‹ Previous") : document.createElement("span"));
-  nav.appendChild(next ? makeLink(next, "next", "Next ›") : document.createElement("span"));
 
-  footer.insertBefore(nav, footer.firstChild);
-});
-
-// "Happy Hare Ready" ASCII art, in the real theme footer bar.
-//
-// Moved out of the article body (used to sit in .hh-footer next to the
-// copyright line) and into .md-footer-meta__inner instead, alongside
-// "Made with Zensical" and the social icons - that bar's markup comes from
-// Zensical's own vendored templates and can't be edited directly (no
-// overrides/ dir in this repo), so it's injected the same way the
-// Previous/Next nav above is. .md-footer-meta__inner is a flex row with
-// justify-content:space-between already holding exactly two children
-// (.md-copyright, .md-social) - inserting a third between them lands it
-// centred between copyright/"made with" on the left and the social icons on
-// the right.
-document$.subscribe(function () {
-  var inner = document.querySelector(".md-footer-meta__inner");
-  if (!inner) return;
-
-  var stale = document.querySelector(".hh-footer-art");
-  if (stale) stale.remove();
-
+  // "Happy Hare Ready" ASCII art sits between the two links, not in
+  // .md-footer-meta__inner alongside copyright/social - it's part of THIS
+  // row, so it belongs in the same element as the row it's centred in
+  // rather than a second injection into a different flex container.
   var art = document.createElement("pre");
   art.className = "hh-footer-art";
   art.textContent = "  (\\_/)\n  ( *,*)\n  (\")_(\") Happy Hare Ready";
+  nav.appendChild(art);
 
-  var social = inner.querySelector(".md-social");
-  inner.insertBefore(art, social);
+  nav.appendChild(next ? makeLink(next, "next", "Next ›") : document.createElement("span"));
+
+  footer.insertBefore(nav, footer.firstChild);
 });
