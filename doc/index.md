@@ -38,7 +38,8 @@ panel that ships with Mainsail and Fluidd - both are shown above.
 A short list of what's actually in Happy Hare - most of these are their own
 Feature page once you're ready for the detail:
 
-- Tool-to-gate mapping, so any physical spool can be assigned to any tool
+- [Tool-to-gate mapping](Feature-Gate-TTG-Maps.md), so any physical spool
+  can be assigned to any tool
 - [EndlessSpool & runout detection](Feature-Endless-Spool-Runout.md) - a
   depleted gate hands off to a spare automatically, mid-print
 - [Spoolman integration](Feature-Spoolman.md) for tracking usage, weight and
@@ -51,7 +52,7 @@ Feature page once you're ready for the detail:
   and extruder steppers working together instead of fighting each other
 - [Motorized eSpooler](Feature-Espooler.md) support for active rewind and
   print-time assist
-- LED support for at-a-glance gate status
+- [LED support](Feature-LEDs.md) for at-a-glance gate status
 - A `menuconfig`-driven installer, so setup is a guided series of choices
   rather than hand-editing config files from scratch
 - Moonraker update-manager integration, so it updates like any other Klipper
@@ -72,9 +73,12 @@ The pages here are grouped by what you're trying to do, not by MMU brand:
   every MMU type - worth reading once, regardless of which hardware you have.
 - **Features** has one page per capability (Spoolman, NFC, eSpooler, and so
   on) - dip into whichever ones you actually plan to use.
-- **Reference** is generated straight from Happy Hare's source - every
-  `MMU_*` command and every `printer.mmu.*` variable, always in sync with
-  what a real printer would show you.
+- **Advanced Customization** covers replacing Happy Hare's own internal
+  logic with your own macros - expert-level, and rarely needed.
+- **Reference** is the flat lookup layer: every `MMU_*` command and
+  `printer.mmu.*` variable generated straight from Happy Hare's source, plus
+  every config and macro-tuning parameter documented from the real shipped
+  templates.
 - **Developer Guide** is for contributing to Happy Hare itself, not for
   running it - skip it unless you're reading or changing the code.
 
@@ -131,6 +135,15 @@ Whichever you use, having these ready up front gets you a faster answer:
     One page per capability - Spoolman, NFC/RFID, eSpooler, encoder, and more.
 
     [eSpooler &rarr;](Feature-Espooler.md)
+
+-   **Advanced Customization**
+
+    ---
+
+    Replacing Happy Hare's own load/unload logic with your own macros -
+    expert-level, and rarely needed.
+
+    [Custom Load/Unload Sequences &rarr;](Custom-Load-Unload-Sequences.md)
 
 -   **Reference**
 

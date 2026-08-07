@@ -19,10 +19,10 @@ is fitted:
 - **Bowden move verification.** The distance the encoder measures during a
   bowden load/unload can be compared against the commanded distance, and
   optionally used to auto-correct a short move.
-- **FlowGuard.** Encoder movement (or lack of it) feeds FlowGuard's
-  clog/tangle/runout detection and its live flow-rate percentage - covered
-  briefly under [Parameter Setup](#parameter-setup) below, with the deeper
-  tuning left to FlowGuard's own guide.
+- **[FlowGuard](Feature-FlowGuard.md).** Encoder movement (or lack of it)
+  feeds FlowGuard's clog/tangle/runout detection and its live flow-rate
+  percentage - covered briefly under [Parameter Setup](#parameter-setup)
+  below, with the deeper tuning left to FlowGuard's own page.
 - **Manual position tracking**, via the [`MMU_ENCODER`](#commands) command.
 
 A calibrated resolution (mm of filament per sensor pulse) is what makes the
@@ -108,8 +108,8 @@ FlowGuard's encoder-based clog/tangle/runout detection is switched on
 separately, in the owning unit's `flowguard_encoder_mode` (`0`=off,
 `1`=fixed detection length, `2`=automatic) and `flowguard_encoder_max_motion`
 settings - the encoder just supplies the movement signal FlowGuard acts on.
-A dedicated FlowGuard guide covers tuning that in depth; this page stops at
-the console output in [Commands](#commands) below.
+[Feature: FlowGuard](Feature-FlowGuard.md) covers tuning that in depth; this
+page stops at the console output in [Commands](#commands) below.
 
 !!! tip
     As with most `mmu_parameters`, every setting on this page can be changed
@@ -198,7 +198,8 @@ detection length is fixed or self-tuning.
   is also fitted.
 - **Repeated clog/runout triggers that aren't real clogs** - see the Tuning
   notes above on `desired_headroom` and `flowguard_encoder_max_motion`; full
-  false-trigger diagnosis is covered in the FlowGuard guide.
+  false-trigger diagnosis is covered on [Feature:
+  FlowGuard](Feature-FlowGuard.md#tuning).
 
 ## See also
 
@@ -209,6 +210,7 @@ detection length is fixed or self-tuning.
   calibrate every gate's rotation distance in one pass, instead of measuring
   each by hand
 - [Printer Variables: `encoder`](Printer-Variables.md#encoder)
+- [Feature: FlowGuard](Feature-FlowGuard.md) - the clog/tangle/runout detection this page's movement signal feeds
 
 ---
 

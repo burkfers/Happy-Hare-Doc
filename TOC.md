@@ -263,7 +263,7 @@ anything. Don't silently decide something wasn't worth keeping.
 
 | Page | Source | Status |
 |---|---|---|
-| `index.md` (Home) | `README.md` + `wiki/Home.md` | **done (v2)** — see item 34 below for the full rewrite. v1's "card grid needs a new entry every time a section gains its first page" rule is retired: v2's card grid is one card per top-level nav section (5 cards: Getting Started, Concepts, Features, Reference, Developer Guide) rather than one per page-that-happened-to-be-first, and doesn't need touching again as pages are added within an existing section. |
+| `index.md` (Home) | `README.md` + `wiki/Home.md` | **done (v2)** — see item 34 below for the full rewrite. v1's "card grid needs a new entry every time a section gains its first page" rule is retired: v2's card grid is one card per top-level nav section rather than one per page-that-happened-to-be-first, and doesn't need touching again as pages are added within an existing section — only when a genuinely new section is added, as happened when `Advanced Customization` landed (6 cards now: Getting Started, Concepts, Features, Advanced Customization, Reference, Developer Guide). |
 
 ### 1. Getting Started
 
@@ -304,7 +304,7 @@ anything. Don't silently decide something wasn't worth keeping.
 | `MMU-Calibration-Virtual-Selector.md` | `wiki/MMU-Calibration-TypeB.md` | ⚠️ rewrite, retitle |
 | Toolhead calibration | folded into a Features page (§5) | — |
 
-### 5. Features — template proved out on six pages, 8 to go
+### 5. Features — all 16 pages done
 
 | Feature page | Kconfig source | Wiki source | Status |
 |---|---|---|---|
@@ -313,17 +313,17 @@ anything. Don't silently decide something wasn't worth keeping.
 | `Feature-Sync-Feedback-Buffer.md` | `Kconfig.sync_feedback_buffer`, `Kconfig.motor_sync` | `wiki/Synchronized-Gear-Extruder.md` (Synchronized Gear/Extruder + Sync-Feedback Buffer Sensors + AutoTuner sections only — the FlowGuard clog/tangle/telemetry sections stayed off this page, see the session log) | **done** — code-verified against the real `[mmu_buffer <unit_name>]`/`mmu_parameters.cfg` keys and the live `MMU Features / Additions → Buffer config` / `Other Settings → MMU/Extruder sync` menuconfig screens (real screenshots, `feature-sync-feedback-buffer` session, boxturtle seed). Reused `Typical_Buffer.png` (with a corrective note for its stale pin names) and `Sync_Feedback_Meter.png`/two small UI-icon images from the wiki; skipped the FlowGuard telemetry/simulation images as out of scope for this page. |
 | `Feature-Spoolman.md` | — (software integration, no Kconfig) | `wiki/Spoolman-Support.md` | **done** — split off the originally-planned single `Feature-NFC-Spoolman.md` into two pages (this one + `Feature-NFC.md` below), per explicit request; the two cross-reference heavily in both directions. Code-verified against `mmu_controller.py`'s `_spoolman_*` methods, `mmu_server.py` (Moonraker component), and `mmu_gate_maps.py`'s `gate_map_to_string()`. Corrected several stale wiki details: the console gate-map status labels are `On spool`/`Buffered`/`Empty`/`Unknown` (not `Spool`/`Buffer`) and the field is `Id:` not `SpoolId:`; `pending_spool_id_timeout` is actually `spoolman_pending_id_timeout`, living in `mmu.cfg` not `mmu_parameters.cfg`; the Spoolman-version requirement (0.18.1+) applies to every mode above `off`, not just push/pull (confirmed in `mmu_server.py` — `readonly` needs it too, since the same extra-fields gate blocks it); and Spoolman now has a third extra field, `RFID` (alongside `Printer Name`/`MMU Gate`), not in the wiki at all. Re-introduced the wiki's Mermaid sequence diagrams under Tuning (split `off`/`readonly`/`push`/`pull` into 6 diagrams total) via raw `<pre class="mermaid">` HTML rather than a ` ```mermaid ` fence — see item 33 below for the mechanism and its verification status. Reused all 6 of the wiki's Spoolman-UI screenshots as-is (verified each against current field names/labels — none were stale, unlike the sensor-name screenshots skipped elsewhere) plus the RFID/QR "auto-setting" workflow, generalized (see `Feature-NFC.md`'s split below). |
 | `Feature-NFC.md` | `Kconfig.nfc_reader` | new (no v3 wiki page — the closest wiki content, RFID/QR tag auto-setting, was folded into `Feature-Spoolman.md`'s generic-external-reader workflow instead; NFC hardware readers, `MMU_NFC`/`MMU_NFC_SCAN`, and Spoolman auto-create are all new in v4) | **done** — the reader/hardware half of the original combined plan, cross-referencing `Feature-Spoolman.md` heavily both ways. Code-verified against `unit/mmu_nfc_manager.py`, `unit/nfc/mmu_nfc_reader.py` and `mmu_nfc_endstop.py`, `commands/mmu_nfc.py`/`mmu_nfc_scan.py`, and the `_preload_gate()`/`_home_to_gate_with_nfc()` integration in `mmu_filament_movement.py`. Marked **beta** on the page itself, matching the Kconfig's own `[[B]](BETA)[[/B]]` tag — and specifically flagged the per-gate homing-endstop path (used automatically by `MMU_PRELOAD`) as confirmed on RC522 only, per a "PROTOTYPE" comment in `mmu_nfc_endstop.py` saying PN532/PN7160 still need bench verification. No wiki content was actually stale here since none existed to be stale — this is genuinely new v4 surface, not a port. No menuconfig screenshot: the Box Turtle seed used for this site's other captures doesn't select `MMU_HAS_NFC_READER`; skipped rather than faked, same reasoning as `Feature-Encoder.md`. |
-| `Feature-LEDs.md` | `Kconfig.leds` | `wiki/Led-Support.md` |
+| `Feature-LEDs.md` | `Kconfig.leds` | `wiki/Led-Support.md` | **done** — code-verified against `unit/mmu_leds.py`, `mmu_led_manager.py` (the real print-state/action → effect state machine), `commands/mmu_led.py`/`mmu_set_led.py`. Corrected several stale wiki details: named-effect definitions live in `mmu.cfg`, not a `mmu_leds.cfg` file (doesn't exist); several effect names/durations changed (`mmu_white_fast`→`mmu_breathing_white_fast`, `mmu_strobe`→`mmu_red_strobe`, `effect_heating`/`effect_checking` point at different named effects now, `complete`/`error`/`initialized` durations are 10s/10s/8s not the wiki's 20s/20s/3s); `MMU_LED`'s real status report has no "Default " prefix; `MMU_SET_LED` (temporary per-gate override, distinct from `MMU_LED`'s persistent defaults) is a whole new command not in the wiki. The wiki's "Filament Loaded → Status: Dim Blue" row doesn't correspond to any real code path — the status LED's `filament_color` default just shows the actual loaded colour — dropped rather than ported. Real menuconfig screenshots (`feature-leds` session, boxturtle seed, LEDs enabled by default so no scene setup needed) — found the Neopixel pin prompt actually appears in *two* places (bottom of "Led config" itself, and again on the flat top-level "Pins / TMC" screen), not only the second as initially assumed; confirmed by capturing both. Skipped `wiki/Led-Support/led_configuration.png` - it uses fabricated key names not matching any shipped v4 syntax (the wiki page's own inline `<!-- TODO: Update pic -->` comment already flagged it as stale); kept `led_connection.jpg` (generic, no baked-in stale terminology). |
 | `Feature-Endless-Spool-Runout.md` | (no dedicated Kconfig — sensor-driven) | `wiki/Clog-Runout-EndlessSpool.md` (Runout Detection + EndlessSpool + Designated Waste Gate sections only — the Optional Encoder/Clog Detection/Flowrate Monitoring sections went to `Feature-Encoder.md` instead) | **done** — code-verified against the runout/clog-vs-tangle decision logic, the EndlessSpool group-cycling and eject-gate handling, and the real `mmu.cfg`/`Kconfig.options` settings. Real menuconfig screenshot (`feature-endless-spool-runout` session, boxturtle seed, no scene setup needed since this section isn't MMU-type-specific). See the session log for what got corrected from the wiki. |
-| `Feature-Gate-TTG-Maps.md` | `Kconfig.gates` | `wiki/Tool-and-Gate-Maps.md` |
-| `Feature-Statistics-Counters.md` | — | `wiki/Statistics-and-Consumption-Counters.md` |
-| `Feature-State-Persistence.md` | — | `wiki/State-Persistence.md` |
-| `Feature-Filament-Bypass.md` | `Kconfig.bypass` | `wiki/Filament-Bypass.md` |
-| `Feature-Gcode-Preprocessing.md` | — | `wiki/Gcode-Preprocessing.md` |
-| `Feature-Environment-Manager.md` | `Kconfig.environment_sensor` | `wiki/Environment-Manager.md` |
-| `Feature-Tip-Forming-Purging.md` | `Kconfig.tip_shaping`, `Kconfig.purging` | `wiki/Tip-Forming-and-Purging.md` |
-| `Feature-FlowGuard.md` | `Kconfig.flowguard` | new (no v3 equivalent) |
-| `Feature-Addon-Integrations.md` | — | `wiki/Addon-Feature-Setup.md` |
+| `Feature-Gate-TTG-Maps.md` | — (pure software logic; `Kconfig.gates` is unrelated — physical gate homing/parking distances, not the gate/TTG map) | `wiki/Tool-and-Gate-Maps.md` | **done** — code-verified against `mmu_gate_maps.py`'s `gate_map_to_string()`/`ttg_map_to_string()`/`automap_gate()`. Real, significant bug found: **`MMU_REMAP_TTG`, used throughout the wiki, does not exist as a working command in v4** — the real name is `MMU_TTG_MAP` (`MMU_REMAP_TTG` only survives as descriptive text inside that command's own `HELP_BRIEF`, not a registered alias). Also found: the wiki's plain-vs-Spoolman gate-map console formats are actually the same function with the same status words either way (only the `Id:` field differs, not the whole layout); `MMU_TTG_MAP`'s real output is a single tool-centric block, not the wiki's combined tool+reversed-gate-block sample; `AUTOMAP=name` is invalid, the real value is `AUTOMAP=filament_name`; automap on multiple matches logs a warning and keeps the last match rather than auto-creating an EndlessSpool group as a stray wiki HTML comment claimed; default-list config keys (`default_gate_status`, `default_ttg_map`, etc.) live in `mmu.cfg`'s `[mmu_parameters]` section, not in the file literally named `mmu_parameters.cfg` as the wiki says. Reused three wiki images as-is (`visual_ttg.png`, and the KlipperScreen/Mainsail TTG-editor screenshots — none had stale field names). Added a real menuconfig screenshot for automap strategy/reset-TTG (`feature-gate-ttg-maps` session, boxturtle seed, no setup needed — generic macro-variable screen). |
+| `Feature-Statistics-Counters.md` | — | `wiki/Statistics-and-Consumption-Counters.md` | **done** — code-verified against `commands/mmu_stats.py`'s real formatting code. Found and fixed a real bug: `MMU_STATS RESET=1`'s own help text says "Reset all statistics and counters" but it never touches consumption counters — only `MMU_STATS COUNTER=<name> RESET=1` does; flagged as a plain behavioural fact on the page rather than repeating the misleading help text. Also found: a brand-new counter's first `INCR=1` doesn't apply the increment (only creates it at 0) — the real usable sequence is LIMIT=/WARNING= setup, then increment, not increment-then-setup as the wiki's ordering implied; the real crossing-the-limit warning is two separate log lines, not the wiki's single combined line; gate-statistics line format has no `#` prefix (`0:😎` not `#0: 😎`); swap/gate-stat *display* settings (`console_stat_columns` etc.) live in `mmu.cfg`'s `[mmu_parameters]` section, not the file literally named `mmu_parameters.cfg`. No printer variables exist for any of this — console/log only, stated plainly. Skipped both wiki images (`gate_statistics.png`, `perfect.jpg` — real console-output screenshots with a stale table shape) in favour of a hand-written, code-verified text block, same treatment `Feature-Espooler.md` used for its console example. |
+| `Feature-State-Persistence.md` | — | `wiki/State-Persistence.md` | **done** — code-verified against the real `[save_variables]`/startup-validation mechanism and `mmu_reset`/`mmu_recover`/`mmu_check_gate` commands. Corrected: `home_on_startup` doesn't exist under that name — the real parameter is `startup_home_selector`, gated to selector types that actually need homing; `MMU_RESET` requires `CONFIRM=1` (not in the wiki at all); the reset-defaults block (`default_gate_status`, `default_ttg_map`, `default_endless_spool_groups`, etc.) lives in `mmu.cfg`, not the file literally named `mmu_parameters.cfg`. Replaced the wiki's single-unit startup-status transcript with a fresh example reflecting v4's real grid shape (a `Unit :` header row above `Gate :`, and a `W` waste-gate marker — both added for multi-unit support that didn't exist when the wiki was written). Added a `startup_reset_ttg_map` mention (new, not in wiki) and clarified `MMU_DUMP_VARS` (live status) vs. this page's persisted-file mechanism are two different things, easy to conflate. No images existed on the wiki source to evaluate. |
+| `Feature-Filament-Bypass.md` | `Kconfig.bypass` | `wiki/Filament-Bypass.md` | **done** — code-verified against every selector class's `has_bypass()` (only Linear-family and Servo selectors can genuinely move to a bypass position; Indexed/Rotary/Virtual selectors never can — bypass there is pure software state). Corrected: `bypass_autoload` lives in `mmu.cfg`, not `mmu_parameters.cfg`; the persisted variable is `mmu_selector_bypass_offset`, not the wiki's `mmu_selector_bypass`; `BOOL_HAS_BYPASS` ("Associate bypass with this unit?") is a **UI-rendering choice** (inline vs. separate panel in Mainsail/Fluidd), not "does this unit have a bypass" — confirmed by walking the real Kconfig node tree, since the prompt turned out to live under **MMU Type → &lt;type&gt; → Design attributes**, not a general advanced-settings screen as first assumed (fixed after the first capture attempt failed). Reused the wiki's `mmu_unit_ercf_bypass.png`/`mmu_unit_ercf_no_bypass.png` (from `wiki/Change-Log/`, not this page's own folder) as a genuine before/after pair for that UI-rendering distinction — a new use of the reuse rule, since no prior Feature page needed a "same feature, two UI layouts" illustration. Real menuconfig screenshot (`feature-filament-bypass` session, boxturtle seed). |
+| `Feature-Gcode-Preprocessing.md` | — | `wiki/Gcode-Preprocessing.md` | **done** — code-verified against `mmu_server.py`'s real Moonraker metadata-processor mechanism. Corrected a real logic bug the wiki's own worked example relied on: `!referenced_tools!` substitutes literal `"0"` on a single-colour print, never an empty string, so the wiki's `{% elif REFERENCED_TOOLS == "" %}` branch is unreachable — fixed the worked example to rely only on the `INITIAL_TOOL` fallback instead of a dead branch. Also found: preprocessing only fires for `.gcode` uploads from one of four recognised slicers (PrusaSlicer/SuperSlicer/OrcaSlicer/BambuStudio); an already-processed file is skipped on re-upload (fingerprint-based); `!total_toolchanges!`'s "excluding the initial tool" claim isn't backed by the code, softened to a plain count; `gate_color_rbg` was a typo for `gate_color_rgb`; and the preprocessor also injects `_MMU_STEP_SET_ACTION STATE=12`/`RESTORE=1` around the slicer's own wipe-tower routine (so the live status correctly shows `Purging` there too) — not in the wiki at all. Deviated from the template: retitled "Hardware Setup" to "Moonraker Setup" (no physical hardware, same reasoning as `Feature-Spoolman.md`) and kept "Supported Placeholders" as its own section between Parameter Setup and Commands, since the placeholder table doesn't fit cleanly into either standard slot — flagged here rather than silently decided, same as the Spoolman precedent. No images existed on the wiki source. |
+| `Feature-Environment-Manager.md` | `Kconfig.environment_sensor`, `Kconfig.heater` | `wiki/Environment-Manager.md` | **done** — the wiki page's own scope is the heater/drying manager (the sensor is just its temperature/humidity input), so this page covers both Kconfigs rather than splitting sensor-only content out; confirmed both are sourced under the same **MMU Features / Additions** menu. Code-verified against `unit/mmu_environment_manager.py` and `commands/mmu_heater.py`. Corrected several stale wiki details: the real default humidity key is `heater_default_dry_humidity`, not `heater_default_humidity`; `heater_max_temp` ships as `65`, not the wiki's example `70`; spool rotation reuses the espooler's *rewind* burst power/duration directly (`espooler_rewind_burst_power`/`_duration`) rather than a separate "rotate" burst setting defaulted from "assist" as the wiki claimed; and `MMU_HEATER STOP=0` (the wiki's suggested way to turn a raw-set heater back off) is actually a no-op — `STOP=1` is required. Also fixed a related stale line on `Printer-Variables.md`: `drying_state`'s not-in-a-cycle value is `''` (blank), not the literal word `none`, and the real "cancelled" spelling is `canceled` (one L). Real menuconfig screenshots (`feature-environment-manager` session, boxturtle seed, toggled on via scene setup since neither feature is selected by default on that seed). |
+| `Feature-Tip-Forming-Purging.md` | `Kconfig.tip_shaping`, `Kconfig.purging` | `wiki/Tip-Forming-and-Purging.md` — **plus now also owns the EREC/servo-cutter and Blobifier addons** (`wiki/Addon-Feature-Setup.md`'s "EREC Filament Cutter" and "Blobifier" sections), found while scoping `Feature-Addon-Integrations.md`: both are now native `Kconfig.tip_shaping`/`Kconfig.purging`-driven features (`MMU_HAS_SERVO_CUTTER`, `MMU_HAS_BLOBIFIER`) with real generated `mmu.cfg` sections, not third-party `[include mmu/addons/...]` files any more — see `Feature-Addon-Integrations.md`'s row below | **done** — code-verified against the real `Kconfig.tip_shaping`/`Kconfig.purging` menus (confirmed the two-Kconfig merge is still right — both are unconditional and always sourced back-to-back, same shape as `Kconfig.sync_feedback_buffer`+`Kconfig.motor_sync`). Corrected: `form_tip_macro`/`purge_macro`/`force_form_tip_standalone`/`force_purge_standalone`/`extruder_form_tip_current`/`extruder_purge_current`/`slicer_tip_park_pos` all live in `mmu.cfg`'s `[mmu_parameters]` section — the wiki (and even several of Happy Hare's own shipped `.cfg`/macro-file comments) say `mmu_parameters.cfg`, which is wrong everywhere it appears, not just in the wiki. Added the EREC-style **Servo Cutter** as its own subsection (additive to tip forming, not a replacement — confirmed by `mmu.cfg`'s own comment that MMU-end cutting still needs `_MMU_FORM_TIP` set first) and a `MMU_TEST_PURGE` command mention (real, not in the wiki at all). Kept `toolhead_ooze_reduction.png` (an annotated diagram with the real param name already baked in) and all five other wiki images (third-party slicer UI screenshots and a plain photo — none had a staleness risk). Real menuconfig screenshots for the base Tip Forming/Cutting and Purging screens (`feature-tip-forming-purging` session, boxturtle seed, no scene setup needed — both menus are unconditional). |
+| `Feature-FlowGuard.md` | `Kconfig.flowguard` | new (no v3 equivalent) | **done**, written last per plan — scope defined entirely by what `Feature-Encoder.md` and `Feature-Sync-Feedback-Buffer.md` had already deferred (`flowguard_enabled`, `flowguard_max_relief`, `flowguard_encoder_mode`, `flowguard_encoder_max_motion`, `tangle_prevention_*`), not from a wiki source. Code-verified against `unit/mmu_sync_feedback.py` and `commands/mmu_flowguard.py`: confirmed a clog/tangle event from either detection source (buffer relief-movement or encoder motion) funnels into the exact same runout-handler used by real sensor-based runout — i.e. FlowGuard is purely the *detection* layer, and what happens next is entirely `Feature-Endless-Spool-Runout.md`'s existing pause-vs-EndlessSpool logic, not something to re-explain here. Found the same "shipped template overrides code fallback" pattern already seen elsewhere: `flowguard_max_relief` ships as `40` (confirmed via real menuconfig capture) even though the Python `ParamSpec` fallback is `8.0`. Real menuconfig screenshot (`feature-flowguard` session, boxturtle seed — already has a buffer, so the menu is visible with no scene setup; the encoder-mode section correctly doesn't appear since this seed has no encoder). |
+| `Feature-Addon-Integrations.md` | — | `wiki/Addon-Feature-Setup.md` — **scope narrowed**: of its 4 addons, EREC and Blobifier are now native features routed to `Feature-Tip-Forming-Purging.md` (see that row), and DC eSpooler is fully superseded by the already-written `Feature-Espooler.md` (confirmed via a real v3→v4 pin-rename migration snippet in `installer/upgrades.py`) — only **Eject Buttons** turns out to be genuinely unclaimed native content (`Kconfig.eject_buttons`, sourced under the same **MMU Features / Additions** menu as eSpooler/NFC; a per-gate `[gcode_button ...]` calling `MMU_EJECT` with its hidden `LGATE=`/`UNIT=` params), so this page becomes mostly redirects plus one real Feature-template section for Eject Buttons | **done** — confirmed none of the four addons' old `mmu/addons/*.cfg` files exist in v4 at all (exhaustive grep across `config/`/`installer/`/`extras/` came back empty). Real, easily-missed footgun found and carried onto the page as a warning: eject-button pin polarity depends on the button type — normally-closed wants a plain pull-up pin, normally-open (e.g. EMU's LED Button Board) needs an *inverted* pin, or Klipper can see the button as already pressed right after a restart and eject on its own; this is a real comment already in the shipped `mmu_hardware.cfg` template, not a new finding, but easy to miss since it's buried in a generated-file comment. Reused the wiki's `erec_logo.png`/`blobifier.png` (third-party product photos, no staleness risk) after downsizing/re-encoding to JPEG per the established photo-reuse convention (~4MB combined → ~80KB). Real menuconfig screenshot for eject buttons (`feature-addon-integrations` session, boxturtle seed, toggled on via scene setup). |
 
 ### 6. Slicer & Toolchange
 
@@ -358,8 +358,16 @@ anything. Don't silently decide something wasn't worth keeping.
 | Page | Source | Status |
 |---|---|---|
 | `Command-Reference.md` | `extras/mmu/**` (walks the whole tree, not just `commands/` — see `doc_tools/gen_command_reference.py`'s header) | **done, generated** — `make command_reference`. 88 commands. Reader-facing intro simplified 2026-08-06 to drop `HELP_BRIEF`/`extras/mmu/` citations per the no-developer-references rule |
+| `Parameters.md` | `config/base/mmu.cfg` + `config/base/mmu_parameters.cfg` (the real shipped templates), defaults/help text cross-checked against the driving `installer/Kconfig.*` files via `kconfiglib` directly (not the wiki, deliberately — see below) | **done** — renamed from the wiki's `Happy-Hare-Parameters.md`. Every `[[PARAM_X]]` token in both templates resolved to a real menuconfig default by generating a Box Turtle seed the same way `doc_tools/capture.py`'s `generate_seed()` does (a one-off script using the same `write_config`→fresh-`Kconfig`→`load_config` round-trip — setting a symbol's value directly without that round-trip left half the tree unresolved); a second pass against an ERCF seed filled in nothing further for the feature-gated settings (heater/NFC/FlowGuard/servo), since those toggle on a separate opt-in capability symbol, not the MMU type — those instead reuse the screenshot-verified values already established while writing `Feature-Environment-Manager.md`/`Feature-FlowGuard.md`/`Feature-NFC.md`. Organized in file order (shared `mmu.cfg` settings, then per-unit `mmu_parameters.cfg` settings), each subsection matching the templates' own banner grouping, with every setting that has a deeper home cross-linked to its Feature page rather than re-explained. Deliberately doesn't tabulate LED effect definitions or addon hardware blocks (servo pulse widths, stepper current) — both already fully covered on `Feature-LEDs.md`/`Feature-Tip-Forming-Purging.md`/`Feature-Addon-Integrations.md`. |
+| `Macro-Vars.md` | `config/base/mmu_macro_vars.cfg` (the real shipped template) + `installer/macro_vars/Kconfig.*` and `installer/Kconfig.fans` help text — not the wiki | **done** — same role for `mmu_macro_vars.cfg` that `Parameters.md` plays for `mmu.cfg`/`mmu_parameters.cfg`, closing the reminder left in "Open items for later" below. 181 `variable_*` tokens across 11 `[gcode_macro ..._VARS]` blocks. Defaults came from a purpose-built regex parser over the Kconfig source directly rather than `kconfiglib` — this content isn't MMU-type-seed-dependent (tip forming/purging/cutter/Blobifier are opt-in capability toggles, not selector-type-driven), so a literal `default N` read is both simpler and more reliable than reconstructing a seed for it; a handful of choice-gated string defaults (`VAR_BLOBIFIER_TYPE`, `VAR_SOFTWARE_AUTOMAP_STRATEGY`, `VAR_SEQUENCE_RESTORE_XY_POS`, `VAR_FAN_FORCED`, etc.) needed the companion `choice`/`BOOL_*` symbol's own default read directly from source to resolve, since the parser's automatic block-boundary detection didn't handle `choice`/`endchoice` blocks cleanly. Organized by macro block in the template's own order, with Blobifier's ~60 variables further broken into the sub-groups the template itself already uses (Hooks, Hardware, Tray Positions, Brush/Cleaning, Purge Length, Blob Tuning, Retraction, Fan Control, Bucket). One genuinely new finding: `_MMU_STATE_VARS`'s `servo_down_limit`/`cutter_blade_limit` aren't wired to any real counter in the current Python code — they're just suggested limit values a user's own extension macro would plug into a hand-built `MMU_STATS COUNTER=` setup, not an automatic built-in one; flagged as a note on `Feature-Statistics-Counters.md` rather than a contradiction of that page's "no built-in preset counters yet" framing, since it isn't one. Cross-linked from `Parameters.md`, `Custom-Load-Unload-Sequences.md`, `Feature-Gate-TTG-Maps.md`, `Feature-Tip-Forming-Purging.md`, `Feature-Addon-Integrations.md`, and `Feature-Statistics-Counters.md`. |
 | `Printer-Variables.md` | printer status surfaces (same as the console's `/vars`) | **done, hand-written but code-verified** (no generator yet). Retrofitted 2026-08-06: dropped the v3-vs-v4 diff and all `Mmu*`/file-path citations per the page-genre-wide rules above — the `servo`/`grip` gap found in the process moved to `Dev-Code-Layout.md`'s selector-hierarchy discussion rather than being lost |
 | `Mcu-Reference.md` | `wiki/Mcu-Reference.md` + `installer/boards/Kconfig.*` | ⚠️ verify board list current |
+
+### 10a. Advanced Customization (new section)
+
+| Page | Source | Status |
+|---|---|---|
+| `Custom-Load-Unload-Sequences.md` | `config/macros/mmu_sequence.cfg` + the real `_MMU_STEP_*` command implementations (`gcode_load_sequence`/`gcode_unload_sequence` override mechanism) | **done** — first page in a new top-level nav section, since this doesn't fit "Feature" (it's a customization mechanism, not a capability) or "Reference" (it's a how-to, not a flat lookup). Deliberately narrow scope: covers the state-machine + step-command override mechanism only, not the lighter `_MMU_SEQUENCE_VARS`/callback-macro layer in detail (mentioned and recommended as the first thing to try, but its many park-position/z-hop/retract-tuning variables are a large enough topic to deserve their own future page rather than a subsection here). All 11 `_MMU_STEP_*` commands are already in `Command-Reference.md` (it walks the whole `extras/mmu` tree) — this page links out to each rather than re-tabulating parameters, and instead does the reference's actual job: explaining the state machine, walking through what the two shipped default sequences actually do, and reproducing the two commented-out alternative examples at the end of the source file (toolhead-sensor homing, and `mmu_ext_touch` stallguard homing) that weren't visible anywhere else. Found one real, verifiable inconsistency while cross-checking the wiki against source: the shipped `_MMU_UNLOAD_SEQUENCE` passes `FULL=1` to `_MMU_STEP_UNLOAD_BOWDEN`, but that command's real parameter list is `LENGTH` only — no `FULL` — so the argument is silently ignored (harmless as shipped, since the step already runs at the calibrated length either way, but a genuine stale leftover in Happy Hare's own reference macro, not a wiki error this time). |
 
 ### 11. Troubleshooting & FAQ
 
@@ -454,7 +462,6 @@ anything. Don't silently decide something wasn't worth keeping.
   `printer.mmu.servo`/`.grip` from v3 don't exist in v4 despite the value being
   computed) is a real code question worth raising upstream, not just a doc
   footnote — flagged in both `Printer-Variables.md` and `Dev-Code-Layout.md`.
-
 ## Session log
 
 **2026-08-05.** In order, roughly:
@@ -1227,11 +1234,12 @@ anything. Don't silently decide something wasn't worth keeping.
           time each *page* landed, which is why Reference had two separate
           cards (`Command-Reference.md`, then `Printer-Variables.md`) while
           Concepts had none at all despite `Conceptual-MMU.md` existing for
-          days. v2 is one card per top-level *nav section* (5 total -
-          Getting Started, Concepts, Features, Reference, Developer Guide),
-          matching `mkdocs.yml`'s nav exactly - adding the tenth Feature
-          page won't need touching this again, only a genuinely new
-          top-level section will. See the updated §1 table entry above.
+          days. v2 is one card per top-level *nav section*, matching
+          `mkdocs.yml`'s nav exactly - adding the tenth Feature page won't
+          need touching this again, only a genuinely new top-level section
+          will (as happened later, when `Advanced Customization` landed -
+          see item 39 - bringing the count to 6). See the updated §1 table
+          entry above.
         - **Splash images**: three photos from the wiki's `resources/`
           (`universal_mmu_driver.png`, `my_klipperscreen.png`,
           `example_mmu_print.png`) - none are technical labeled diagrams, so
@@ -1257,20 +1265,369 @@ anything. Don't silently decide something wasn't worth keeping.
           Hare conceptually is - still accurate, still a good non-technical
           explainer, not something either source deprecated.
 
-**To pick this back up:** the §5 Feature-page template has now been proven
-out across six pages (eSpooler, Encoder, EndlessSpool & Runout Detection,
-Sync-Feedback Buffer, Spoolman, NFC) - copy any of their structure and
-section order for the remaining eight pages in the table above, and follow
-**Before finishing a Feature page** (proofread against the wiki source,
-report what didn't carry forward) before calling any of them done. Several
-remaining Feature pages share the same "combined v3 wiki page, split across
-several v4 pages" shape `Feature-Encoder.md`/`Feature-Endless-Spool-Runout.md`
-and `Feature-Spoolman.md`/`Feature-NFC.md` just went through - check the §5
-table's "Wiki source" column for other combined pages before assuming a 1:1
-mapping. §2's other two pages (`Understanding-Operation.md`,
-`Print-Job-State-Machine.md`) are still open too, and should lean on
-`Conceptual-MMU.md`'s terminology rather than re-defining it. The four
-`Configuring-mmu*.cfg.md` generators for §3 are also still open, following
-the exact `gen_command_reference.py` pattern already proven out. Whatever's
-next, run `./venv/bin/zensical build --clean` before calling it done, not a
-plain `zensical build` - see **Zensical rough edges**.
+35. **Fifth Feature page: `Feature-Environment-Manager.md`**, first of a
+    ten-page batch to finish out §5 in one continuous push. Before writing
+    any of the ten, did a routing pass to resolve overlaps up front rather
+    than discovering them mid-page (see the §5 table's updated Wiki-source
+    annotations for `Feature-Tip-Forming-Purging.md` and
+    `Feature-Addon-Integrations.md` above) - the most consequential finding
+    was that EREC and Blobifier (two of `Addon-Feature-Setup.md`'s four
+    addons) are now native `Kconfig.tip_shaping`/`Kconfig.purging` features
+    with real generated `mmu.cfg` sections, not third-party
+    `[include mmu/addons/...]` files, so they belong on
+    `Feature-Tip-Forming-Purging.md` instead - caught before either page was
+    drafted, avoiding a rewrite later. Research for the remaining nine pages
+    was dispatched to parallel background agents up front (each briefed to
+    read the wiki source, the real v4 Kconfig/code, and check for overlap
+    with already-written pages) so page-writing could proceed continuously
+    rather than serially blocking on one research pass at a time.
+
+    For Environment Manager itself: the wiki page's title undersells its own
+    scope - it's actually the heater/drying manager, with the environment
+    sensor as just its temperature/humidity input - so this page covers both
+    `Kconfig.environment_sensor` and `Kconfig.heater` rather than splitting
+    sensor-only content into its own page, confirmed by both being sourced
+    under the same **MMU Features / Additions** menu. Code-verified against
+    `unit/mmu_environment_manager.py` and `commands/mmu_heater.py`; found and
+    fixed: the real default-humidity key is `heater_default_dry_humidity`
+    (wiki: `heater_default_humidity`), `heater_max_temp` ships as `65` (wiki
+    example: `70`), spool rotation during drying reuses the espooler's
+    *rewind* burst power/duration directly rather than a separate "rotate"
+    burst setting defaulted from "assist" as the wiki claimed (no such
+    setting exists in code at all), and `MMU_HEATER STOP=0` - the wiki's own
+    suggested way to turn a raw-set heater back off - is actually a no-op;
+    `STOP=1` is required. While verifying `drying_state` against the real
+    `DRYING_STATE_*` constants, also fixed a stale line on
+    `Printer-Variables.md` itself: the not-in-a-cycle value is `''` (blank),
+    not the literal word `none`, and the real "cancelled" spelling in code is
+    `canceled` (one L) - a small drive-by fix on an already-"done" page,
+    directly motivated by writing this one. Added a new
+    `feature-environment-manager` `doc_tools/shots.py` session (boxturtle
+    seed, toggling both features on via scene setup since neither is
+    selected by default on that seed - same toggle-then-autofit pattern as
+    `_feature_nfc`) for two real menuconfig screenshots. Reciprocal link
+    added on `Feature-Espooler.md`'s "See also" (replacing its previous
+    forward-reference-by-name to the not-yet-written page) now that this
+    page exists to link to.
+
+36. **§5 Features section finished - all 16 pages now done**, closing out
+    the ten-page batch item 35 started. In write order after Environment
+    Manager: LEDs, Gate/TTG Maps, Statistics & Consumption Counters, State
+    Persistence, Filament Bypass, G-code Preprocessing, Tip Forming and
+    Purging, Addon Integrations, and FlowGuard (written last, by design -
+    its entire scope came from what `Feature-Encoder.md`/
+    `Feature-Sync-Feedback-Buffer.md` had already deferred, not a wiki
+    source). Research for all ten pages was front-loaded via parallel
+    background agents (one per page, each briefed to read the wiki source,
+    the real v4 Kconfig/code, and check for overlap with pages already
+    written) before any page was drafted, so writing could proceed
+    continuously rather than blocking on research page-by-page.
+
+    Real bugs/discrepancies found that are worth knowing about even outside
+    the specific page that caught them (full detail in each page's own §5
+    row above):
+    - **`MMU_REMAP_TTG` doesn't exist in v4** - the real command is
+      `MMU_TTG_MAP`; the old name only survives as descriptive text inside
+      that command's own help string.
+    - **A recurring file-vs-section-name trap**: several settings the wiki
+      (and in a few cases Happy Hare's own shipped `.cfg`/macro comments)
+      place in "`mmu_parameters.cfg`" actually live in the Klipper
+      `[mmu_parameters]` section, which is physically defined inside
+      `mmu.cfg` - the file literally named `mmu_parameters.cfg` generates a
+      per-unit `[mmu_unit_parameters ...]` section instead. Hit on the
+      Environment Manager, Statistics, State Persistence, Tip
+      Forming/Purging, and Filament Bypass pages independently - worth
+      double-checking on any future page citing that filename.
+    - **"Shipped template default overrides the Python code fallback"
+      pattern recurred twice more** (first seen on `desired_headroom`,
+      pre-dating this batch): `flowguard_max_relief` ships as `40` via
+      Kconfig even though the `ParamSpec` fallback is `8.0`, and
+      `heater_vent_macro` ships as `_MMU_VENT` even though the fallback is
+      `''`. Confirmed both via real menuconfig capture rather than trusting
+      either source alone - worth the same care on any still-open page
+      that quotes a "default."
+    - **`MMU_HEATER STOP=0` and `MMU_RESET` (no `CONFIRM=1`) are both
+      silent no-ops** - two more instances of "the wiki's suggested
+      recovery command doesn't actually do anything," caught by reading the
+      real command implementation rather than trusting its help text or an
+      older doc's phrasing.
+    - The `Feature-Addon-Integrations.md` scoping pass found that three of
+      the wiki's four addons (EREC, Blobifier, DC eSpooler) are now native
+      Kconfig features with zero trace of the old `mmu/addons/*.cfg`
+      file-copying approach left in v4 - caught *before* drafting either
+      affected page, avoiding a rewrite (see item 35's note on this).
+
+    Two small drive-by fixes to already-"done" pages, made while verifying
+    something on a new page and too small to leave stale once seen:
+    `Printer-Variables.md`'s `drying_state` row (was describing the
+    not-in-a-cycle value as the literal word `none`; it's `''`, and the
+    real "cancelled" spelling in code is `canceled`, one L) and `index.md`'s
+    "What it does" bullet list (`Tool-to-gate mapping`/`LED support` were
+    the only two bullets in that list with no link to their own Feature
+    page, now that both exist).
+
+    Every new page's real menuconfig screenshot came from a session in
+    `doc_tools/shots.py` following the established
+    boxturtle-seed-plus-toggle-if-needed pattern - two are worth flagging
+    for a future session touching Kconfig navigation again: (1) a Kconfig
+    symbol's *displayed* menu path isn't always the first one
+    `sym.nodes[0]` returns when multiple MMU types source the same file -
+    `Feature-Filament-Bypass.md`'s bypass prompt turned out to live under
+    **MMU Type → Box Turtle → Design attributes**, not a general
+    "advanced settings" screen, only found by walking every node and
+    filtering for the seed's actual selected type; (2) a Kconfig `choice`
+    radio button (like an MMU type) isn't something `mc.enter()` opens -
+    its own submenus render as nested items directly below it on the same
+    screen instead.
+
+    All ten pages cross-link heavily, including three-way loops (Gate/TTG
+    Maps ↔ Spoolman ↔ LEDs, Tip Forming/Purging ↔ Addon Integrations ↔
+    Espooler, FlowGuard ↔ Encoder ↔ Sync-Feedback Buffer) - every forward
+    reference to a page not yet written at the time was named in plain text
+    rather than linked (matching the established convention from item 24's
+    FlowGuard mentions), then converted to a real link once that page
+    landed later in the same batch; `./venv/bin/zensical build --clean`
+    confirmed zero dangling links/anchors across the finished set.
+
+37. **Post-hoc audit of the item 35/36 batch**: a broken-image check and a
+    section-by-section wiki-vs-new-page diff, run per-page across all nine
+    wiki-sourced pages in that batch (FlowGuard has no wiki source, so it's
+    excluded). Found and fixed:
+    - `Feature-LEDs.md` referenced `Feature-LEDs/led_connection.jpg`, which
+      was never actually copied out of `wiki/Led-Support/` - Zensical
+      validates page links/anchors but not `<img src>`, so the clean build
+      said nothing about it. Copied and downsized to match the other reused
+      wiki photos (1400px wide, `sips -s formatOptions 82`).
+    - `Feature-Gate-TTG-Maps.md` and `Feature-LEDs.md` each pointed at the
+      other for the wiki's `gate_color_rgb` → `SET_LED` custom-macro
+      example (driving your own separate LED strip, distinct from Happy
+      Hare's own managed `mmu_leds` effects) - neither page actually
+      contained it, a worked example lost to a cross-link loop. Restored it
+      on the Gate/TTG Maps page, next to the `gate_color_rgb` mention, and
+      updated the LEDs page's "See also" to point at the real example
+      instead of a vague forward-reference.
+    - `Feature-Statistics-Counters.md`'s sample `MMU_STATS` table used a
+      flat single-tier header (`unload | load | post_load | complete`).
+      The real formatter builds a *two-tier* header - phase groups
+      (`unloading`/`loading`/`complete`) over abbreviated sub-columns
+      (`-`/`-`/`post`/`swap`) - confirmed by reading
+      `_swap_statistics_to_string` in the real source. Fixed the sample
+      and added a line noting the layout is illustrative, not a literal
+      transcript, since the code also dynamically widens columns to fit
+      group-header text.
+
+    The diff pass surfaced a longer list of wiki content that didn't carry
+    forward - not wrong, just genuinely absent with nothing standing in for
+    it - left as-is for now rather than restored, since most of it is a
+    judgment call on relevance rather than a correction:
+    - **Environment Manager**: a second, purely illustrative `drying_data`
+      example distinct from the real default table; the full
+      `_MMU_VENT`/`_MMU_VENT_CLOSE` skeleton macro body (page now only
+      names the shipped file); the active-vs-queued-gate distinction in
+      per-gate `MMU_HEATER STOP=1 GATES=...` cancellation; the "nothing
+      running" `MMU_HEATER` idle-status example.
+    - **LEDs**: the wiki's "Summary of Default Effects" table's per-effect
+      duration/description text (e.g. "Shooting stars", "Slow Pulsing
+      Blue") and its separate "Filament Loaded → Dim Blue" state, collapsed
+      into two shorter tables; the note that LED segments can be wired in
+      parallel to drive two LEDs off one index; a trailing tip about
+      Mainsail/Fluidd's per-extruder filament-color swatches.
+    - **Gate/TTG Maps**: a material-naming convention note (no enforcement,
+      but recommended short all-caps names like `PLA`, `ABS+`, `TPU95`);
+      the full `printer.mmu.slicer_tool_map` YAML structure dump (now only
+      in `Printer-Variables.md`); the default `gate_*` parameter worked
+      example with real sample values (now names-only); the richer TTG
+      worked example with multiple tools sharing a gate and a swapped pair.
+    - **Statistics & Counters**: the `mmu_vars.cfg`/`[save_variables]`
+      storage explanation and its don't-hand-edit-this caution; a
+      forward-looking note about possible future preset counters;
+      `console_show_colored_text`/`console_show_filament_color` (judged as
+      general console settings, not stats-specific - not covered on this
+      page, and no pointer given to wherever they do belong).
+    - **State Persistence**: only stylistic loss - the specific first-person
+      anecdote behind the startup-status walkthrough's remapped tool.
+    - **Filament Bypass**: the caution about hand-editing `mmu_vars.cfg`
+      directly (restart required, don't corrupt it); the concrete
+      `MMU ENABLE=0` alternative-workflow command, now a vaguer paraphrase.
+    - **G-code Preprocessing**: `!referenced_tools!`'s specific
+      empty-string-is-ignored behavior; `!total_toolchanges!`'s countdown
+      behavior once passed at print start; the `filament_color`-effect LED
+      command shown alongside the manual `!colors!` example.
+    - **Tip Forming and Purging**: the advanced-purge-volumes pigment-
+      percentage slicer walkthrough; both worked-example numeric output
+      tables for `MMU_CALC_PURGE_VOLUMES`/`PURGE_MAP=1`; the tip-cutting
+      advantages/disadvantages list and the mechanical step-by-step cutting
+      routine description - all genuinely dropped, not just relocated.
+    - **Addon Integrations / Espooler**: only superseded legacy identifiers
+      (old macro hook names, old `mmu/addons/*.cfg` include paths, generic
+      "MMU: Any" compatibility lines) - correctly dropped, nothing of
+      substance lost.
+
+    None of the above was restored in this pass - they're recorded here so
+    a future session (or the reader) can pull any of them back in
+    deliberately, rather than have them silently vanish. **Update:** all of
+    it (bar the two items already marked as intentionally not lost) was
+    restored in a same-day follow-up - see item 38.
+
+38. **Restored every item item 37 flagged as dropped**, per explicit
+    instruction: bring it all back even where it hadn't been re-verified
+    against source, since having it in the doc (even if slightly off) makes
+    it easy to spot and fix later, whereas leaving it out means it just
+    stays lost. Only the two items item 37 already flagged as *correctly*
+    dropped were left alone - the State Persistence anecdote (stylistic,
+    not substantive) and the Addon Integrations/Espooler legacy identifiers
+    (genuinely superseded, not lost).
+
+    One real bug caught while restoring, not just a re-add: the wiki's own
+    `_MMU_VENT` skeleton macro has a bug - `{% for gate in range(gate) %}`
+    references a variable that doesn't exist in that scope. Fixed to
+    `{% for gate in gates %}` rather than reproducing the bug verbatim.
+
+    Everything else was ported over close to verbatim from the wiki,
+    adapted to each page's established voice/format but *not* independently
+    re-verified against v4 source the way the rest of the batch was - flagged
+    inline where that distinction matters (e.g. the swap-purge-volume
+    doubling in Tip Forming and Purging is explained with an inferred
+    rationale, not a confirmed one). Treat restored content as "the wiki
+    said this" rather than "this is confirmed for v4" until someone checks
+    it against the real source. `./venv/bin/zensical build --clean` stayed
+    clean after every page edited in this pass.
+
+39. **Two more §1-adjacent gaps closed on request: `Parameters.md` (§10) and
+    `Custom-Load-Unload-Sequences.md`, first page of a brand new
+    `Advanced Customization` top-level section.** Both explicitly sourced
+    from the real shipped config templates and Kconfig help text rather
+    than the wiki, which was named as too unreliable to trust here -
+    matching this whole project's standing bias but stated as an explicit
+    constraint this time.
+
+    `Parameters.md` (renamed from the wiki's `Happy-Hare-Parameters.md`)
+    walks every setting in `mmu.cfg`'s shared `[mmu_parameters]` section and
+    `mmu_parameters.cfg`'s per-unit section, in the templates' own order and
+    grouping. Getting real defaults for every `[[PARAM_X]]` token needed
+    more than reading the templates: a one-off script reused
+    `doc_tools/capture.py`'s `generate_seed()` pattern (select a symbol,
+    `write_config` to a temp file, then `load_config` it into a *fresh*
+    `Kconfig` instance) against a Box Turtle seed - setting the symbol
+    directly on one instance without that round-trip left roughly a third
+    of the tree unresolved, since Kconfig's dependency propagation needs
+    the full write/reload cycle. A second pass against an ERCF seed
+    confirmed the remaining blanks (heater, NFC, FlowGuard, servo settings)
+    aren't seed-dependent at all - they're gated behind a separate opt-in
+    capability toggle no MMU-type seed turns on by itself - so those instead
+    reuse the values already screenshot-verified while writing
+    `Feature-Environment-Manager.md`/`Feature-FlowGuard.md`/`Feature-NFC.md`
+    earlier in this project. Every setting with a deeper existing home is
+    linked to its Feature page rather than re-explained; LED effect
+    definitions and addon hardware blocks are deliberately left untabulated
+    since they're not really "parameters" in the tunable-setting sense and
+    are already fully covered elsewhere.
+
+    `Custom-Load-Unload-Sequences.md` covers the `gcode_load_sequence`/
+    `gcode_unload_sequence` override mechanism - replacing Happy Hare's
+    internal load/unload logic with user macros built from composable
+    `_MMU_STEP_*` commands. Recommends the lighter callback-macro layer
+    (`_MMU_PRE_LOAD`/`_MMU_POST_LOAD`/etc., and `_MMU_SEQUENCE_VARS`) first,
+    consistent with the source's own framing. Since all 11 step commands
+    are already individually documented in `Command-Reference.md` (which
+    walks the whole `extras/mmu` tree regardless of category), this page
+    doesn't re-tabulate their parameters - it explains the filament-position
+    state machine, walks through what the two shipped default sequences
+    actually do, and reproduces the two commented-out alternative examples
+    at the end of the source file that weren't visible anywhere else
+    (toolhead-sensor homing, and `mmu_ext_touch` stallguard homing). Found
+    one real, verifiable inconsistency while reading the source directly
+    rather than trusting a research agent's first pass (which had reported
+    it as a wiki error): the shipped `_MMU_UNLOAD_SEQUENCE` itself passes
+    `FULL=1` to `_MMU_STEP_UNLOAD_BOWDEN`, but that command's real parameter
+    list is `LENGTH` only - the argument is silently ignored. Harmless as
+    shipped, but a genuine stale leftover in Happy Hare's own reference
+    macro, not something the wiki got wrong on its own.
+
+    Since this added a genuinely new top-level nav section (not just a page
+    within an existing one), `index.md`'s card grid and "How this site is
+    organized" bullet list both got a new entry for it too, per the v2 card
+    grid rule from item 34 - bringing the count to 6. Also added a reminder
+    to **Open items for later** below: a `Macro-Vars.md` reference covering
+    every `variable_*` knob in `mmu_macro_vars.cfg` for every core macro is
+    still missing, same role for that file that `Parameters.md` now plays
+    for `mmu.cfg`/`mmu_parameters.cfg`.
+
+40. **Closed the reminder item 39 left behind: `Macro-Vars.md`.** Same
+    brief as `Parameters.md` - real shipped template plus real Kconfig help
+    text, not the wiki - but for `mmu_macro_vars.cfg` instead: 181
+    `variable_*` tokens across the file's 11 `[gcode_macro ..._VARS]`
+    blocks (print start/end, state-change hooks, sequence/parking, client
+    macros, toolhead cutter, tip forming, MMU-mounted servo cutter,
+    Blobifier, the reference purge macro, and fan control).
+
+    Getting defaults this time didn't reuse `Parameters.md`'s
+    `kconfiglib`-seed approach - deliberately. None of this content is
+    MMU-type-dependent (tip forming/cutting/purging/Blobifier are opt-in
+    capability toggles, not selector-type-driven), and the Kconfig source
+    for all of it turned out to be extremely regular: almost every symbol
+    is a plain `default N`/`default "string"` literal, with a small,
+    consistent pattern (`default "True" if BOOL_X` / `default "False"`)
+    for the handful that gate on a companion checkbox. A purpose-built
+    regex parser over the raw Kconfig text got everything in one pass,
+    faster and just as reliable as reconstructing a synthetic seed would
+    have been - though it needed a manual double-check for symbols
+    adjacent to a `choice`/`endchoice` block, since the parser's
+    block-boundary detection didn't treat those as stops and occasionally
+    attributed one symbol's help text or default to its neighbour
+    (`VAR_BLOBIFIER_TYPE`, `VAR_CUT_TIP_CUTTING_AXIS`/`CUT_STEPPER_CURRENT`,
+    `VAR_SOFTWARE_AUTOMAP_STRATEGY`, `VAR_SEQUENCE_RESTORE_XY_POS`,
+    `VAR_FAN_FORCED` - all confirmed by reading the raw source directly
+    rather than trusting the parser's first pass).
+
+    One real, verifiable finding along the way, not a wiki correction this
+    time but a gap in Happy Hare's own code: `_MMU_STATE_VARS`'s
+    `servo_down_limit`/`cutter_blade_limit` variables exist as named,
+    documented settings, but nothing in the current Python codebase reads
+    either one - confirmed with a repo-wide grep. They're pre-named
+    convenience values for a maintenance-warning counter a user would still
+    have to wire up themselves via `MMU_STATS COUNTER=...` in one of the
+    state-change extension hooks; there's no automatic built-in counter
+    behind them yet. Added a short clarifying note to
+    `Feature-Statistics-Counters.md` rather than treating this as
+    contradicting that page's existing "no built-in preset counters yet"
+    framing, since on inspection it doesn't - it's a sharper version of the
+    same fact.
+
+    Blobifier's ~60 variables (by far the largest single block) are
+    presented in the same sub-groups the template's own comments already
+    use (Hooks & Extensions, Hardware & General, Tray Positions, Brush/
+    Nozzle Cleaning, Purge Length Tuning, Blob Tuning, Retraction Tuning,
+    Fan Control, Bucket) rather than one long flat table - purely a
+    readability call, the template was already organized this way.
+
+    Cross-linked in both directions: `Parameters.md`, `Command-
+    Reference.md`, and `Custom-Load-Unload-Sequences.md` from the new
+    page's own "See also"; and, going the other way, added or upgraded
+    pointers on `Feature-Gate-TTG-Maps.md` (`automap_strategy`),
+    `Feature-Tip-Forming-Purging.md` (`_MMU_FORM_TIP_VARS`/
+    `_MMU_SERVO_CUTTER_VARS`), `Feature-Addon-Integrations.md`
+    (`_BLOBIFIER_VARS`), and `Custom-Load-Unload-Sequences.md`
+    (`_MMU_SEQUENCE_VARS` in full) so each already-written page's vague
+    "lives in `mmu_macro_vars.cfg`" mention now points at the exact section.
+    `index.md`'s Reference bullet was widened from "config parameter" to
+    "config and macro-tuning parameter" to cover it. No new nav section or
+    card needed - it slotted into the existing Reference section, third
+    entry after Command Reference and Parameters.
+
+**To pick this back up:** with §5 fully done, the next open sections are
+§1 (`Installation.md`, `MMU-Types-Overview.md`, `Upgrading-from-v3.md`),
+§2's other two pages (`Understanding-Operation.md`,
+`Print-Job-State-Machine.md` - lean on `Conceptual-MMU.md`'s terminology
+rather than re-defining it), §3's four `Configuring-mmu*.cfg.md` generators
+(follow the `gen_command_reference.py` pattern already proven out), §4
+Calibration, §6-§8 (Slicer & Toolchange, Operation, Tuning), §10's
+`Mcu-Reference.md`, §11 (Troubleshooting & FAQ), and §13 (Community &
+Support). None of these have been scoped yet the way the routing pass in
+item 35 scoped §5 up front - worth doing the same wiki-vs-code overlap check
+before drafting, especially for §2/§4/§6-8, which likely share content with
+the now-finished §5 pages (EndlessSpool groups, gate/TTG maps, and sync
+behaviour all come up naturally in an "Operation" or "Toolchange Movement"
+context). Whatever's next, run `./venv/bin/zensical build --clean` before
+calling it done, not a plain `zensical build` - see **Zensical rough
+edges**.

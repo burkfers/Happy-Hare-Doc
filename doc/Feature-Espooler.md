@@ -393,9 +393,9 @@ MMU_ESPOOLER
 ## See also
 
 - [Command Reference: `MMU_ESPOOLER`](Command-Reference.md#mmu_espooler)
-- [Command Reference: `MMU_HEATER`](Command-Reference.md#mmu_heater) - the
-  `ROTATE`/`ROTATE_INTERVAL` drying options reuse the espooler's rewind burst
-  mechanism
+- [Feature: Environment Manager](Feature-Environment-Manager.md) - its
+  `MMU_HEATER DRY=1 ROTATE=1` drying option reuses the espooler's rewind
+  burst mechanism
 - [Printer Variables: per-gate arrays](Printer-Variables.md#per-gate-arrays-merged-across-every-unit)
   for the `espooler` status field
 - [GettingStartedWithBoxTurtle.md](GettingStartedWithBoxTurtle.md) - enabling

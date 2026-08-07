@@ -38,7 +38,7 @@ sensor, which is where the "buffer" nickname comes from - but its job is
 sensing tension/compression, not catching loose filament. Happy Hare exposes
 this as `sync_feedback_state` (`compressed`/`expanded`/`neutral`/`disabled`)
 in [Printer Variables](Printer-Variables.md#printermmu) and reuses it to
-drive FlowGuard and tangle-prevention.
+drive [FlowGuard](Feature-FlowGuard.md) and tangle-prevention.
 
 **Combiner / splitter** - on gear-per-gate designs, the physical manifold
 that merges every gate's individual bowden into the one tube feeding the
@@ -233,15 +233,17 @@ post-gear sensors, encoders, active DC-rewinders and selector servos
 entirely - each is a maintenance/reliability cost that the rest of the design
 above doesn't need.
 
-Happy Hare already has FlowGuard and tangle-prevention built on top of
-sync-feedback, which covers a good part of what this wishlist wanted from an
-integrated sensor - the mechanical side (a hybrid Type-C build with a small
-selector and passive buffer) is still the part nobody's shipped yet. When
-someone does, Happy Hare is already ready to support it.
+Happy Hare already has [FlowGuard](Feature-FlowGuard.md) and
+tangle-prevention built on top of sync-feedback, which covers a good part of
+what this wishlist wanted from an integrated sensor - the mechanical side (a
+hybrid Type-C build with a small selector and passive buffer) is still the
+part nobody's shipped yet. When someone does, Happy Hare is already ready
+to support it.
 
 ## See also
 
 - [Feature: eSpooler](Feature-Espooler.md) - the active filament-buffer variant
+- [Feature: FlowGuard](Feature-FlowGuard.md)
 - [Printer Variables](Printer-Variables.md#printermmu) - `sync_feedback_state`,
   FlowGuard and tangle-prevention fields
 - [Printer Variables: `printer.mmu_machine`](Printer-Variables.md#printermmu_machine) -

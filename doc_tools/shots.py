@@ -240,6 +240,118 @@ def _feature_nfc(mc, shot):
     shot('shared-reader-config')                       # name/type/CS pin/SPI bus/speed - RC522 defaults
 
 
+def _feature_leds(mc, shot):
+    """
+    For doc/Feature-LEDs.md - the Led config screen and the Neopixel pin
+    prompt (a different menu entirely - Pins / TMC, not MMU Features /
+    Additions). Uses the boxturtle seed (default), which already has LEDs
+    enabled, so no scene setup is needed.
+    """
+    mc.enter('MMU Features / Additions')
+    mc.enter('Led config')
+    shot('led-config')                                # enable/animation, frame rate, chain count, color order, segments
+    mc.back()
+    mc.back()                                         # -> (Top)
+
+    mc.enter('Pins / TMC')
+    shot('neopixel-pin')                              # Misc pins section - just the Neopixel pin on this seed
+
+
+def _feature_gate_ttg_maps(mc, shot):
+    """
+    For doc/Feature-Gate-TTG-Maps.md - the automap strategy/reset-TTG screen.
+    Generic macro-variable settings, not MMU-type-specific, so the boxturtle
+    seed (default) needs no setup.
+    """
+    mc.enter('Macro Variables')
+    mc.enter('Print start/end (_MMU_SOFTWARE)')
+    mc.select('Automap strategy')
+    shot('automap-strategy')                          # strategy choice + reset-TTG-at-end-of-print checkbox
+
+
+def _feature_filament_bypass(mc, shot):
+    """
+    For doc/Feature-Filament-Bypass.md - the "Associate bypass with this
+    unit?" prompt. Lives under MMU Type -> <the selected type>'s own
+    "Design attributes" submenu, not a general advanced-settings screen -
+    confirmed by walking the real Kconfig node tree for BOOL_HAS_BYPASS
+    rather than guessing, since it's nested differently per MMU type
+    (Box Turtle's own path used here). Uses the boxturtle seed (default).
+    """
+    mc.enter('MMU Type')
+    # Box Turtle is a choice radio button, already selected by the seed - its
+    # own "Design attributes" submenu appears as a nested item directly below
+    # it on this same screen, not behind entering "Box Turtle" itself.
+    mc.enter('Design attributes')
+    mc.select('Associate bypass with this unit?')
+    shot('design-attributes-bypass')                  # off by default on box turtle
+
+
+def _feature_tip_forming_purging(mc, shot):
+    """
+    For doc/Feature-Tip-Forming-Purging.md - the base Tip Forming / Cutting
+    and Purging screens. Both are unconditional menus (every MMU type gets
+    them), so the boxturtle seed (default) needs no setup for the base
+    view - servo cutter/Blobifier stay off, showing the plain form_tip/purge
+    defaults.
+    """
+    mc.enter('Tip Forming / Cutting')
+    shot('tip-forming-cutting')                       # servo cutter off, form_tip selected, force-standalone on
+    mc.back()                                         # -> (Top)
+
+    mc.enter('Purging')
+    shot('purging')                                   # Blobifier off, simple bucket purge selected
+
+
+def _feature_addon_integrations(mc, shot):
+    """
+    For doc/Feature-Addon-Integrations.md - the eject buttons screen, the one
+    part of this page that's genuinely native content rather than a redirect.
+    Off by default on every MMU type including boxturtle, so toggled on here
+    (same pattern as _feature_nfc/_feature_environment_manager).
+    """
+    mc.enter('MMU Features / Additions')
+    mc.select('Has eject buttons?')
+    mc.toggle()
+    mc.autofit()                                      # "Mmu eject buttons" submenu just appeared
+    mc.enter('Mmu eject buttons')
+    shot('eject-buttons')                              # one pin prompt per gate, all blank by default
+
+
+def _feature_flowguard(mc, shot):
+    """
+    For doc/Feature-FlowGuard.md - the FlowGuard config screen. Uses the
+    boxturtle seed (default), which already has a sync-feedback buffer
+    fitted (same as _feature_sync_feedback_buffer), so this menu - gated on
+    a buffer OR an encoder - is already visible with no scene setup.
+    """
+    mc.enter('Other Settings')
+    mc.enter('FlowGuard')
+    shot('flowguard-config')                          # relief threshold, tangle prevention, encoder mode
+
+
+def _feature_environment_manager(mc, shot):
+    """
+    For doc/Feature-Environment-Manager.md - the environment-sensor and heater
+    config screens. Both are off by default on every MMU type including
+    boxturtle, so this scene toggles them on itself (same pattern as
+    _feature_nfc) rather than needing a different seed.
+    """
+    mc.enter('MMU Features / Additions')
+    mc.select('Has environment sensor(s)?')
+    mc.toggle()
+    mc.autofit()                                      # "Environment sensor config" submenu just appeared
+    mc.enter('Environment sensor config')
+    shot('environment-sensor-config')                 # i2c bus type/sensor type/address, single-sensor mode
+    mc.back()                                         # -> MMU Features / Additions
+
+    mc.select('Has enclosure heater(s)?')
+    mc.toggle()
+    mc.autofit()                                      # "Heater config" submenu just appeared
+    mc.enter('Heater config')
+    shot('heater-config')                             # per-gate toggle, heater name, drying temp/time/humidity defaults
+
+
 def _feature_endless_spool_runout(mc, shot):
     """
     For doc/Feature-Endless-Spool-Runout.md - the EndlessSpool section of Software
@@ -276,6 +388,48 @@ SESSIONS = [
         'caption': 'doc/Feature-Sync-Feedback-Buffer.md - buffer hardware and motor-sync screens',
         'scenes': _feature_sync_feedback_buffer,
         'outdir': 'Feature-Sync-Feedback-Buffer',
+    },
+    {
+        'name': 'feature-leds',
+        'caption': 'doc/Feature-LEDs.md - Led config and Neopixel pin screens',
+        'scenes': _feature_leds,
+        'outdir': 'Feature-LEDs',
+    },
+    {
+        'name': 'feature-gate-ttg-maps',
+        'caption': 'doc/Feature-Gate-TTG-Maps.md - automap strategy / reset-TTG screen',
+        'scenes': _feature_gate_ttg_maps,
+        'outdir': 'Feature-Gate-TTG-Maps',
+    },
+    {
+        'name': 'feature-filament-bypass',
+        'caption': "doc/Feature-Filament-Bypass.md - the bypass design-attribute screen",
+        'scenes': _feature_filament_bypass,
+        'outdir': 'Feature-Filament-Bypass',
+    },
+    {
+        'name': 'feature-tip-forming-purging',
+        'caption': 'doc/Feature-Tip-Forming-Purging.md - Tip Forming/Cutting and Purging screens',
+        'scenes': _feature_tip_forming_purging,
+        'outdir': 'Feature-Tip-Forming-Purging',
+    },
+    {
+        'name': 'feature-addon-integrations',
+        'caption': 'doc/Feature-Addon-Integrations.md - eject buttons config screen',
+        'scenes': _feature_addon_integrations,
+        'outdir': 'Feature-Addon-Integrations',
+    },
+    {
+        'name': 'feature-flowguard',
+        'caption': 'doc/Feature-FlowGuard.md - FlowGuard config screen',
+        'scenes': _feature_flowguard,
+        'outdir': 'Feature-FlowGuard',
+    },
+    {
+        'name': 'feature-environment-manager',
+        'caption': 'doc/Feature-Environment-Manager.md - environment sensor and heater config screens',
+        'scenes': _feature_environment_manager,
+        'outdir': 'Feature-Environment-Manager',
     },
     {
         'name': 'feature-nfc',

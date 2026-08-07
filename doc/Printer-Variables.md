@@ -156,7 +156,7 @@ at runtime).
 | Variable | Type | Meaning |
 |---|---|---|
 | `espooler` | list[string] | Per gate: `''` \| `off` \| `rewind` \| `assist` \| `print` - gates on a unit with no espooler report `''` |
-| `drying_state` | list[string] | Per gate drying state; gates on a unit with no dryer/heater report `none` |
+| `drying_state` | list[string] | Per gate: `''` \| `queued` \| `active` \| `complete` \| `canceled` - gates not currently part of a drying cycle report `''` |
 
 ### NFC
 

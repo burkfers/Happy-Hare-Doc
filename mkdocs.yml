@@ -108,8 +108,22 @@ nav:
       - Sync-Feedback Buffer: Feature-Sync-Feedback-Buffer.md
       - Spoolman Integration: Feature-Spoolman.md
       - NFC/RFID Reading: Feature-NFC.md
+      - Environment Manager: Feature-Environment-Manager.md
+      - LEDs: Feature-LEDs.md
+      - Gate/TTG Maps: Feature-Gate-TTG-Maps.md
+      - Statistics & Consumption Counters: Feature-Statistics-Counters.md
+      - State Persistence: Feature-State-Persistence.md
+      - Filament Bypass: Feature-Filament-Bypass.md
+      - G-code Preprocessing: Feature-Gcode-Preprocessing.md
+      - Tip Forming and Purging: Feature-Tip-Forming-Purging.md
+      - Addon Integrations: Feature-Addon-Integrations.md
+      - FlowGuard: Feature-FlowGuard.md
+  - Advanced Customization:
+      - Custom Load/Unload Sequences: Custom-Load-Unload-Sequences.md
   - Reference:
       - Command Reference: Command-Reference.md
+      - Parameters: Parameters.md
+      - Macro Variables: Macro-Vars.md
       - Printer Variables: Printer-Variables.md
   - Developer Guide:
       - Code Layout: Dev-Code-Layout.md

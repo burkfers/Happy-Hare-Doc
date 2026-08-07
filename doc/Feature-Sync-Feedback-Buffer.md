@@ -47,11 +47,11 @@ it doesn't need to hunt for a switch trip point at all.
 
 A sync-feedback sensor isn't only useful for AutoTune - a compression switch
 or a proportional sensor's threshold can also stand in as the extruder
-homing endstop, and either sensor type feeds FlowGuard's clog/tangle
-detection and its tangle-prevention current boost. Those two capabilities
-are covered on their own, since they're shared with other detection sources
-and have a fair amount of tuning of their own; this page covers the sensor
-itself, synchronizing gear to extruder, and AutoTune.
+homing endstop, and either sensor type feeds [FlowGuard's](Feature-FlowGuard.md)
+clog/tangle detection and its tangle-prevention current boost. Those two
+capabilities are covered on their own, since they're shared with other
+detection sources and have a fair amount of tuning of their own; this page
+covers the sensor itself, synchronizing gear to extruder, and AutoTune.
 
 ## Hardware Setup
 
@@ -253,6 +253,7 @@ for a quick glance without opening the meter:
 - [Command Reference: `MMU_CALIBRATE_PSENSOR`](Command-Reference.md#mmu_calibrate_psensor)
 - [Command Reference: `MMU_SENSORS`](Command-Reference.md#mmu_sensors)
 - [Printer Variables: sync feedback, FlowGuard and tangle prevention](Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
+- [Feature: FlowGuard](Feature-FlowGuard.md) - the clog/tangle detection and tangle-prevention current boost this sensor feeds
 
 ---
 
