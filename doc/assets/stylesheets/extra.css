@@ -162,8 +162,8 @@ body {
  */
 .hh-page-nav {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+  justify-content: center;
+  gap: 3rem;
   padding: 0.4rem 0.75rem;
 }
 .hh-page-nav__link {
@@ -179,7 +179,6 @@ body {
 .hh-page-nav__link--next {
   align-items: flex-end;
   text-align: right;
-  margin-left: auto;
 }
 .hh-page-nav__label {
   font-size: 0.65rem;

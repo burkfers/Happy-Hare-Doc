@@ -1731,6 +1731,18 @@ anything. Don't silently decide something wasn't worth keeping.
       pre-existing, identical behavior on the untouched
       `.md-footer-meta__inner.md-grid` row too (not a regression introduced
       here) before treating it as a non-issue.
+    - **Second follow-up, same session: centre the Previous/Next pair as a
+      group instead of pinning them to the two edges of the grid.** Changed
+      `.hh-page-nav` from `justify-content: space-between` to `justify-
+      content: center` with a `3rem` gap between the two links, and dropped
+      `margin-left: auto` from `.hh-page-nav__link--next` - that auto margin
+      was specifically what shoved "Next" out to the far right under
+      `space-between`, and left in place it would have overridden `center`
+      too (flexbox resolves auto margins before `justify-content`).
+      Confirmed via `getBoundingClientRect()`: the pair's own midpoint
+      (`(prevRect.left + nextRect.right) / 2`) lands exactly on
+      `window.innerWidth / 2`, with Previous entirely left of that point and
+      Next entirely right of it.
 
 **To pick this back up:** with §5 fully done, the next open sections are
 §1 (`Installation.md`, `MMU-Types-Overview.md`, `Upgrading-from-v3.md`),
