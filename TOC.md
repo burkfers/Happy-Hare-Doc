@@ -1810,6 +1810,54 @@ anything. Don't silently decide something wasn't worth keeping.
     "NEXT ›" caps line) went `0.65rem` -> `0.55rem` and `.hh-page-nav__title`
     (the actual page name) went `0.95rem` -> `0.75rem`.
 
+44. **Prev/Next now align with the actual content column's left/right
+    edges, not just centred in the full-width footer row - the art from
+    item 43 stays centred between them.** `.hh-page-nav` switched from flex
+    to `display:grid; grid-template-columns: 1fr auto 1fr` (Previous in
+    column 1, art in the auto-sized middle column, Next in column 3) so the
+    art always sits exactly centred regardless of either link's title
+    length, while the two outer columns split whatever space padding leaves
+    evenly.
+    - The actual left/right alignment isn't CSS at all: the content column
+      sits inset from this full-width row by however wide the sidebar(s)
+      beside the article happen to be (`.md-sidebar` is a fixed `12.1rem` in
+      Material's compiled CSS, confirmed by reading it directly - but
+      that's fragile to hard-code here, since it's Zensical/Material's
+      value to change, not this repo's, and it varies further with which
+      sidebar(s) are actually present: no secondary/TOC sidebar on a page
+      with no headings, primary sidebar gone below the mobile breakpoint).
+      Dropped the `md-grid` class this row had (item 41/42) - centering to
+      the site's general chrome width was never actually the same as
+      lining up with the content column, it just wasn't wrong enough to
+      notice until asked to align precisely. Added
+      `syncPageNavToContent()` to `hh-page-nav.js` instead: measures
+      `article.md-content__inner`'s real rendered
+      `getBoundingClientRect()` against the nav row's own, and sets the
+      exact inline `padding-left`/`padding-right` needed to match - correct
+      for any sidebar configuration because it reads the real result rather
+      than assuming a layout.
+    - Runs once after building the nav inside the existing
+      `document$.subscribe` (same place the nav itself is built), **and**
+      on a `window.addEventListener("resize", ...)` registered once at
+      top-level, outside that subscribe - a viewport resize that crosses
+      Material's mobile breakpoint (hiding/showing the primary sidebar)
+      moves the content column without `document$` firing again, since
+      that's not a navigation.
+    - Verified via real `getBoundingClientRect()` reads in a live preview,
+      both at initial load and after a real `resize` event: Previous's left
+      edge and Next's right edge land exactly on the article's own left/
+      right edges at two different viewport widths (1280px and 1600px),
+      confirming the alignment recalculates rather than being a one-time
+      coincidence at whatever width it was first measured.
+    - One test-harness gotcha, not a real bug: the Browser pane's
+      `resize_window` tool changes the CDP viewport but does **not** itself
+      dispatch a `resize` DOM event (confirmed by comparing before/after a
+      manual `window.dispatchEvent(new Event('resize'))`) - real browsers
+      do fire one on an actual window resize (including mobile orientation
+      change), so this only affects testing this in the harness, not real
+      users. Don't mistake stale padding after `resize_window` alone for
+      the sync logic being broken.
+
 **To pick this back up:** with §5 fully done, the next open sections are
 §1 (`Installation.md`, `MMU-Types-Overview.md`, `Upgrading-from-v3.md`),
 §2's other two pages (`Understanding-Operation.md`,

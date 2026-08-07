@@ -168,22 +168,38 @@ body {
  *     an explicit colour at all;
  *   - zero gap before the footer proper: both are plain block children of
  *     the same <footer>, so there's no margin between them to remove.
- * .md-grid (already defined site-wide, extra.css `.md-grid{max-width:75rem}`
- * above) caps and centres the actual link row to the same width as the
- * header/footer-meta content, same trick .md-footer-meta__inner uses for
- * copyright+social - added as a second class in the JS rather than
- * duplicated here.
+ * Previous/Next aren't just centred in this full-width row - they're meant
+ * to line up with the actual content column's left/right edges, which sit
+ * inset from this row by however wide the sidebar(s) beside the article
+ * happen to be. That inset varies (a page with no headings has no
+ * secondary/TOC sidebar; the primary one disappears below Material's
+ * mobile breakpoint) in a way this stylesheet has no reliable way to
+ * compute on its own, so the real alignment is inline `padding-left`/
+ * `padding-right` set by `syncPageNavToContent()` in hh-page-nav.js, which
+ * measures the actual rendered content column and matches it exactly. The
+ * padding below is only the pre-JS fallback/base case.
+ */
+/*
+ * Grid, not flex: once that inline padding narrows the row to the content
+ * column's own width, Previous still needs to pin to ITS left edge, Next to
+ * its right edge, with the "Happy Hare Ready" art truly centred between
+ * them - `1fr auto 1fr` gives the art column exactly its own content width
+ * and splits everything else evenly either side of it, so the two outer
+ * columns stay equal (and the art centred) no matter how long either
+ * link's title text is. justify-items' default (stretch) then makes each
+ * link fill its own column, so its content sits flush against that
+ * column's outer edge rather than floating in the middle of it.
  */
 .hh-page-nav {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
   gap: 1.5rem;
   padding: 0.4rem 0.75rem;
 }
 .hh-page-nav__link {
   display: flex;
   flex-direction: column;
-  max-width: 48%;
   text-decoration: none;
   color: var(--md-footer-fg-color);
 }
