@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="doc/assets/images/doc_logo2.png" alt="Happy Hare Documentation" width="50%">
+</p>
+
 # Happy Hare Documentation
 
 The documentation site for [Happy Hare](https://github.com/moggieuk/Happy-Hare),
