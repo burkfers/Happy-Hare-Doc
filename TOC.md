@@ -126,30 +126,19 @@ repo root (not under `doc/`) specifically so it's never a candidate for publishi
   speeds; sync feedback is the tension/compression buffer feeding FlowGuard
   and tangle prevention. Espooler is mutually exclusive with the *catchment*
   buffer specifically, not sync feedback.
-- **Every page ends with the ASCII-art footer + copyright line**, matching
-  the wiki's own tradition (added 2026-08-06, retrofitted to every existing
-  page including `Command-Reference.md`'s generator). Raw HTML, not a
-  ` ```text ` fenced block — a fenced block goes through `codehilite` and
-  picks up its box/background styling (see the code-block CSS entry above),
-  which reads as "a code sample to copy," the wrong register for this. Bare
-  `<pre>`/`<p>` with dedicated classes get the same monospace rendering
-  without that box, and let the copyright line go genuinely small
-  (`.hh-footer-copyright`, `font-size: 0.6rem` — reads as fine print, not a
-  second line of body text):
-  ```html
-  ---
-
-  <pre class="hh-footer-art">
-    (\_/)
-    ( *,*)
-    (")_(") Happy Hare Ready
-  </pre>
-  <p class="hh-footer-copyright">Copyright (C) 2022-2026 Paul Morgan</p>
-  ```
-  Both classes are defined once in `doc/assets/stylesheets/extra.css`. For a
-  generated page, put this in the generator (see
-  `doc_tools/gen_command_reference.py`'s `render_page()`), not by hand-editing
-  the output — it would be lost on the next regeneration otherwise.
+- **The ASCII-art logo and copyright line live in the real theme footer bar,
+  not the article body** (moved there 2026-08-07, see item 41 for the full
+  history — originally an in-article `.hh-footer` block per page, added
+  2026-08-06). The copyright line is now just `copyright:` in `mkdocs.yml`
+  (Zensical's own `partials/copyright.html` renders it directly above "Made
+  with Zensical", same font, for free); the ASCII art is injected by
+  `hh-page-nav.js` into `.md-footer-meta__inner` between `.md-copyright` and
+  `.md-social`, since that bar's markup comes from Zensical's vendored
+  templates and can't be edited directly (no `overrides/` dir in this repo).
+  Every page's trailing markdown is now just `---` (still renders the `<hr>`
+  the Previous/Next band sits under) with nothing after it — no more
+  hand-written or generated footer block to keep in sync across `doc/*.md`
+  and `doc_tools/gen_command_reference.py`'s `render_page()`.
 - **H2 sections get a tri-colour marker + underline site-wide**, via
   `doc/assets/stylesheets/extra.css` (`.md-typeset h2::before` + border) —
   the CSS-template equivalent of the wiki's per-heading
@@ -1614,6 +1603,134 @@ anything. Don't silently decide something wasn't worth keeping.
     "config and macro-tuning parameter" to cover it. No new nav section or
     card needed - it slotted into the existing Reference section, third
     entry after Command Reference and Parameters.
+
+41. **Footer redesign, 2026-08-07: moved the ASCII art + copyright out of
+    the article body and into the real theme footer bar; gave the
+    Previous/Next band a grey background.** Four requests:
+    - **Previous/Next band gets a mid-grey background, minimal vertical
+      padding.** `.hh-page-nav` (`extra.css`) now sets
+      `background-color: #808080` and `padding: 0.25rem 0.75rem` (was
+      `padding-top: 0.5rem` and no background) — the old top padding was
+      exactly the "extra vertical space" being asked to go.
+    - **Copyright line moved into the theme's own footer, directly above
+      "Made with Zensical", same font.** Turned out to need zero custom
+      markup: Zensical's vendored `partials/copyright.html` already renders
+      `config.copyright` (if set) as a `.md-copyright__highlight` div
+      immediately above the "Made with Zensical" line, inside the same
+      `.md-copyright` container — same `.64rem` font-size, just the
+      highlight colour variant. Setting `copyright: Copyright (C) 2022-2026
+      Paul Morgan` in `mkdocs.yml` (previously unset) was the entire change
+      for this half.
+    - **ASCII art moved into the same footer bar, right of the
+      copyright/"made with" column.** No template override directory exists
+      in this repo (no `overrides/`, no `theme.custom_dir`), and
+      `partials/footer.html`/`copyright.html` are vendored/generated files
+      under `venv/` marked "do not edit" — so, consistent with how
+      `hh-page-nav.js` already builds the Previous/Next nav client-side
+      (Zensical renders neither), a second `document$.subscribe(...)` block
+      was added to the same file that injects a `<pre class="hh-footer-art">`
+      into `.md-footer-meta__inner`, between `.md-copyright` and
+      `.md-social`. That container is `display:flex;
+      justify-content:space-between` with exactly those two children
+      already — a third child lands centred between them, matching the
+      requested "copyright/made-with | logo | social icons" layout with no
+      extra flex/positioning rules needed. `.hh-footer-art`'s colour switched
+      from `--md-default-fg-color--light` (page background) to
+      `--md-footer-fg-color--lighter` (the dark footer bar's own muted text
+      colour, same one "Made with Zensical" uses).
+    - **The old in-article `.hh-footer` block is gone from every page.**
+      Removed the identical `<div class="hh-footer">...</div>` fragment from
+      all 32 `doc/*.md` files that had it via a scripted regex substitution
+      (byte-identical block in each, confirmed before running) rather than
+      32 manual edits, and from `doc_tools/gen_command_reference.py`'s
+      `render_page()`. Left the trailing `---` in place in every file — it's
+      still doing a job (the `<hr>` the Previous/Next band sits under), just
+      no longer introducing the removed div. The `.hh-footer`/
+      `.hh-footer-copyright` CSS rules were deleted outright (nothing left
+      to style); `.hh-footer-art` was kept and re-pointed at its new home.
+    - **Fixed a break this caused in `hh-page-nav.js`'s Previous/Next
+      insertion anchor.** It used to find `.hh-footer` and insert the nav
+      immediately before it — with that div gone from every page, the
+      anchor query returned nothing and the nav silently stopped rendering
+      anywhere. Changed to anchor on `article.md-content__inner` (Zensical's
+      actual content-column element) and `appendChild` the nav there
+      instead, so it's simply the last thing in the column, right after the
+      `---`'s own `<hr>` — no per-page anchor element needed at all now.
+    - Verified end-to-end with a real `zensical build` + a static preview
+      server, checked in-browser (not just by reading generated HTML): grey
+      band and minimal padding confirmed via computed styles
+      (`background-color: rgb(128, 128, 128)`, `padding: 5px 15px`); footer
+      bar DOM confirmed the exact requested order
+      (`.md-copyright` → `.hh-footer-art` → `.md-social`); screenshots taken
+      at desktop width in both light and dark palette to confirm legibility
+      of the new footer text/art colours against the dark footer background
+      in both. At narrower viewports `.md-copyright{width:100%}` (Material's
+      own responsive rule) wraps copyright onto its own row above the
+      art/social row instead of a single side-by-side line — not fixed, and
+      not asked for; flagged here in case it comes up again.
+    - Did **not** regenerate `Command-Reference.md` via
+      `doc_tools/gen_command_reference.py` (needs `HAPPY_HARE_SRC` pointing
+      at a real Happy-Hare checkout, normally fetched by `make
+      command_reference`) — its footer block was stripped by the same
+      regex pass as every hand-written page instead, which produces an
+      identical result to what the updated generator would now emit. Worth
+      running the real generator next time `make command_reference` runs
+      anyway, just to confirm byte-for-byte parity.
+    - **Follow-up the same session: the grey band still read as a separate
+      floating element** — too light, a visible gap above `.md-footer`, and
+      only as wide as the article column. Root cause was the placement, not
+      the styling: `.hh-page-nav` was still being inserted into
+      `article.md-content__inner`, a completely different box from
+      `<footer class="md-footer">` a few pixels below it. Fixed by moving it
+      one more time — `hh-page-nav.js` now prepends the nav as the *first
+      child of `footer.md-footer` itself*, directly above `.md-footer-meta`
+      (both are now plain sibling blocks inside the same `<footer>`, so
+      there's no margin between them to remove and nothing to attach). Three
+      things fell out of that placement for free, no extra CSS needed:
+      - **Full page width**: `<footer>` isn't inside any max-width wrapper,
+        so its background already spans edge to edge.
+      - **"Darker, but slightly lighter than the very bottom footer"**:
+        `.md-footer` itself sets `background-color:
+        var(--md-footer-bg-color)` (`#000000de`); `.md-footer-meta` stacks
+        `--md-footer-bg-color--dark` (`#00000052`) *on top* of that same
+        base. Giving `.hh-page-nav` no background of its own means it just
+        shows the plain `--md-footer-bg-color` layer while the meta bar
+        below it shows both layers composited — darker, automatically, with
+        zero explicit color chosen. (Also dropped the `color:
+        var(--md-default-fg-color)`/`--light` on the link title/label,
+        which assumed the old plain-page background — switched to
+        `--md-footer-fg-color`/`--light`, the same white-on-dark variables
+        `.md-footer__title`/`.md-footer__direction` use, since white text
+        that used to work fine on the light page background would have been
+        invisible on the new dark footer background otherwise.)
+      - **Zero gap to the footer below**: they're adjacent children of the
+        same element now, not two elements with independent margins that
+        had to be reconciled.
+      - **Centred under the main content**: gave the injected `<nav>` a
+        second class, `md-grid` (already defined site-wide via `extra.css`'s
+        `.md-grid{max-width:75rem}`), the same pairing
+        `.md-footer-meta__inner` already uses for the copyright+social row —
+        so the Previous/Next links cap at the same width and centre the same
+        way as every other piece of footer/header chrome, rather than
+        introducing a second, different "centered" convention.
+      Re-verified via `getBoundingClientRect()`/`getComputedStyle()` in a
+      real preview (not just re-reading generated HTML): nav confirmed as
+      `footer.firstElementChild`, `nav.bottom === meta.top` (zero gap),
+      `background-color: rgba(0,0,0,0)` on the nav itself (fully
+      transparent, i.e. genuinely inheriting the footer's own color rather
+      than coincidentally matching it) against `rgba(0,0,0,0.87)` on
+      `.md-footer` and a further `rgba(0,0,0,0.32)` on `.md-footer-meta`.
+      Confirmed the same fix holds for the first page in the nav order
+      (`GettingStartedWithBoxTurtle.md` — empty `<span>` placeholder where
+      "Previous" would go, real "Next" link, still footer's first child).
+      One caveat noted, not fixed: at the 1280px-wide viewport used for
+      testing, Material bumps root font-size to `20px` in a responsive
+      breakpoint, which pushes `.md-grid`'s `75rem` cap to `1500px` — wider
+      than the test viewport, so the "centered, capped" behavior only
+      visibly kicks in above roughly that width. Confirmed this is
+      pre-existing, identical behavior on the untouched
+      `.md-footer-meta__inner.md-grid` row too (not a regression introduced
+      here) before treating it as a non-issue.
 
 **To pick this back up:** with §5 fully done, the next open sections are
 §1 (`Installation.md`, `MMU-Types-Overview.md`, `Upgrading-from-v3.md`),

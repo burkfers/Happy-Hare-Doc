@@ -109,33 +109,25 @@ body {
  * 0.7rem this had before.
  */
 /*
- * .hh-footer lays the art and the copyright line out side by side rather
- * than stacked (the markdown source still has them as two plain sibling
- * elements) - a flex row, bottom-aligned so the copyright's baseline sits
- * level with the *last line* of the ASCII art rather than its vertical
- * centre, and pushed to the far right with margin-left:auto since it's the
- * only other item in the row.
+ * "Happy Hare Ready" ASCII art now lives in the real theme footer bar
+ * (.md-footer-meta__inner), not the article body - injected by
+ * hh-page-nav.js between .md-copyright and .md-social, since that bar's own
+ * markup comes from Zensical's vendored templates and can't be edited
+ * directly (no overrides/ dir in this repo). Colour follows the footer's own
+ * --md-footer-fg-color--lighter variable (same one "Made with Zensical"
+ * uses) so it reads as part of that dark bar rather than the page background
+ * it used to sit on.
  */
-.hh-footer {
-  display: flex;
-  align-items: flex-end;
-  margin: 0.4rem 0 0;
-}
 .hh-footer-art {
   font-family: var(--md-code-font-family, SFMono-Regular, Consolas, monospace);
   white-space: pre;
   background: none;
   border: none;
   padding: 0;
-  margin: 0;
+  margin: auto 0.6rem;
   line-height: 1.3;
   font-size: 0.5rem;
-}
-.hh-footer-copyright {
-  font-size: 0.45rem;
-  color: var(--md-default-fg-color--light);
-  margin: 0 0 0 auto;
-  text-align: right;
+  color: var(--md-footer-fg-color--lighter);
 }
 
 /*
@@ -148,25 +140,38 @@ body {
  * miss), hence building it ourselves.
  */
 /*
- * No border-top here: the markdown `---` that already precedes this block on
- * every page (right before the footer art) renders its own <hr>, which sits
- * directly above this nav. A second border here doubled up as two visible
- * separator lines back to back - this nav supplies the spacing, the <hr>
- * supplies the one rule.
+ * Lives inside the real theme <footer> now (moved 2026-08-07, see TOC.md),
+ * as the first child of footer.md-footer, directly above .md-footer-meta -
+ * not a separate band with its own background/margin. That placement does
+ * three things at once, all for free:
+ *   - full page width: <footer> itself isn't inside any max-width wrapper,
+ *     so its background spans edge to edge without this rule needing one;
+ *   - "slightly lighter than the very bottom footer": .md-footer already
+ *     sets background-color:var(--md-footer-bg-color), which this nav just
+ *     inherits by sitting inside it with no background of its own -
+ *     .md-footer-meta below stacks --md-footer-bg-color--dark on TOP of
+ *     that same base, so the meta bar reads darker without this nav needing
+ *     an explicit colour at all;
+ *   - zero gap before the footer proper: both are plain block children of
+ *     the same <footer>, so there's no margin between them to remove.
+ * .md-grid (already defined site-wide, extra.css `.md-grid{max-width:75rem}`
+ * above) caps and centres the actual link row to the same width as the
+ * header/footer-meta content, same trick .md-footer-meta__inner uses for
+ * copyright+social - added as a second class in the JS rather than
+ * duplicated here.
  */
 .hh-page-nav {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  margin: 0.5rem 0 0.4rem;
-  padding-top: 0.5rem;
+  padding: 0.4rem 0.75rem;
 }
 .hh-page-nav__link {
   display: flex;
   flex-direction: column;
   max-width: 48%;
   text-decoration: none;
-  color: var(--md-default-fg-color);
+  color: var(--md-footer-fg-color);
 }
 .hh-page-nav__link:hover .hh-page-nav__title {
   color: var(--md-accent-fg-color);
@@ -180,7 +185,7 @@ body {
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--md-default-fg-color--light);
+  color: var(--md-footer-fg-color--light);
 }
 .hh-page-nav__title {
   font-size: 0.95rem;

@@ -16,12 +16,12 @@
 // in-app navigations. document$ is Material's own documented hook for
 // exactly this (an RxJS observable that re-fires after every content swap).
 document$.subscribe(function () {
-  // Anchor on .hh-footer (the flex row wrapping the art + copyright), not
-  // .hh-footer-art itself - inserting "before" the art used to work when the
-  // art and copyright were plain stacked siblings, but now that they're flex
-  // children of .hh-footer, inserting there made this nav a THIRD flex item
-  // in that same row instead of a block sibling above it.
-  var footer = document.querySelector(".hh-footer");
+  // Lives inside the real theme <footer> now, not the article - prepended
+  // as its first child, directly above .md-footer-meta, so it picks up the
+  // footer's own full-width dark background with no styling of its own (see
+  // extra.css) instead of sitting on the plain page background in a
+  // separate band.
+  var footer = document.querySelector("footer.md-footer");
   if (!footer) return;
 
   // A previous injection (from before an instant-navigation swap) would
@@ -73,9 +73,39 @@ document$.subscribe(function () {
   }
 
   var nav = document.createElement("nav");
-  nav.className = "hh-page-nav";
+  // md-grid caps + centres the link row to the same width as the header and
+  // footer-meta content (extra.css's site-wide `.md-grid{max-width:75rem}`),
+  // the same pairing .md-footer-meta__inner uses for copyright+social.
+  nav.className = "hh-page-nav md-grid";
   nav.appendChild(prev ? makeLink(prev, "prev", "‹ Previous") : document.createElement("span"));
   nav.appendChild(next ? makeLink(next, "next", "Next ›") : document.createElement("span"));
 
-  footer.parentNode.insertBefore(nav, footer);
+  footer.insertBefore(nav, footer.firstChild);
+});
+
+// "Happy Hare Ready" ASCII art, in the real theme footer bar.
+//
+// Moved out of the article body (used to sit in .hh-footer next to the
+// copyright line) and into .md-footer-meta__inner instead, alongside
+// "Made with Zensical" and the social icons - that bar's markup comes from
+// Zensical's own vendored templates and can't be edited directly (no
+// overrides/ dir in this repo), so it's injected the same way the
+// Previous/Next nav above is. .md-footer-meta__inner is a flex row with
+// justify-content:space-between already holding exactly two children
+// (.md-copyright, .md-social) - inserting a third between them lands it
+// centred between copyright/"made with" on the left and the social icons on
+// the right.
+document$.subscribe(function () {
+  var inner = document.querySelector(".md-footer-meta__inner");
+  if (!inner) return;
+
+  var stale = document.querySelector(".hh-footer-art");
+  if (stale) stale.remove();
+
+  var art = document.createElement("pre");
+  art.className = "hh-footer-art";
+  art.textContent = "  (\\_/)\n  ( *,*)\n  (\")_(\") Happy Hare Ready";
+
+  var social = inner.querySelector(".md-social");
+  inner.insertBefore(art, social);
 });

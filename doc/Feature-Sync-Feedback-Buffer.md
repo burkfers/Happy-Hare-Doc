@@ -257,11 +257,3 @@ for a quick glance without opening the meter:
 
 ---
 
-<div class="hh-footer">
-<pre class="hh-footer-art">
-  (\_/)
-  ( *,*)
-  (")_(") Happy Hare Ready
-</pre>
-<p class="hh-footer-copyright">Copyright (C) 2022-2026 Paul Morgan</p>
-</div>
