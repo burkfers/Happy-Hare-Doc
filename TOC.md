@@ -328,7 +328,7 @@ anything. Don't silently decide something wasn't worth keeping.
 | Page | Source | Status |
 |---|---|---|
 | `Operation.md` | `wiki/Basic-Operation.md` + `wiki/Handling-Errors.md` | **done** — merged into one page per explicit request (was two separate rows in this table; the user asked for "the 'Operation' page that should pull from Basic-Operation.md and Handling-Errors.md," singular). Explicitly flagged by the user as possibly stale going in - warranted a full dedicated source-verification pass (not a lighter check like §6 above), which found real corrections: `logfile_level`→`log_file_level`; `encoder_load_retries`→`gate_load_attempts`; `gear_from_spool_speed`→`gear_load_speed`; `gear_from_buffer_speed`/`gear_speed_from_buffer` (wiki uses both, inconsistently)→`gear_from_filament_buffer_speed`; `bowden_allowable_load_delta`→`bowden_allowable_encoder_delta`; `strict_filament_recover`→`strict_filament_recovery`; `extruder_homing_endstop`'s `collision` value is really named `encoder`; a 5th endstop value, `filament_compression`, exists and isn't in the wiki; `mmu_calibration_bowden_length` isn't a real user-facing name (internal persisted state, not something to type). Several settings the wiki locates in `mmu_parameters.cfg` are actually in `mmu.cfg`'s shared section or its `[mmu_toolhead]` section - the same recurring file-location confusion found on multiple other pages. Confirmed accurate as-is: `MMU_PRELOAD`, `MMU_CHECK_GATE TOOLS=`, `MMU_STATUS SHOWCONFIG=`, `MMU_UNLOCK`, `MMU_RECOVER` (all four params, plus a new `BYPASS=1` not in the wiki), `MMU_PAUSE FORCE_IN_PRINT=1`, and the whole pause→fix→resume/recover flow (reproduced as a `<pre class="hh-mermaid">` flowchart, same mechanism as `Feature-Spoolman.md`'s diagrams). Deliberately kept the load/unload sequence walkthrough at overview level and linked out to `Custom-Load-Unload-Sequences.md` for the state-machine/`_MMU_STEP_*` detail that page already owns, rather than duplicating it. Dropped the wiki's "KlipperScreen Happy Hare" subsection entirely - now redundant with the dedicated page below. |
-| `KlipperScreen.md` | `wiki/KlipperScreen.md` | **done** — the wiki source was already fairly accurate (uses the real v4 selector-class taxonomy - Linear/Rotary/Virtual - not the stale Type-A/B binary), so little to correct. The wiki page's own install section was circular ("follow the install directions... included in this wiki here" pointing at itself) - replaced with real install steps fetched directly from the fork's own README (`https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition`): it replaces stock KlipperScreen rather than running alongside it, clone over `~/KlipperScreen`, `cd happy_hare && ./install_ks.sh -g <num_gates>` (also the correct thing to re-run after every update, not just once). Restored all three Manage-panel selector-variant screenshots (linear/rotary/virtual) rather than showing just one. |
+| `KlipperScreen.md` | `wiki/KlipperScreen.md` | **done** — the wiki source was already fairly accurate (uses the real v4 selector-class taxonomy - Linear/Rotary/Virtual - not the stale Type-A/B binary), so little to correct. The wiki page's own install section was circular ("follow the install directions... included in this wiki here" pointing at itself) - replaced with real install steps fetched directly from the fork's own README (`https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition`): it replaces stock KlipperScreen rather than running alongside it, clone over `~/KlipperScreen`, `cd happy_hare && ./install_ks.sh -g <num_gates>` (also the correct thing to re-run after every update, not just once). Originally restored all three Manage-panel selector-variant screenshots (linear/rotary/virtual) rather than showing just one - **superseded 2026-08-07, item 50**: the fork's own UI moved on since those screenshots were taken. |
 | `Mainsail-Fluidd-Integration.md` | `wiki/Mainsail-Fluidd-Integration.md` | **done** — panel descriptions and `t_macro_color` (all four values: `slicer`/`allgates`/`gatemap`/`off`) verified unchanged against source. Dropped the wiki's specific "Mainsail PR is in queue, Fluidd PR already integrated" claim - couldn't verify current merge status (checked both `mainsail-happy-hare-edition`/`fluidd-happy-hare-edition` forks directly; still active, but their READMEs don't state a merge-status the way the KlipperScreen fork's does) and this site avoids stale point-in-time claims by rule - reworded to a timeless "forks track the newest enhancements" framing instead. Dropped the celebratory `candy.png`/`thumbs_up.png` images, matching this site's tone elsewhere. |
 
 ### 8. Tuning — done
@@ -2002,6 +2002,64 @@ anything. Don't silently decide something wasn't worth keeping.
     (`Tuning`) for the same reason item 48 added two - a genuinely new
     top-level nav section landed; `Mcu-Reference.md` didn't need one, since
     it's a new page inside the already-existing `Reference` section.
+
+50. **`KlipperScreen.md`'s Main Panel and TTG Map sections refreshed with
+    real newer screenshots the user dropped into `wiki/new_klipperscreen_images/`**,
+    on request - "the main screen and TTG map screen looks different now
+    ... new gauges and a pop-up menu that acts on the touched spool/gate."
+    Confirmed by direct before/after comparison (old `mmu_main.png` vs. the
+    new screenshots) rather than taking the description on faith: the old
+    Main Panel was a plain gate/tool status table with dedicated
+    `Tools...`/`Eject`/`Gates` buttons and a single vertical "clog
+    thermometer" slider; the new one renders actual coloured spool
+    graphics, one button per gate below them, and tapping a gate now opens
+    a popup (`Select`/`Check Gates`/`Preload`/`Load`/`Unload`/`Eject`)
+    instead - confirmed via `ks_main_panel_popup.png`. A new paginated
+    gauge panel (dots to page through) replaces the old single flow-rate
+    annotation - confirmed three of its pages directly:
+    `ks_main_panel_flowguard_tangle.png` (a tangle/clog donut gauge, not in
+    the old design at all), an encoder manual-flow gauge (visible in the
+    same popup screenshot), and `ks_main_panel_spool_fragment.png` (Spoolman/
+    tag spool details). TTG map went from a single-tool-at-a-time bar
+    display to `ks_ttg_map_panel.png`'s full parallel-coordinates diagram
+    of every tool→gate line at once, with independent `-`/`+` steppers for
+    both the tool and the gate side.
+    - **Also updated even though not explicitly called out in the request**:
+      the Manage panel (`ks_manage_panel.png`), because a direct comparison
+      against the old `mmu_manage_virtual.png` showed the same underlying
+      change pattern - `Home`/`Sync`/`Unsync`/`Servo Up`/`Servo Move`/`Servo
+      Down` now always appear in the button grid, greyed out when not
+      applicable to the connected MMU's selector type, where they used to
+      be omitted entirely per selector-type screenshot. Only one new Manage
+      screenshot was provided (for a gear-per-gate/virtual-selector unit,
+      inferred from the visible board-name branding and grid layout
+      matching the old `mmu_manage_virtual.png` most closely) - consolidated
+      the old three-screenshot linear/rotary/virtual presentation down to
+      this one shared image plus a note that the layout itself is now
+      identical across designs, rather than guessing at unseen linear/
+      rotary redesigns that weren't provided.
+    - **Bypass position corrected**: the wiki/old page said clicking "just
+      left of `T0`" opened the bypass selector; the new
+      `ks_main_panel_bypass.png` shows `Byp` as the last button in the gate
+      row, after the highest-numbered real gate, not to T0's left - fixed
+      to match what the new screenshot actually shows rather than carrying
+      the old positional claim forward unchecked.
+    - **8 old, now-orphaned screenshots deleted** rather than left as dead
+      weight once nothing referenced them:
+      `mmu_main.png`/`mmu_main_printing.png`/`flowrate_annotated.png`/
+      `mmu_main_bypass.png` (Main Panel), `mmu_manage_linear.png`/
+      `mmu_manage_rotary.png`/`mmu_manage_virtual.png` (Manage), and
+      `mmu_toolmap.png` (TTG). Left `last_error.png`, `mmu_picker.png`,
+      `mmu_recover.png`, `mmu_filament_editor{1,2}.png`, `mmu_spoolman.png`,
+      and `mmu_options.png` alone - no replacement was provided for any of
+      those sections, and nothing in the new screenshots suggested they'd
+      changed.
+    - Verified in a real preview same as every other page this session:
+      all 13 images on the rebuilt page confirmed loading
+      (`naturalWidth`/`complete` via DOM, not just a clean build), and the
+      full rendered page text read back to confirm the new prose actually
+      matches what's in the new screenshots rather than just replacing the
+      `<img src>` and leaving stale prose underneath.
 
 **To pick this back up:** with §1, §5, §6, §7, and §8 now done, and §10
 down to just its own remaining ⚠️-flagged pages, the next open sections are

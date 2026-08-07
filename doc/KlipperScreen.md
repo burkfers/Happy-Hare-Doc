@@ -61,38 +61,42 @@ check against the actually-running Happy Hare version, not a static message.
 ## Main Panel
 
 <p align="center">
-  <img src="KlipperScreen/mmu_main.png" alt="KlipperScreen MMU main panel" width="80%">
+  <img src="KlipperScreen/ks_main_panel_flowguard_tangle.png" alt="KlipperScreen MMU main panel" width="80%">
 </p>
 
 Accessed via the carrot icon on the left navbar (or from buttons on the
 KlipperScreen home/print pages instead, if you turn the carrot off in
-settings). Filament colour per gate shows here directly from the gate map's
-`gate_material`/`gate_color` - set either as defaults in `mmu.cfg` or live
-with [`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map). If a toolhead
-sensor is fitted, its state (detected/empty/disabled) shows near the
-`Manage...` button.
+settings). Each gate's loaded spool renders as an actual coloured spool
+graphic - colour and material come from the gate map's
+`gate_material`/`gate_color`, set either as defaults in `mmu.cfg` or live
+with [`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map). Below the spool
+row, one button per gate shows its number with the tool(s) mapped to it
+labelled above (`T2+` when more than one tool maps there); the currently
+selected gate's button is outlined.
 
-The panel works with the concept of a **Tool** - a virtual entity, since
-Tool-to-Gate mapping means the tool you select and the physical gate that
-services it aren't necessarily the same number. While actively printing the
-same panel looks a little different:
+Tapping a gate opens a quick-action popup for it, rather than a separate
+row of buttons for each action:
 
 <p align="center">
-  <img src="KlipperScreen/mmu_main_printing.png" alt="KlipperScreen MMU panel while printing" width="80%">
+  <img src="KlipperScreen/ks_main_panel_popup.png" alt="KlipperScreen gate popup menu: Select, Check Gates, Preload, Load, Unload, Eject" width="80%">
 </p>
 
-The top-left tool icon also indicates whether the gear stepper is
-synchronized with the extruder. If an encoder is fitted, the top-left button
-becomes a live clog/runout "thermometer": the gap between extruder and
-encoder-measured movement is the "temperature," rising as it grows: FlowGuard's
-`desired_headroom` is the safe gap this monitors against, and hitting the top
-triggers a runout condition (see
-[Feature: FlowGuard](Feature-FlowGuard.md)). With an encoder you'll also see
-a live extrusion percentage while printing - a quick way to spot
-under-extrusion, generally expected to sit above roughly 95%:
+**Select** switches to that gate/tool; **Check Gates**, **Preload**,
+**Load**, **Unload**, and **Eject** run the matching MMU operation
+directly on it (greyed out if not applicable right now - e.g. **Unload** on
+an already-empty gate). The same screenshot also shows a second gauge in
+the top-right panel - an encoder-based manual flow gauge, reporting
+distance and flow-rate percentage - one of several gauges that panel
+cycles through (tap the dots below it to page through them). FlowGuard's
+tangle/clog gauge (shown further up - `desired_headroom` is the safe zone
+it tracks against; see [Feature: FlowGuard](Feature-FlowGuard.md)) is
+another.
+
+Spoolman/tag details for the selected gate's spool - vendor, filament name,
+material/temperature, and spool ID - are a third:
 
 <p align="center">
-  <img src="KlipperScreen/flowrate_annotated.png" alt="Encoder flow-rate meter annotated" width="60%">
+  <img src="KlipperScreen/ks_main_panel_spool_fragment.png" alt="KlipperScreen main panel showing Spool Details" width="80%">
 </p>
 
 !!! note
@@ -117,42 +121,31 @@ gate's filament type/colour at a glance:
 ### Bypass
 
 If a filament bypass is fitted (see
-[Feature: Filament Bypass](Feature-Filament-Bypass.md)), clicking just left of
-`T0` opens the bypass selector:
+[Feature: Filament Bypass](Feature-Filament-Bypass.md)), it shows as its own
+`Byp` button at the end of the gate row:
 
 <p align="center">
-  <img src="KlipperScreen/mmu_main_bypass.png" alt="KlipperScreen bypass selector" width="80%">
+  <img src="KlipperScreen/ks_main_panel_bypass.png" alt="KlipperScreen bypass selected on the main panel" width="80%">
 </p>
 
-With bypass selected, the `Colors...`/`Eject` buttons become `Load
-(Bypass)`/`Unload (Bypass)`.
+With bypass selected, the same gate popup offers `Load`/`Unload` for the
+bypass path directly instead of the normal per-gate actions.
 
 ## State Management & Recovery
 
 Accessed via the `Manage...` button (top right) when not printing. Working
-in physical **Gate** terms rather than Tool, the exact panel contents depend
-on your MMU's selector design - linear-selector designs like ERCF and
-Tradrack:
+in physical **Gate** terms rather than Tool, this is one shared panel
+layout across every MMU design - controls that don't apply to your
+particular selector (e.g. `Servo Up`/`Servo Move`/`Servo Down` on a
+gear-per-gate design with no selector servo at all) simply grey out rather
+than being a different panel per design:
 
 <p align="center">
-  <img src="KlipperScreen/mmu_manage_linear.png" alt="Manage panel, linear selector designs" width="80%">
+  <img src="KlipperScreen/ks_manage_panel.png" alt="KlipperScreen MMU Manage panel" width="80%">
 </p>
 
-rotary-selector designs like 3D Chameleon and PicoMMU:
-
-<p align="center">
-  <img src="KlipperScreen/mmu_manage_rotary.png" alt="Manage panel, rotary selector designs" width="50%">
-</p>
-
-and gear-per-gate designs with no physical selector at all (Box Turtle,
-Night Owl, 3MS, Angry Beaver, and similar):
-
-<p align="center">
-  <img src="KlipperScreen/mmu_manage_virtual.png" alt="Manage panel, gear-per-gate designs" width="50%">
-</p>
-
-Most functions are self-explanatory; `Load Extruder`/`Unload Extruder` act on
-the extruder only, exactly as named.
+Most functions are self-explanatory; `Load Ext`/`Unload Ext` act on the
+extruder only, exactly as named.
 
 ### Recovering State
 
@@ -199,19 +192,23 @@ correct.
 ## TTG (Tool-to-Gate) Map and EndlessSpool Editor
 
 <p align="center">
-  <img src="KlipperScreen/mmu_toolmap.png" alt="KlipperScreen TTG map and EndlessSpool editor" width="80%">
+  <img src="KlipperScreen/ks_ttg_map_panel.png" alt="KlipperScreen TTG map and EndlessSpool editor" width="80%">
 </p>
 
-Select a tool, then change which gate it maps to (multiple tools can map to
-the same gate). The grouping graphic to the right shows that gate's
-EndlessSpool group, managed at the bottom of the screen - `+`/`-` edits other
-groups (named `A`, `B`, `C`, ...), and the checkbox next to a group toggles
-EndlessSpool on/off for it. `Save` commits the whole map at once; `Reset`
-restores your configured defaults.
+The centre diagram plots the entire Tool-to-Gate map at once - a line from
+every tool (`T0`-`T8`, left) to whichever gate (`#0`-`#8`, right) it
+currently maps to. Step through tools with `-`/`+` on the left and gates
+with `-`/`+` on the right; the connection between whichever tool and gate
+you land on highlights so it's clear which line you're currently editing
+(multiple tools can still map to the same gate, same as before).
 
-In the panel shown, `T0` maps to Gate 0, itself part of an EndlessSpool group
-spanning Gates 0-3; `T2`-`T5` all map to Gate 5; and so on. See
-[Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md) for the underlying
+Below the diagram, `EndlessSpool Enabled` toggles the feature for the
+selected gate's group, labelled `ES Group:` with a letter (`A`, `B`, `C`,
+...); the number pad underneath is that group's actual membership - tap a
+gate's number to add or remove it from the current group. `Save` commits
+the whole map at once; `Reset` restores your configured defaults.
+
+See [Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md) for the underlying
 mechanics.
 
 ## Spoolman "filaments" panel
