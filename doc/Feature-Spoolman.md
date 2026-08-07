@@ -82,7 +82,8 @@ later** - Happy Hare checks the connected version at startup and won't
 activate itself against an older one (you'll see an "Incompatible Spoolman
 version" message on the console). Once connected, it adds three extra
 fields to Spoolman's spool records: `Printer Name`, `MMU Gate`, and `RFID`
-(the tag UID bound to that spool - see [NFC/RFID Reading](Feature-NFC.md)).
+(the tag UID(s) bound to that spool - a spool can carry more than one, e.g.
+a tag stuck on each side, see [NFC/RFID Reading](Feature-NFC.md)).
 They're hidden by default in the Spoolman web UI - open **Hide Columns** and
 select them to see gate assignments there:
 
@@ -158,7 +159,9 @@ MMU_SPOOLMAN SYNC=1                     # Force a re-sync between local and remo
 MMU_SPOOLMAN REFRESH=1                  # Rebuild the Moonraker/Spoolman cache, then re-sync
 MMU_SPOOLMAN REFRESH=1 FIX=1            # As above, and clear any gate with more than one spool assigned to it
 MMU_SPOOLMAN CLEAR=1                    # Clear every gate assignment for this printer in Spoolman
-MMU_SPOOLMAN SPOOLID=45 RFID=E2003412   # Bind tag UID E2003412 to spool 45 in Spoolman
+MMU_SPOOLMAN SPOOLID=45 RFID=E2003412            # Bind tag UID E2003412 to spool 45 (replaces any existing tag(s))
+MMU_SPOOLMAN SPOOLID=45 RFID=E2003499 APPEND=1   # Register a second tag on the same spool (e.g. one on each side), keeping E2003412
+MMU_SPOOLMAN SPOOLID=45 RFID=''                  # Clear all tags registered against spool 45
 MMU_SPOOLMAN GATE=0 RFID=E2003412       # Same, for whichever spool is currently assigned to gate 0
 ```
 
@@ -185,6 +188,22 @@ where a spool is already registered but its tag isn't bound yet (e.g.
 sticking a blank tag on it). A reader that scans an *unknown* tag and
 resolves or creates a spool for it is [NFC/RFID Reading](Feature-NFC.md)'s
 `MMU_NFC ... REGISTER=1` - the opposite direction.
+
+By default, `RFID=` **replaces** whatever tag(s) are currently registered
+against the spool - `RFID=''` (empty) clears them entirely, the supported
+way to unregister every tag from a spool. Add `APPEND=1` to add the given
+tag *without* losing the one(s) already there instead - the case for a
+spool with a tag stuck on each side, so either side scans to the same spool.
+`APPEND=1` with an empty `RFID=` is rejected (nothing to add); use plain
+`RFID=''` to clear instead. If the UID being written is currently
+registered against a *different* spool, Happy Hare moves it over (logging
+the move) and strips it from that other spool's record, rather than leaving
+two spools claiming the same tag.
+
+The same "second tag on one spool" case is also available from a live scan,
+without retyping the UID by hand: [`MMU_NFC GATE=<n> REGISTER=1
+APPEND=1`](Feature-NFC.md#commands) reads a newly-presented tag and binds it
+straight onto whichever spool is already assigned to that gate.
 
 ## Printer variables exposed
 

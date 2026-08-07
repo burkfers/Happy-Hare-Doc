@@ -422,6 +422,7 @@ ENABLE   = [0|1] Top-level on/off for the reader (re-inits when enabled)
 READ     = [0|1] Read the addressed reader once and report the UID
 DEEP     = [0|1] With READ=1, also parse and report the tag metadata (ignores nfc_deep_read setting)
 REGISTER = [0|1] Read tag (implies READ=1 DEEP=1) and resolve it in Spoolman (may auto-create). Shared reader: report-only, Per-gate: updates gate map
+APPEND   = [0|1] With REGISTER=1 on a gate that already has a spool assigned, bind the newly scanned tag onto that spool instead of resolving/auto-creating (e.g. a second tag on the same spool)
 INIT     = [0|1] (Re)initialize the addressed reader
 RELEASE  = [0|1] Release the current target on the addressed reader
 INIT_ALL = [0|1] (Re)initialize every reader on every unit
@@ -438,6 +439,7 @@ MMU_NFC GATE=3 READ=1          ...Read the reader on gate 3 and report the resul
 MMU_NFC SHARED=1 READ=1 DEEP=1 ...Read the shared reader and report the parsed tag metadata
 MMU_NFC SHARED=1 REGISTER=1    ...Read tag and resolve/register it in Spoolman (report only, no assignment)
 MMU_NFC GATE=2 REGISTER=1      ...Read tag on gate 2 and apply to the gate map (as if auto-scanned)
+MMU_NFC GATE=2 REGISTER=1 APPEND=1 ...Read a 2nd tag on gate 2 and bind it onto the spool already assigned there
 MMU_NFC GATE=2 INIT=1          ...(Re)initialize the reader on gate 2
 MMU_NFC GATES=0,1,2,3 ENABLE=0 ...Disable selected per-gate readers
 MMU_NFC INIT_ALL=1             ...Re-initialize every reader on all units
@@ -659,7 +661,9 @@ REFRESH   = [0|1]
 FIX       = [0|1]
 SPOOLID   = #(int)
 GATE      = #(int)
-RFID      = # Write this NFC/RFID tag UID onto the spool record (needs SPOOLID or GATE)
+RFID      = # Write this NFC/RFID tag UID (or comma-separated UIDs) onto the spool record
+              (needs SPOOLID or GATE). Replaces any existing UID(s); RFID='' clears them.
+APPEND    = [0|1] With RFID=, add to the existing UID(s) instead of replacing them
 PRINTER   = _name_
 SPOOLINFO = [0|-1|spool_id]
 ```
@@ -670,7 +674,9 @@ MMU_SPOOLMAN                     ...Show the current spoolman gate/spool assignm
 MMU_SPOOLMAN REFRESH=1           ...Refresh the local gate map from the spoolman database
 MMU_SPOOLMAN GATE=0 SPOOLID=45   ...Assign spoolman spool id 45 to gate 0
 MMU_SPOOLMAN SPOOLINFO=45        ...Display spoolman details for spool id 45
-MMU_SPOOLMAN SPOOLID=45 RFID=E2003412  ...Register tag E2003412 against spool id 45 in the spoolman db
+MMU_SPOOLMAN SPOOLID=45 RFID=E2003412         ...Register tag E2003412 against spool id 45 in the spoolman db (replaces any existing tags)
+MMU_SPOOLMAN SPOOLID=45 RFID=E2003499 APPEND=1 ...Register a second tag on the same spool (e.g. one on each side), keeping E2003412
+MMU_SPOOLMAN SPOOLID=45 RFID=''             ...Clear all tags registered against spool id 45
 MMU_SPOOLMAN GATE=0 RFID=E2003412      ...Same, for whichever spool is assigned to gate 0
 ```
 
@@ -1648,4 +1654,3 @@ _MMU_STEP_UNLOAD_TOOLHEAD EXTRUDER_ONLY=1 ...Unload the extruder only (e.g. when
 
 
 ---
-

@@ -165,6 +165,7 @@ MMU_NFC GATE=3 READ=1          # Read the reader on gate 3 once, report the resu
 MMU_NFC SHARED=1 READ=1 DEEP=1 # Read the shared reader and report parsed tag metadata
 MMU_NFC SHARED=1 REGISTER=1    # Read + resolve/auto-create in Spoolman, report only (no gate map change)
 MMU_NFC GATE=2 REGISTER=1      # Read on gate 2 and apply to the gate map, as if auto-scanned
+MMU_NFC GATE=2 REGISTER=1 APPEND=1  # Read a 2nd tag on gate 2 and bind it onto the spool already assigned there
 MMU_NFC GATE=2 ENABLE=0        # Hard-disable the reader on gate 2 (a disabled reader is never read)
 MMU_NFC GATE=2 INIT=1          # (Re)initialize a reader that isn't responding
 MMU_NFC INIT_ALL=1             # (Re)initialize every reader on every unit
@@ -189,10 +190,29 @@ MMU_NFC_SCAN        # Scan the current gate
 MMU_NFC_SCAN GATE=2 # Scan a specific gate
 ```
 
+`APPEND=1` on a `REGISTER=1` read is for a spool with more than one physical
+tag - e.g. one stuck on each side, so either side scans to the same spool.
+It only makes sense on a per-gate reader whose gate *already* has a spool
+assigned (from an earlier scan, or set manually with
+[`MMU_GATE_MAP`](Feature-Spoolman.md#commands)/[`MMU_SPOOLMAN`](Feature-Spoolman.md#commands)):
+the newly-read tag is bound directly onto that spool instead of being
+resolved/auto-created as if it were unknown. Two cases fall back instead of
+binding:
+
+- **`SHARED=1 REGISTER=1 APPEND=1`** - the shared reader has no gate
+  assignment to bind onto, so this is rejected; use [`MMU_SPOOLMAN
+  SPOOLID=<id> RFID=<uid> APPEND=1`](Feature-Spoolman.md#commands) directly
+  instead, naming the spool explicitly.
+- **The addressed gate has no spool assigned yet** - `APPEND=1` is ignored
+  (logged, not an error) and the read falls back to normal resolve/
+  auto-create, the same as without `APPEND=1`.
+
 Two related commands live on the Spoolman side, for binding a UID onto a
 spool record directly rather than scanning for one:
-[`MMU_SPOOLMAN ... RFID=`](Feature-Spoolman.md#commands) and the `RFID=`
-parameter on [`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map).
+[`MMU_SPOOLMAN ... RFID=`](Feature-Spoolman.md#commands) (which has its own
+`APPEND=1` for the same "second tag on one spool" case, plus `RFID=''` to
+clear every tag from a spool) and the `RFID=` parameter on
+[`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map).
 
 ### Advanced: raw per-reader commands
 
@@ -276,6 +296,28 @@ filament data (see [Concept](#concept)) creates the spool in Spoolman and
 registers the tag against it in the same step - the next scan of that same
 tag resolves normally.
 
+### Registering a second tag on the same spool
+
+A spool can carry more than one physical tag - e.g. one stuck on each side,
+so it resolves correctly no matter which way round it gets loaded. Reading
+a second, previously-unseen UID normally treats it as an entirely different,
+unregistered tag; it has to be bound onto the existing spool explicitly
+instead. Two equivalent ways to do that:
+
+1. **Scan it in** - load (or preload) the gate that already has the first
+   tag's spool assigned, present the second tag to that gate's reader, then
+   `MMU_NFC GATE=<n> REGISTER=1 APPEND=1` binds whatever it reads onto that
+   gate's already-assigned spool.
+2. **Type it in** - if both UIDs are already known, skip the reader
+   entirely: `MMU_SPOOLMAN SPOOLID=<id> RFID=<new-uid> APPEND=1`.
+
+Either path ends up calling the same underlying Spoolman write, so the
+result is identical - pick whichever is more convenient at the time. A UID
+that turns out to already be registered against a *different* spool is
+moved over automatically either way (and the move is logged), rather than
+silently leaving both spools claiming it - useful if a tag was bound to the
+wrong spool by mistake earlier.
+
 ### Multiple same-address readers
 
 PN532 is fixed at I2C address `0x24` and PN7160 at `0x28`-`0x2B` - two
@@ -311,6 +353,13 @@ bus.
   page); fall back to `MMU_NFC_SCAN` (a plain read after the fact, not a
   homing target) if preload's automatic behaviour is unreliable on your
   reader.
+- **A scan logs "tag ... was registered to spool X - moving it to spool
+  Y"** - informational, not an error: the tag was already bound to a
+  different spool and Happy Hare re-pointed it to the one just scanned (see
+  [Registering a second tag on the same spool](#registering-a-second-tag-on-the-same-spool)).
+  Expected after re-tagging a spool or fixing a mistyped UID; worth
+  double-checking the spool IDs named in the message if it appears
+  unexpectedly.
 
 ## See also
 

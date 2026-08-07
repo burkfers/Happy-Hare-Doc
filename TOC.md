@@ -1744,6 +1744,52 @@ anything. Don't silently decide something wasn't worth keeping.
       `window.innerWidth / 2`, with Previous entirely left of that point and
       Next entirely right of it.
 
+42. **Documented `MMU_SPOOLMAN`/`MMU_NFC`'s new `APPEND=` parameter ahead of
+    merge, from PR #1027 / the `private_v4` branch, not yet on `v4`.** The
+    PR lets a Spoolman spool carry more than one registered UID
+    (comma-separated) - e.g. a tag stuck on each side - via `MMU_SPOOLMAN
+    ... RFID=... APPEND=1` (default is still replace; `RFID=''` now clears
+    all tags instead of being rejected as invalid input) and `MMU_NFC
+    GATE=<n> REGISTER=1 APPEND=1` (binds a freshly-scanned tag straight onto
+    the gate's already-assigned spool instead of resolving/auto-creating).
+    Source of truth was `gh pr diff 1027 --repo moggieuk/Happy-Hare` plus a
+    shallow clone of `private_v4` - **not** a hand-read of the PR
+    description, since command help text/examples are exactly the kind of
+    thing that drifts from a PR's prose summary.
+    - **`Command-Reference.md` regenerated for real**, not hand-edited:
+      `git clone --depth 1 --branch private_v4
+      https://github.com/moggieuk/Happy-Hare.git /tmp/happy-hare-private_v4`
+      then `HAPPY_HARE_SRC=/tmp/happy-hare-private_v4 venv/bin/python -m
+      doc_tools.gen_command_reference`, overriding `HAPPY_HARE_SRC` for one
+      run rather than touching the tracked `HAPPY_HARE_REF` file (that pin
+      stays on `v4` - `private_v4` isn't merged yet, so it shouldn't become
+      this repo's regeneration source for every future page). Confirmed
+      with `--check` afterwards and deleted the temporary clone once done.
+    - **`Feature-Spoolman.md` and `Feature-NFC.md` got the same update in
+      prose, not just the generated reference** - this repo's convention
+      throughout is that `Command-Reference.md` is the terse parameter-level
+      truth and the Feature pages carry the workflow/why. Spoolman's
+      Commands section gained the `APPEND=1`/`RFID=''` examples plus a
+      paragraph on replace-vs-append-vs-clear semantics and the "a UID
+      already on a different spool gets silently moved, and that move is
+      logged" behaviour. NFC's Commands section gained the matching
+      `MMU_NFC ... APPEND=1` example plus its two fallback cases
+      (`SHARED=1 APPEND=1` is rejected - no gate to bind onto; `APPEND=1` on
+      a gate with no spool yet is ignored, not an error). Added a new
+      Tuning subsection, `### Registering a second tag on the same spool`,
+      giving the two equivalent workflows (scan it in vs. type the UID into
+      `MMU_SPOOLMAN` directly) - matches the existing "workflow gets its own
+      Tuning subsection, mechanics live in Commands" split already used for
+      "Auto-creating spools from unknown tags" just above it. Also added a
+      Troubleshooting bullet for the new "tag ... was registered to spool X
+      - moving it to spool Y" log line, so it doesn't read as an error the
+      first time someone sees it.
+    - Not yet done, deliberately: didn't touch the tracked `HAPPY_HARE_REF`
+      pin or re-point normal `make command_reference` at `private_v4` - once
+      #1027 actually merges to `v4`, a plain `make command_reference` will
+      pick this same content up from the real pinned ref, so there's nothing
+      left to redo here beyond re-running it to confirm.
+
 **To pick this back up:** with §5 fully done, the next open sections are
 §1 (`Installation.md`, `MMU-Types-Overview.md`, `Upgrading-from-v3.md`),
 §2's other two pages (`Understanding-Operation.md`,
