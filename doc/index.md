@@ -80,6 +80,8 @@ The pages here are grouped by what you're trying to do, not by MMU brand:
 - **Operation** is day-to-day use once everything's configured - the
   console/UI commands you'll actually run, and what to do when a print
   pauses.
+- **Tuning** is print-quality dialing-in once the basics work - toolhead
+  dimensions, blobbing, and stringing.
 - **Reference** is the flat lookup layer: every `MMU_*` command and
   `printer.mmu.*` variable generated straight from Happy Hare's source, plus
   every config and macro-tuning parameter documented from the real shipped
@@ -166,6 +168,15 @@ Whichever you use, having these ready up front gets you a faster answer:
     Day-to-day commands, and what to do when the MMU pauses mid-print.
 
     [Operation &rarr;](Operation.md)
+
+-   **Tuning**
+
+    ---
+
+    Dialing in toolhead dimensions and toolchange movement to eliminate
+    blobbing and stringing.
+
+    [Blobbing and Stringing &rarr;](Blobbing-and-Stringing.md)
 
 -   **Reference**
 

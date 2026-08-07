@@ -331,11 +331,11 @@ anything. Don't silently decide something wasn't worth keeping.
 | `KlipperScreen.md` | `wiki/KlipperScreen.md` | **done** — the wiki source was already fairly accurate (uses the real v4 selector-class taxonomy - Linear/Rotary/Virtual - not the stale Type-A/B binary), so little to correct. The wiki page's own install section was circular ("follow the install directions... included in this wiki here" pointing at itself) - replaced with real install steps fetched directly from the fork's own README (`https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition`): it replaces stock KlipperScreen rather than running alongside it, clone over `~/KlipperScreen`, `cd happy_hare && ./install_ks.sh -g <num_gates>` (also the correct thing to re-run after every update, not just once). Restored all three Manage-panel selector-variant screenshots (linear/rotary/virtual) rather than showing just one. |
 | `Mainsail-Fluidd-Integration.md` | `wiki/Mainsail-Fluidd-Integration.md` | **done** — panel descriptions and `t_macro_color` (all four values: `slicer`/`allgates`/`gatemap`/`off`) verified unchanged against source. Dropped the wiki's specific "Mainsail PR is in queue, Fluidd PR already integrated" claim - couldn't verify current merge status (checked both `mainsail-happy-hare-edition`/`fluidd-happy-hare-edition` forks directly; still active, but their READMEs don't state a merge-status the way the KlipperScreen fork's does) and this site avoids stale point-in-time claims by rule - reworded to a timeless "forks track the newest enhancements" framing instead. Dropped the celebratory `candy.png`/`thumbs_up.png` images, matching this site's tone elsewhere. |
 
-### 8. Tuning
+### 8. Tuning — done
 
-| Page | Source |
-|---|---|
-| `Blobbing-and-Stringing.md` | `wiki/Blobbing-and-Stringing.md` |
+| Page | Source | Status |
+|---|---|---|
+| `Blobbing-and-Stringing.md` | `wiki/Blobbing-and-Stringing.md` | **done** — code-verified against `install.sh`-adjacent config/macro source. Real correction found: `MMU_CALIBRATE_TOOLHEAD`'s step 2 (residual filament) needs an explicit `DIRTY=1` flag now — the wiki's "no flags" for this step is stale; the real command also gained a `UNIT=` param (multi-unit) not in the wiki. Bigger structural finding, consistent with item 48's `Toolchange-Movement.md` work: the wiki presents `variable_retract`/z-hop/z-hop-ramp as three independent settings, but they're actually three fields of the same per-operation `variable_park_*` 5-tuple - rewrote that section around the real single-tuple mechanism instead of three separate ones, and corrected `variable_park_mmu_error` (doesn't exist) to the real `variable_park_pause` (which already covers MMU errors). `MMU_COLD_PULL`'s per-material default table (hot/cold/pull/min-extrude temps for nylon/PLA/ABS/PETG) checked directly against the real macro's own embedded table and matched exactly, byte for byte - confirmed accurate as ported. Restored three "Probe_*" illustration images (nozzle shoulder, filament remains, cut remains) that a first pass had dropped without a specific reason, per the standing rule on that. Cross-links to `Feature-Tip-Forming-Purging.md#toolhead-calibration-and-toolhead_ooze_reduction` for the final `toolhead_ooze_reduction` fine-tune rather than duplicating that page's own tuning image/guidance. |
 
 ### 9. Multi-Unit (placeholder — deferred)
 
@@ -351,7 +351,7 @@ anything. Don't silently decide something wasn't worth keeping.
 | `Parameters.md` | `config/base/mmu.cfg` + `config/base/mmu_parameters.cfg` (the real shipped templates), defaults/help text cross-checked against the driving `installer/Kconfig.*` files via `kconfiglib` directly (not the wiki, deliberately — see below) | **done** — renamed from the wiki's `Happy-Hare-Parameters.md`. Every `[[PARAM_X]]` token in both templates resolved to a real menuconfig default by generating a Box Turtle seed the same way `doc_tools/capture.py`'s `generate_seed()` does (a one-off script using the same `write_config`→fresh-`Kconfig`→`load_config` round-trip — setting a symbol's value directly without that round-trip left half the tree unresolved); a second pass against an ERCF seed filled in nothing further for the feature-gated settings (heater/NFC/FlowGuard/servo), since those toggle on a separate opt-in capability symbol, not the MMU type — those instead reuse the screenshot-verified values already established while writing `Feature-Environment-Manager.md`/`Feature-FlowGuard.md`/`Feature-NFC.md`. Organized in file order (shared `mmu.cfg` settings, then per-unit `mmu_parameters.cfg` settings), each subsection matching the templates' own banner grouping, with every setting that has a deeper home cross-linked to its Feature page rather than re-explained. Deliberately doesn't tabulate LED effect definitions or addon hardware blocks (servo pulse widths, stepper current) — both already fully covered on `Feature-LEDs.md`/`Feature-Tip-Forming-Purging.md`/`Feature-Addon-Integrations.md`. |
 | `Macro-Vars.md` | `config/base/mmu_macro_vars.cfg` (the real shipped template) + `installer/macro_vars/Kconfig.*` and `installer/Kconfig.fans` help text — not the wiki | **done** — same role for `mmu_macro_vars.cfg` that `Parameters.md` plays for `mmu.cfg`/`mmu_parameters.cfg`, closing the reminder left in "Open items for later" below. 181 `variable_*` tokens across 11 `[gcode_macro ..._VARS]` blocks. Defaults came from a purpose-built regex parser over the Kconfig source directly rather than `kconfiglib` — this content isn't MMU-type-seed-dependent (tip forming/purging/cutter/Blobifier are opt-in capability toggles, not selector-type-driven), so a literal `default N` read is both simpler and more reliable than reconstructing a seed for it; a handful of choice-gated string defaults (`VAR_BLOBIFIER_TYPE`, `VAR_SOFTWARE_AUTOMAP_STRATEGY`, `VAR_SEQUENCE_RESTORE_XY_POS`, `VAR_FAN_FORCED`, etc.) needed the companion `choice`/`BOOL_*` symbol's own default read directly from source to resolve, since the parser's automatic block-boundary detection didn't handle `choice`/`endchoice` blocks cleanly. Organized by macro block in the template's own order, with Blobifier's ~60 variables further broken into the sub-groups the template itself already uses (Hooks, Hardware, Tray Positions, Brush/Cleaning, Purge Length, Blob Tuning, Retraction, Fan Control, Bucket). One genuinely new finding: `_MMU_STATE_VARS`'s `servo_down_limit`/`cutter_blade_limit` aren't wired to any real counter in the current Python code — they're just suggested limit values a user's own extension macro would plug into a hand-built `MMU_STATS COUNTER=` setup, not an automatic built-in one; flagged as a note on `Feature-Statistics-Counters.md` rather than a contradiction of that page's "no built-in preset counters yet" framing, since it isn't one. Cross-linked from `Parameters.md`, `Custom-Load-Unload-Sequences.md`, `Feature-Gate-TTG-Maps.md`, `Feature-Tip-Forming-Purging.md`, `Feature-Addon-Integrations.md`, and `Feature-Statistics-Counters.md`. |
 | `Printer-Variables.md` | printer status surfaces (same as the console's `/vars`) | **done, hand-written but code-verified** (no generator yet). Retrofitted 2026-08-06: dropped the v3-vs-v4 diff and all `Mmu*`/file-path citations per the page-genre-wide rules above — the `servo`/`grip` gap found in the process moved to `Dev-Code-Layout.md`'s selector-hierarchy discussion rather than being lost |
-| `Mcu-Reference.md` | `wiki/Mcu-Reference.md` + `installer/boards/Kconfig.*` | ⚠️ verify board list current |
+| `Mcu-Reference.md` | `wiki/Mcu-Reference.md` + `installer/boards/Kconfig.*` | **done** — per explicit request, expanded well past the wiki's 6 "popular" boards to the complete current list `menuconfig`'s **Board type** screen offers, enumerated directly from `installer/boards/Kconfig.*` (16 general boards + "Not listed / Other"), `installer/boards/per_gate/Kconfig.*` (2, offered only for EMU per-gate-MCU designs), and `installer/boards/custom/Kconfig.{kms,vvd}` (2 more, each a fixed board for one specific MMU type rather than a real choice) - 20 real boards total, not counting the generic fallback. Kept the wiki's 6 pinout/connection images (all still map to a real current board name, confirmed one-by-one) as the featured "Popular MCUs" section, then listed every other board in a plain table noting which ones have no image available rather than silently omitting them - per-request, images only where they exist, not fabricated/fetched from elsewhere. One verbatim-accuracy call: kept the real Kconfig prompt's own "Quatrobox" spelling (missing a 't') for the Chameleon X5 entry rather than "correcting" it to match this site's own `QuattroBox` naming elsewhere - it's the literal text on a `menuconfig` screen a reader will actually see on their own terminal, not prose this site is authoring itself. |
 
 ### 10a. Advanced Customization (new section)
 
@@ -1985,24 +1985,43 @@ anything. Don't silently decide something wasn't worth keeping.
       `index.md` card grid confirmed showing exactly 8 cards in the right
       order.
 
-**To pick this back up:** with §1, §5, §6, and §7 now done, the next open
-sections are §1's remaining pages (`MMU-Types-Overview.md`,
-`Upgrading-from-v3.md`, and the `GettingStartedWith3MS.md`/
-`GettingStartedWithQuattroBox.md` pair from item 47), §2's other two pages
-(`Understanding-Operation.md`, `Print-Job-State-Machine.md` - lean on
-`Conceptual-MMU.md`'s terminology rather than re-defining it), §3's four
-`Configuring-mmu*.cfg.md` generators (follow the `gen_command_reference.py`
-pattern already proven out), §4 Calibration, §8 Tuning, §10's
-`Mcu-Reference.md`, §10a's new `Macro-Customization.md` (item 47), §11
+49. **§8 Tuning (`Blobbing-and-Stringing.md`) and §10's `Mcu-Reference.md`
+    written and shipped, on request ("tackle the Tuning page next, then the
+    Mcu page").** `Mcu-Reference.md` came with an explicit scope
+    instruction - list every MCU in Kconfig, not just the wiki's 6
+    "popular" ones, and include pinout images only where one actually
+    exists - so this one started from `installer/boards/Kconfig.*` (the
+    real source of the **Board type** menuconfig screen) rather than the
+    wiki page, cross-checking the wiki's 6 images against that full list
+    afterward rather than the other way round. Full per-page detail is on
+    the §8/§10 table rows above; not re-duplicated here. Both built clean
+    and verified in a real preview the same way as item 48 (every image's
+    `naturalWidth`/`complete` checked via DOM, not just "the build didn't
+    warn"; `Blobbing-and-Stringing.md`'s `<pre class="hh-mermaid">`
+    confirmed rendering as a real SVG). `index.md` got its 9th card
+    (`Tuning`) for the same reason item 48 added two - a genuinely new
+    top-level nav section landed; `Mcu-Reference.md` didn't need one, since
+    it's a new page inside the already-existing `Reference` section.
+
+**To pick this back up:** with §1, §5, §6, §7, and §8 now done, and §10
+down to just its own remaining ⚠️-flagged pages, the next open sections are
+§1's remaining pages (`MMU-Types-Overview.md`, `Upgrading-from-v3.md`, and
+the `GettingStartedWith3MS.md`/`GettingStartedWithQuattroBox.md` pair from
+item 47), §2's other two pages (`Understanding-Operation.md`,
+`Print-Job-State-Machine.md` - lean on `Conceptual-MMU.md`'s terminology
+rather than re-defining it), §3's four `Configuring-mmu*.cfg.md` generators
+(follow the `gen_command_reference.py` pattern already proven out), §4
+Calibration, §10a's new `Macro-Customization.md` (item 47), §11
 (Troubleshooting & FAQ), and §13 (Community & Support). None of these have
 been scoped yet the way the routing pass in item 35 scoped §5 (or the ad-hoc
-scoping item 48 just did for §6/§7) up front - worth doing the same
-wiki-vs-code overlap check before drafting, especially for §2/§4/§8, which
-likely share content with the now-finished §5/§7 pages (EndlessSpool groups,
-gate/TTG maps, and load/unload sequencing all come up naturally in an
-"Operation" or "Tuning" context, and now genuinely overlap with material
-`Operation.md`/`Toolchange-Movement.md` already cover - check those two
-pages specifically before drafting §4/§8, not just §5). Whatever's
+scoping items 48/49 did for §6/§7/§8/parts of §10) up front - worth doing
+the same wiki-vs-code overlap check before drafting, especially for §2/§4,
+which likely share content with the now-finished §5/§7/§8 pages
+(EndlessSpool groups, gate/TTG maps, and load/unload/toolhead-calibration
+sequencing all come up naturally in an "Operation"/"Tuning"/"Calibration"
+context, and now genuinely overlap with material `Operation.md`/
+`Toolchange-Movement.md`/`Blobbing-and-Stringing.md` already cover - check
+those three pages specifically before drafting §4, not just §5). Whatever's
 next, run `./venv/bin/zensical build --clean` before
 calling it done, not a plain `zensical build` - see **Zensical rough
 edges**.

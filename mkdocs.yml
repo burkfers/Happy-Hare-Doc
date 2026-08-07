@@ -129,11 +129,14 @@ nav:
       - Operation: Operation.md
       - KlipperScreen: KlipperScreen.md
       - Mainsail / Fluidd: Mainsail-Fluidd-Integration.md
+  - Tuning:
+      - Blobbing and Stringing: Blobbing-and-Stringing.md
   - Reference:
       - Command Reference: Command-Reference.md
       - Parameters: Parameters.md
       - Macro Variables: Macro-Vars.md
       - Printer Variables: Printer-Variables.md
+      - MCU Reference: Mcu-Reference.md
   - Developer Guide:
       - Code Layout: Dev-Code-Layout.md
       - Kconfig & Installer Architecture: Dev-Kconfig-Structure.md
