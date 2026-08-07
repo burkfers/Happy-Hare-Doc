@@ -1858,6 +1858,21 @@ anything. Don't silently decide something wasn't worth keeping.
       users. Don't mistake stale padding after `resize_window` alone for
       the sync logic being broken.
 
+45. **Reordered the `Features` nav section alphabetically by its display
+    label** (case-insensitive), on request as "a good enough starting
+    position" rather than the ad-hoc order pages were added in across §5's
+    rollout. `mkdocs.yml`'s `nav:` is the only thing that needed touching -
+    it's also the sole source both the primary sidebar and
+    `hh-page-nav.js`'s Previous/Next order read from, so both updated for
+    free. Confirmed against the built HTML rather than just eyeballing the
+    YAML diff: the sidebar's actual link order on a real page matches the
+    new list exactly. Other nav sections (`Getting Started`, `Reference`,
+    `Developer Guide`) are already small/logically-grouped enough that
+    alphabetizing wasn't asked for and would likely hurt more than help
+    (e.g. `Reference`'s `Command Reference`/`Parameters`/`Macro Variables`/
+    `Printer Variables` order isn't alphabetical but is a deliberate
+    most-used-first ordering) - left untouched.
+
 **To pick this back up:** with §5 fully done, the next open sections are
 §1 (`Installation.md`, `MMU-Types-Overview.md`, `Upgrading-from-v3.md`),
 §2's other two pages (`Understanding-Operation.md`,

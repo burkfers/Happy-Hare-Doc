@@ -103,22 +103,22 @@ nav:
   - Concepts:
       - What Is an MMU?: Conceptual-MMU.md
   - Features:
-      - eSpooler: Feature-Espooler.md
+      - Addon Integrations: Feature-Addon-Integrations.md
       - Encoder: Feature-Encoder.md
       - EndlessSpool & Runout Detection: Feature-Endless-Spool-Runout.md
-      - Sync-Feedback Buffer: Feature-Sync-Feedback-Buffer.md
-      - Spoolman Integration: Feature-Spoolman.md
-      - NFC/RFID Reading: Feature-NFC.md
       - Environment Manager: Feature-Environment-Manager.md
-      - LEDs: Feature-LEDs.md
-      - Gate/TTG Maps: Feature-Gate-TTG-Maps.md
-      - Statistics & Consumption Counters: Feature-Statistics-Counters.md
-      - State Persistence: Feature-State-Persistence.md
+      - eSpooler: Feature-Espooler.md
       - Filament Bypass: Feature-Filament-Bypass.md
-      - G-code Preprocessing: Feature-Gcode-Preprocessing.md
-      - Tip Forming and Purging: Feature-Tip-Forming-Purging.md
-      - Addon Integrations: Feature-Addon-Integrations.md
       - FlowGuard: Feature-FlowGuard.md
+      - G-code Preprocessing: Feature-Gcode-Preprocessing.md
+      - Gate/TTG Maps: Feature-Gate-TTG-Maps.md
+      - LEDs: Feature-LEDs.md
+      - NFC/RFID Reading: Feature-NFC.md
+      - Spoolman Integration: Feature-Spoolman.md
+      - State Persistence: Feature-State-Persistence.md
+      - Statistics & Consumption Counters: Feature-Statistics-Counters.md
+      - Sync-Feedback Buffer: Feature-Sync-Feedback-Buffer.md
+      - Tip Forming and Purging: Feature-Tip-Forming-Purging.md
   - Advanced Customization:
       - Custom Load/Unload Sequences: Custom-Load-Unload-Sequences.md
   - Reference:
