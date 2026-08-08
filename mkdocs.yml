@@ -97,12 +97,21 @@ markdown_extensions:
   # comment there before touching either half of this.
 
 nav:
+  - Concepts:
+      - What Is an MMU?: Conceptual-MMU.md
   - Getting Started:
       - Installation: Installation.md
       - Box Turtle: GettingStartedWithBoxTurtle.md
       - BTT ViViD: GettingStartedWithViViD.md
-  - Concepts:
-      - What Is an MMU?: Conceptual-MMU.md
+  - Slicer & Toolchange:
+      - Slicer Setup: Slicer-Setup.md
+      - Toolchange Movement: Toolchange-Movement.md
+  - Operation:
+      - Operation: Operation.md
+      - KlipperScreen: KlipperScreen.md
+      - Mainsail / Fluidd: Mainsail-Fluidd-Integration.md
+  - Tuning:
+      - Blobbing and Stringing: Blobbing-and-Stringing.md
   - Features:
       - Eject Buttons: Feature-Eject-Buttons.md
       - Encoder: Feature-Encoder.md
@@ -133,15 +142,6 @@ nav:
       - Purge: Macro-Purge.md
   - Advanced Customization:
       - Custom Load/Unload Sequences: Custom-Load-Unload-Sequences.md
-  - Slicer & Toolchange:
-      - Slicer Setup: Slicer-Setup.md
-      - Toolchange Movement: Toolchange-Movement.md
-  - Operation:
-      - Operation: Operation.md
-      - KlipperScreen: KlipperScreen.md
-      - Mainsail / Fluidd: Mainsail-Fluidd-Integration.md
-  - Tuning:
-      - Blobbing and Stringing: Blobbing-and-Stringing.md
   - Reference:
       - Command Reference: Command-Reference.md
       - Parameters: Parameters.md
