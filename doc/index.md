@@ -73,6 +73,9 @@ The pages here are grouped by what you're trying to do, not by MMU brand:
   every MMU type - worth reading once, regardless of which hardware you have.
 - **Features** has one page per capability (Spoolman, NFC, eSpooler, and so
   on) - dip into whichever ones you actually plan to use.
+- **Macros** covers tuning and extending the gcode macros Happy Hare ships
+  with - tip forming/cutting, parking, purging, pause/resume - one page per
+  macro group, each with its own menuconfig screen.
 - **Advanced Customization** covers replacing Happy Hare's own internal
   logic with your own macros - expert-level, and rarely needed.
 - **Slicer & Toolchange** covers the slicer-side setup an MMU print needs,
@@ -142,6 +145,15 @@ Whichever you use, having these ready up front gets you a faster answer:
     One page per capability - Spoolman, NFC/RFID, eSpooler, encoder, and more.
 
     [eSpooler &rarr;](Feature-Espooler.md)
+
+-   **Macros**
+
+    ---
+
+    Tuning and extending the gcode macros Happy Hare ships with - tip
+    forming/cutting, parking, purging, pause/resume, and more.
+
+    [Macro Customization &rarr;](Macro-Customization.md)
 
 -   **Advanced Customization**
 

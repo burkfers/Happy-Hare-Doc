@@ -312,6 +312,9 @@ real generated file is the reliable way to confirm it.
 
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md)
 - [Toolchange Movement](Toolchange-Movement.md)
+- [Macro: Print Start/End](Macro-Print-Start-End.md) - the
+  `MMU_START_SETUP`/`MMU_START_LOAD_INITIAL_TOOL`/`MMU_END` settings this
+  page's macros drive
 - [Feature: G-code Preprocessing](Feature-Gcode-Preprocessing.md)
 - [Command Reference: `MMU_SLICER_TOOL_MAP`](Command-Reference.md#mmu_slicer_tool_map)
 - [Command Reference: `MMU_CHANGE_TOOL`](Command-Reference.md#mmu_change_tool)

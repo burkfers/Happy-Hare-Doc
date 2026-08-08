@@ -246,6 +246,8 @@ already run.
 - [Custom Load/Unload Sequences](Custom-Load-Unload-Sequences.md) - the full
   state machine and step-command mechanism behind the load/unload overview
   above
+- [Macro: Client](Macro-Client.md) - the cancel-behavior settings and
+  pause/resume/cancel extension hooks behind the shipped client macros
 - [Command Reference: `MMU_RECOVER`](Command-Reference.md#mmu_recover)
 - [Command Reference: `MMU_STATUS`](Command-Reference.md#mmu_status)
 - [Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md)

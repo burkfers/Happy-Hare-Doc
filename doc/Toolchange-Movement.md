@@ -259,5 +259,8 @@ so it always ends up the intended height above any printed object.
 - [Slicer Setup](Slicer-Setup.md)
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md)
 - [Custom Load/Unload Sequences](Custom-Load-Unload-Sequences.md)
+- [Macro: Sequence](Macro-Sequence.md) - the menuconfig view of these same
+  settings, plus the load/unload extension hooks this page only mentions in
+  passing
 
 ---

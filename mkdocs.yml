@@ -120,6 +120,17 @@ nav:
       - Statistics & Consumption Counters: Feature-Statistics-Counters.md
       - Sync-Feedback Buffer: Feature-Sync-Feedback-Buffer.md
       - Tip Forming and Purging: Feature-Tip-Forming-Purging.md
+  - Macros:
+      - Macro Customization: Macro-Customization.md
+      - Print Start/End: Macro-Print-Start-End.md
+      - State Change Hooks: Macro-State-Change-Hooks.md
+      - Sequence: Macro-Sequence.md
+      - Client: Macro-Client.md
+      - Tip Forming: Macro-Tip-Forming.md
+      - Toolhead Tip Cutting: Macro-Toolhead-Tip-Cutting.md
+      - Servo Cutter: Macro-Servo-Cutter.md
+      - Blobifier: Macro-Blobifier.md
+      - Purge: Macro-Purge.md
   - Advanced Customization:
       - Custom Load/Unload Sequences: Custom-Load-Unload-Sequences.md
   - Slicer & Toolchange:

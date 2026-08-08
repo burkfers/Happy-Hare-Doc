@@ -209,6 +209,41 @@ repo root (not under `doc/`) specifically so it's never a candidate for publishi
   config/command examples with `` ```yaml `` (matches Pygments' YAML lexer
   coloring `key:` / `#comment` / strings reasonably even for non-YAML `.cfg`
   content — the wiki did the same for the same reason) rather than `ini`/`text`.
+- **"Macros" is its own top-level nav section** (added 2026-08-08, item 51),
+  distinct from "Advanced Customization" — the latter is the expert-level
+  internal-logic-replacement mechanism (`Custom-Load-Unload-Sequences.md`),
+  while "Macros" is the far more commonly-touched layer of tuning/extending
+  the gcode macros Happy Hare ships with, one page per `mmu_macro_vars.cfg`
+  macro group. Placed right after Features and before Advanced Customization
+  in `mkdocs.yml`'s nav (this table's own §-numbering doesn't track nav
+  position — see §10a Advanced Customization's own precedent — so it's
+  numbered §10b here, immediately after §10a, rather than renumbered into
+  its actual nav position).
+
+## Macro page template
+
+Every page under §10b Macros uses a lighter, fixed structure (distinct from
+the Feature page template below) — added 2026-08-08 per explicit request,
+item 51:
+
+1. What it does — concept, kept brief; a full Feature page's Concept
+   section is the place for hardware/workflow depth if one exists for this
+   macro group (cross-link it, don't duplicate it).
+2. Where it's applied — which real macro/command this configures, and how
+   it's wired in (automatically, or via a `user_*_extension`/`*_macro`
+   hook you set yourself).
+3. Configuration — the real menuconfig screenshot (**Macro Variables →
+   <menu>**, from a `doc_tools/shots.py` session; toggle the owning
+   capability first if the macro group is gated), plus only the handful of
+   settings worth calling out specifically. The full variable-by-variable
+   table always lives on `Macro-Vars.md` — never re-tabulate it here.
+4. See also.
+
+Screenshot note: three of these nine screens are gated behind a capability
+that isn't the boxturtle seed default (`MMU_HAS_TOOLHEAD_CUTTER`,
+`MMU_HAS_SERVO_CUTTER`, `MMU_HAS_BLOBIFIER`) — same "toggle it on in the
+scene, same pattern as `_feature_environment_manager`/`_feature_nfc`"
+approach already established for Feature pages, just applied here too.
 
 ## Feature page template
 
@@ -358,7 +393,30 @@ anything. Don't silently decide something wasn't worth keeping.
 | Page | Source | Status |
 |---|---|---|
 | `Custom-Load-Unload-Sequences.md` | `config/macros/mmu_sequence.cfg` + the real `_MMU_STEP_*` command implementations (`gcode_load_sequence`/`gcode_unload_sequence` override mechanism) | **done** — first page in a new top-level nav section, since this doesn't fit "Feature" (it's a customization mechanism, not a capability) or "Reference" (it's a how-to, not a flat lookup). Deliberately narrow scope: covers the state-machine + step-command override mechanism only, not the lighter `_MMU_SEQUENCE_VARS`/callback-macro layer in detail (mentioned and recommended as the first thing to try, but its many park-position/z-hop/retract-tuning variables are a large enough topic to deserve their own future page rather than a subsection here). All 11 `_MMU_STEP_*` commands are already in `Command-Reference.md` (it walks the whole `extras/mmu` tree) — this page links out to each rather than re-tabulating parameters, and instead does the reference's actual job: explaining the state machine, walking through what the two shipped default sequences actually do, and reproducing the two commented-out alternative examples at the end of the source file (toolhead-sensor homing, and `mmu_ext_touch` stallguard homing) that weren't visible anywhere else. Found one real, verifiable inconsistency while cross-checking the wiki against source: the shipped `_MMU_UNLOAD_SEQUENCE` passes `FULL=1` to `_MMU_STEP_UNLOAD_BOWDEN`, but that command's real parameter list is `LENGTH` only — no `FULL` — so the argument is silently ignored (harmless as shipped, since the step already runs at the calibrated length either way, but a genuine stale leftover in Happy Hare's own reference macro, not a wiki error this time). |
-| `Macro-Customization.md` | `wiki/Macro-Customization.md` (470 lines — Macro Extension vs. Macro Replacement, `MMU_ACTION_CHANGED`/`MMU_PRINT_STATE_CHANGED`/`MMU_EVENT`) | **not started, and not previously on this table at all** — found during the 2026-08-07 wiki-gap audit (item 47 below). This is exactly the "lighter callback-macro layer" `Custom-Load-Unload-Sequences.md` above deliberately deferred rather than covering itself; second page in this nav section once written. |
+
+### 10b. Macros (new section)
+
+| Page | Source | Status |
+|---|---|---|
+| `Macro-Customization.md` | `wiki/Macro-Customization.md` (470 lines — Macro Extension vs. Macro Replacement, `MMU_ACTION_CHANGED`/`MMU_PRINT_STATE_CHANGED`/`MMU_EVENT`) | **done** — found during the 2026-08-07 wiki-gap audit (item 47), originally slotted as a second page under §10a Advanced Customization; moved here instead once the request came in to also give each `mmu_macro_vars.cfg` macro group its own page and group all of it into a dedicated nav section (item 51) — this page is that section's lead/intro, covering the two customization methods only. Its Tip Forming/Tip Cutting sections (the wiki page's own last two sections) were dropped and relocated to their own pages below rather than covered twice. Rebuilt the wiki's one flat `variable_user_*_extension` list into the real per-block mapping (which macro group owns which hook) — the wiki never distinguished these. Cross-links `Parameters.md#macros` for the full macro-replacement parameter table rather than re-tabulating it. |
+| `Macro-Print-Start-End.md` (`_MMU_SOFTWARE`) | `installer/macro_vars/Kconfig.software` + `config/base/mmu_macro_vars.cfg` | **done** — `MMU_START_SETUP`/`MMU_START_LOAD_INITIAL_TOOL`/`MMU_END` settings; cross-links `Slicer-Setup.md` (owns the calling convention) and `Feature-Gate-TTG-Maps.md` (owns the `automap_strategy` matching logic this page's setting drives). |
+| `Macro-State-Change-Hooks.md` (`_MMU_STATE`) | `installer/macro_vars/Kconfig.state` + `config/base/mmu_macro_vars.cfg` | **done** — the three state-change/event hooks, plus `servo_down_limit`/`cutter_blade_limit`; cross-links `Feature-Statistics-Counters.md`'s existing note that neither limit drives a real counter on its own. |
+| `Macro-Sequence.md` (`_MMU_SEQUENCE`) | `installer/macro_vars/Kconfig.sequence` + `config/base/mmu_macro_vars.cfg` | **done** — real, significant scope overlap found and resolved: `Toolchange-Movement.md` (§6, already done) already covers this block's parking/`restore_xy_pos`/z-hop settings in full, with worked examples and diagrams Macro-Vars.md itself doesn't have. Rewritten to explicitly defer to that page rather than duplicate it, and cover only what it doesn't: the menuconfig screenshot, the six `user_*_extension` load/unload hooks (which `Toolchange-Movement.md` only mentions in passing), and `auto_home`/`timelapse`. Added a reciprocal link back from `Toolchange-Movement.md`. |
+| `Macro-Client.md` (`_MMU_CLIENT`) | `installer/macro_vars/Kconfig.client` + `config/base/mmu_macro_vars.cfg` | **done** — cancel-behavior toggles and the pause/resume/cancel hooks for the shipped client macros; cross-links `Operation.md`'s pause→fix→resume/recover flow and `Macro-Sequence.md` for the parking/z-hop behavior around those same operations (this block's own settings are cancel-only). |
+| `Macro-Tip-Forming.md` (`_MMU_FORM_TIP`) | `installer/macro_vars/Kconfig.form_tip` + `config/base/mmu_macro_vars.cfg` | **done** — deliberately light: `Feature-Tip-Forming-Purging.md` already has the concept and a real, code-verified `MMU_TEST_FORM_TIP` tuning workflow (superseding the wiki's older `MMU_LOAD EXTRUDER_ONLY=1` → `MMU_FORM_TIP` → `variable_final_eject` sequence, which is why that workflow wasn't ported here or anywhere else) — this page just adds the menuconfig screenshot and notes `Kconfig.form_tip` is sourced unconditionally (visible even when toolhead cutting is selected instead). |
+| `Macro-Toolhead-Tip-Cutting.md` (`_MMU_CUT_TIP`) | `installer/macro_vars/Kconfig.cut_tip` + `config/base/mmu_macro_vars.cfg` | **done** — real v4 drift from the wiki found and flagged: `pin_loc_xy` (`14, 250`, not the wiki's `13, 213`) and `pushback_length` (`15.0`mm, not `5`) have both changed; `cut_axis_steppers`/`cut_stepper_current`/`cutting_axis`/`cut_iterations` are new settings not in the wiki at all. The menuconfig screen for this block is gated on `MMU_HAS_TOOLHEAD_CUTTER`, set under **Toolhead sensors/settings** (not under Tip Forming/Cutting itself) — only once that's on does "Tip cutting using toolhead cutter" even appear as a choice under Tip Forming/Cutting's own standalone-option choice. |
+| `Macro-Servo-Cutter.md` (`_MMU_SERVO_CUTTER`) | `installer/macro_vars/Kconfig.servo_cutter` + `config/base/mmu_macro_vars.cfg` | **done** — real bug found in Happy Hare's own shipped config: `mmu_macro_vars.cfg`'s section banner for this block describes it as a `post_load_extension`, but `mmu_servo_cutter.cfg`'s own header comment (and the actual mechanism - it fires a `filament_cut` event and repeats the gate-parking move, characteristic of unload) says it's designed for `variable_user_post_unload_extension`. Documented per the macro file's own instruction, with the banner discrepancy flagged as a note rather than silently picking one silently. Also corrected: enabling the capability in menuconfig does **not** auto-wire the hook — confirmed via the Kconfig prompt's own help text ("after enabling this be sure to edit Macro variables") and a grep across `installer/`/`config/` turning up no automatic wiring anywhere. |
+| `Macro-Blobifier.md` (`_BLOBIFIER`) | `installer/macro_vars/Kconfig.blobifier` + `config/base/mmu_macro_vars.cfg` | **done** — ~60 variables; deliberately doesn't re-tabulate `Macro-Vars.md`'s existing full table. Found the tray-actuator-type choice (servo/stepper) doesn't actually live under Macro Variables at all - it's a hidden, prompt-less symbol there (`VAR_BLOBIFIER_TYPE`), with the real user-facing choice on the **Purging** screen instead (`installer/Kconfig.purging`), alongside "Have Blobifier?" - documented on the page rather than assumed. Screenshot capture found the whole ~60-variable menu fits one autofit screenshot (75 of the 96-row cap, no scroll arrows) - the multi-shot split originally planned for this page turned out to be unnecessary once tried. |
+| `Macro-Purge.md` (`_MMU_PURGE`) | `installer/macro_vars/Kconfig.purge` + `config/base/mmu_macro_vars.cfg` | **done** — genuinely one setting (`extruder_purge_speed`); cross-links `Feature-Tip-Forming-Purging.md#purge-volumes` and `Macro-Blobifier.md` as the more capable alternative. |
+
+Two blocks in `mmu_macro_vars.cfg` deliberately have no page here: the
+auto-generated `T[[i]]` per-gate tool macros (no variables of their own -
+already covered as part of `Slicer-Setup.md`'s T0 discussion), and
+`_MMU_FAN_VARS` (gated on `MMU_HAS_FANS and MMU_HAS_ENVIRONMENT_SENSOR` in
+the shipped file, but no `Kconfig.*` is `rsource`d for it under **Macro
+Variables** at all - there's simply no menuconfig editor for it, confirmed
+by reading `installer/macro_vars/Kconfig`'s source list directly). Already
+noted on `Macro-Vars.md` itself; not a gap in this table.
 
 ### 11. Troubleshooting & FAQ
 
@@ -2061,17 +2119,77 @@ anything. Don't silently decide something wasn't worth keeping.
       matches what's in the new screenshots rather than just replacing the
       `<img src>` and leaving stale prose underneath.
 
-**To pick this back up:** with §1, §5, §6, §7, and §8 now done, and §10
-down to just its own remaining ⚠️-flagged pages, the next open sections are
-§1's remaining pages (`MMU-Types-Overview.md`, `Upgrading-from-v3.md`, and
-the `GettingStartedWith3MS.md`/`GettingStartedWithQuattroBox.md` pair from
+51. **New §10b Macros section written and shipped: `Macro-Customization.md`
+    rewritten (dropping its Tip Forming/Tip Cutting sections, relocated to
+    their own pages) plus nine new per-macro-group pages, one for every
+    `mmu_macro_vars.cfg` block that has a menuconfig editor** - on explicit
+    request. Full per-page detail is on the §10b table above; not
+    re-duplicated here, but a few things worth logging that don't belong on
+    any single page's row:
+    - **A real, pre-existing bug found and fixed in `doc_tools/shots.py`
+      itself**, unrelated to the new work but found while building it: the
+      `_feature_gate_ttg_maps` scene's `mc.enter('Print start/end
+      (_MMU_SOFTWARE)')` call (a single space before the parenthesis) no
+      longer matches the live Kconfig source, which now pads that menu
+      title with extra spaces for column alignment
+      (`"Print start/end    (_MMU_SOFTWARE)"`, four spaces) - confirmed
+      broken by running the session directly before touching anything.
+      Fixed by matching on the `(_MMU_SOFTWARE)` tag alone rather than the
+      full padded title, and used the same tag-only substring for all nine
+      new scenes' own `mc.enter()` calls so none of them are exposed to the
+      same whitespace fragility if the padding changes again.
+    - **Screenshot capture found two menuconfig navigation subtleties not
+      obvious from reading the Kconfig source alone**: `MMU_HAS_TOOLHEAD_CUTTER`
+      lives under **Toolhead sensors/settings** ("Has toolhead cutter?"),
+      not under **Tip Forming / Cutting** itself, even though it's a
+      `depends on` for that menu's own "Tip cutting using toolhead cutter"
+      choice option - the option simply doesn't appear at all until the
+      other capability is toggled on first. And selecting a radio option
+      inside a `choice` block auto-closes back to the parent menu (unlike
+      toggling a plain choice item inline, e.g. Box Turtle's MMU-type
+      selection) - an extra `mc.back()` written on the assumption it
+      wouldn't landed on the top-level quit/save dialog instead, caught by
+      `mc.step()`'s own assertion rather than producing a wrong screenshot
+      silently.
+    - **A real scope collision found and resolved before it shipped
+      wrong**: the first draft of `Macro-Sequence.md` re-explained park
+      positions/`restore_xy_pos`/z-hop from scratch, not realising
+      `Toolchange-Movement.md` (§6, already done) already covers exactly
+      that with worked examples and diagrams neither `Macro-Vars.md` nor a
+      from-scratch macro page would improve on. Rewritten to explicitly
+      defer to that page and cover only what it doesn't (the menuconfig
+      screenshot and the load/unload extension hooks) - caught by reading
+      `Toolchange-Movement.md` directly before finishing the page, not by
+      the advisor call earlier in the session, which didn't have visibility
+      into that page's existing content.
+    - **The wiki's tip-forming tuning workflow (`MMU_LOAD EXTRUDER_ONLY=1` →
+      `MMU_FORM_TIP` → `variable_final_eject`) was NOT ported to the new
+      `Macro-Tip-Forming.md`**, contrary to the original plan going in -
+      `Feature-Tip-Forming-Purging.md` already has a newer, code-verified
+      workflow built around `MMU_TEST_FORM_TIP` that supersedes it (per
+      that page's own status note). Porting the wiki version anyway would
+      have reintroduced a stale command name onto a second page; the new
+      page instead links to the existing correct workflow.
+    - Every new page built clean and verified in a real preview the same
+      way as prior sessions: every image's `naturalWidth`/`complete`
+      checked via DOM, and the Blobifier page's single screenshot confirmed
+      it actually covers the whole ~60-variable menu (autofit settled at 75
+      of the 96-row cap, no scroll arrows) rather than silently cutting off
+      - the three-shot split originally planned for that page turned out
+      unnecessary once tried, so the scene was simplified rather than kept
+      as unused complexity.
+
+**To pick this back up:** with §1, §5, §6, §7, §8, and now §10b Macros all
+done, and §10 down to just its own remaining ⚠️-flagged pages, the next open
+sections are §1's remaining pages (`MMU-Types-Overview.md`,
+`Upgrading-from-v3.md`, and the
+`GettingStartedWith3MS.md`/`GettingStartedWithQuattroBox.md` pair from
 item 47), §2's other two pages (`Understanding-Operation.md`,
 `Print-Job-State-Machine.md` - lean on `Conceptual-MMU.md`'s terminology
 rather than re-defining it), §3's four `Configuring-mmu*.cfg.md` generators
 (follow the `gen_command_reference.py` pattern already proven out), §4
-Calibration, §10a's new `Macro-Customization.md` (item 47), §11
-(Troubleshooting & FAQ), and §13 (Community & Support). None of these have
-been scoped yet the way the routing pass in item 35 scoped §5 (or the ad-hoc
+Calibration, §11 (Troubleshooting & FAQ), and §13 (Community & Support).
+None of these have been scoped yet the way the routing pass in item 35 scoped §5 (or the ad-hoc
 scoping items 48/49 did for §6/§7/§8/parts of §10) up front - worth doing
 the same wiki-vs-code overlap check before drafting, especially for §2/§4,
 which likely share content with the now-finished §5/§7/§8 pages

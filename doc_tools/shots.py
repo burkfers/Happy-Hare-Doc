@@ -264,7 +264,7 @@ def _feature_gate_ttg_maps(mc, shot):
     seed (default) needs no setup.
     """
     mc.enter('Macro Variables')
-    mc.enter('Print start/end (_MMU_SOFTWARE)')
+    mc.enter('(_MMU_SOFTWARE)')
     mc.select('Automap strategy')
     shot('automap-strategy')                          # strategy choice + reset-TTG-at-end-of-print checkbox
 
@@ -363,6 +363,139 @@ def _feature_endless_spool_runout(mc, shot):
     shot('endless-spool-options')                    # both EndlessSpool checkboxes, off by default
 
 
+def _macro_print_start_end(mc, shot):
+    """
+    For doc/Macro-Print-Start-End.md - the _MMU_SOFTWARE macro-vars screen.
+    Unconditional menu, so the boxturtle seed (default) needs no setup.
+    """
+    mc.enter('Macro Variables')
+    mc.enter('(_MMU_SOFTWARE)')
+    shot('print-start-end')                           # start-checks + automap strategy + end-of-print behavior
+
+
+def _macro_state_change_hooks(mc, shot):
+    """
+    For doc/Macro-State-Change-Hooks.md - the _MMU_STATE macro-vars screen.
+    Unconditional menu, so the boxturtle seed (default) needs no setup.
+    """
+    mc.enter('Macro Variables')
+    mc.enter('(_MMU_STATE)')
+    shot('state-change-hooks')                        # 3 extension hooks + servo/cutter consumption limits
+
+
+def _macro_sequence(mc, shot):
+    """
+    For doc/Macro-Sequence.md - the _MMU_SEQUENCE macro-vars screen. Unconditional
+    menu, so the boxturtle seed (default) needs no setup. Tall enough that autofit
+    may need the full MAX_ROWS cap - one shot at the top, split further only if it
+    still shows scroll arrows.
+    """
+    mc.enter('Macro Variables')
+    mc.enter('(_MMU_SEQUENCE)')
+    shot('sequence')                                  # park positions, restore-XY choice, user hooks
+
+
+def _macro_client(mc, shot):
+    """
+    For doc/Macro-Client.md - the _MMU_CLIENT macro-vars screen. Gated on
+    INSTALL_CLIENT_MACROS, which defaults to y - already visible on the
+    boxturtle seed with no scene setup.
+    """
+    mc.enter('Macro Variables')
+    mc.enter('(_MMU_CLIENT)')
+    shot('client')                                     # cancel behavior + pause/resume/cancel extension hooks
+
+
+def _macro_tip_forming(mc, shot):
+    """
+    For doc/Macro-Tip-Forming.md - the _MMU_FORM_TIP macro-vars screen.
+    Kconfig.form_tip is sourced unconditionally in macro_vars/Kconfig (unlike
+    cut_tip/servo_cutter/blobifier below), so this is visible on the boxturtle
+    seed even though tip cutting, not forming, is the seed's actual choice.
+    """
+    mc.enter('Macro Variables')
+    mc.enter('(_MMU_FORM_TIP)')
+    shot('tip-forming')                                # ramming/separation/cooling/skinnydip/parking steps
+
+
+def _macro_toolhead_tip_cutting(mc, shot):
+    """
+    For doc/Macro-Toolhead-Tip-Cutting.md - the _MMU_CUT_TIP macro-vars screen.
+    Gated on MMU_HAS_TOOLHEAD_CUTTER, which lives under Toolhead sensors/settings
+    ("Has toolhead cutter?") - not under Tip Forming / Cutting itself. Only once
+    that's on does "Tip cutting using toolhead cutter" even appear as a choice
+    under Tip Forming / Cutting's standalone-option choice (it becomes the
+    choice's new default, but is selected explicitly here anyway).
+    """
+    mc.enter('Toolhead sensors/settings')
+    mc.select('Has toolhead cutter?')
+    mc.toggle()
+    mc.autofit()
+    mc.back()                                          # -> (Top)
+
+    mc.enter('Tip Forming / Cutting')
+    mc.enter('Select standalone tip shaping option')
+    mc.select('Tip cutting using toolhead cutter')
+    mc.toggle()                                        # choice auto-closes back to Tip Forming / Cutting
+    mc.autofit()
+    mc.back()                                          # -> (Top)
+
+    mc.enter('Macro Variables')
+    mc.enter('(_MMU_CUT_TIP)')
+    shot('toolhead-tip-cutting')                       # blade/pin geometry, cut speeds, gantry servo
+
+
+def _macro_servo_cutter(mc, shot):
+    """
+    For doc/Macro-Servo-Cutter.md - the _MMU_SERVO_CUTTER macro-vars screen.
+    Gated on MMU_HAS_SERVO_CUTTER, off by default - toggled on under Tip Forming /
+    Cutting (same menu the base screenshot in _feature_tip_forming_purging shows
+    with this off).
+    """
+    mc.enter('Tip Forming / Cutting')
+    mc.select('Have servo cutter at MMU?')
+    mc.toggle()
+    mc.autofit()
+    mc.back()                                          # -> (Top)
+
+    mc.enter('Macro Variables')
+    mc.enter('(_MMU_SERVO_CUTTER)')
+    shot('servo-cutter')                                # servo angles/timing + feed/cut length and attempts
+
+
+def _macro_blobifier(mc, shot):
+    """
+    For doc/Macro-Blobifier.md - the _BLOBIFIER macro-vars screen. Gated on
+    MMU_HAS_BLOBIFIER, off by default - toggled on under Purging (same menu the
+    base screenshot in _feature_tip_forming_purging shows with this off).
+
+    ~60 variables - looked too tall for one screenshot, but autofit's 96-row cap
+    comfortably covers the whole menu (75 rows, no scroll arrows) in practice, so
+    this is one shot rather than the split originally planned. Comment headers
+    like "Blob Tuning" render in a distinct all-caps banner style and aren't
+    themselves selectable, which is why this doesn't use mc.select() on them.
+    """
+    mc.enter('Purging')
+    mc.select('Have Blobifier?')
+    mc.toggle()
+    mc.autofit()
+    mc.back()                                          # -> (Top)
+
+    mc.enter('Macro Variables')
+    mc.enter('(_BLOBIFIER)')
+    shot('blobifier')                                   # every _BLOBIFIER_VARS setting, one tall screen
+
+
+def _macro_purge(mc, shot):
+    """
+    For doc/Macro-Purge.md - the _MMU_PURGE macro-vars screen. Unconditional
+    menu, so the boxturtle seed (default) needs no setup.
+    """
+    mc.enter('Macro Variables')
+    mc.enter('(_MMU_PURGE)')
+    shot('purge')                                       # single reference-purge speed setting
+
+
 SESSIONS = [
     {
         'name': 'getting-started-boxturtle',
@@ -444,6 +577,60 @@ SESSIONS = [
         'scenes': _getting_started_vivid,
         'outdir': 'GettingStartedWithViViD',
         'seed': 'none',
+    },
+    {
+        'name': 'macro-print-start-end',
+        'caption': 'doc/Macro-Print-Start-End.md - the _MMU_SOFTWARE macro-vars screen',
+        'scenes': _macro_print_start_end,
+        'outdir': 'Macro-Print-Start-End',
+    },
+    {
+        'name': 'macro-state-change-hooks',
+        'caption': 'doc/Macro-State-Change-Hooks.md - the _MMU_STATE macro-vars screen',
+        'scenes': _macro_state_change_hooks,
+        'outdir': 'Macro-State-Change-Hooks',
+    },
+    {
+        'name': 'macro-sequence',
+        'caption': 'doc/Macro-Sequence.md - the _MMU_SEQUENCE macro-vars screen',
+        'scenes': _macro_sequence,
+        'outdir': 'Macro-Sequence',
+    },
+    {
+        'name': 'macro-client',
+        'caption': 'doc/Macro-Client.md - the _MMU_CLIENT macro-vars screen',
+        'scenes': _macro_client,
+        'outdir': 'Macro-Client',
+    },
+    {
+        'name': 'macro-tip-forming',
+        'caption': 'doc/Macro-Tip-Forming.md - the _MMU_FORM_TIP macro-vars screen',
+        'scenes': _macro_tip_forming,
+        'outdir': 'Macro-Tip-Forming',
+    },
+    {
+        'name': 'macro-toolhead-tip-cutting',
+        'caption': 'doc/Macro-Toolhead-Tip-Cutting.md - the _MMU_CUT_TIP macro-vars screen',
+        'scenes': _macro_toolhead_tip_cutting,
+        'outdir': 'Macro-Toolhead-Tip-Cutting',
+    },
+    {
+        'name': 'macro-servo-cutter',
+        'caption': 'doc/Macro-Servo-Cutter.md - the _MMU_SERVO_CUTTER macro-vars screen',
+        'scenes': _macro_servo_cutter,
+        'outdir': 'Macro-Servo-Cutter',
+    },
+    {
+        'name': 'macro-blobifier',
+        'caption': 'doc/Macro-Blobifier.md - the _BLOBIFIER macro-vars screen',
+        'scenes': _macro_blobifier,
+        'outdir': 'Macro-Blobifier',
+    },
+    {
+        'name': 'macro-purge',
+        'caption': 'doc/Macro-Purge.md - the _MMU_PURGE macro-vars screen',
+        'scenes': _macro_purge,
+        'outdir': 'Macro-Purge',
     },
 ]
 

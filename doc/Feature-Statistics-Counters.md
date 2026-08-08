@@ -201,6 +201,9 @@ including gate-map listings elsewhere on this site.
 - [Command Reference: `MMU_STATS`](Command-Reference.md#mmu_stats)
 - [Feature: Encoder](Feature-Encoder.md) - the source of gate slippage/quality data
 - [Feature: EndlessSpool & Runout Detection](Feature-Endless-Spool-Runout.md) - a runout pause adds to that gate's pause count
+- [Macro: State Change Hooks](Macro-State-Change-Hooks.md) - the
+  `servo_down_limit`/`cutter_blade_limit` maintenance thresholds a
+  hand-wired counter here can use
 - [Printer Variables](Printer-Variables.md#core-state) - `num_toolchanges`/`slicer_tool_map.total_toolchanges`, the only part of this feature exposed as a printer variable; everything else is console/log only
 
 ---
