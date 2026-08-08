@@ -59,8 +59,8 @@ flowguard_encoder_max_motion : 20.0  # mm - only used in mode 1 (static); mode 2
 A smaller `flowguard_max_relief` triggers sooner - start high and reduce it
 if you want more sensitivity, since how much relief movement is normal
 depends heavily on filament "spring" in the bowden tube, friction, and your
-buffer's own `sync_feedback_buffer_range`. Proportional sensors can
-generally run a lower value than switch sensors.
+buffer's own [`buffer_range`](Feature-Sync-Feedback-Buffer.md#setting-buffer_rangebuffer_maxrange).
+Proportional sensors can generally run a lower value than switch sensors.
 
 `tangle_prevention_threshold`/`_release` are both shown regardless of
 sensor type, but only take effect with a proportional sensor fitted - the
@@ -125,11 +125,78 @@ active unit has a buffer and/or encoder.
   while leaving the underlying buffer/encoder readings (AutoTune, flow
   rate, manual position tracking) working normally.
 
+### Tuning with telemetry
+
+Reading the error message from a real trigger (see the Troubleshooting
+warning below) is usually enough. For genuinely dialing in early detection,
+`sync_feedback_debug_log: 1` writes a per-gate telemetry log to
+`~/printer_data/logs/sync_<gate>.jsonl` - deleted and recreated at the start
+of every print, so copy one elsewhere first if you want to keep it.
+
+```yaml
+sync_feedback_debug_log: 0   # 0 = normal operation, 1 = write a telemetry log for tuning
+```
+
+Process a log with the bundled plotting script:
+
+```text
+~/Happy-Hare/utils/plot_sync_feedback.sh ~/printer_data/logs/sync_5.jsonl
+Saved plot to sim_plot.png
+```
+
+!!! warning
+    Don't run `plot_sync_feedback.sh` on the Pi during an active print -
+    it's CPU-intensive enough to trigger a Timer Too Close (TTC) shutdown.
+    Copy the `.jsonl` file to another machine with Happy Hare's source and
+    `matplotlib` (`pip install matplotlib`) installed, and run it there
+    instead. Running it interactively (rather than piping through SSH) also
+    opens a zoomable plot viewer for inspecting a specific region closely:
+
+    <p align="center">
+      <img src="Feature-FlowGuard/matplot-viewer.png" alt="The interactive matplotlib plot viewer's toolbar - pan, zoom, and save controls" width="55%">
+    </p>
+
+**Reading the plot**: the fine red "ramp" trace is the key signal - a
+dash-dotted line rising toward the `flowguard_max_relief` threshold, with
+the trigger point itself marked by a heavy vertical bar where it crosses
+zero. Green dots mark AutoTune correction points; small × marks show where
+FlowGuard was inactive (during a load/unload or purge, when readings aren't
+meaningful). A false trigger is almost always "play" in the filament path -
+a large-ID or long bowden lets filament coil up inside it, which reads as
+more relief movement than a "perfect", play-free system would actually see.
+
+<p align="center">
+  <img src="Feature-FlowGuard/tuning-flowguard.png" alt="Annotated FlowGuard telemetry plot: the ramp trace crossing zero at the trigger point, with flowguard_max_relief called out" width="70%">
+</p>
+
+A full simulated example, tripping a tangle on a Type-P (proportional)
+sensor - the same shape a real print's telemetry takes when
+`flowguard_max_relief` is set tighter than the filament path's actual play:
+
+<p align="center">
+  <img src="Feature-FlowGuard/type-p-simulation-tangle.png" alt="Simulated FlowGuard telemetry tripping a tangle on a Type-P sensor, annotated with the trigger reason and triggering parameter" width="90%">
+</p>
+
+!!! note
+    The equivalent [Type-D simulation](Feature-FlowGuard/type-d-simulation-tangle.png)
+    mislabels its own trigger reason as `flowguard_max_motion` - a labeling
+    bug in the plot itself, not a real setting; the actual parameter is
+    `flowguard_max_relief`, as correctly shown in the Type-P plot above.
+
 ## Troubleshooting
 
-- **A print paused for a "clog" or "tangle" that wasn't real** - see Tuning
-  above; this is a threshold that needs adjusting for your specific
-  mechanism, not a fault.
+- **A print paused for a "clog" or "tangle" that wasn't real** - the error
+  message names exactly which setting tripped it:
+
+    ```text
+    FlowGuard detected a tangle.
+    Reason for trip: Tension stuck after 63mm motion and 8.3mm relief (triggering parameter: flowguard_max_relief)
+    ```
+
+    Raise the named parameter - see Tuning above; this is a threshold that
+    needs adjusting for your specific mechanism, not a fault. Every setting
+    here can be changed live with `MMU_TEST_CONFIG <parameter>=<value>`, no
+    restart needed, so it's cheap to try a higher value immediately.
 - **Tangle prevention never seems to boost current** - confirm you have a
   proportional (type P) sync-feedback sensor; switch-type sensors (TO/CO/D)
   can't report the tension level this feature needs.

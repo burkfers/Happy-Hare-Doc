@@ -38,12 +38,38 @@ supported:
     the current configuration keys are `tension_pin` and `compression_pin`
     (see [Hardware Setup](#hardware-setup) below).
 
-Which sensor style you have decides how AutoTune corrects things: switch
-sensors nudge the gear speed up or down and watch which way the switches
-respond, continuously oscillating in a small, deliberate back-and-forth
-around the correct value; a proportional sensor instead gets a smoother,
-continuously-estimated correction directly from its position reading, since
-it doesn't need to hunt for a switch trip point at all.
+Which sensor style you have decides how AutoTune corrects things, and which
+of two algorithms it runs:
+
+- **Two-level** (switch sensors - TO/CO/D): the gear speed is continuously
+  nudged a fixed % above or below the current rotation-distance estimate,
+  and which way the switches respond decides which direction is correct.
+  This means a switch sensor's gear speed is *always* oscillating in a
+  small, deliberate back-and-forth, even once AutoTune has converged - that
+  oscillation is how it keeps checking the estimate is still right, not a
+  fault. `sync_feedback_speed_multiplier`/`_boost_multiplier` (see
+  [Parameter Setup](#parameter-setup) below) control how wide that
+  back-and-forth is.
+- **EKF** (Extended Kalman Filter - proportional sensors only): a
+  statistical model correlates the sensor's continuous position reading
+  with extruder motion to estimate rotation distance directly, with no need
+  to hunt for a switch trip point at all - smoother, and generally more
+  accurate once converged.
+
+<p align="center">
+  <img src="Feature-Sync-Feedback-Buffer/type-co-simulation.png" alt="Simulated AutoTune convergence with a Type-CO switch sensor: the gear rotation distance oscillates in decreasing swings around the correct value as AutoTune converges" width="90%">
+</p>
+
+The gear's rotation distance (heavy blue line) starts off `20`, but the
+extruder's real value is `20.5` - visible as wide, fast oscillation at the
+start that narrows as AutoTune homes in on the correct value. [The
+equivalent plot for a Type-D
+sensor](Feature-Sync-Feedback-Buffer/type-d-simulation.png) looks similar.
+EKF mode converges the same way, just without the oscillation:
+
+<p align="center">
+  <img src="Feature-Sync-Feedback-Buffer/type-p-simulation.png" alt="Simulated AutoTune convergence with a Type-P proportional sensor: the gear rotation distance converges smoothly on the correct value with no oscillation" width="90%">
+</p>
 
 A sync-feedback sensor isn't only useful for AutoTune - a compression switch
 or a proportional sensor's threshold can also stand in as the extruder
@@ -100,6 +126,36 @@ triggering the buffer by hand to confirm the orientation is wired the way
 you expect - a squeezed buffer commonly means tension, an expanded one
 compression, but it depends entirely on your specific mechanism.
 
+### Setting `buffer_range`/`buffer_maxrange`
+
+Both are physical measurements of the buffer mechanism itself, used to
+validate movement and optimize AutoTune - `buffer_maxrange` is the buffer's
+total end-to-end travel, `buffer_range` is the distance specifically
+between the trip points (or between one switch and the buffer's end, for a
+single-switch design):
+
+```text
+Possible buffer setups (dual-switch, compression-only, tension-only):
+
+  <------maxrange------>       <------maxrange------>       <------maxrange------>
+       <--range--->                  <----range----->       <----range----->
+  |====================|       |====================|       |====================|
+       ^          ^                  ^                                     ^
+  compression   tension        compression-only                      tension-only
+```
+
+For a type-P (proportional) sensor, `buffer_range` is the distance over
+which the raw ADC value actually changes - typically the same as
+`buffer_maxrange`:
+
+```text
+  <------maxrange------>
+     <----range---->
+  |====================|
+  ^                    ^
+compression        tension
+```
+
 ## Parameter Setup
 
 Whether the gear stepper synchronizes to the extruder at all is a separate
@@ -120,7 +176,7 @@ sync_feedback_enabled           : 1   # Use the buffer even though it's fitted (
 sync_feedback_speed_multiplier  : 5   # % gear speed delta used to keep filament neutral (switch sensors)
 sync_feedback_boost_multiplier  : 3   # % extra speed boost while first finding neutral (switch sensors)
 sync_feedback_extrude_threshold : 5   # mm of extruder movement between AutoTune checks
-sync_feedback_debug_log         : 0   # 1 = write a telemetry log for tuning (see Troubleshooting)
+sync_feedback_debug_log         : 0   # 1 = write a telemetry log for tuning (see Tuning)
 ```
 
 Whether `sync_to_extruder` is a real choice or fixed on depends on your MMU
@@ -209,13 +265,7 @@ for a quick glance without opening the meter:
 - **Switch sensors need no calibration** beyond the physical
   `buffer_range`/`buffer_maxrange` measurements in Hardware Setup - AutoTune
   starts oscillating and correcting as soon as the sensor is wired correctly.
-- **Proportional sensors need a one-time calibration pass**:
-  [`MMU_CALIBRATE_PSENSOR`](Command-Reference.md#mmu_calibrate_psensor)
-  moves the gear stepper in small increments in both directions until the
-  sensor readings stop changing, then reports the compression/tension/neutral
-  values to enter into `mmu_hardware.cfg`. Filament must be loaded first; if
-  the reported extremes don't approach `0` and `1`, double check the pin is
-  actually ADC-capable rather than a plain digital input.
+- **Proportional sensors need a one-time calibration pass** - see below.
 - **Enabling `autotune_rotation_distance` in `mmu_parameters.cfg`** persists
   AutoTune's live estimate as the calibrated rotation distance, so it's
   remembered across restarts instead of being re-learned from scratch every
@@ -224,8 +274,59 @@ for a quick glance without opening the meter:
   culprit is "play" in the filament path - a large-ID bowden tube or a long
   run lets filament coil up inside it, which looks like more movement than
   the sensor should be seeing. `sync_feedback_debug_log: 1` writes a
-  per-gate telemetry file for closer analysis, worth digging into if
-  problems persist.
+  per-gate telemetry file for closer analysis - see [Feature: FlowGuard:
+  Tuning with telemetry](Feature-FlowGuard.md#tuning-with-telemetry) for how
+  to read one.
+
+### Calibrating a proportional sensor
+
+With `analog_pin` set in `mmu_hardware.cfg` and Klipper restarted, confirm
+the wiring works at all before trusting the automatic calibration below.
+Load filament, then move the buffer shuttle by hand to each extreme and
+check the raw value with [`MMU_SENSORS`](Command-Reference.md#mmu_sensors):
+
+```text
+> MMU_SENSORS
+unit0:filament_proportional --> 0.02 (raw: 0.0064)
+```
+
+The raw value should approach `0` at one extreme and `1` at the other - if
+it barely moves, the pin isn't actually ADC-capable (double check it's not
+a plain digital/endstop pin, the kind normally used for a thermistor).
+
+Once wiring is confirmed,
+[`MMU_CALIBRATE_PSENSOR`](Command-Reference.md#mmu_calibrate_psensor) does
+the rest automatically - it moves the gear stepper in small increments in
+both directions until the readings plateau at each extreme, then reports
+the values to enter into `mmu_hardware.cfg`:
+
+```text
+> MMU_CALIBRATE_PSENSOR
+Finding compression limit stepping up to 28.00mm
+Seeking ... ADC compressed limit: 0.2311
+Seeking ... ADC compressed limit: 0.6419
+Seeking ... ADC compressed limit: 0.9831
+Sensor saturated at 0.9839 — limit found
+Backing off compressed limit
+Finding tension limit stepping up to 28.00mm
+Seeking ... ADC tension limit: 0.0623
+Seeking ... ADC tension limit: 0.0078
+Sensor saturated at 0.0064 — limit found
+Backing off tension limit
+Calibration Results:
+As wired, recommended settings (in mmu_hardware_*.cfg) are:
+[mmu_buffer unit0]
+analog_max_compression: 0.9839
+analog_max_tension:     0.0064
+analog_neutral_point:   0.4952
+After updating, don't forget to restart klipper!
+```
+
+Copy the three reported values into `mmu_hardware.cfg`'s `[mmu_buffer
+<unit_name>]` section and restart. The default search range is
+`buffer_maxrange`; for a buffer with a lot of travel, widen it with
+`MMU_CALIBRATE_PSENSOR MOVE=<mm>` if calibration doesn't find a clean
+plateau at either end.
 
 ## Troubleshooting
 
@@ -254,6 +355,7 @@ for a quick glance without opening the meter:
 - [Command Reference: `MMU_SENSORS`](Command-Reference.md#mmu_sensors)
 - [Printer Variables: sync feedback, FlowGuard and tangle prevention](Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
 - [Feature: FlowGuard](Feature-FlowGuard.md) - the clog/tangle detection and tangle-prevention current boost this sensor feeds
+- [Feature: FlowGuard: Tuning with telemetry](Feature-FlowGuard.md#tuning-with-telemetry) - reading a `sync_feedback_debug_log` telemetry file, including these AutoTune simulation plots' real-print counterparts
 
 ---
 

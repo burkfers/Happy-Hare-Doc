@@ -75,7 +75,7 @@ page for the Spoolman-specific console format and sync behaviour.
     default, meaning gates reset to empty/unknown attributes. Filled in for a
     9-gate MMU, it would look something like this:
 
-    ```yaml
+    ```
     default_gate_status:         1,      0,      1,      2,      2,     -1,     -1,      0,      1
     default_gate_filament_name:  one,    two,    three,  four,   five,   six,    seven,  eight,  nine
     default_gate_material:       PLA,    ABS,    ABS,    ABS+,   PLA,    PLA,    PETG,   TPU,    ABS
@@ -210,7 +210,7 @@ and Mainsail/Fluidd both have a TTG editor:
 <table>
   <tr>
     <td align="center">
-      <img src="Feature-Gate-TTG-Maps/klipperscreen_mmu_toolmap.png" alt="KlipperScreen Happy Hare edition TTG editor: T0-T8 mapped to gates, with an EndlessSpool group editor" width="90%">
+      <img src="Feature-Gate-TTG-Maps/klipperscreen_mmu_toolmap.png" alt="KlipperScreen Happy Hare edition TTG editor: T0-T8 mapped to gates, with an EndlessSpool group editor" width="100%">
     </td>
     <td align="center">
       <img src="Feature-Gate-TTG-Maps/mainsail_edit_ttg_map.png" alt="Mainsail Edit TTG Map dialog: tool cards, a crossbar diagram, and a spool detail list" width="90%">

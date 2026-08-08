@@ -2,11 +2,18 @@
 
 ## What it does
 
-Tunes [Blobifier](Feature-Addon-Integrations.md#blobifier), a standalone
-purge system that replaces the slicer's wipe tower with a purge tray and
-collection bucket - genuinely the largest single tuning surface on this
-site, third-party-maintained and reproduced here in full rather than left
-to its upstream README alone.
+<p align="center">
+  <img src="Macro-Blobifier/blobifier.jpg" alt="Blobifier purge system" width="45%">
+</p>
+
+Tunes Blobifier, a standalone purge system that replaces the slicer's wipe
+tower with a purge tray and collection bucket - fully native now, via
+menuconfig's **Purging** screen (**Have Blobifier?**), rather than a
+separate `[include ...]` file to copy in. Genuinely the largest single
+tuning surface on this site, third-party-maintained and reproduced here in
+full rather than left to its upstream README alone. Physical build
+instructions are at [Blobifier's own project
+page](https://github.com/Dendrowen/Blobifier).
 
 ## Where it's applied
 
@@ -23,6 +30,14 @@ before Z is restored), and `user_post_blobifier_extension` (after Z is
 restored). All three exist specifically for a gantry-mounted brush/nozzle
 leak-stop setup that needs its own parking logic around the sequence; leave
 them blank for the default bed-mounted brush.
+
+!!! tip
+    Parking the nozzle over the tray during a swap is better handled
+    through the standard parking configuration in [Macro:
+    Sequence](Macro-Sequence.md) than the older
+    `variable_user_post_form_tip_extension: 'BLOBIFIER_PARK'` approach -
+    the newer mechanism accounts for toolhead movement more generally
+    rather than being specific to this one add-on.
 
 !!! note
     These three hooks - and `clean_macro`, which points at the nozzle
@@ -47,8 +62,6 @@ specific build's measurements, not a sensible starting point for yours.
 
 ## See also
 
-- [Feature: Addon Integrations](Feature-Addon-Integrations.md#blobifier) -
-  what Blobifier is, and the physical build/project page
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md) - the
   `purge_macro` setting that activates Blobifier as an alternative to
   `_MMU_PURGE`

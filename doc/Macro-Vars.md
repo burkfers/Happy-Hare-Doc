@@ -198,9 +198,9 @@ for the concept.
 
 ## Blobifier (`_BLOBIFIER_VARS`)
 
-Only present with Blobifier enabled (`MMU_HAS_BLOBIFIER`) - see [Feature:
-Addon Integrations](Feature-Addon-Integrations.md#blobifier) for what it is
-and the physical build. This is genuinely Blobifier's own large,
+Only present with Blobifier enabled (`MMU_HAS_BLOBIFIER`) - see [Macro:
+Blobifier](Macro-Blobifier.md) for what it is and the physical build. This
+is genuinely Blobifier's own large,
 third-party-maintained tuning surface, reproduced here in full rather than
 left to its upstream README alone.
 
@@ -342,8 +342,9 @@ fan. Not yet covered by any Feature page.
   deeper override mechanism `_MMU_SEQUENCE_VARS` sits in front of
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md) -
   concept and tuning workflow for tip forming/cutting and purging
-- [Feature: Addon Integrations](Feature-Addon-Integrations.md) - Blobifier
-  and the MMU-mounted servo cutter builds
+- [Macro: Blobifier](Macro-Blobifier.md) / [Macro: Servo
+  Cutter](Macro-Servo-Cutter.md) - Blobifier and the MMU-mounted servo
+  cutter builds
 
 ---
 

@@ -303,10 +303,9 @@ def _feature_tip_forming_purging(mc, shot):
     shot('purging')                                   # Blobifier off, simple bucket purge selected
 
 
-def _feature_addon_integrations(mc, shot):
+def _feature_eject_buttons(mc, shot):
     """
-    For doc/Feature-Addon-Integrations.md - the eject buttons screen, the one
-    part of this page that's genuinely native content rather than a redirect.
+    For doc/Feature-Eject-Buttons.md - the eject buttons config screen.
     Off by default on every MMU type including boxturtle, so toggled on here
     (same pattern as _feature_nfc/_feature_environment_manager).
     """
@@ -547,10 +546,10 @@ SESSIONS = [
         'outdir': 'Feature-Tip-Forming-Purging',
     },
     {
-        'name': 'feature-addon-integrations',
-        'caption': 'doc/Feature-Addon-Integrations.md - eject buttons config screen',
-        'scenes': _feature_addon_integrations,
-        'outdir': 'Feature-Addon-Integrations',
+        'name': 'feature-eject-buttons',
+        'caption': 'doc/Feature-Eject-Buttons.md - eject buttons config screen',
+        'scenes': _feature_eject_buttons,
+        'outdir': 'Feature-Eject-Buttons',
     },
     {
         'name': 'feature-flowguard',

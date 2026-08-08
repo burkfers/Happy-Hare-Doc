@@ -2,13 +2,21 @@
 
 ## What it does
 
-Tunes a servo-actuated cutter mounted **at the MMU** end of the bowden
-(the EREC design, or similar) - additive to tip forming rather than a
+<p align="center">
+  <img src="Macro-Servo-Cutter/erec-logo.jpg" alt="EREC filament cutter" width="45%">
+</p>
+
+Tunes a servo-actuated cutter mounted **at the MMU** end of the bowden -
+originally the EREC design, but this covers any similar servo-actuated
+cutter at the MMU end of the bowden. Additive to tip forming rather than a
 replacement for it: a decent tip still needs to exist going into the cut.
-See [Feature: Addon Integrations](Feature-Addon-Integrations.md#servo-cutter-erec-and-similar)
-for the physical build/wiring and [Feature: Tip Forming and
-Purging](Feature-Tip-Forming-Purging.md#servo-cutter-mmu-mounted) for how it
-fits alongside whichever tip-forming method is active.
+Fully native now: enable **Have servo cutter at MMU?** under menuconfig's
+**Tip Forming / Cutting** screen, wire the servo pin, and tune it below -
+this isn't a separate `[include ...]` file to copy in any more. You'll
+still need the physical build/wiring instructions from [EREC's own project
+page](https://github.com/kevinakasam/ERCF_Filament_Cutter). See [Feature:
+Tip Forming and Purging](Feature-Tip-Forming-Purging.md#servo-cutter-mmu-mounted)
+for how it fits alongside whichever tip-forming method is active.
 
 ## Where it's applied
 
@@ -52,8 +60,6 @@ covers ERCF v2 and most other designs, `58`mm is the ERCF v1.1 value.
 
 ## See also
 
-- [Feature: Addon Integrations](Feature-Addon-Integrations.md#servo-cutter-erec-and-similar) -
-  physical build and wiring
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md#servo-cutter-mmu-mounted) -
   how this fits alongside tip forming/cutting
 - [Macro Variables: Servo cutter, MMU-mounted](Macro-Vars.md#servo-cutter-mmu-mounted-_mmu_servo_cutter_vars) -

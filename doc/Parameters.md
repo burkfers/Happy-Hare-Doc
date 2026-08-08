@@ -200,8 +200,9 @@ elsewhere:
   (colours, animation layers) - see [Feature: LEDs](Feature-LEDs.md#parameter-setup).
 - **Addon hardware** (`[mmu_servo cut_servo]`, the Blobifier tray
   stepper/servo, the gantry-bumper servo) - pin and pulse-width settings
-  covered in [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md#servo-cutter-mmu-mounted)
-  and [Feature: Addon Integrations](Feature-Addon-Integrations.md).
+  covered in [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md#servo-cutter-mmu-mounted),
+  [Macro: Servo Cutter](Macro-Servo-Cutter.md), and
+  [Macro: Blobifier](Macro-Blobifier.md).
 
 ## Per-unit settings (`mmu_parameters.cfg`)
 

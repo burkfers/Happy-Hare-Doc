@@ -104,7 +104,7 @@ nav:
   - Concepts:
       - What Is an MMU?: Conceptual-MMU.md
   - Features:
-      - Addon Integrations: Feature-Addon-Integrations.md
+      - Eject Buttons: Feature-Eject-Buttons.md
       - Encoder: Feature-Encoder.md
       - EndlessSpool & Runout Detection: Feature-Endless-Spool-Runout.md
       - Environment Manager: Feature-Environment-Manager.md
