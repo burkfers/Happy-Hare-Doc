@@ -233,8 +233,8 @@ MMU_GATE_MAP GATES=0,1,2,3 AVAILABLE=1      ...Mark gates 0-3 as having filament
 MMU_GATE_MAP GATE=5 COLOR=red MATERIAL=pla  ...Set filament attributes for gate 5
 MMU_GATE_MAP NEXT_SPOOLID=45                ...Automatically mark the next spool preloaded or loaded with spoolman id 45
 MMU_GATE_MAP GATE=0 SPEED=50                ...Set load/unload speed of gate 0 to 50% - great for TPU!
-MMU_GATE_MAP GATE=0 RFID=E2003412            ...Record the RFID tag read for the spool loaded in gate 0
-MMU_GATE_MAP RESET=1                        ...Reset filament attributes to defaults optionally configured in cfg files
+MMU_GATE_MAP GATE=0 RFID=E2003412           ...Record the RFID tag read for the spool loaded in gate 0
+MMU_GATE_MAP RESET=1                        ...Reset filament attributes (optionally to defaults configured in mmu.cfg file)
 ```
 
 ### MMU_GRIP
@@ -649,35 +649,62 @@ MMU_SLICER_TOOL_MAP AUTOMAP=kkkkpla ...Set tool 0 color, temp and type
 
 ### MMU_SPOOLMAN
 
-*Manage spoolman integration*
+*Manage spoolman status / gate-spool assignment*
 
 **Parameters**
 
 ```
-QUIET     = [0|1]
-SYNC      = [0|1]
-CLEAR     = [0|1]
-REFRESH   = [0|1]
-FIX       = [0|1]
-SPOOLID   = #(int)
-GATE      = #(int)
-RFID      = # Write this NFC/RFID tag UID (or comma-separated UIDs) onto the spool record
-              (needs SPOOLID or GATE). Replaces any existing UID(s); RFID='' clears them.
-APPEND    = [0|1] With RFID=, add to the existing UID(s) instead of replacing them
-PRINTER   = _name_
-SPOOLINFO = [0|-1|spool_id]
+QUIET     = [0|1] Suppress non-critical console output
+SYNC      = 1 Sync the local and remote (spoolman) gate maps
+CLEAR     = 1 Clear all gate/spool assignments for this printer in the spoolman db
+REFRESH   = 1 Rebuild spoolman's cache of this printer's assignments, then sync (unless SYNC= is also given)
+FIX       = 1 With REFRESH=, also unassign any inconsistent spool/gate pairs found (partial or duplicate assignments)
+SPOOLID   = #(int) Spoolman spool id
+GATE      = #(int) Gate number
+PRINTER   = _name_ Show another printer's gate/spool assignments instead of this one
+SPOOLINFO = [-1|spool_id] Display spoolman details for a spool (0 = the active spool)
+(no parameters to show the current spoolman gate/spool assignments)
 ```
 
 ```
 Examples:
-MMU_SPOOLMAN                     ...Show the current spoolman gate/spool assignments
-MMU_SPOOLMAN REFRESH=1           ...Refresh the local gate map from the spoolman database
-MMU_SPOOLMAN GATE=0 SPOOLID=45   ...Assign spoolman spool id 45 to gate 0
-MMU_SPOOLMAN SPOOLINFO=45        ...Display spoolman details for spool id 45
-MMU_SPOOLMAN SPOOLID=45 RFID=E2003412         ...Register tag E2003412 against spool id 45 in the spoolman db (replaces any existing tags)
-MMU_SPOOLMAN SPOOLID=45 RFID=E2003499 APPEND=1 ...Register a second tag on the same spool (e.g. one on each side), keeping E2003412
-MMU_SPOOLMAN SPOOLID=45 RFID=''             ...Clear all tags registered against spool id 45
-MMU_SPOOLMAN GATE=0 RFID=E2003412      ...Same, for whichever spool is assigned to gate 0
+MMU_SPOOLMAN                   ...Show the current spoolman gate/spool assignments
+MMU_SPOOLMAN REFRESH=1         ...Refresh the local gate map from the spoolman database
+MMU_SPOOLMAN GATE=0 SPOOLID=45 ...Assign spoolman spool id 45 to gate 0
+MMU_SPOOLMAN GATE=0            ...Unassign whichever spool is on gate 0
+MMU_SPOOLMAN SPOOLID=45        ...Unassign spool id 45 from whichever gate it's on
+MMU_SPOOLMAN SPOOLINFO=45      ...Display spoolman details for spool id 45
+MMU_SPOOLMAN SPOOLINFO=-1      ...Display spoolman details for active spool
+
+See MMU_SPOOLMAN_TAG to register a tag/UID onto a spool record.
+```
+
+### MMU_SPOOLMAN_TAG
+
+*Register an NFC/RFID tag UID onto a spoolman spool record*
+
+**Parameters**
+
+```
+QUIET    = [0|1] Suppress non-critical console output
+SPOOLID  = #(int) Spoolman spool id to register the tag against
+GATE     = #(int)|LAST Gate whose assigned spool (RFID=) or recorded tag (REGISTER=) to use. If omitted implies current gate
+RFID     = _uid_ (or comma-separated UIDs) to write onto the spool. RFID='' to clear
+APPEND   = 1 Add to the existing UID(s) instead of replacing them
+REGISTER = 1 Bind the gate's already-recorded UID onto SPOOLID (needs spoolman_support != pull)
+```
+
+```
+Examples:
+MMU_SPOOLMAN_TAG SPOOLID=45 RFID=E2003412          ...Register tag E2003412 against spool id 45 in the spoolman db (replaces any existing tags)
+MMU_SPOOLMAN_TAG SPOOLID=45 RFID=E2003499 APPEND=1 ...Register a second tag on the same spool (e.g. one on each side), keeping E2003412
+MMU_SPOOLMAN_TAG SPOOLID=45 RFID=''                ...Clear all tags registered against spool id 45
+MMU_SPOOLMAN_TAG GATE=0 RFID=E2003412              ...Same, for whichever spool is assigned to gate 0
+MMU_SPOOLMAN_TAG GATE=3 SPOOLID=87 REGISTER=1      ...Bind gate 3's already-known tag uid to newly-created spool 87
+MMU_SPOOLMAN_TAG GATE=LAST SPOOLID=87 REGISTER=1   ...Bind last gate preloaded already-known tag uid to spool 87
+MMU_SPOOLMAN_TAG SPOOLID=87 REGISTER=1             ...Bind currently selected gate's tag uid to spool 87
+
+See MMU_SPOOLMAN read or change gate-spool assignment in spoolman
 ```
 
 ### MMU_STATS

@@ -159,10 +159,6 @@ MMU_SPOOLMAN SYNC=1                     # Force a re-sync between local and remo
 MMU_SPOOLMAN REFRESH=1                  # Rebuild the Moonraker/Spoolman cache, then re-sync
 MMU_SPOOLMAN REFRESH=1 FIX=1            # As above, and clear any gate with more than one spool assigned to it
 MMU_SPOOLMAN CLEAR=1                    # Clear every gate assignment for this printer in Spoolman
-MMU_SPOOLMAN SPOOLID=45 RFID=E2003412            # Bind tag UID E2003412 to spool 45 (replaces any existing tag(s))
-MMU_SPOOLMAN SPOOLID=45 RFID=E2003499 APPEND=1   # Register a second tag on the same spool (e.g. one on each side), keeping E2003412
-MMU_SPOOLMAN SPOOLID=45 RFID=''                  # Clear all tags registered against spool 45
-MMU_SPOOLMAN GATE=0 RFID=E2003412       # Same, for whichever spool is currently assigned to gate 0
 ```
 
 ```text
@@ -182,12 +178,42 @@ MMU_SPOOLMAN CLEAR=1 REFRESH=1 FIX=1 GATE=0 SPOOLID=6
 
 Add `QUIET=1` to suppress console output.
 
-`MMU_SPOOLMAN ... RFID=` is the reverse direction from a tag scan: it writes
-a UID onto a spool record that already exists in Spoolman, for the case
-where a spool is already registered but its tag isn't bound yet (e.g.
-sticking a blank tag on it). A reader that scans an *unknown* tag and
-resolves or creates a spool for it is [NFC/RFID Reading](Feature-NFC.md)'s
-`MMU_NFC ... REGISTER=1` - the opposite direction.
+### `MMU_SPOOLMAN_TAG` - registering a tag UID
+
+`MMU_SPOOLMAN` (above) only ever assigns an *existing* Spoolman spool to a
+gate - it has nothing to do with the physical NFC/RFID tag stuck on a spool.
+Binding a tag's UID onto a spool record is a separate command,
+`MMU_SPOOLMAN_TAG`, kept deliberately distinct so `SPOOLID=`/`GATE=` mean
+one thing in each command rather than overloading them with two unrelated
+jobs. See [Feature: NFC/RFID Reading](Feature-NFC.md) for the reader
+hardware and the scanning side of this; this section is purely the
+Spoolman-record-writing side.
+
+Full parameter reference:
+[`MMU_SPOOLMAN_TAG`](Command-Reference.md#mmu_spoolman_tag).
+
+There are two independent ways to end up with a tag bound to a spool,
+depending on which one you have in hand first:
+
+- **`RFID=`** - you already know the UID (typed in, copied from a scan, or
+  printed on the spool's packaging) and the spool record already exists in
+  Spoolman; write the UID directly onto it.
+- **`REGISTER=1`** - the opposite order: a tag was already scanned onto a
+  gate (so Happy Hare has its UID cached) but it didn't resolve to any
+  spool at the time - a blank tag, or one Spoolman had never seen before.
+  Once a matching spool exists (created by hand, or by some other means),
+  bind the two together without re-scanning the tag.
+
+**`RFID=`** writes a UID onto a spool record that already exists in
+Spoolman - the case where a spool is registered but its tag isn't bound
+yet (e.g. sticking a blank tag on it):
+
+```yaml
+MMU_SPOOLMAN_TAG SPOOLID=45 RFID=E2003412            # Bind tag UID E2003412 to spool 45 (replaces any existing tag(s))
+MMU_SPOOLMAN_TAG SPOOLID=45 RFID=E2003499 APPEND=1   # Register a second tag on the same spool (e.g. one on each side), keeping E2003412
+MMU_SPOOLMAN_TAG SPOOLID=45 RFID=''                  # Clear all tags registered against spool 45
+MMU_SPOOLMAN_TAG GATE=0 RFID=E2003412                # Same, for whichever spool is currently assigned to gate 0
+```
 
 By default, `RFID=` **replaces** whatever tag(s) are currently registered
 against the spool - `RFID=''` (empty) clears them entirely, the supported
@@ -203,7 +229,40 @@ two spools claiming the same tag.
 The same "second tag on one spool" case is also available from a live scan,
 without retyping the UID by hand: [`MMU_NFC GATE=<n> REGISTER=1
 APPEND=1`](Feature-NFC.md#commands) reads a newly-presented tag and binds it
-straight onto whichever spool is already assigned to that gate.
+straight onto whichever spool is already assigned to that gate. A reader
+that scans an *unknown* tag and resolves or auto-creates a spool for it
+automatically is that same page's `MMU_NFC ... REGISTER=1` without
+`APPEND=1` - the opposite direction from everything on this page, which
+only ever writes onto a spool that already exists.
+
+**`REGISTER=1`** covers the case auto-create can't: a tag that never
+resolved (wrong/no metadata, auto-create disabled, or Spoolman genuinely
+never having seen it) and a spool for it that only came to exist
+afterwards, created by hand. A typical sequence, for a per-gate reader:
+
+1. Remove the old spool, unbox the new filament, and stick a (blank, or
+   otherwise unregistered) tag on it.
+2. `MMU_PRELOAD` the new spool into its gate as normal - the reader scans
+   the tag on the way in, but with nothing in Spoolman to match it against,
+   nothing resolves. The UID is still recorded on the gate either way (see
+   [Feature: NFC/RFID Reading](Feature-NFC.md#per-gate-readers-automatic-reads-during-preload)) -
+   this is what makes the next step possible without a re-scan.
+3. Create the spool in Spoolman by hand (often easiest with the new
+   filament's box in front of you, to copy its parameters across).
+4. Back at the printer: `MMU_SPOOLMAN_TAG GATE=LAST SPOOLID=456
+   REGISTER=1` - `GATE=LAST` resolves to whichever gate was most recently
+   preloaded, so there's no need to remember or look up its number.
+   Happy Hare takes the UID already cached on that gate and binds it onto
+   spool 456 - the gate map updates as a result of that write actually
+   succeeding (via the same Moonraker callback a live scan uses), not
+   optimistically ahead of it.
+
+`GATE=` defaults to the currently-selected gate if omitted (not `LAST`) -
+useful right after preloading without needing `GATE=` at all, but `GATE=LAST`
+is the more reliable choice if anything else has run in between.
+`REGISTER=1` needs `spoolman_support` to be `readonly` or `push` - in
+`pull` mode Spoolman already owns gate assignment, so use `RFID=` directly
+or re-scan the tag once the spool exists instead.
 
 ## Printer variables exposed
 
@@ -472,10 +531,24 @@ that bounds a shared NFC/RFID scan.
   single spool assigned"** - the same spool is currently assigned to more
   than one gate for that printer in Spoolman; run `MMU_SPOOLMAN REFRESH=1
   FIX=1` to clear all but the first.
+- **"GATE=LAST needs a gate to have been preloaded first"** -
+  `MMU_SPOOLMAN_TAG GATE=LAST` has nothing to resolve to until `MMU_PRELOAD`
+  has actually run at least once since Klipper started; use an explicit
+  `GATE=<n>` instead if you're not sure a preload happened.
+- **"Gate N has no NFC/RFID tag UID recorded yet"** (on `REGISTER=1`) -
+  the gate has to have a cached UID from an earlier scan (even an
+  unresolved one) before there's anything to bind - scan the tag first
+  (preload the gate, or [`MMU_NFC_SCAN`](Feature-NFC.md#commands) if it's
+  already parked), or supply the UID directly with `RFID=` instead.
+- **"REGISTER=1 is not applicable with spoolman_support=pull"** - `pull`
+  mode already treats Spoolman as authoritative for gate assignment, so use
+  `RFID=<uid>` directly, or just re-scan the tag once the spool exists in
+  Spoolman.
 
 ## See also
 
 - [Command Reference: `MMU_SPOOLMAN`](Command-Reference.md#mmu_spoolman)
+- [Command Reference: `MMU_SPOOLMAN_TAG`](Command-Reference.md#mmu_spoolman_tag)
 - [Command Reference: `MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map)
 - [Printer Variables](Printer-Variables.md#core-state)
 - [Feature: NFC/RFID Reading](Feature-NFC.md) - automatic tag-to-spool

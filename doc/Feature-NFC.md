@@ -200,19 +200,22 @@ resolved/auto-created as if it were unknown. Two cases fall back instead of
 binding:
 
 - **`SHARED=1 REGISTER=1 APPEND=1`** - the shared reader has no gate
-  assignment to bind onto, so this is rejected; use [`MMU_SPOOLMAN
-  SPOOLID=<id> RFID=<uid> APPEND=1`](Feature-Spoolman.md#commands) directly
-  instead, naming the spool explicitly.
+  assignment to bind onto, so this is rejected; use [`MMU_SPOOLMAN_TAG
+  SPOOLID=<id> RFID=<uid> APPEND=1`](Feature-Spoolman.md#mmu_spoolman_tag-registering-a-tag-uid)
+  directly instead, naming the spool explicitly.
 - **The addressed gate has no spool assigned yet** - `APPEND=1` is ignored
   (logged, not an error) and the read falls back to normal resolve/
   auto-create, the same as without `APPEND=1`.
 
 Two related commands live on the Spoolman side, for binding a UID onto a
 spool record directly rather than scanning for one:
-[`MMU_SPOOLMAN ... RFID=`](Feature-Spoolman.md#commands) (which has its own
-`APPEND=1` for the same "second tag on one spool" case, plus `RFID=''` to
-clear every tag from a spool) and the `RFID=` parameter on
-[`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map).
+[`MMU_SPOOLMAN_TAG ... RFID=`](Feature-Spoolman.md#mmu_spoolman_tag-registering-a-tag-uid)
+(which has its own `APPEND=1` for the same "second tag on one spool" case,
+plus `RFID=''` to clear every tag from a spool, and a `REGISTER=1` mode for
+binding a tag that's already been scanned onto a gate but didn't resolve at
+the time - see [Registering an unresolved
+tag](#registering-an-unresolved-tag-after-the-fact) below) and the `RFID=`
+parameter on [`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map).
 
 ### Advanced: raw per-reader commands
 
@@ -250,10 +253,19 @@ beyond that transient effect.
 
 1. Present the spool's tag to the reader.
 2. Happy Hare resolves it via Spoolman in the background - nothing to run
-   manually.
-3. Load or preload filament as normal (`MMU_PRELOAD`, or just load into the
-   gate if you have entry sensors). The resolved spool ID is applied to
-   whichever gate that operation targets.
+   manually. If it resolves to a known spool, configured LEDs (see
+   [Feature: LEDs](Feature-LEDs.md#parameter-setup)) pulse a slow purple
+   breathing effect (`effect_pending_spoolid`) to show a spool ID is
+   waiting to be claimed - the same overlay [`MMU_GATE_MAP
+   NEXT_SPOOLID=`](Feature-Spoolman.md#tuning) uses, since it's the same
+   underlying pending mechanism either way.
+3. The pulse speeds up (`effect_pending_spoolid_expiring`) a few seconds
+   before `spoolman_pending_id_timeout` runs out, as a last warning before
+   the assignment is voided and the tag would need to be re-presented.
+4. Load or preload filament as normal (`MMU_PRELOAD`, or just load into the
+   gate if you have entry sensors) before the timeout expires. The resolved
+   spool ID is applied to whichever gate that operation targets, and the
+   pulsing overlay stops.
 
 This is the same underlying mechanism as
 [Spoolman's generic external-reader workflow](Feature-Spoolman.md#auto-setting-from-a-qr-code-or-any-external-reader) -
@@ -296,6 +308,36 @@ filament data (see [Concept](#concept)) creates the spool in Spoolman and
 registers the tag against it in the same step - the next scan of that same
 tag resolves normally.
 
+### Registering an unresolved tag after the fact
+
+Auto-create needs a tag that actually carries usable filament data - a
+blank tag, or one in a format Happy Hare can't parse, has nothing for
+auto-create to work from and just won't resolve, even with everything above
+enabled. That's fine - the UID is still recorded on the gate regardless of
+whether it resolved (see [Concept](#concept)), so nothing about the scan
+needs to be redone once a matching spool exists. A typical sequence for a
+per-gate reader:
+
+1. Remove the old spool, unbox the new filament, and stick a blank (or
+   otherwise unregistered) tag on it.
+2. `MMU_PRELOAD` it into the gate as normal. The console confirms the scan
+   happened ("Preloading gate N with NFC scan...", or "tag ... recorded for
+   gate N (no usable filament data)" for a blank tag) - but with no match
+   in Spoolman and no metadata to auto-create from, nothing resolves.
+3. Create the spool in Spoolman by hand, away from the printer - often
+   easiest with the new filament's box in front of you to copy its
+   parameters across.
+4. Back at the printer:
+   [`MMU_SPOOLMAN_TAG GATE=LAST SPOOLID=456
+   REGISTER=1`](Feature-Spoolman.md#mmu_spoolman_tag-registering-a-tag-uid) -
+   `GATE=LAST` picks up whichever gate was just preloaded, so there's
+   nothing to look up. Happy Hare binds the gate's already-cached UID onto
+   spool 456, and the gate map updates as a result, no re-scan needed.
+
+See [Feature: Spoolman Integration: `MMU_SPOOLMAN_TAG`](Feature-Spoolman.md#mmu_spoolman_tag-registering-a-tag-uid)
+for the command in full, including why `REGISTER=1` needs
+`spoolman_support: readonly` or `push` specifically.
+
 ### Registering a second tag on the same spool
 
 A spool can carry more than one physical tag - e.g. one stuck on each side,
@@ -309,7 +351,7 @@ instead. Two equivalent ways to do that:
    `MMU_NFC GATE=<n> REGISTER=1 APPEND=1` binds whatever it reads onto that
    gate's already-assigned spool.
 2. **Type it in** - if both UIDs are already known, skip the reader
-   entirely: `MMU_SPOOLMAN SPOOLID=<id> RFID=<new-uid> APPEND=1`.
+   entirely: `MMU_SPOOLMAN_TAG SPOOLID=<id> RFID=<new-uid> APPEND=1`.
 
 Either path ends up calling the same underlying Spoolman write, so the
 result is identical - pick whichever is more convenient at the time. A UID
@@ -368,6 +410,7 @@ bus.
 - [Command Reference: `MMU_NFC`](Command-Reference.md#mmu_nfc)
 - [Command Reference: `MMU_NFC_SCAN`](Command-Reference.md#mmu_nfc_scan)
 - [Command Reference: `MMU_SPOOLMAN`](Command-Reference.md#mmu_spoolman)
+- [Command Reference: `MMU_SPOOLMAN_TAG`](Command-Reference.md#mmu_spoolman_tag)
 - [Command Reference: `MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map)
 - [Printer Variables: NFC](Printer-Variables.md#nfc)
 
