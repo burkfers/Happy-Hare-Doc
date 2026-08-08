@@ -104,6 +104,16 @@ settings).
     `form_tip_macro`/`purge_macro`, replacement is genuinely rare - reach for
     an extension hook first.
 
+`pause_macro` in particular is rarely worth replacing - the default `PAUSE`
+already does the right thing for most setups - but a few community reasons
+come up often enough to be worth naming: parking above a sparse purge tower
+so an MMU error doesn't stop the toolhead over a model between the tower and
+the normal pause position; also sending a push notification on a filament
+swap error; or passing additional static arguments into the default (or
+your own) pause macro. Whatever you point `pause_macro` at, it **must**
+ultimately leave the printer in a paused state - Happy Hare's own error
+handling depends on that.
+
 `unload_sequence_macro`/`load_sequence_macro` are the deepest level of
 replacement Happy Hare offers - a wholesale rewrite of the load/unload
 movement logic itself, gated behind `gcode_load_sequence`/

@@ -274,7 +274,11 @@ whenever `ROTATE=1` is used. Rotation only actually happens for gates that
 are genuinely **empty** at the moment the timer fires (filament removed from
 the MMU inlet and secured to the spool) - Happy Hare re-checks this every
 `heater_rotate_interval` minutes rather than only once at the start, so you
-can safely unload a gate and secure it mid-cycle. It uses exactly the same
+can safely unload a gate and secure it mid-cycle. If a gate passed to
+`GATES=` isn't empty yet when the cycle starts, Happy Hare warns about it
+immediately rather than staying silent until the first rotation tick -
+drying still proceeds normally, since a loaded gate simply can't rotate
+until it's cleared. It uses exactly the same
 power and duration as an ordinary
 [rewind burst](Feature-Espooler.md#in-print-bursts-two-independent-trigger-sources)
 (`espooler_rewind_burst_power`/`espooler_rewind_burst_duration`) - there's no

@@ -234,6 +234,14 @@ an unverified number.
 | `select_tool_macro` | `select_tool_macro` | Macro called to change gates (MacroSelector designs only) |
 | `select_tool_num_switches` | `0` | Number of switches a MacroSelector design reports |
 
+!!! warning "Important"
+    With touch (stallguard) selector movement enabled, don't lower
+    `selector_accel` to quiet the selector down - stallguard detection
+    itself gets unreliable below about `600`, and only becomes dependable
+    again above roughly `1000`. The default already sits safely in the
+    reliable range; a well-intentioned "quieter" value can silently break
+    touch homing instead.
+
 Servo-driven selectors (`LinearServoSelector`/`ServoSelector`) add:
 
 | Parameter | Default | Description |

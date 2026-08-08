@@ -158,9 +158,33 @@ entirely (needs an `mmu_ext_touch` endstop defined on the extruder stepper):
 ```yaml
 _MMU_STEP_LOAD_GATE
 _MMU_STEP_LOAD_BOWDEN LENGTH={length}
-_MMU_STEP_HOMING_MOVE ENDSTOP=mmu_ext_touch MOVE=100 MOTOR=extruder+gear
+_MMU_STEP_HOMING_MOVE ENDSTOP=mmu_ext_touch MOVE=100 MOTOR=extruder
 _MMU_STEP_SET_FILAMENT STATE=10    # LOADED
 ```
+
+!!! note
+    The shipped `mmu_sequence.cfg`'s own commented-out version of this
+    example uses `MOTOR=extruder+gear` - not one of `_MMU_STEP_HOMING_MOVE`'s
+    three valid `MOTOR=` values (`gear`, `extruder`, `gear+extruder`,
+    checked directly against the command's own source), so running it as
+    shipped raises "Valid motor names are..." rather than homing. It's also
+    the wrong choice even corrected to `gear+extruder` - `mmu_ext_touch` is
+    a stallguard (virtual) endstop on the extruder, and Happy Hare's own
+    move-tracing docstring calls it out as "only useful for motor=extruder"
+    specifically; synced motion isn't what triggers it. A stale leftover in
+    Happy Hare's own reference macro either way, not a wiki or doc error
+    this time - use `MOTOR=extruder` alone, as shown above.
+
+Two related gotchas worth knowing before writing a homing move of your own:
+which endstops are even valid for a given `MOTOR=` depends on which
+stepper(s) it drives - `toolhead`/`extruder` endstops work with any `MOTOR=`
+that includes gear or extruder, but the two stallguard endstops are each
+tied to one specific stepper alone (`mmu_gear_touch` to `MOTOR=gear`,
+`mmu_ext_touch` to `MOTOR=extruder`), not to a synced combination of the
+two. And a virtual (stallguard) endstop can only home in the extrude
+direction - `STOP_ON_ENDSTOP=-1` (retract) is rejected outright ("Cannot
+reverse home on virtual (TMC stallguard) endstop"), unlike a real physical
+switch.
 
 Both examples still lean on the same `_MMU_STEP_LOAD_GATE`/`_MMU_STEP_LOAD_BOWDEN`
 building blocks for everything before the toolhead - a custom sequence

@@ -107,6 +107,26 @@ back lettered (`Group A`, `Group B`, ...) - group `0` is `A`, group `1` is
 `B`, and so on. `GROUPS=` must list exactly one entry per gate; anything
 else is rejected with an error rather than partially applied.
 
+**A worked cycle**: with the `Group A: Gates: 0, 3, 6` grouping above, `T0`
+mapped to gate 0, and gate 3 already known empty from an earlier runout,
+gate 0 running dry mid-print produces:
+
+```text
+Gate 0 is empty! Checking for alternative gates for T0 in EndlessSpool Group A (checked gates: 3,6)
+Remapping T0 to gate 6
+```
+
+The search always starts from the gate that just ran out and walks forward
+through the rest of the group, wrapping around - gate 3 is skipped because
+it's already marked empty, and gate 6 is the first one found that isn't. If
+every other gate in the group is also empty, the print pauses instead
+(same as EndlessSpool being off):
+
+```text
+Gate 0 is empty!
+No alternatives gates available after checking for T0 in EndlessSpool Group A (checked gates: 3,6)
+```
+
 To rehearse the whole thing without an actual runout, use
 [`MMU_TEST_RUNOUT`](Command-Reference.md#mmu_test_runout):
 

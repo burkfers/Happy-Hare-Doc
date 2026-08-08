@@ -30,8 +30,7 @@ A quick word on the controls, since you'll use them constantly:
 
 * **Arrow keys** move the highlight; **Enter** (or **Space**) opens a submenu or
   toggles/selects the highlighted item.
-* **Esc** backs out one level; from the top level it offers to save.
-* **?** shows help for whatever's highlighted.
+* **Esc** or **Left Arrow key** backs out one level; from the top level it offers to save.
 * **R** resets the highlighted parameter back to its default — useful any time
   you've typed something and want to back out cleanly without hunting for the
   original value.
@@ -58,7 +57,7 @@ Enter **Turtle Neck** to see the buffer choice:
 **Turtle Neck v2** is already the default — it's the buffer most Box Turtles ship
 with, sensing both filament tension and compression. If you have the original v1
 buffer (unsprung) or something else entirely, change it here; otherwise there's
-nothing to do and you can back out with Esc.
+nothing to do and you can back out with Esc or the Left arrow key.
 
 Back out twice (Esc, Esc) to return to the top menu, and look at the warnings
 panel again:
@@ -176,8 +175,8 @@ Back out and enter **Toolhead sensors/settings** to see the effect:
 are already filled in — `85.1` and `2` here — measured by someone else on the same
 hardware rather than left at the generic default. The other two distances Happy Hare
 can use (toolhead sensor to nozzle, extruder sensor to entry) only appear once you've
-told it you actually have those sensors, higher up this same screen — a stock Box
-Turtle has neither, so they stay hidden here.
+told it you actually have those sensors on your toolhead, higher up this same screen --
+until relevent the values stay hidden here.
 
 This is a shortcut, not a substitute: even with a listed toolhead, you're still
 better off learning to measure and calibrate your own eventually, since small
@@ -214,9 +213,11 @@ That's enough to get a stock Box Turtle basically talking to Klipper, but it's
 only a fraction of the menu. **Software Options**, **Tip Forming / Cutting**,
 **Purging**, **Endstops and Bowden movement** and the rest are all worth a look —
 scroll all the way from the top to **Paths & Services** at the bottom at least
-once. Nothing you look at will break anything: moving the highlight and pressing
-`?` for help costs nothing, and `R` is always there to undo a change you don't
-want.
+once. Nothing you look at will break anything: moving the highlight
+costs nothing, and `R` is always there to undo a change you don't
+want. Remember that you don't need to setup everything now — you can come back
+many times and re-run menconfig with `./install.sh -i` and incrementally
+setup features and macros.
 
 ## Saving, and coming back later
 
@@ -232,14 +233,19 @@ the menu. To go back in and change something, use:
 ```
 
 This is the normal way to revisit any setting on this page — there's no need to
-ever hand-edit the generated `.cfg` files directly. The one thing worth knowing:
-if you've hand-edited a `.cfg` file since your last visit to `menuconfig`,
-`-i` will ask how to reconcile that — **Refresh** (keep your edits, just add
-anything new), **Replace** (regenerate everything from menuconfig, discarding
-direct edits) or **Merge**. If you only ever configure through `menuconfig`, as
-this page assumes, the default (**Refresh**) is fine and you'll rarely see this
-prompt matter.
+ever hand-edit the generated `.cfg` files directly.
+
+!!! note
+    The one thing worth knowing:
+    if you've hand-edited a `.cfg` file since your last visit to `menuconfig`,
+    `-i` will ask how to reconcile that — **Refresh** (keep your manual edits, and
+    just add new options), **Replace** (regenerate everything from menuconfig, discarding
+    direct edits) or **Merge** (attempts to merge manual edits into menuconfig)
+
+    If you only ever configure through `menuconfig`, as this page assumes, option 2
+    (**Refresh**) is the recommended choice because it rebuilds your Happy Hare
+    klipper config files ensuring a clean config and any future update made to the
+    Happy Hare sofware.
 
 ---
-
 

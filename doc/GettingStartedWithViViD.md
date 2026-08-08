@@ -1,7 +1,7 @@
 # Getting Started with BTT ViViD
 
-BTT ViViD is a fully-specified design - unlike a modular design such as Box
-Turtle, almost every menuconfig default is already correct the moment you
+BTT ViViD is a fully-specified design - unlike a modular design such as ERCF or
+Box Turtle, almost every menuconfig default is already correct the moment you
 pick it: board, pins, LEDs, environment sensor, heater and per-gate NFC
 readers all come pre-filled. What's genuinely left for you to decide is
 small: whether you have the official ViViD buffer board, and which of your
@@ -112,10 +112,10 @@ Worth a glance even though there's nothing to add for a stock ViViD:
 
 **LEDs**, the **sync-feedback buffer** (supplied by the buffer board from the
 previous step), the **environment sensor**, the **heater**, and the
-(**BETA**-tagged) **NFC readers** are all already switched on and marked
+**NFC readers** are all already switched on and marked
 `(FIXED)`, because every stock ViViD ships with them. The old-style
 **filament buffer to catch loose filament** is fixed *off* instead - the
-sync-feedback buffer already does that job on this design. **Cooling fans**,
+filament movement also moves the spool on this design. **Cooling fans**,
 **eject buttons** and an **encoder** are the genuine options here, and all
 default off; enable whichever ones you actually built.
 
@@ -182,13 +182,19 @@ won't reopen the menu. To go back in and change something, use:
 ```
 
 This is the normal way to revisit any setting on this page - there's no need
-to ever hand-edit the generated `.cfg` files directly. The one thing worth
-knowing: if you've hand-edited a `.cfg` file since your last visit to
-`menuconfig`, `-i` will ask how to reconcile that - **Refresh** (keep your
-edits, just add anything new), **Replace** (regenerate everything from
-menuconfig, discarding direct edits) or **Merge**. If you only ever configure
-through `menuconfig`, as this page assumes, the default (**Refresh**) is fine
-and you'll rarely see this prompt matter.
+to ever hand-edit the generated `.cfg` files directly.
+
+!!! note
+    The one thing worth knowing:
+    if you've hand-edited a `.cfg` file since your last visit to `menuconfig`,
+    `-i` will ask how to reconcile that — **Refresh** (keep your manual edits, and
+    just add new options), **Replace** (regenerate everything from menuconfig, discarding
+    direct edits) or **Merge** (attempts to merge manual edits into menuconfig)
+
+    If you only ever configure through `menuconfig`, as this page assumes, option 2
+    (**Refresh**) is the recommended choice because it rebuilds your Happy Hare
+    klipper config files ensuring a clean config and any future update made to the
+    Happy Hare sofware.
 
 ---
 

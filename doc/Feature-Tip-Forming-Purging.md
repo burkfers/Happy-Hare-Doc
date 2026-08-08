@@ -83,11 +83,18 @@ See [Macro: Servo Cutter](Macro-Servo-Cutter.md) for the build/wiring side.
 The default `_MMU_FORM_TIP` macro (`mmu_form_tip.cfg`) works similarly to
 PrusaSlicer/SuperSlicer's own tip-forming, so their multi-material filament
 profiles are a reasonable starting point even if you're not using slicer
-tip forming at all:
+tip forming at all - add a Prusa printer + MMU preset from the system
+presets, then pick the **MMU** printer specifically (not **Single**); its
+filament presets tagged **@MMU** in the name are the multi-material ones
+with real tip-forming settings behind them:
 
 <p align="center">
   <img src="Feature-Tip-Forming-Purging/prusa_starting_point.png" alt="PrusaSlicer MMU printer/filament preset picker" width="55%">
 </p>
+
+Pick the filament type you're tuning for (PLA, ABS, PETG, ...) and use its
+Multimaterial section settings as your own starting point:
+
 <p align="center">
   <img src="Feature-Tip-Forming-Purging/prusa_tip_params.png" alt="PrusaSlicer toolchange tip-forming parameters" width="40%">
 </p>
@@ -238,6 +245,14 @@ volume matrix to work from, which can come from any of: Happy Hare's own
 matrix, `MMU_SLICER_TOOL_MAP PURGE_VOLUMES=...` directly, or
 `MMU_CALC_PURGE_VOLUMES` above. All three end up in
 `printer.mmu.slicer_tool_map.purge_volumes` for your macros to read:
+
+!!! tip
+    Getting the matrix out of the slicer in the first place is a two-step
+    dance: **enable wipe tower** first to unlock the purge-volume matrix
+    editor and configure it, *then* disable **enable wipe tower** again
+    once you're happy with the values - the slicer still writes the
+    configured matrix into the g-code even with the tower itself off. Leave
+    it disabled from the start and there's no matrix to edit at all.
 
 ```yaml
 MMU_SLICER_TOOL_MAP PURGE_VOLUMES=70                                    # One value for every transition

@@ -25,6 +25,11 @@ toolhead cutting is actually selected - unlike [Toolhead Tip
 Cutting](Macro-Toolhead-Tip-Cutting.md)'s screen, which only appears once a
 toolhead cutter is enabled.
 
+Happy Hare zeroes pressure advance for the duration of the macro call, so
+the ramming/cooling moves aren't distorted by it, then automatically
+restores whatever value was active beforehand once tip forming completes -
+nothing to configure or restore by hand.
+
 ## Configuration
 
 <p align="center">
@@ -36,6 +41,20 @@ toolhead cutter is enabled.
 grouped by the same five steps the tuning workflow walks through. Full
 variable table: [Macro Variables: Tip
 forming](Macro-Vars.md#tip-forming-_mmu_form_tip_vars).
+
+### Hotend starting points
+
+`cooling_tube_position`/`cooling_tube_length` are toolhead-specific -
+tuning from scratch is slow, so start from your hotend's known geometry
+rather than the shipped default:
+
+| Hotend | `cooling_tube_position` | `cooling_tube_length` |
+|---|---|---|
+| DragonST | `35` mm | `15` mm |
+| DragonHF | `30` mm | `10` mm |
+| Mosquito | `30` mm | `20` mm |
+| Revo | `35` mm | `10` mm |
+| RapidoHF | `27` mm | `10` mm |
 
 ## See also
 

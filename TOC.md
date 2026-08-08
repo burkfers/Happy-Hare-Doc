@@ -2271,6 +2271,102 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       clean `zensical build --clean` catches no broken links, same as every
       other page this session.
 
+54. **Full wiki-vs-doc content re-audit, then all 7 real gaps found fixed**,
+    on explicit request ("perform another audit against the original wiki
+    ... summarize what might be missed", then "fix all 7"). Unlike prior
+    ad-hoc audits, this pass was systematic: a script diffed every wiki
+    page's own image references against the whole `doc/` tree (catching
+    only images actually used in the source page's text, to avoid
+    false-positives from stray unused wiki assets), then six parallel
+    research agents each diffed a cluster of wiki pages against their
+    mapped doc page(s) for prose content - explanations, worked examples,
+    commands, caveats - present in the wiki but absent site-wide. ~30 wiki
+    pages covered; the large majority came back clean (several doc pages
+    are supersets of their wiki source). One agent finding was independently
+    verified and rejected as a false positive: `printer.mmu.servo`/`.grip`
+    looked undocumented to that agent, but is already covered, substantively,
+    on `Dev-Code-Layout.md` (developer-architecture framing rather than a
+    `printer.mmu` table row, which is why a plain grep for the dotted name
+    missed it).
+    - **`Macro-Tip-Forming.md`/`Macro-Vars.md`**: added the missing
+      per-hotend `cooling_tube_position`/`cooling_tube_length` starting
+      points (DragonST/DragonHF/Mosquito/Revo/RapidoHF) as a real table,
+      cross-linked from `Macro-Vars.md`.
+    - **`Feature-Gcode-Preprocessing.md`**: the flagged gap needed
+      verification, not just restoration - checked `!referenced_tools!`'s
+      real substitution logic in `components/mmu_server.py` directly.
+      Found the page's own prior claim ("substitutes with `0`, never an
+      empty string") was itself wrong: a file with literally no
+      tool-selection line leaves the placeholder unsubstituted, not `0`.
+      Corrected the placeholder table and the worked example's note
+      accordingly, and confirmed the macro's existing
+      `{% if REFERENCED_TOOLS == "!referenced_tools!" %}` check already
+      handles this case correctly (same literal-placeholder check catches
+      "preprocessor disabled" and "no tools referenced" alike) - no new
+      macro code needed, just an accurate explanation.
+    - **`Feature-Endless-Spool-Runout.md`**: the wiki's fancy per-tool
+      cycling-order status view doesn't exist in current source at all
+      (`es_groups_to_string()` only ever prints flat group membership) -
+      so rather than reproduce a nonexistent display, added a worked
+      example using the real log messages from
+      `mmu_gate_maps.get_next_endless_spool_gate()`/`mmu_controller.py`
+      ("Checking for alternative gates ... (checked gates: ...)",
+      "Remapping T0 to gate 6"), confirmed against source directly.
+    - **`Feature-Tip-Forming-Purging.md`**: added the wipe-tower
+      enable-then-disable sequencing tip (needed to unlock the purge
+      matrix) and the Prusa MMU-preset-not-Single/@MMU-tag selection
+      steps, both prose-only gaps next to screenshots that were already
+      correct.
+    - **`Parameters.md`**: added the stallguard/`selector_accel` tuning
+      warning (below ~600 unreliable, above ~1000 reliable) - correctly
+      placed after the *whole* Selector control table, not mid-table (a
+      table split with an admonition wedged into the middle was caught and
+      fixed before shipping, verified in a live preview).
+    - **`Macro-Customization.md`**: added the `pause_macro` replacement
+      rationale (purge-tower parking, push notifications, static args) and
+      the hard "must leave the printer paused" constraint - the page
+      already documented *how* to replace it, not *why*.
+    - **`Macro-Tip-Forming.md`**: added the automatic pressure-advance
+      zero-during/restore-after-tip-forming behavior, confirmed against
+      `_wrap_pressure_advance` in `mmu_filament_movement.py`.
+    - **`Custom-Load-Unload-Sequences.md`**: investigating the flagged
+      "homing move caveats" turned up more than expected. The shipped
+      `mmu_sequence.cfg`'s own commented-out worked example uses
+      `MOTOR=extruder+gear`, which isn't one of `_MMU_STEP_HOMING_MOVE`'s
+      three valid values (`gear`/`extruder`/`gear+extruder`, confirmed
+      against `mmu_misc_mixins.py`'s `MoveMixin`) - a real latent bug in
+      Happy Hare's own reference macro, already faithfully reproduced in
+      this page from an earlier session. Worse, even corrected to
+      `gear+extruder` it would still be the wrong choice for that specific
+      example's `mmu_ext_touch` endstop - `mmu_filament_movement.py`'s own
+      move-tracing docstring documents `mmu_ext_touch` as "only useful for
+      motor=extruder" (a stallguard endstop tied to one specific stepper,
+      not a synced pair) - fixed the example to `MOTOR=extruder` and added
+      both real gotchas: which endstops are valid depends on which
+      stepper(s) `MOTOR=` drives, and a virtual (stallguard) endstop can
+      only home in the extrude direction (confirmed: reverse-homing on one
+      raises "Cannot reverse home on virtual (TMC stallguard) endstop"
+      directly from `mmu_misc_mixins.py`).
+    - **`Feature-Environment-Manager.md`**: added the missing
+      start-of-cycle warning behavior when a `GATES=` gate isn't empty yet.
+    - **Deliberately not fabricated**: the audit's last, weakest finding
+      (a worked "extruder current bump during tip forming" console
+      transcript, already flagged by its own finder as "arguably not worth
+      flagging") turned out to reference a log line format
+      (`Run Current: X Hold Current: Y`) that no longer exists anywhere in
+      `extras/mmu/` - rather than invent a plausible-looking transcript
+      that can't be verified against real output, left it as prose-only
+      (already covered via `extruder_form_tip_current` on `Operation.md`
+      and the pressure-advance behavior just added to
+      `Macro-Tip-Forming.md`).
+    - Every fix verified against `.happy-hare-src` directly before writing,
+      not just against the wiki's original claim - two of the seven
+      "restore this" items turned out to need correcting, not just
+      restoring, and a third uncovered a genuine bug in Happy Hare's own
+      shipped reference macro. Clean `zensical build --clean` and a live
+      preview check (table/admonition structure specifically, given the
+      Parameters.md near-miss) after all edits.
+
 **To pick this back up:** with §1, §5, §6, §7, §8, and now §10b Macros all
 done, and §10 down to just its own remaining ⚠️-flagged pages, the next open
 sections are §1's remaining pages (`MMU-Types-Overview.md`,

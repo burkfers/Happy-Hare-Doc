@@ -7,7 +7,8 @@ This page covers the parts that are the same regardless of which MMU you're
 setting up — cloning, the installer's command-line flags, the optional client
 macros, and upgrading later. The actual first-run walkthrough (the
 `menuconfig` screens you'll see and the choices worth pausing on) is one page
-per MMU type - see [Getting Started with Box Turtle](GettingStartedWithBoxTurtle.md)
+per MMU type - see the getting started guides for popular machines as examples
+[Getting Started with Box Turtle](GettingStartedWithBoxTurtle.md)
 or [Getting Started with BTT ViViD](GettingStartedWithViViD.md).
 
 ## Cloning Happy Hare
@@ -48,20 +49,22 @@ on the same machine, override the paths directly:
 Full flag reference:
 
 ```text
--i  interactive install (open menuconfig)
--u, -d  uninstall
--f  restore Klipper/Moonraker symlinks only (recover after a Klipper update wipes them)
--z  skip the GitHub update check
--s  skip restarting services
--b <branch>  switch to a specific branch (sticky)
--n  configure a multiple MMU unit setup
--k <dir>  non-default Klipper home directory
--c <dir>  non-default Klipper config directory
--m <dir>  non-default Moonraker home directory
+-i for interactive install (open menuconfig)
+-u, -d for uninstall
+-f to just restore klipper/moonraker symlinks (recover after hard klipper update)
+-z skip github update check (nullifies -b <branch>)
+-s to skip restart of services
+-b <branch> to switch to specified feature branch (sticky)
+-n to specify a multiple MMU unit setup
+-k <dir> non-default klipper home directory
+-c <dir> non-default klipper config directory
+-m <dir> non-default moonraker home directory
 -a <name>  alternative Klipper service name (e.g. when installed via Kiauh)
+-e, --emu Enables multi MCU support (for EMU design)
+-o Override compatibility checks (e.g. Kalico detection)
 -t  test mode - write config to /tmp instead of your real install
--e, --emu  enable multi-MCU support (per-gate MCU designs)
--o  override compatibility checks (e.g. Kalico detection)
+(-q verbose make for debugging)
+(-v verbose builder for debugging)
 ```
 
 !!! tip

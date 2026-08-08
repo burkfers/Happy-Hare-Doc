@@ -69,7 +69,7 @@ in `START_PRINT`:
 
 | Placeholder | Substituted with |
 |---|---|
-| `!referenced_tools!` | Comma-separated list of tools used in the print, e.g. `0,2,5,6` - `0` if none (see the worked example below for why that matters) |
+| `!referenced_tools!` | Comma-separated list of tools used in the print, e.g. `0,2,5,6` - left unsubstituted (literal `!referenced_tools!`) if the file has no tool-selection line at all (see the worked example below for why that matters) |
 | `!total_toolchanges!` | Count of tool-change commands the slicer emitted (excluding the initial tool). Some slicers offer their own `{total_toolchanges}` placeholder, but it isn't always supported - `!total_toolchanges!` always works. Pass it in at print start as recommended and Happy Hare keeps a running countdown of changes remaining |
 | `!filament_names!` | Comma-separated filament names, one per extruder/tool |
 | `!materials!` | Comma-separated material types, one per tool - also what the `material` [automap strategy](Feature-Gate-TTG-Maps.md#automatic-ttg-mapping) matches against |
@@ -110,14 +110,18 @@ gcode:
 ```
 
 !!! note
-    A single-colour print (no toolchanges at all) still substitutes
-    `!referenced_tools!` with `0`, not an empty string - passing
-    `INITIAL_TOOL` alongside it, as above, means `MMU_CHECK_GATE` always
-    gets a sensible value either way, so there's no need for a separate
-    empty-string branch. If `TOOLS=` is ever actually passed an empty
-    string, Happy Hare just ignores it rather than checking zero gates.
-    `MMU_CHECK_GATE` also restores whatever tool was loaded before it ran
-    once it's done checking.
+    A print that selects tool 0 at least once (the normal case for any
+    Happy Hare print, even single-colour) substitutes `!referenced_tools!`
+    with `0`. A file with no tool-selection line at all - a genuinely
+    non-MMU print run through the same printer profile - leaves the
+    placeholder unsubstituted, literally `!referenced_tools!`, in the
+    output. The macro above already handles both cases with the same
+    check: the `{% if REFERENCED_TOOLS == "!referenced_tools!" %}` branch
+    catches an unsubstituted placeholder regardless of *why* it wasn't
+    substituted (preprocessor disabled, or no tools referenced), and falls
+    back to `INITIAL_TOOL` either way - no separate empty-string branch
+    needed. `MMU_CHECK_GATE` also restores whatever tool was loaded before
+    it ran once it's done checking.
 
 ### Worked example: `!colors!`
 
