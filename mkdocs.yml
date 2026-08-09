@@ -3,7 +3,7 @@
 # settings just work"); see doc_tools/README.md for the reasoning. TOC.md, the
 # internal planning doc for this rewrite, lives at the repo root rather than
 # under docs_dir so it's never a candidate for publishing in the first place.
-site_name: Happy Hare
+site_name: Happy Hare (NEW SITE - UNDER CONSTRUCTION)
 site_description: Universal Automated Filament Changer / MMU driver for Klipper
 repo_url: https://github.com/moggieuk/Happy-Hare
 docs_dir: doc
@@ -144,7 +144,7 @@ nav:
       - Custom Load/Unload Sequences: Custom-Load-Unload-Sequences.md
   - Reference:
       - Command Reference: Command-Reference.md
-      - Parameters: Parameters.md
+      - Config Parameters: Parameters.md
       - Macro Variables: Macro-Vars.md
       - Printer Variables: Printer-Variables.md
       - MCU Reference: Mcu-Reference.md

@@ -1,5 +1,3 @@
-# THIS NEW DOC SITE IS UNDER CONSTRUCTION
-
 # Happy Hare
 
 <p align="center"><em>Universal Automated Filament Changer / MMU driver for Klipper</em></p>
@@ -15,6 +13,10 @@ exposing everything else through ordinary Klipper macros - if you can write a
 it in web-browser terms: Klipper is the browser, and Happy Hare is an extension
 that adds a whole new capability, without changing anything about how Klipper
 itself works underneath.
+
+Now in it's 4th generation it supports every MMU/AFC with rich integration to
+Klipper, Mainsail, Fluidd, Klipperscreen and other ecosystems. It is super
+flexible and now even easier to install and setup.
 
 <p align="center">
   <img src="index/universal_mmu_driver.jpg" alt="Happy Hare driving several different MMUs through Mainsail, Fluidd, KlipperScreen and the console" width="100%">
