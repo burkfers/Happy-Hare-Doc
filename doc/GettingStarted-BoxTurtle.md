@@ -18,7 +18,7 @@ The very first time you run this, there's no `.mmu_config` yet, so the installer
 drops you straight into `menuconfig` — no separate flag needed.
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/01-first-run.png" alt="First run: nothing configured yet" width="70%">
+  <img src="GettingStarted-BoxTurtle/01-first-run.png" alt="First run: nothing configured yet" width="70%">
 </p>
 
 This is the installer's default state: `MMU Type` is `Custom Design`, the board is
@@ -35,12 +35,12 @@ A quick word on the controls, since you'll use them constantly:
   you've typed something and want to back out cleanly without hunting for the
   original value.
 
-## Choosing the MMU type
+### Choosing the MMU type
 
 Highlight **MMU Type** and press Enter:
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/02-mmu-type-boxturtle.png" alt="MMU Type list, with Box Turtle selected" width="70%">
+  <img src="GettingStarted-BoxTurtle/02-mmu-type-boxturtle.png" alt="MMU Type list, with Box Turtle selected" width="70%">
 </p>
 
 Move down to **Box Turtle** and press Space to select it. Two things happen
@@ -51,7 +51,7 @@ that only make sense once Happy Hare knows this is a Box Turtle.
 Enter **Turtle Neck** to see the buffer choice:
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/03-turtleneck-buffer.png" alt="Turtle Neck buffer choice, v2 already selected" width="70%">
+  <img src="GettingStarted-BoxTurtle/03-turtleneck-buffer.png" alt="Turtle Neck buffer choice, v2 already selected" width="70%">
 </p>
 
 **Turtle Neck v2** is already the default — it's the buffer most Box Turtles ship
@@ -63,7 +63,7 @@ Back out twice (Esc, Esc) to return to the top menu, and look at the warnings
 panel again:
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/04-root-warnings.png" alt="Root menu after choosing Box Turtle - one warning left" width="70%">
+  <img src="GettingStarted-BoxTurtle/04-root-warnings.png" alt="Root menu after choosing Box Turtle - one warning left" width="70%">
 </p>
 
 Three of the four warnings are already gone. The one that's left — *"Toolhead type
@@ -71,12 +71,12 @@ is 'other'"* — is exactly what it sounds like: Happy Hare still doesn't know y
 toolhead, and that's covered in a different getting-started page. Don't worry
 about it here.
 
-## Board type
+### Board type
 
 Enter **Board type**:
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/05-board-type.png" alt="Board type list, AFC Lite v1.0 already selected" width="70%">
+  <img src="GettingStarted-BoxTurtle/05-board-type.png" alt="Board type list, AFC Lite v1.0 already selected" width="70%">
 </p>
 
 Because you already told it this is a Box Turtle, Happy Hare has pre-selected
@@ -85,12 +85,12 @@ around. If yours is a Box Turtle on a different controller board, this is where
 you'd pick it instead; the pin defaults for every stepper, sensor and TMC driver
 on the rest of the menu come from whatever you choose here.
 
-## MCU connection
+### MCU connection
 
 Back out to the top and enter **MCU connection**:
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/06-mcu-connection.png" alt="MCU connection, Serial already selected" width="70%">
+  <img src="GettingStarted-BoxTurtle/06-mcu-connection.png" alt="MCU connection, Serial already selected" width="70%">
 </p>
 
 Again, already right for a board like the AFC Lite that plugs in over USB:
@@ -99,12 +99,12 @@ device if you have more than one board attached. If your board talks CANbus
 instead, this is where you'd switch it — but for a stock, USB-attached Box
 Turtle, Serial is what you want and there's nothing to change.
 
-## MMU Features / Additions
+### MMU Features / Additions
 
 Back out and enter **MMU Features / Additions**:
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/07-mmu-features.png" alt="MMU Features panel - LEDs, eSpooler and buffer already enabled" width="70%">
+  <img src="GettingStarted-BoxTurtle/07-mmu-features.png" alt="MMU Features panel - LEDs, eSpooler and buffer already enabled" width="70%">
 </p>
 
 This is worth a look even though — for a stock Box Turtle — there's nothing to
@@ -115,13 +115,13 @@ are all genuine build options and default off — enable whichever ones you actu
 built. If you're following this page for a plain, stock Box Turtle, just look and
 move on.
 
-## Pins: gear direction
+### Pins: gear direction
 
 This is the one setting on this page that's genuinely impossible to get right by
 guessing. Back out to the top, enter **Pins / TMC**, then **Gear pins**:
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/08-gear-pins.png" alt="Gear pins list - one row per gate" width="70%">
+  <img src="GettingStarted-BoxTurtle/08-gear-pins.png" alt="Gear pins list - one row per gate" width="70%">
 </p>
 
 Every gate has its own UART, step, dir, enable and diag pin, all filled in from
@@ -134,14 +134,14 @@ runs backwards.
 Highlight **Gear dir pin** and press Enter to open its editor:
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/09-gear-dir-editor.png" alt="Gear dir pin editor, showing the default pin" width="70%">
+  <img src="GettingStarted-BoxTurtle/09-gear-dir-editor.png" alt="Gear dir pin editor, showing the default pin" width="70%">
 </p>
 
 If that gear needs reversing, add a `!` in front of the pin name — Klipper's
 standard way of inverting a pin's polarity:
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/10-gear-dir-inverted.png" alt="Gear dir pin editor, with ! typed to invert it" width="70%">
+  <img src="GettingStarted-BoxTurtle/10-gear-dir-inverted.png" alt="Gear dir pin editor, with ! typed to invert it" width="70%">
 </p>
 
 That's it — no rewiring, no `.cfg` files to hand-edit. Press Enter to accept the
@@ -150,12 +150,12 @@ here and decide you'd rather have the default back, that's exactly what the **R*
 key mentioned earlier is for: highlight the parameter and press R, and it resets
 to whatever Happy Hare would have picked on its own.
 
-## Picking a toolhead
+### Picking a toolhead
 
 From the top menu, enter **Toolhead**:
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/11-toolhead-selected.png" alt="Toolhead list, Stealthburner Clockwork2 Revo Voron selected" width="70%">
+  <img src="GettingStarted-BoxTurtle/11-toolhead-selected.png" alt="Toolhead list, Stealthburner Clockwork2 Revo Voron selected" width="70%">
 </p>
 
 This step is entirely optional — skip it and Happy Hare falls back to generic
@@ -168,7 +168,7 @@ what selecting one does.
 Back out and enter **Toolhead sensors/settings** to see the effect:
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/12-toolhead-dimensions.png" alt="Toolhead dimensions, pre-filled from the selected combo" width="70%">
+  <img src="GettingStarted-BoxTurtle/12-toolhead-dimensions.png" alt="Toolhead dimensions, pre-filled from the selected combo" width="70%">
 </p>
 
 **Extruder entrance to nozzle** and **Residual filament**, under **Toolhead dimensions**,
@@ -182,15 +182,15 @@ This is a shortcut, not a substitute: even with a listed toolhead, you're still
 better off learning to measure and calibrate your own eventually, since small
 build variations and mods add up. But it's a genuinely good starting point,
 and if your exact combo isn't listed, "Other/Unknown" plus manual calibration
-(`MMU_CALIBRATE_TOOLHEAD` — see the wiki) is exactly as normal a path as this one.
+([`MMU_CALIBRATE_TOOLHEAD`](Calibration-Toolhead.md)) is exactly as normal a path as this one.
 
-## An example software option: Spoolman
+### An example software option: Spoolman
 
 From the top menu, enter **Software Options**, then **Select spoolman
 spool manager support**:
 
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/13-spoolman-readonly.png" alt="Spoolman support set to Read-only" width="70%">
+  <img src="GettingStarted-BoxTurtle/13-spoolman-readonly.png" alt="Spoolman support set to Read-only" width="70%">
 </p>
 
 This is one small example of the many software-side options living under
@@ -207,7 +207,7 @@ value that differs from its default this way, which makes it easy to spot your
 own changes later. If you decide you don't want it after all, `R` puts it straight
 back to `Off`.
 
-## Explore the rest
+### Explore the rest
 
 That's enough to get a stock Box Turtle basically talking to Klipper, but it's
 only a fraction of the menu. **Software Options**, **Tip Forming / Cutting**,
@@ -219,7 +219,7 @@ want. Remember that you don't need to setup everything now — you can come back
 many times and re-run menconfig with `./install.sh -i` and incrementally
 setup features and macros.
 
-## Saving, and coming back later
+### Saving, and coming back later
 
 When you're done, press **Esc** from the top level (or **Q**) to get the save
 prompt, and confirm. Happy Hare writes your `.cfg` files from what you chose.
@@ -246,5 +246,24 @@ ever hand-edit the generated `.cfg` files directly.
     (**Refresh**) is the recommended choice because it rebuilds your Happy Hare
     klipper config files ensuring a clean config and any future update made to the
     Happy Hare sofware.
+
+
+## Validating Hardware Setup
+
+## Calibration
+
+## Checking Basic Operation
+
+## Slicer Setup
+
+You now need to add some gcode hooks into your favorate slicer for `start g-code`,
+`end g-code`, `after layer change` and `on tool change`. This is to coordinate with
+the MMU during certain phases of a print. This is covered in
+[Slicer Setup](Slicer-Setup.md#start-g-code). Jump to this section, make these
+changes and return here.
+
+## Printing with MMU
+
+## What Next?
 
 ---

@@ -417,11 +417,11 @@ See [Feature: NFC/RFID Reading](Feature-NFC.md) for the full picture.
 
 | Parameter | Default | Description |
 |---|---|---|
-| `autocal_bowden_length` | `0` | Auto-calibrate bowden length on first load, instead of requiring `MMU_CALIBRATE_BOWDEN` |
+| `autocal_bowden_length` | `1` *(this Box Turtle seed - needs an extruder-entry sensor or a sync-feedback buffer with compression/proportional sensing; `0` on types without either)* | Auto-calibrate bowden length on first load, instead of requiring `MMU_CALIBRATE_BOWDEN` |
 | `autotune_bowden_length` | `0` | Continuously tune bowden length over time (best with a toolhead sensor) |
 | `skip_cal_rotation_distance` | `1` | Rely on the installed default gear rotation distance rather than requiring `MMU_CALIBRATE_GEAR` |
 | `autotune_rotation_distance` | `0` | Continuously tune gear rotation distance from sync-feedback or encoder telemetry |
-| `skip_cal_encoder` | `1` *(encoder-equipped)* | Rely on the installed default encoder resolution rather than requiring `MMU_CALIBRATE_ENCODER` |
+| `skip_cal_encoder` | `1` *(`0` on ERCF specifically, not encoder-equipped types generally - KMS and QuattroBox both ship encoders and still default to `1`)* | Rely on the installed default encoder resolution rather than requiring `MMU_CALIBRATE_ENCODER` |
 
 ### Misc (per-unit)
 
@@ -447,6 +447,7 @@ supplies automatically.
 
 ## See also
 
+- [Calibration](Calibration.md) - what the calibration/autotune settings above actually do, and their real defaults per MMU type
 - [Command Reference](Command-Reference.md) - every `MMU_*` command
 - [Macro Variables](Macro-Vars.md) - the equivalent flat reference for
   `mmu_macro_vars.cfg`

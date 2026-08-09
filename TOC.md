@@ -296,7 +296,7 @@ anything. Don't silently decide something wasn't worth keeping.
 
 | Page | Source | Status |
 |---|---|---|
-| `index.md` (Home) | `README.md` + `wiki/Home.md` | **done (v2)** — see item 34 below for the full rewrite. v1's "card grid needs a new entry every time a section gains its first page" rule is retired: v2's card grid is one card per top-level nav section rather than one per page-that-happened-to-be-first, and doesn't need touching again as pages are added within an existing section — only when a genuinely new section is added, as happened when `Advanced Customization` landed, and again when `Slicer & Toolchange`/`Operation` landed (8 cards now: Getting Started, Concepts, Features, Advanced Customization, Slicer & Toolchange, Operation, Reference, Developer Guide). |
+| `index.md` (Home) | `README.md` + `wiki/Home.md` | **done (v2)** — see item 34 below for the full rewrite. v1's "card grid needs a new entry every time a section gains its first page" rule is retired: v2's card grid is one card per top-level nav section rather than one per page-that-happened-to-be-first, and doesn't need touching again as pages are added within an existing section — only when a genuinely new section is added, as happened when `Advanced Customization` landed, again when `Slicer & Toolchange`/`Operation` landed, and again when `Calibration` landed (item 57) (11 cards now: Getting Started, Calibration, Concepts, Features, Macros, Advanced Customization, Slicer & Toolchange, Operation, Tuning, Reference, Developer Guide - this note's own count had already drifted stale before item 57, missing Macros/Tuning, which were added without updating it; corrected here too). |
 
 ### 1. Getting Started
 
@@ -332,12 +332,22 @@ anything. Don't silently decide something wasn't worth keeping.
 
 ### 4. Calibration
 
+Superseded the original Type-A/Type-B-split plan below (item 57) - split by
+calibration *step* instead, per explicit request, since which command
+applies is a hardware question (selector mechanism, encoder fitted, etc.),
+not strictly a selector-class one, and per-step pages let a step's own
+mandatory/recommended/optional status and autotune settings live right next
+to its procedure instead of being repeated across two class-based pages.
+
 | Page | Source | Status |
 |---|---|---|
-| `MMU-Calibration.md` (index/overview) | `wiki/MMU-Calibration.md` | ⚠️ rewrite against selector classes |
-| `MMU-Calibration-Physical-Selector.md` | `wiki/MMU-Calibration-TypeA.md` | ⚠️ rewrite, retitle |
-| `MMU-Calibration-Virtual-Selector.md` | `wiki/MMU-Calibration-TypeB.md` | ⚠️ rewrite, retitle |
-| Toolhead calibration | folded into a Features page (§5) | — |
+| `Calibration.md` (landing/overview) | `wiki/MMU-Calibration.md` + `installer/Kconfig.calibration` + `installer/mmu_types/*` | **done** — Type-A/B/C applicability, the 5 autotune/auto-cal settings with real empirically-resolved per-type defaults, mandatory/recommended/optional framing, calibration order/cascade (`hh-mermaid` diagram), `SAVE=0` convention, calibration-storage (`mmu_vars.cfg`) table |
+| `Calibration-Selector.md` | `wiki/MMU-Calibration-TypeA.md` (selector/servo steps) | **done** — one combined page (by explicit request) for all 4 selector-calibration commands (`MMU_CALIBRATE_SELECTOR`/`_SERVO_SELECTOR`/`_ROTARY_SELECTOR`/`_SELECTOR_INDEXES`) plus `MMU_SERVO`; ported the three servo position photos from `wiki/MMU-Calibration-TypeA/` |
+| `Calibration-Gear.md` | `wiki/MMU-Calibration-TypeA.md` + `-TypeB.md` (gear/gates steps) | **done** — `MMU_CALIBRATE_GEAR` + `MMU_CALIBRATE_GATE`/legacy `MMU_CALIBRATE_GATES` alias together (same underlying parameter, different granularity) |
+| `Calibration-Encoder.md` | `wiki/MMU-Calibration-TypeA.md`/`-TypeB.md` (encoder step) | **done** — cross-links to `Feature-Encoder.md` rather than duplicating wiring/troubleshooting content already there |
+| `Calibration-Bowden.md` | `wiki/MMU-Calibration-TypeA.md`/`-TypeB.md` (bowden step) | **done** — all three real strategies (sensor "BEST", encoder-collision, `MANUAL=1`); no MMU type ships a Kconfig default for this at all |
+| `Calibration-Toolhead.md` | new | **done** — deliberately short: requirement/skip-logic only, links to `Blobbing-and-Stringing.md#calibrating-the-toolhead` for the real procedure rather than moving it (that page's own mermaid diagram and "Summary of Tuning Steps" are built around it staying there) |
+| `MMU_CALIBRATE_PSENSOR` | — | **not moved** — stays on `Feature-Sync-Feedback-Buffer.md` (already covered per item 53); cross-linked from `Calibration.md` instead, since it's gated behind an optional feature toggle rather than being universal or MMU-type-driven |
 
 ### 5. Features — all 16 pages done
 
@@ -2500,25 +2510,64 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       thing this audit was supposed to catch.
     - Clean `zensical build --clean` after all edits.
 
-**To pick this back up:** with §1, §5, §6, §7, §8, and now §10b Macros all
-done, and §10 down to just its own remaining ⚠️-flagged pages, the next open
-sections are §1's remaining pages (`MMU-Types-Overview.md` - remember HTLF,
-new per item 56 above - `Upgrading-from-v3.md`, and the
+57. **§4 Calibration written**, closing the gap flagged at the end of item
+    56's "To pick this back up" note - the wiki-vs-code overlap check that
+    note called for against `Operation.md`/`Toolchange-Movement.md`/
+    `Blobbing-and-Stringing.md` was done up front, per explicit request to
+    restructure by calibration *step* rather than by the old Type-A/Type-B
+    split (see the rewritten §4 table above for the full per-page
+    breakdown and reasoning). All Kconfig facts - the 5 autotune/auto-cal
+    settings and their per-type defaults - came from empirically resolving
+    the real `installer/Kconfig` tree with the vendored `kconfiglib`
+    (forcing each MMU type symbol and reading back the result), not from
+    reading Kconfig files visually, after finding the naive read would have
+    missed `mmu_types/Kconfig.ercf`'s one direct per-type override
+    (`BOOL_SKIP_CAL_ENCODER default n`) winning over the generic
+    `default y` due to Kconfig's first-true-default-wins resolution order.
+    - Placed in nav directly after "Getting Started" per explicit request,
+      before "Slicer & Toolchange".
+    - User confirmed two structural decisions up front (via AskUserQuestion)
+      rather than assuming: one combined `Calibration-Selector.md` instead
+      of splitting by selector family, and leaving the toolhead-calibration
+      procedure on `Blobbing-and-Stringing.md` rather than extracting it -
+      that page's own "## Summary of Tuning Steps" `hh-mermaid` diagram
+      starts with `MMU_CALIBRATE_TOOLHEAD` and flows into
+      `toolhead_ooze_reduction`, so moving the procedure out would have
+      orphaned that diagram's own first step.
+    - Two real bugs found and fixed on `Parameters.md` while researching:
+      `autocal_bowden_length` was listed as `0` in the Box-Turtle-seed
+      table when the real stock default (Turtle Neck v2's compression
+      sensor) is `1`; `skip_cal_encoder`'s `(encoder-equipped)` annotation
+      was backwards - the real exception is ERCF specifically, not
+      "encoder-equipped" generally (KMS/QuattroBox both ship encoders and
+      still default skippable).
+    - Fixed a stale cross-reference on `GettingStarted-BoxTurtle.md`
+      ("`MMU_CALIBRATE_TOOLHEAD` — see the wiki") to point at the new
+      `Calibration-Toolhead.md` instead.
+    - Deliberately left `GettingStarted-BoxTurtle.md`/`-ViViD.md`'s own
+      empty `## Calibration` stub headings untouched - filling only that
+      one of three consecutive empty stubs (`## Validating Hardware
+      Setup`/`## Calibration`/`## Checking Basic Operation`) would read as
+      an accidental partial edit rather than intentional scoping; leave for
+      whoever eventually writes all three together.
+    - Clean `zensical build --clean` after all edits.
+
+**To pick this back up:** with §1, §4, §5, §6, §7, §8, and now §10b Macros
+all done, and §10 down to just its own remaining ⚠️-flagged pages, the next
+open sections are §1's remaining pages (`MMU-Types-Overview.md` - remember
+HTLF, new per item 56 above - `Upgrading-from-v3.md`, and the
 `GettingStarted-3MS.md`/`GettingStarted-QuattroBox.md` pair from
 item 47), §2's other two pages (`Understanding-Operation.md`,
 `Print-Job-State-Machine.md` - lean on `Conceptual-MMU.md`'s terminology
 rather than re-defining it), §3's four `Configuring-mmu*.cfg.md` generators
-(follow the `gen_command_reference.py` pattern already proven out), §4
-Calibration, §11 (Troubleshooting & FAQ), and §13 (Community & Support).
-None of these have been scoped yet the way the routing pass in item 35 scoped §5 (or the ad-hoc
-scoping items 48/49 did for §6/§7/§8/parts of §10) up front - worth doing
-the same wiki-vs-code overlap check before drafting, especially for §2/§4,
-which likely share content with the now-finished §5/§7/§8 pages
-(EndlessSpool groups, gate/TTG maps, and load/unload/toolhead-calibration
-sequencing all come up naturally in an "Operation"/"Tuning"/"Calibration"
-context, and now genuinely overlap with material `Operation.md`/
-`Toolchange-Movement.md`/`Blobbing-and-Stringing.md` already cover - check
-those three pages specifically before drafting §4, not just §5). Whatever's
-next, run `./venv/bin/zensical build --clean` before
-calling it done, not a plain `zensical build` - see **Zensical rough
-edges**.
+(follow the `gen_command_reference.py` pattern already proven out), §11
+(Troubleshooting & FAQ), and §13 (Community & Support). None of these have
+been scoped yet the way the routing pass in item 35 scoped §5 (or the
+ad-hoc scoping items 48/49 did for §6/§7/§8/parts of §10, or item 57 did
+for §4) up front - worth doing the same wiki-vs-code overlap check before
+drafting, especially for §2, which likely shares content with the
+now-finished §4/§5/§7/§8 pages (EndlessSpool groups, gate/TTG maps, and
+load/unload/toolhead-calibration sequencing all come up naturally in an
+"Operation"/"Tuning"/"Calibration" context). Whatever's next, run
+`./venv/bin/zensical build --clean` before calling it done, not a plain
+`zensical build` - see **Zensical rough edges**.

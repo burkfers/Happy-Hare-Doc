@@ -103,6 +103,13 @@ nav:
       - Installation: Installation.md
       - Box Turtle: GettingStarted-BoxTurtle.md
       - BTT ViViD: GettingStarted-ViViD.md
+  - Calibration:
+      - Overview: Calibration.md
+      - Selector: Calibration-Selector.md
+      - Gear Rotation Distance: Calibration-Gear.md
+      - Encoder: Calibration-Encoder.md
+      - Bowden Length: Calibration-Bowden.md
+      - Toolhead: Calibration-Toolhead.md
   - Slicer & Toolchange:
       - Slicer Setup: Slicer-Setup.md
       - Toolchange Movement: Toolchange-Movement.md

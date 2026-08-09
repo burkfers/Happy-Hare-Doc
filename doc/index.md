@@ -71,6 +71,10 @@ The pages here are grouped by what you're trying to do, not by MMU brand:
 - **Getting Started** walks through a real `menuconfig` install for one MMU
   type, screen by screen - the closest thing to "follow along and end up with
   a working setup."
+- **Calibration** covers measuring the handful of dimensions that are
+  physical to your specific build - selector position, gear rotation
+  distance, encoder resolution, bowden length, toolhead geometry - and which
+  of those actually apply to your MMU.
 - **Concepts** covers terminology and hardware taxonomy that's shared across
   every MMU type - worth reading once, regardless of which hardware you have.
 - **Features** has one page per capability (Spoolman, NFC, eSpooler, and so
@@ -130,6 +134,15 @@ Whichever you use, having these ready up front gets you a faster answer:
     scratch, `menuconfig` screen by screen.
 
     [Box Turtle guide &rarr;](GettingStarted-BoxTurtle.md)
+
+-   **Calibration**
+
+    ---
+
+    Which calibration steps your MMU actually needs, what's mandatory versus
+    safe to skip, and the order to run them in.
+
+    [Calibration &rarr;](Calibration.md)
 
 -   **Concepts**
 
