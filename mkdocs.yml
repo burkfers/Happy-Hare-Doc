@@ -120,6 +120,7 @@ nav:
   - Tuning:
       - Blobbing and Stringing: Blobbing-and-Stringing.md
   - Features:
+      - Cold Pull: Feature-Cold-Pull.md
       - Eject Buttons: Feature-Eject-Buttons.md
       - Encoder: Feature-Encoder.md
       - EndlessSpool & Runout Detection: Feature-Endless-Spool-Runout.md

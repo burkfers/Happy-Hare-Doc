@@ -349,7 +349,7 @@ to its procedure instead of being repeated across two class-based pages.
 | `Calibration-Toolhead.md` | new | **done** — deliberately short: requirement/skip-logic only, links to `Blobbing-and-Stringing.md#calibrating-the-toolhead` for the real procedure rather than moving it (that page's own mermaid diagram and "Summary of Tuning Steps" are built around it staying there) |
 | `MMU_CALIBRATE_PSENSOR` | — | **not moved** — stays on `Feature-Sync-Feedback-Buffer.md` (already covered per item 53); cross-linked from `Calibration.md` instead, since it's gated behind an optional feature toggle rather than being universal or MMU-type-driven |
 
-### 5. Features — all 16 pages done
+### 5. Features — all 17 pages done
 
 | Feature page | Kconfig source | Wiki source | Status |
 |---|---|---|---|
@@ -370,6 +370,7 @@ to its procedure instead of being repeated across two class-based pages.
 | `Feature-FlowGuard.md` | `Kconfig.flowguard` | new (no v3 equivalent) | **done**, written last per plan — scope defined entirely by what `Feature-Encoder.md` and `Feature-Sync-Feedback-Buffer.md` had already deferred (`flowguard_enabled`, `flowguard_max_relief`, `flowguard_encoder_mode`, `flowguard_encoder_max_motion`, `tangle_prevention_*`), not from a wiki source. Code-verified against `unit/mmu_sync_feedback.py` and `commands/mmu_flowguard.py`: confirmed a clog/tangle event from either detection source (buffer relief-movement or encoder motion) funnels into the exact same runout-handler used by real sensor-based runout — i.e. FlowGuard is purely the *detection* layer, and what happens next is entirely `Feature-Endless-Spool-Runout.md`'s existing pause-vs-EndlessSpool logic, not something to re-explain here. Found the same "shipped template overrides code fallback" pattern already seen elsewhere: `flowguard_max_relief` ships as `40` (confirmed via real menuconfig capture) even though the Python `ParamSpec` fallback is `8.0`. Real menuconfig screenshot (`feature-flowguard` session, boxturtle seed — already has a buffer, so the menu is visible with no scene setup; the encoder-mode section correctly doesn't appear since this seed has no encoder). **Updated 2026-08-08 (item 53)**: the FlowGuard telemetry/simulation content originally skipped when this page was written (see `Feature-Sync-Feedback-Buffer.md`'s row above) turned out not to be out of scope after all — a re-review of the wiki source found it was simply never ported anywhere; added as a new "Tuning with telemetry" section. |
 | ~~`Feature-Addon-Integrations.md`~~ | — | **removed 2026-08-08 (item 52)** — per explicit request, once nothing on it was genuinely load-bearing any more: EREC/servo-cutter and Blobifier were already just redirect stubs to `Feature-Tip-Forming-Purging.md`/the new `Macro-Servo-Cutter.md`/`Macro-Blobifier.md` pages, and DC eSpooler was a pure redirect to `Feature-Espooler.md` - only Eject Buttons was real, unclaimed content, moved to its own page below. The `erec-logo.jpg`/`blobifier.jpg` photos moved with their respective sections into `Macro-Servo-Cutter.md`/`Macro-Blobifier.md` (`git mv`, preserving history) rather than being dropped. |
 | `Feature-Eject-Buttons.md` | `Kconfig.eject_buttons` | (previously a section of `Feature-Addon-Integrations.md` — see above) | **done** — split out into its own Feature page (item 52), carrying forward the real eject-button pin-polarity footgun (normally-closed vs. normally-open wiring) and its menuconfig screenshot unchanged; only the page-level framing (no more "addon" language, no more redirect sections around it) changed. |
+| `Feature-Cold-Pull.md` | `config/macros/mmu_misc.cfg` (`[gcode_macro MMU_COLD_PULL]`) | (previously a section of `Blobbing-and-Stringing.md`) | **done (item 60)**, per explicit request — extracted the "Cleaning the Extruder with a Cold Pull" section (manual + `MMU_COLD_PULL`-guided procedures, parameters, per-material temperature table, both images) into its own Feature page; `Blobbing-and-Stringing.md` keeps only a one-line pointer plus its Step 1 cross-link, since (unlike `MMU_CALIBRATE_TOOLHEAD`, kept in place per item 57) nothing on that page's own diagrams/narrative depended on the section staying there. `MMU_COLD_PULL` is a real `gcode_macro`, not a Python `BaseCommand` - confirmed it's genuinely absent from `Command-Reference.md` because `gen_command_reference.py` only scans `extras/mmu/**.py`, never `config/macros/*.cfg`; noted on the new page rather than silently treated as an oversight. Flagged as a separate task: several other real user-facing `MMU_*` macros (`MMU_FAN`, `MMU_DUMP_VARS`, `MMU_CHANGE_TOOL_STANDALONE`, `MMU_CHECK_GATES`, `MMU_REMAP_TTG`, `MMU_FORM_TIP`) share this same generator blind spot - some already have coverage elsewhere (e.g. `MMU_START_SETUP`/`MMU_END` on `Slicer-Setup.md`), others may not; worth a dedicated audit rather than fixing piecemeal. |
 
 ### 6. Slicer & Toolchange — done (both pages)
 
@@ -2622,6 +2623,29 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       `Dev-Test-Command.md` (reference before deep-dive, matching how
       `Command-Reference.md` itself sits ahead of feature-specific pages
       in the main Reference section).
+    - Clean `zensical build --clean` after all edits.
+
+60. **New `Feature-Cold-Pull.md` page**, extracted from
+    `Blobbing-and-Stringing.md`'s "Cleaning the Extruder with a Cold Pull"
+    section (manual procedure, `MMU_COLD_PULL`-guided procedure, per-material
+    temperature table, both images) per explicit request - see the rewritten
+    §5 table row above for the full reasoning (why this one moved, unlike
+    toolhead calibration in item 57).
+    - Confirmed `MMU_COLD_PULL` is a real `gcode_macro`
+      (`config/macros/mmu_misc.cfg`), not a Python `BaseCommand` - it's
+      genuinely, correctly absent from `Command-Reference.md` because
+      `gen_command_reference.py` only ever scanned `extras/mmu/**.py`.
+      Noted on the new page rather than silently worked around.
+    - While checking that, found several more real user-facing `MMU_*`
+      macros sharing the same blind spot (`MMU_FAN`, `MMU_DUMP_VARS`,
+      `MMU_CHANGE_TOOL_STANDALONE`, `MMU_CHECK_GATES`, `MMU_REMAP_TTG`,
+      `MMU_FORM_TIP`) - out of scope for this request (some already have a
+      home elsewhere, e.g. `MMU_START_SETUP`/`MMU_END` on
+      `Slicer-Setup.md`), flagged as a follow-up audit rather than
+      addressed here.
+    - `Feature-Cold-Pull.md` added to nav alphabetically first in
+      Features (before `Feature-Eject-Buttons.md`), matching that
+      section's existing alphabetical order.
     - Clean `zensical build --clean` after all edits.
 
 **To pick this back up:** with §1, §4, §5, §6, §7, §8, and now §10b Macros
