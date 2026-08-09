@@ -35,6 +35,7 @@ import sys
 
 DOC_ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT_FILE = DOC_ROOT / "doc" / "Command-Reference.md"
+DEV_OUT_FILE = DOC_ROOT / "doc" / "Dev-Command-Reference.md"
 
 HAPPY_HARE_SRC = os.environ.get("HAPPY_HARE_SRC")
 if not HAPPY_HARE_SRC or not (pathlib.Path(HAPPY_HARE_SRC) / "extras" / "mmu").is_dir():
@@ -209,7 +210,10 @@ def render_page(commands, categories):
         "",
         "Every `MMU_*` command Happy Hare provides - generated directly from the",
         "same help text `<CMD> HELP=1` prints at a real printer, so it's always",
-        "in sync with what you'll actually see.",
+        "in sync with what you'll actually see. Internal/developer-only commands",
+        "(individual loading/unloading steps, raw stress-test tooling) are",
+        "deliberately not here - see [Developer Command",
+        "Reference](Dev-Command-Reference.md) in the Developer Guide instead.",
         "",
     ]
 
@@ -220,18 +224,49 @@ def render_page(commands, categories):
         out += [f"## {categories.get(category_name, category_name)}", ""]
         out += [render_command(cmd) for cmd in cmds]
 
-    appendix = [c for cat in APPENDIX_CATEGORIES for c in by_category.get(cat, [])]
-    if appendix:
-        appendix.sort(key=lambda c: (c["category"], c["cmd"]))
-        out += [
-            "## Internal / developer commands",
-            "",
-            "Not part of the supported user interface - individual loading/unloading",
-            "steps and internal machinery, useful when working on Happy Hare itself.",
-            "See the [Developer Guide](Dev-Code-Layout.md).",
-            "",
-        ]
-        out += [render_command(cmd) for cmd in appendix]
+    out += [
+        "",
+        "---",
+        "",
+    ]
+
+    return "\n".join(out).rstrip() + "\n"
+
+
+def render_dev_page(commands, categories):
+    """Companion to render_page(): renders the CATEGORY_STEPS/CATEGORY_INTERNAL
+    commands render_page() deliberately excludes - individual loading/unloading
+    steps and internal machinery, not part of the supported user interface.
+    Lives in the Developer Guide instead of the main Command Reference so a
+    user looking up a real command never has to scroll past it."""
+    by_category = {}
+    for cmd in commands:
+        by_category.setdefault(cmd["category"], []).append(cmd)
+    for cmds in by_category.values():
+        cmds.sort(key=lambda c: c["cmd"])
+
+    out = [
+        "# Developer Command Reference",
+        "",
+        "The commands [Command Reference](Command-Reference.md) leaves out -",
+        "individual loading/unloading steps and internal machinery, generated",
+        "the same way from the same real `HELP_BRIEF`/`HELP_PARAMS`/",
+        "`HELP_SUPPLEMENT` source. Not part of the supported user interface;",
+        "useful when working on Happy Hare itself.",
+        "",
+        "`_MMU_TEST` specifically has its own deep-dive - see [Developer Test",
+        "Command](Dev-Test-Command.md) for what its ~25 sub-tests actually do",
+        "and which ones are safe to run casually. This page has only its flat",
+        "parameter list, same as every other command below.",
+        "",
+    ]
+
+    for category_name in APPENDIX_CATEGORIES:
+        cmds = by_category.get(category_name, [])
+        if not cmds:
+            continue
+        out += [f"## {categories.get(category_name, category_name)}", ""]
+        out += [render_command(cmd) for cmd in cmds]
 
     out += [
         "",
@@ -247,7 +282,7 @@ def main():
     parser.add_argument(
         "--check",
         action="store_true",
-        help="Exit non-zero if doc/Command-Reference.md is stale instead of writing it",
+        help="Exit non-zero if doc/Command-Reference.md or doc/Dev-Command-Reference.md is stale instead of writing them",
     )
     args = parser.parse_args()
 
@@ -256,16 +291,26 @@ def main():
         print(f"warning: duplicate CMD definitions for: {', '.join(sorted(set(skipped)))}", file=sys.stderr)
 
     page = render_page(commands, categories)
+    dev_page = render_dev_page(commands, categories)
+    outputs = [(OUT_FILE, page), (DEV_OUT_FILE, dev_page)]
 
     if args.check:
-        current = OUT_FILE.read_text() if OUT_FILE.exists() else ""
-        if current != page:
-            print(f"{OUT_FILE} is stale - run `make command_reference`", file=sys.stderr)
+        stale = [
+            out_file for out_file, content in outputs
+            if (out_file.read_text() if out_file.exists() else "") != content
+        ]
+        if stale:
+            for out_file in stale:
+                print(f"{out_file} is stale - run `make command_reference`", file=sys.stderr)
             return 1
         return 0
 
-    OUT_FILE.write_text(page)
-    print(f"wrote {OUT_FILE} ({len(commands)} commands)")
+    for out_file, content in outputs:
+        out_file.write_text(content)
+
+    n_dev = sum(1 for cmd in commands if cmd["category"] in APPENDIX_CATEGORIES)
+    print(f"wrote {OUT_FILE} ({len(commands) - n_dev} commands)")
+    print(f"wrote {DEV_OUT_FILE} ({n_dev} commands)")
     return 0
 
 

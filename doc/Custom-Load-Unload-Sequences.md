@@ -117,22 +117,22 @@ to touch only the toolhead step, skipping the gate/bowden steps entirely.
 ## Step command reference
 
 Every step command is a real, independently callable `MMU_*` command -
-full parameters for each live in the [Command
-Reference](Command-Reference.md), not repeated here.
+full parameters for each live in the [Developer Command
+Reference](Dev-Command-Reference.md), not repeated here.
 
 | Command | Purpose |
 |---|---|
-| [`_MMU_STEP_LOAD_GATE`](Command-Reference.md#_mmu_step_load_gate) | Move filament from the gate to the start of the bowden |
-| [`_MMU_STEP_UNLOAD_GATE`](Command-Reference.md#_mmu_step_unload_gate) | Move filament from the start of the bowden back to parked in the gate |
-| [`_MMU_STEP_LOAD_BOWDEN`](Command-Reference.md#_mmu_step_load_bowden) | Smart bowden load, to the calibrated length or an override |
-| [`_MMU_STEP_UNLOAD_BOWDEN`](Command-Reference.md#_mmu_step_unload_bowden) | Smart bowden unload |
-| [`_MMU_STEP_HOME_EXTRUDER`](Command-Reference.md#_mmu_step_home_extruder) | Home to the extruder entrance, by sensor or collision detection |
-| [`_MMU_STEP_LOAD_TOOLHEAD`](Command-Reference.md#_mmu_step_load_toolhead) | Load from the extruder entrance to the nozzle |
-| [`_MMU_STEP_UNLOAD_TOOLHEAD`](Command-Reference.md#_mmu_step_unload_toolhead) | Unload from the nozzle back to the extruder entrance |
-| [`_MMU_STEP_HOMING_MOVE`](Command-Reference.md#_mmu_step_homing_move) | Generic homing move on any motor/endstop combination |
-| [`_MMU_STEP_MOVE`](Command-Reference.md#_mmu_step_move) | Generic (non-homing) move on any motor combination |
-| [`_MMU_STEP_SET_FILAMENT`](Command-Reference.md#_mmu_step_set_filament) | Directly set the filament position state - required bookkeeping any time a custom sequence's moves diverge from the defaults above |
-| [`_MMU_STEP_SET_ACTION`](Command-Reference.md#_mmu_step_set_action) | Set (and later restore) the `printer.mmu.action` status field, so UI feedback stays accurate during a custom sequence |
+| [`_MMU_STEP_LOAD_GATE`](Dev-Command-Reference.md#_mmu_step_load_gate) | Move filament from the gate to the start of the bowden |
+| [`_MMU_STEP_UNLOAD_GATE`](Dev-Command-Reference.md#_mmu_step_unload_gate) | Move filament from the start of the bowden back to parked in the gate |
+| [`_MMU_STEP_LOAD_BOWDEN`](Dev-Command-Reference.md#_mmu_step_load_bowden) | Smart bowden load, to the calibrated length or an override |
+| [`_MMU_STEP_UNLOAD_BOWDEN`](Dev-Command-Reference.md#_mmu_step_unload_bowden) | Smart bowden unload |
+| [`_MMU_STEP_HOME_EXTRUDER`](Dev-Command-Reference.md#_mmu_step_home_extruder) | Home to the extruder entrance, by sensor or collision detection |
+| [`_MMU_STEP_LOAD_TOOLHEAD`](Dev-Command-Reference.md#_mmu_step_load_toolhead) | Load from the extruder entrance to the nozzle |
+| [`_MMU_STEP_UNLOAD_TOOLHEAD`](Dev-Command-Reference.md#_mmu_step_unload_toolhead) | Unload from the nozzle back to the extruder entrance |
+| [`_MMU_STEP_HOMING_MOVE`](Dev-Command-Reference.md#_mmu_step_homing_move) | Generic homing move on any motor/endstop combination |
+| [`_MMU_STEP_MOVE`](Dev-Command-Reference.md#_mmu_step_move) | Generic (non-homing) move on any motor combination |
+| [`_MMU_STEP_SET_FILAMENT`](Dev-Command-Reference.md#_mmu_step_set_filament) | Directly set the filament position state - required bookkeeping any time a custom sequence's moves diverge from the defaults above |
+| [`_MMU_STEP_SET_ACTION`](Dev-Command-Reference.md#_mmu_step_set_action) | Set (and later restore) the `printer.mmu.action` status field, so UI feedback stays accurate during a custom sequence |
 
 ## Worked alternative examples
 
@@ -224,7 +224,7 @@ point Happy Hare at the new names with `load_sequence_macro`/
 
 ## See also
 
-- [Command Reference](Command-Reference.md) - full parameters for every
+- [Developer Command Reference](Dev-Command-Reference.md) - full parameters for every
   `_MMU_STEP_*` command
 - [Parameters](Parameters.md#macros) - the lighter-weight callback macro
   settings, and the `gcode_load_sequence`/`gcode_unload_sequence` toggle

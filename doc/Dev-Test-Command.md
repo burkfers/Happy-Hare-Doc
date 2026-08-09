@@ -18,11 +18,14 @@ and fully callable on **every** Happy Hare install, same as `MMU_LOAD` or
 `MMU_STATUS`. The only real gate is the same one every command has -
 `MMU ENABLE=1` if the unit is currently disabled.
 
-Its full parameter list is generated straight from source into the
-[Command Reference](Command-Reference.md#_mmu_test) appendix (the same
-`HELP_PARAMS` string every other command's page comes from) - this page
-doesn't repeat it. What follows is the *why* and *when*, grouped by how
-much you should trust running it without thinking twice.
+Unlike every real command, `_MMU_TEST` is deliberately **excluded** from
+the user-facing [Command Reference](Command-Reference.md) - not something
+a regular user should stumble onto while looking up a real command. Its
+generated parameter list instead lives on [Developer Command
+Reference](Dev-Command-Reference.md#_mmu_test), alongside the other
+internal/developer-only commands. This page is the *why* and *when*,
+grouped by how much you should trust running a given option without
+thinking twice.
 
 ## Introspection - safe to run anytime
 
@@ -164,7 +167,7 @@ A handful of narrower one-offs, each self-contained:
 
 ## See also
 
-- [Command Reference: `_MMU_TEST`](Command-Reference.md#_mmu_test) - the full, generated parameter list
+- [Developer Command Reference: `_MMU_TEST`](Dev-Command-Reference.md#_mmu_test) - the full, generated parameter list
 - [Testing](Dev-Testing.md) - the fake-Klipper harness `test_mmu_dev_test.py` runs this same command against; its coverage map notes what the harness can and can't model for the stress probes above
 - [Code Layout](Dev-Code-Layout.md) - where `mmu_dev_test.py` sits among the other `commands/` modules
 - [Calibration](Calibration.md) - `autotune_rotation_distance`, the setting `NOTE_LOAD_TELEMETRY`/`NOTE_UNLOAD_TELEMETRY` let you exercise by hand

@@ -73,9 +73,9 @@ $(VENV)/.hh-doc_tools-requirements: doc_tools/requirements.txt | $(VENV_PY)
 shots: fetch-source $(VENV)/.hh-doc_tools-requirements
 	$(Q)HAPPY_HARE_SRC=$(HAPPY_HARE_SRC) $(VENV_PY) -m doc_tools.$(if $(CAPTURE),capture,shots) $(ARGS)
 
-# Regenerates doc/Command-Reference.md from the real HELP_BRIEF/HELP_PARAMS/
-# HELP_SUPPLEMENT text in the fetched checkout's extras/mmu/** - stdlib only,
-# no venv needed.
+# Regenerates doc/Command-Reference.md and doc/Dev-Command-Reference.md from
+# the real HELP_BRIEF/HELP_PARAMS/HELP_SUPPLEMENT text in the fetched
+# checkout's extras/mmu/** - stdlib only, no venv needed.
 command_reference: fetch-source
 	$(Q)HAPPY_HARE_SRC=$(HAPPY_HARE_SRC) $(PY) -m doc_tools.gen_command_reference
 
