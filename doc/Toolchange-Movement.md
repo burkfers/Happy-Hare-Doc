@@ -47,7 +47,7 @@ Each operation's actual parking move is a 5-value tuple: X, Y, z-hop, a
 horizontal ramp distance for the z-hop move (helps break stringing), and a
 retraction length. Negative X/Y is fine if your printer can handle it:
 
-```yaml
+```ini
 variable_park_pause: 50, 50, 5, 10, 2
 ```
 
@@ -59,7 +59,7 @@ Every parking move happens above a "toolhead movement plane" - normally the
 current Z plus the z-hop, floored by `variable_min_toolchange_z` so it never
 dips below a safety minimum:
 
-```yaml
+```ini
 variable_min_toolchange_z: 1.0        ; Absolute minimum safety floor
 ```
 
@@ -67,14 +67,14 @@ When printing sequentially, the plane also rises to clear the tallest
 object - see [Z-Hop Moves](#z-hop-moves) below. Travel speed is set
 separately for horizontal and pure-vertical moves:
 
-```yaml
+```ini
 variable_park_travel_speed: 200       ; XY(Z) travel speed, mm/s
 variable_park_lift_speed: 15          ; Z-only travel speed, mm/s
 ```
 
 So a 20mm z-hop-only park with 5mm retraction on cancel would minimally be:
 
-```yaml
+```ini
 variable_enable_park_printing: cancel
 variable_park_cancel: -999, -999, 20, 0, 5
 ```
@@ -95,7 +95,7 @@ a more elaborate setup (tip cutting, custom purging, nozzle cleaning) may
 need parking moves at points other than just the start and end. Three
 extra hook positions cover this:
 
-```yaml
+```ini
 variable_pre_unload_position    : -999, -999, 0     ; Before unload starts
 variable_post_form_tip_position : -999, -999, 0     ; After tip forming/cutting, on unload
 variable_pre_load_position      : -999, -999, 0     ; Before load starts

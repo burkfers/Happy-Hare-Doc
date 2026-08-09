@@ -12,7 +12,7 @@ about them, skip to [MMU_DUMP_VARS](#mmu_dump_vars) below.
 `MMU_DUMP_VARS` (a gcode macro, not a Python command) dumps every printer
 variable this page describes, straight off the running printer:
 
-```
+```text
 MMU_DUMP_VARS
 MMU_DUMP_VARS VERBOSE=1   # also include per-stepper and per-LED-segment objects
 ```
@@ -80,7 +80,7 @@ everywhere else (contiguous across units, see `printer.mmu_machine` below).
 | `gate_filament_name` | list[string] | Filament name per gate |
 | `gate_material` | list[string] | Material per gate |
 | `gate_vendor` | list[string] | Filament vendor per gate |
-| `gate_color` | list[string] | Colour name per gate |
+| `gate_color` | list[string] | Color name per gate |
 | `gate_temperature` | list[int] | Print temperature per gate |
 | `gate_spool_id` | list[int] | Spoolman spool ID per gate |
 | `gate_speed_override` | list[int] | Per-gate speed override (%) |
@@ -112,7 +112,7 @@ slicer_tool_map
 |---|---|---|
 | `extruder_filament_remaining` | float | Residual + cut filament left in the extruder, including any configured `toolhead_residual_filament` |
 | `filament_remaining` | float | Same, without the configured residual constant |
-| `filament_remaining_color` | string | Colour of that residual filament, for UI display |
+| `filament_remaining_color` | string | Color of that residual filament, for UI display |
 
 ### Sync feedback, FlowGuard and tangle prevention
 

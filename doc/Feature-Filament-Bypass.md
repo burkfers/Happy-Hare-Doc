@@ -5,7 +5,7 @@
 The bypass lets you feed an ad hoc spool straight to the extruder, through
 the MMU's own filament path, without going through a gate at all -
 effectively printing as if the MMU wasn't there for that one spool. It's the
-easy way to do a single-colour print without loading anything into the MMU.
+easy way to do a single-color print without loading anything into the MMU.
 The alternative - physically disconnecting the MMU's bowden tube and running
 `MMU ENABLE=0` to turn Happy Hare off entirely, then feeding filament down
 an alternative path straight to the extruder - still works too, but the
@@ -58,7 +58,7 @@ For a design with a physical bypass position (a moving-carriage or servo
 selector), calibrate it once - carefully align the selector using a
 fragment of filament as a guide, remove it, then run:
 
-```yaml
+```text
 MMU_CALIBRATE_SELECTOR BYPASS=1       # Moving-carriage designs (e.g. ERCF)
 MMU_CALIBRATE_SERVO_SELECTOR BYPASS=1 # Servo-driven selector designs
 ```
@@ -84,7 +84,7 @@ the newer built-in bypass calibration above.
 
 ## Commands
 
-```yaml
+```text
 MMU_SELECT_BYPASS         # Select the bypass (shorthand for MMU_SELECT BYPASS=1)
 MMU_SELECT BYPASS=1       # Same thing, explicit form
 MMU_LOAD                  # Load the manually-inserted filament to the nozzle
@@ -107,7 +107,7 @@ If you also use [Spoolman](Feature-Spoolman.md) or the plain [gate
 map](Feature-Gate-TTG-Maps.md), the bypass slot can carry the same
 attributes any gate can:
 
-```yaml
+```text
 MMU_GATE_MAP BYPASS=1 MATERIAL=PETG COLOR=orange
 ```
 

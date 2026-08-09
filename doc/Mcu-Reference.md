@@ -154,17 +154,20 @@ Klipper firmware needs flashing to the MCU before it'll talk to Klipper at
 all:
 
 1. SSH into your Raspberry Pi.
-2. ```bash
-   cd ~/klipper
-   make menuconfig
-   ```
+2. Open a shell there and run:
+
+        :::bash
+        cd ~/klipper
+        make menuconfig
+
 3. Configure your board's firmware settings (chip, bootloader, communication
    interface) - specific to the MCU chip on your board, not something this
    page can give one universal answer for.
 4. Save and exit (`Q`).
-5. ```bash
-   make flash FLASH_DEVICE=/dev/serial/by-id/<your-mcu-id>
-   ```
+5. Then flash it:
+
+        :::bash
+        make flash FLASH_DEVICE=/dev/serial/by-id/<your-mcu-id>
 
 !!! warning "Important"
     CANbus boards flash differently - follow

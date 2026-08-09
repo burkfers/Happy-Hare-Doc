@@ -100,7 +100,7 @@ submenu that only appears once **Has sync-feedback buffer?** is selected:
 
 That produces one `[mmu_buffer <unit_name>]` section in `mmu_hardware.cfg`:
 
-```yaml
+```ini
 [mmu_buffer unit0]
 buffer_range            : 8              # Travel between compression/tension (or one switch and the end)
 buffer_maxrange         : 12             # Absolute end-to-end travel
@@ -170,7 +170,7 @@ sync**:
   <img src="Feature-Sync-Feedback-Buffer/motor-sync.png" alt="MMU/Extruder sync screen: dynamic sync feedback enabled, synchronized gear current at 100 percent, and the two toolhead tension toggles" width="80%">
 </p>
 
-```yaml
+```ini
 sync_to_extruder   : 1     # Gear motor synchronized to extruder during print
 sync_gear_current  : 100   # % of gear_stepper current to use while synced
 sync_form_tip      : 0     # Also synchronize during standalone tip forming
@@ -224,7 +224,7 @@ effect with one fitted.
 
 ## Commands
 
-```yaml
+```text
 MMU_SYNC_FEEDBACK                    # Report sync-feedback controller status
 MMU_SYNC_FEEDBACK ENABLE=0           # Temporarily stop using the buffer
 MMU_SYNC_FEEDBACK RESET=1            # Reset the controller, restoring the last known-good rotation distance
@@ -239,7 +239,7 @@ gated by `toolhead_post_load_tension_adjust`, covered together with the
 related `toolhead_entry_tension_test` under [Parameter
 Setup](#parameter-setup) above.
 
-```yaml
+```text
 MMU_SYNC_GEAR_MOTOR          # Force sync on right now (SYNC defaults to 1)
 MMU_SYNC_GEAR_MOTOR SYNC=0   # Force sync off and release the servo, on designs that have one
 ```
@@ -307,7 +307,7 @@ the wiring works at all before trusting the automatic calibration below.
 Load filament, then move the buffer shuttle by hand to each extreme and
 check the raw value with [`MMU_SENSORS`](Command-Reference.md#mmu_sensors):
 
-```text
+```{.text .console-output}
 > MMU_SENSORS
 unit0:filament_proportional --> 0.02 (raw: 0.0064)
 ```
@@ -322,7 +322,7 @@ the rest automatically - it moves the gear stepper in small increments in
 both directions until the readings plateau at each extreme, then reports
 the values to enter into `mmu_hardware.cfg`:
 
-```text
+```{.text .console-output}
 > MMU_CALIBRATE_PSENSOR
 Finding compression limit stepping up to 28.00mm
 Seeking ... ADC compressed limit: 0.2311

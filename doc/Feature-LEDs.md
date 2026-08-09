@@ -3,7 +3,7 @@
 ## Concept
 
 Happy Hare can drive NeoPixel/WS2812 LEDs on the MMU for functional
-feedback - which gate is selected, whether it's empty, what colour the
+feedback - which gate is selected, whether it's empty, what color the
 loaded filament is - as well as a bit of "bling." Wiring is flexible: one
 continuous strip, several separate strips on different pins, or a mix of
 both, all combined into a single logical arrangement Happy Hare controls as
@@ -20,7 +20,7 @@ optional:
   leaves the MMU towards the bowden tube.
 - **`entry`** - one (or more) per gate, typically mounted where filament
   enters the MMU. Having both entry and exit lets one show gate status while
-  the other shows filament colour, for example.
+  the other shows filament color, for example.
 - **`status`** - represents the MMU/selected-filament as a whole; more than
   one status LED is fine.
 - **`logo`** - purely decorative, doesn't change during operation.
@@ -34,7 +34,7 @@ number, both driven identically - if you want two physical points lit for
 what Happy Hare treats as a single logical position. Animated
 effects need the separate [LED Effects for
 Klipper](https://github.com/julianschill/klipper-led_effect) plugin
-installed; without it, LEDs still work, just as static colours instead of
+installed; without it, LEDs still work, just as static colors instead of
 animations.
 
 ## Hardware Setup
@@ -48,7 +48,7 @@ Enable under **MMU Features / Additions**:
 | Setting | Purpose |
 |---|---|
 | `Enable LEDs?` | Master on/off - default on |
-| `Enable animation?` | Default on; turn off to save a little load and run static colours only |
+| `Enable animation?` | Default on; turn off to save a little load and run static colors only |
 | `Frame rate` | 6-32, default 24 |
 | `Chain count` | Number of physical LEDs on the main chain - defaults to the gate count |
 | `Color order` | Default `GRBW`; use a comma-separated list if mixing LED types on one chain |
@@ -61,7 +61,7 @@ Enable under **MMU Features / Additions**:
 
 Together these produce, in `mmu_hardware.cfg`:
 
-```yaml
+```ini
 [neopixel _unit0_leds]
 pin           : unit0:PA0
 chain_count   : 4
@@ -80,7 +80,7 @@ until you fit and wire them yourself. Mixing multiple physical strips into
 one virtual segment looks like this (two Box Turtles, one wired in reverse,
 combined into a single 8-LED `exit` segment):
 
-```yaml
+```ini
 exit_leds: neopixel:bt_1 (4-1)
            neopixel:bt_2a
            neopixel:bt_2b
@@ -98,39 +98,39 @@ exit_leds: neopixel:bt_1 (4-1)
 ## Parameter Setup
 
 The rest of `[mmu_leds unit0]` in `mmu_hardware.cfg` controls what each
-segment shows by default, and the colours used for a few special cases:
+segment shows by default, and the colors used for a few special cases:
 
-```yaml
+```ini
 enabled                 : True    # LEDs enabled at startup (MMU_LED can still toggle this)
-animation                : True    # Use animated effects; False = static colours only
+animation                : True    # Use animated effects; False = static colors only
 exit_effect             : gate_status      # off|gate_status|filament_color|slicer_color|r,g,b|<effect name>
 entry_effect            : filament_color    # off|gate_status|filament_color|slicer_color|r,g,b|<effect name>
 status_effect           : filament_color    # on|off|filament_color|slicer_color|r,g,b|<effect name>
 logo_effect             : (0, 0, 0.3)       # off|r,g,b|<effect name>
-white_light             : (1, 1, 1)         # RGB used for a filament with no colour set
-black_light             : (.01, 0, .02)     # RGB used for a filament colour of pure black
+white_light             : (1, 1, 1)         # RGB used for a filament with no color set
+black_light             : (.01, 0, .02)     # RGB used for a filament color of pure black
 empty_light             : (0, 0, 0)         # RGB used for an empty gate
 filament_color_intensity: 0.5               # 0.0-1.0, dims the filament/slicer-color segments
 ```
 
 - **`gate_status`** shows [`printer.mmu.gate_status`](Printer-Variables.md#gate-and-tool-maps)
-  as a colour (empty/available/unknown/buffered).
-- **`filament_color`** shows the loaded filament's actual colour
+  as a color (empty/available/unknown/buffered).
+- **`filament_color`** shows the loaded filament's actual color
   ([`printer.mmu.gate_color_rgb`](Printer-Variables.md#gate-and-tool-maps)),
   falling back to `white_light`/`black_light`/`empty_light` as appropriate -
-  there's no separate fixed colour for "filament loaded."
-- **`slicer_color`** shows the colour the slicer expects for that gate's tool
+  there's no separate fixed color for "filament loaded."
+- **`slicer_color`** shows the color the slicer expects for that gate's tool
   ([`printer.mmu.slicer_color_rgb`](Printer-Variables.md#gate-and-tool-maps)),
   set by `MMU_SLICER_TOOL_MAP COLOR=...` (normally done for you by the
   print-start macro) - empty until a print sets it.
 - Any of the four `*_effect` settings also accepts a plain `r,g,b` value, or
   the name of a defined effect (see below) - useful for `logo_effect`
-  especially, which is usually just a fixed colour.
+  especially, which is usually just a fixed color.
 
 Every state Happy Hare drives automatically has its own effect setting,
 each paired with a static RGB fallback used when animation is off:
 
-```yaml
+```ini
 effect_loading                 : mmu_blue_clockwise_slow,   (0, 0, 0.4)
 effect_loading_extruder        : mmu_blue_clockwise_fast,   (0, 0, 1)
 effect_unloading                : mmu_blue_anticlock_slow,   (0, 0, 0.4)
@@ -170,17 +170,17 @@ governed by `nfc_led_segment` in `mmu_parameters.cfg`).
 
 ## Commands
 
-```yaml
+```text
 MMU_LED                             # Status report
 MMU_LED ENTRY_EFFECT=gate_status     # Change a segment's default effect
-MMU_LED ANIMATION=0                  # Static colours only, for this unit
+MMU_LED ANIMATION=0                  # Static colors only, for this unit
 MMU_LED ENABLE=0                     # Turn LEDs off entirely
 ```
 
 Full parameter reference: [`MMU_LED`](Command-Reference.md#mmu_led). A
 status report looks like this:
 
-```text
+```{.text .console-output}
 Unit 0 LEDs (enabled)
   Animation: enabled
   Exit effect: 'gate_status'
@@ -197,7 +197,7 @@ persisted; edit `mmu_hardware.cfg` for a permanent change.
 temporary, raw override rather than a persistent default. It can target a
 single gate and/or auto-revert after a set time:
 
-```yaml
+```text
 MMU_SET_LED EXIT_EFFECT=mmu_ready_orange GATE=2 DURATION=5
 ```
 
@@ -217,7 +217,7 @@ without editing config.
 
 ## Tuning
 
-Beyond the functional colours above, most MMU operations step through their
+Beyond the functional colors above, most MMU operations step through their
 own effect automatically - useful as a diagnostic even without watching the
 console. `entry` only ever changes on the print-state rows below; during an
 in-progress load/unload/select it's left showing whatever its own default is.
@@ -230,7 +230,7 @@ between prints.
 |---|---|---|
 | `standby` (MMU disabled) | Off (entry and logo too) | Dark |
 | `initialized` (startup) | `initialized` effect for ~8s, then default | A brief "shooting stars" sparkle |
-| `ready` / `printing` / `cancelled` | Default (whichever effect each segment is configured for) | Default colour; status dims to blue if a gate is loaded |
+| `ready` / `printing` / `cancelled` | Default (whichever effect each segment is configured for) | Default color; status dims to blue if a gate is loaded |
 | `pause_locked` (MMU-paused) | `error` effect, all gates | Strobing |
 | `paused` (unlocked, resumable) | `error` effect, current gate only | Strobing, current gate only |
 | `complete` | Exit: `complete` effect for ~10s; Status: back to default immediately | A brief sparkle |
@@ -245,19 +245,19 @@ between prints.
 | Heating (drying, or a toolhead heater step) | `heating` effect | Pulsing red |
 | Selecting/homing a gate | Status only: `selecting` effect | Fast pulsing white |
 | Checking or preloading a gate | Status only: `checking`/`preloading` effect | Fast pulsing white |
-| Idle | Default | Default colour |
+| Idle | Default | Default color |
 
 The "what it looks like" column describes the shipped default effect's
 motion, not a separate setting - swap any of these for another effect name
 (or a plain `r,g,b`) the same way as the functional defaults above.
 
 To reduce load if it matters on your setup, `animation: False` (or
-`MMU_LED ANIMATION=0`) keeps every functional colour but drops the animated
+`MMU_LED ANIMATION=0`) keeps every functional color but drops the animated
 motion.
 
 !!! tip
-    Mainsail and Fluidd have their own filament-colour swatches next to the
-    per-extruder `T0`/`T1`/`T2`/... buttons - not LEDs, but colour data
+    Mainsail and Fluidd have their own filament-color swatches next to the
+    per-extruder `T0`/`T1`/`T2`/... buttons - not LEDs, but color data
     driven from the same source as the `filament_color`/`slicer_color`
     effects above. This page doesn't cover setting those swatches up; check
     Mainsail's or Fluidd's own documentation.
@@ -269,13 +269,13 @@ motion.
 - **LEDs are static instead of animated** - either `animation` is off (by
   choice or via `MMU_LED ANIMATION=0`), or the [LED Effects for
   Klipper](https://github.com/julianschill/klipper-led_effect) plugin isn't
-  installed - functional colours still work either way, just without motion.
+  installed - functional colors still work either way, just without motion.
 - **Only part of a chain lights up, or gates map to the wrong LEDs** - check
   the segment's range direction (`(1-4)` vs `(4-1)`) matches your physical
   wiring order, and that `chain_count` covers every LED actually on that
   pin.
-- **Filament colour never shows on entry/exit/status** - `filament_color`
-  needs a colour set for that gate, either directly
+- **Filament color never shows on entry/exit/status** - `filament_color`
+  needs a color set for that gate, either directly
   ([`MMU_GATE_MAP COLOR=...`](Command-Reference.md#mmu_gate_map)) or via
   [Spoolman](Feature-Spoolman.md).
 

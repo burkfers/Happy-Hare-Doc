@@ -20,7 +20,9 @@ the MMU's filament path adds.
 **Selector** - the mechanism that brings a chosen gate's filament in line with
 the gear stepper (or the gear stepper in line with a chosen gate, depending on
 the design). See [Selector mechanisms](#selector-mechanisms) below - this is
-the one piece of hardware that genuinely varies between MMU families.
+the one piece of hardware that genuinely varies between MMU families. It is
+important to note that Type-B designs have multiple Gear steppers and so "select"
+by simply switching with gear stepper is driven.
 
 **Filament (catchment) buffer** - a mechanism that catches and manages the
 loose filament pulled out of the MMU when it unloads, so it can be reloaded
@@ -45,16 +47,15 @@ that merges every gate's individual bowden into the one tube feeding the
 toolhead. Used interchangeably with "splitter" even though nothing is
 actually being split. This is purely a description of physical hardware -
 Happy Hare has no software concept of a combiner, and doesn't do anything
-special to coordinate access to one.
+special to coordinate access to one. Note that multiple MMU units can
+be connected to the same printer with additional splitters in the bowden path.
 
 ## Selector mechanisms
 
 Every MMU needs *some* way to bring a gate's filament to the gear stepper (or
-vice versa), and how that's done splits designs into a few families. The
-community has informal shorthand for the three oldest of these - "Type-A",
-"Type-B", "Type-C" - and Happy Hare's own code comments still use that
-shorthand internally, so it's worth knowing even though it's not a rigid
-specification:
+vice versa), and how that's done splits designs into a few families. Happy
+Hare introduced the informal shorthand for the three main types - "Type-A",
+"Type-B", "Type-C" - which the community has embraced:
 
 !!! tip
     The diagrams below show every optional sensor a design *could* have, not
@@ -177,7 +178,9 @@ example) rather than restarting per unit, and a single logical tool (`T0`,
 `T1`, ...) can map to a gate on *any* unit - crossing from one unit to
 another mid-toolchange is a normal, handled case, not a special one. The one
 real constraint across units: at most one unit in a machine may expose a
-selectable bypass gate.
+selectable bypass gate. Of course no selectable bypass is required - it can
+simple be an alternative filament feed path and in this case selection is
+simply the disabling to MMU filament movement.
 
 ## Supported sensors
 
@@ -194,14 +197,18 @@ varies by design and budget.
 | Sensor | Purpose |
 |---|---|
 | Entry sensor (per gate) | Detects filament arriving at/leaving each gate. Drives filament autoload (selector moves to a gate as soon as filament is inserted), keeps the gate-availability map current, and can act as an early runout trigger. |
-| Exit sensor (per gate, or one shared) | Sits after the gear stepper on each gate (per-gate, common on gear-per-gate designs) or after the combiner (shared, one per unit). Provides a homing point close to the MMU once a gate is selected and driving, and can also trigger runout. |
+| Exit sensor (per gate) | Sits after the gear stepper on each gate. It orovides a homing point close to the MMU once a gate is selected. It can also trigger runout on that gate. |
+| Shared Exit sensor | Sits after combiner (shared, one per unit) typically on the exit of the "Hub". Provides a homing point close to the MMU once a gate is selected and driving, and can also trigger runout. |
 | Encoder | Measures filament movement for move validation and clog detection, and can substitute for (or combine with) the exit sensor as a homing reference. Some designs (ERCF) rely on it exclusively; others (Tradrack) treat it as optional extra reliability on top of an exit sensor. |
-| Sync-feedback sensors (compression / tension / proportional) | Detect the gear stepper and extruder pulling against each other, for stepper syncing. The compression sensor can also serve as an extruder-entry homing point and simplify bowden-length calibration. |
+| Sync-feedback sensors (compression / tension / proportional) | This sit in what is commonly called a "Buffer". The sensors detect the gear stepper and extruder pulling against each other, for stepper syncing. The compression sensor can also serve as an extruder-entry homing point and simplify bowden-length calibration. |
 | Extruder entry sensor | Sits just before the extruder gears. Provides a homing point at the end of the bowden move, can trigger automatic bypass loading, and gives a reliable "clear of the extruder" point before a fast unload. |
 | Toolhead sensor | Sits after the extruder entrance, before the hotend - arguably the single most useful sensor: the most reliable way to know filament is actually loaded (especially after a restart), the most accurate homing point near the nozzle, and what toolhead calibration uses to measure residual filament. |
 | Stallguard-based virtual sensors | If the relevant stepper has TMC stallguard configured, Happy Hare can detect a mechanical stall as a virtual endstop with no extra wiring: on the gear stepper (an alternative way to detect hitting the extruder entrance), or on the extruder stepper itself (experimental nozzle-collision detection). |
 | Selector sensors | A physical switch for selector homing, plus an optional stallguard-based selector endstop used for touch-positioning, blocked-gate recovery, and travel-limit detection during calibration. |
 | NFC/RFID reader (per gate) | Reads a tag on the spool and can also act as a "tag detected" homing endstop during a gear move. |
+
+!!! note
+    Virtual versions of some of these sensors can be setup when using hall-effect sensors such as filament diameter monitor on the extruder entrance on Qidi printers. Notes on the setup of these are present in the config files but it is often easier to sk on the [Happy Hare Discord](https://discord.com/invite/98TYYUf6f2) forum.
 
 ## EndlessSpool
 

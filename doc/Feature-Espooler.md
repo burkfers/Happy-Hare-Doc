@@ -41,7 +41,7 @@ the motor's power tracks the *gear stepper's speed* for that move, so the
 espooler naturally spins faster for a fast bowden move and throttles down for
 a slow calibration move:
 
-```yaml
+```text
 power = (gear_speed / espooler_max_stepper_speed) ^ espooler_speed_exponent
 ```
 
@@ -110,7 +110,7 @@ That produces one `[mmu_espooler <unit_name>]` section in `mmu_hardware.cfg`
 per unit with the feature enabled, with the pins you chose filled straight
 in:
 
-```yaml
+```ini
 [mmu_espooler unit0]
 pwm                  : 1        # 1=PWM control (typical), 0=digital on/off control
 hardware_pwm         : 0        # See klipper doc
@@ -137,7 +137,7 @@ The owning `[mmu_unit <name>]` section gets an `espooler:` key pointing at the
 `[mmu_espooler ...]` section above - each physical MMU in a multi-unit machine
 can have its own independently-named and independently-configured eSpooler:
 
-```yaml
+```ini
 [mmu_unit unit0]
 espooler : unit0     # Name of [mmu_espooler unit0] above
 ```
@@ -166,7 +166,7 @@ Per-unit tuning in `mmu_parameters.cfg`, only shown by menuconfig/`MMU_TEST_CONF
 on units that have the feature enabled - the same **eSpooler config** screen
 shown under [Hardware Setup](#hardware-setup) above, before its pin rows:
 
-```yaml
+```ini
 espooler_min_distance: 50                    # Individual stepper movements less than this distance will not activate espooler
 espooler_max_stepper_speed: 300              # Gear stepper speed at which espooler will be at maximum power
 espooler_min_stepper_speed: 0                # Gear stepper speed at which espooler will become inactive (useful for non-PWM control)
@@ -243,7 +243,7 @@ low and confirm it isn't dragging filament off the spool uncontrolled.
 
 Full parameter reference: [`MMU_ESPOOLER`](Command-Reference.md#mmu_espooler).
 
-```yaml
+```text
 MMU_ESPOOLER                          # status of every gate's espooler
 MMU_ESPOOLER GATE=0 OPERATION=rewind  # continuous rewind at default power
 MMU_ESPOOLER GATE=0 OPERATION=off     # stop
@@ -299,7 +299,7 @@ configuration needed:
 The same information is available as text from the console (remember Klipper
 can't run another command until the current one finishes):
 
-```text
+```{.text .console-output}
 MMU_ESPOOLER
 0 : off     (0%)
 1 : print   (0%) [assist for 0.4s at 50% power on trigger, max 3 bursts]

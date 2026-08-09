@@ -31,7 +31,7 @@ parameters the original callback macro received. Leave one blank (the
 default) and nothing extra happens; set it to your macro's name and it runs
 every time.
 
-```yaml
+```ini
 variable_user_print_state_changed_extension : 'MY_MACRO'
 ```
 
@@ -71,7 +71,7 @@ If extension genuinely isn't enough - most often because you need to change
 *how* something happens rather than add a step after it - point Happy Hare
 at a completely different macro by changing one of these in `mmu.cfg`:
 
-```yaml
+```ini
 form_tip_macro           : _MMU_FORM_TIP
 purge_macro              : _MMU_PURGE
 pause_macro              : PAUSE

@@ -2,7 +2,7 @@
 
 Mainsail and Fluidd both integrate directly with Happy Hare: a dedicated
 "MMU" panel for monitoring and operating the MMU, plus enhancements to the
-existing Extruder panel for tool selection and per-tool filament colour. The
+existing Extruder panel for tool selection and per-tool filament color. The
 maintainer's own forks -
 [mainsail-happy-hare-edition](https://github.com/moggieuk/mainsail-happy-hare-edition)
 and
@@ -36,7 +36,7 @@ filament from a gate that isn't loaded:
 
 ## Tool-to-Gate Mapping
 
-Starting a multi-colour print gives the opportunity to map the tools the
+Starting a multi-color print gives the opportunity to map the tools the
 slicer expects onto the MMU's physical gates; the same map can also be
 edited at any time outside of a print.
 
@@ -73,59 +73,59 @@ your particular MMU.
 See [Operation](Operation.md#state-recovery) for what state recovery
 actually does and when it's needed.
 
-## Extruder/Filament Colour
+## Extruder/Filament Color
 
 Mainsail and Fluidd both support showing extra per-extruder attributes,
-which Happy Hare uses to give the "Tx" tool buttons a live colour swatch. At
+which Happy Hare uses to give the "Tx" tool buttons a live color swatch. At
 print start, Happy Hare reads the sliced file's tool map into its own
 "Slicer Tool Map" (see [Command Reference:
 `MMU_SLICER_TOOL_MAP`](Command-Reference.md#mmu_slicer_tool_map)) and
-reports it to the UI. Which colour source feeds the swatch is controlled by
+reports it to the UI. Which color source feeds the swatch is controlled by
 `t_macro_color` in `mmu.cfg`:
 
-```yaml
+```ini
 t_macro_color: slicer
 ```
 
 | Value | Shows |
 |---|---|
-| `slicer` (default) | Colour from the slicer's own tool map - what the slicer expects loaded |
-| `allgates` | Colour of every gate in the gate map, run through the current Tool-to-Gate map |
+| `slicer` (default) | Color from the slicer's own tool map - what the slicer expects loaded |
+| `allgates` | Color of every gate in the gate map, run through the current Tool-to-Gate map |
 | `gatemap` | Same as `allgates`, but hides tools with no filament |
 | `off` | Disables this entirely |
 
-A three-colour print (`T0`, `T1`, `T2`) with the default `slicer` setting -
-unused tools show no colour:
+A three-color print (`T0`, `T1`, `T2`) with the default `slicer` setting -
+unused tools show no color:
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_slicer.png" alt="Mainsail extruder colours, slicer mode" width="40%">
+  <img src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_slicer.png" alt="Mainsail extruder colors, slicer mode" width="40%">
 </p>
 
-`allgates` instead shows every gate's actual loaded colour:
+`allgates` instead shows every gate's actual loaded color:
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_allgates.png" alt="Mainsail extruder colours, allgates mode" width="40%">
+  <img src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_allgates.png" alt="Mainsail extruder colors, allgates mode" width="40%">
 </p>
 
 `gatemap` is the same idea but hides gates with nothing loaded:
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_gatemap.png" alt="Mainsail extruder colours, gatemap mode" width="40%">
+  <img src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_gatemap.png" alt="Mainsail extruder colors, gatemap mode" width="40%">
 </p>
 
 `allgates`/`gatemap` both respect the Tool-to-Gate map - remapping `T0` to
 gate 7 with `MMU_TTG_MAP TOOL=0 GATE=7` immediately changes `T0`'s displayed
-colour to whatever gate 7 has loaded:
+color to whatever gate 7 has loaded:
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_ttg_0_7.png" alt="Mainsail extruder colours after remapping T0 to gate 7" width="40%">
+  <img src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_ttg_0_7.png" alt="Mainsail extruder colors after remapping T0 to gate 7" width="40%">
 </p>
 
 !!! tip
     No Klipper restart needed to try these - change it live with
     `MMU_TEST_CONFIG t_macro_color=allgates QUIET=1`, and switch back the
     same way. Worth remembering these are **Tools**, subject to the
-    Tool-to-Gate map, unlike a gate's own LED colour which always reflects
+    Tool-to-Gate map, unlike a gate's own LED color which always reflects
     that physical gate regardless of mapping.
 
 ## See also

@@ -92,7 +92,7 @@ the full picture.
 | `spoolman_pending_id_timeout` | `20` s | How long a pending spool ID assignment stays valid before being voided |
 | `spoolman_led_segment` | `gate_status` | Which LED segment(s) show the pending-spool-ID overlay: `gate_status`, `status`, or `both` |
 | `spoolman_nfc_auto_create` | `0` | Auto-create a Spoolman spool from an unrecognised NFC tag's metadata - see [Feature: NFC/RFID Reading](Feature-NFC.md) |
-| `t_macro_color` | `slicer` | Source for the `Tx` macro's colour variable: `slicer`, `allgates`, `gatemap`, or `off` |
+| `t_macro_color` | `slicer` | Source for the `Tx` macro's color variable: `slicer`, `allgates`, `gatemap`, or `off` |
 
 ### Console
 
@@ -105,8 +105,8 @@ for the swap-timing table these columns/rows control.
 | `console_stat_rows` | `total, total_average, job, job_average, last` | Which rows it shows, in order |
 | `console_gate_stat` | `emoticon` | Gate-quality display: `string`, `percentage`, or `emoticon` |
 | `console_always_output_full` | `1` | Always show the full statistics table, even mid-print |
-| `console_show_colored_text` | `1` | Use colour in console output |
-| `console_show_filament_color` | `1` | Show a coloured "swatch" for filament rather than a plain asterisk |
+| `console_show_colored_text` | `1` | Use color in console output |
+| `console_show_filament_color` | `1` | Show a colored "swatch" for filament rather than a plain asterisk |
 
 ### Misc
 
@@ -197,7 +197,7 @@ since they're either not really "parameters" or already fully documented
 elsewhere:
 
 - **`[mmu_led_effect ...]` blocks** - the named LED effect definitions
-  (colours, animation layers) - see [Feature: LEDs](Feature-LEDs.md#parameter-setup).
+  (colors, animation layers) - see [Feature: LEDs](Feature-LEDs.md#parameter-setup).
 - **Addon hardware** (`[mmu_servo cut_servo]`, the Blobifier tray
   stepper/servo, the gantry-bumper servo) - pin and pulse-width settings
   covered in [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md#servo-cutter-mmu-mounted),
@@ -409,7 +409,7 @@ See [Feature: NFC/RFID Reading](Feature-NFC.md) for the full picture.
 
 | Parameter | Default | Description |
 |---|---|---|
-| `nfc_deep_read` | `1` | Parse full tag contents (material, colour, vendor, temps), not just the UID |
+| `nfc_deep_read` | `1` | Parse full tag contents (material, color, vendor, temps), not just the UID |
 | `nfc_gate_jog_scan_window` | `-50, 50` mm | Max retract/extrude jog range while searching for a tag - `0, 0` disables jogging |
 | `nfc_led_segment` | `auto` | Which LED segment shows read/fail feedback - `auto` follows reader type |
 

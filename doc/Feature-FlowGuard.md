@@ -40,7 +40,7 @@ Encoder](Feature-Encoder.md) for wiring either sensor.
 
 ## Parameter Setup
 
-```yaml
+```ini
 flowguard_enabled            : 1     # 0 = FlowGuard disabled entirely, 1 = enabled
 
 # Sync-feedback buffer detection (only shown with a buffer fitted)
@@ -73,7 +73,7 @@ boost doesn't thrash on and off right at the trigger point.
 
 ## Commands
 
-```yaml
+```text
 MMU_FLOWGUARD                    # Status report
 MMU_FLOWGUARD ENABLE=0           # Disable on the active unit
 MMU_FLOWGUARD ENABLE=1 UNIT=ALL  # Enable on every unit
@@ -81,14 +81,14 @@ MMU_FLOWGUARD ENABLE=1 UNIT=ALL  # Enable on every unit
 
 Full parameter reference: [`MMU_FLOWGUARD`](Command-Reference.md#mmu_flowguard).
 
-```text
+```{.text .console-output}
 > MMU_FLOWGUARD
 FlowGuard monitoring feature is enabled and currently active on unit0
 ```
 
 or, disabled:
 
-```text
+```{.text .console-output}
 > MMU_FLOWGUARD
 FlowGuard monitoring feature is disabled on unit0
 ```
@@ -133,13 +133,13 @@ warning below) is usually enough. For genuinely dialing in early detection,
 `~/printer_data/logs/sync_<gate>.jsonl` - deleted and recreated at the start
 of every print, so copy one elsewhere first if you want to keep it.
 
-```yaml
+```ini
 sync_feedback_debug_log: 0   # 0 = normal operation, 1 = write a telemetry log for tuning
 ```
 
 Process a log with the bundled plotting script:
 
-```text
+```{.text .console-output}
 ~/Happy-Hare/utils/plot_sync_feedback.sh ~/printer_data/logs/sync_5.jsonl
 Saved plot to sim_plot.png
 ```
@@ -188,10 +188,10 @@ sensor - the same shape a real print's telemetry takes when
 - **A print paused for a "clog" or "tangle" that wasn't real** - the error
   message names exactly which setting tripped it:
 
-    ```text
-    FlowGuard detected a tangle.
-    Reason for trip: Tension stuck after 63mm motion and 8.3mm relief (triggering parameter: flowguard_max_relief)
-    ```
+```{.text .console-output}
+FlowGuard detected a tangle.
+Reason for trip: Tension stuck after 63mm motion and 8.3mm relief (triggering parameter: flowguard_max_relief)
+```
 
     Raise the named parameter - see Tuning above; this is a threshold that
     needs adjusting for your specific mechanism, not a fault. Every setting

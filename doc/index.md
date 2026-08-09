@@ -2,7 +2,7 @@
 
 <p align="center"><em>Universal Automated Filament Changer / MMU driver for Klipper</em></p>
 
-Happy Hare is the original open-source filament changer controller for multi-colour
+Happy Hare is the original open-source filament changer controller for multi-color
 printing. Its philosophy is to provide a universal control system that adapts to
 your choice of MMU (Multi-Material Unit): switch hardware and the software
 transitions seamlessly with you.
@@ -61,7 +61,7 @@ Feature page once you're ready for the detail:
   plugin
 
 <p align="center">
-  <img src="index/example_mmu_print.jpg" alt="Three small multi-colour 3D prints - a penguin, an astronaut, and a sheep - each printed in several filament colours" width="70%">
+  <img src="index/example_mmu_print.jpg" alt="Three small multi-color 3D prints - a penguin, an astronaut, and a sheep - each printed in several filament colors" width="70%">
 </p>
 
 ## How this site is organized

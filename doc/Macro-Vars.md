@@ -255,7 +255,7 @@ left to its upstream README alone.
 
 | Variable | Default | Description |
 |---|---|---|
-| `purge_length_minimum` | `30` mm | Absolute minimum purged, even with no colour change - primes the nozzle; roughly 2x your melt-zone length |
+| `purge_length_minimum` | `30` mm | Absolute minimum purged, even with no color change - primes the nozzle; roughly 2x your melt-zone length |
 | `purge_length_maximum` | `150` mm | Maximum filament per single blob - Blobifier splits into multiple blobs above this |
 | `purge_length` | `150` mm | Fallback purge length, if neither the tool map's purge volumes nor an explicit `PURGE_LENGTH` are set |
 | `purge_length_modifier` | `1.0` | Multiplies the slicer-emitted purge value - prefer adjusting the slicer's own purge multiplier instead |
@@ -281,7 +281,7 @@ left to its upstream README alone.
 |---|---|---|
 | `retract_between_blobs` | `6` mm | Retract distance between blobs - must stay under your hotend's heatbreak length |
 | `retract_step` | `2` mm | Step size each retract/de-retract move is split into, so sync-feedback can keep up - leave at `2` unless you have a specific reason not to |
-| `pulse_retract_length` | `4` mm | Length of a periodic mid-purge retract, to improve colour transition - don't exceed 5-10mm |
+| `pulse_retract_length` | `4` mm | Length of a periodic mid-purge retract, to improve color transition - don't exceed 5-10mm |
 | `pulse_retract_speed` | `2400` mm/min | Speed of that periodic retract |
 | `pulse_deretract_speed` | `800` mm/min | Speed of the matching de-retract - slower, to let filament re-melt |
 | `purge_retract_interval` | `20` mm | How often (by extrusion distance) the periodic retract fires - should be ≥ your melt-zone length |

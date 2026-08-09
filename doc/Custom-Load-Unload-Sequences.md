@@ -83,7 +83,7 @@ place (the file is treated as read-only and gets overwritten on upgrade).
 The load sequence branches on how far the filament already got, then walks
 forward through the remaining steps:
 
-```yaml
+```text
 _MMU_STEP_LOAD_GATE                      # only if fully unloaded
 _MMU_STEP_LOAD_BOWDEN LENGTH={length}    # only if short of the end of the bowden
 _MMU_STEP_HOME_EXTRUDER                  # only if HOME_EXTRUDER=1 and not yet homed
@@ -94,7 +94,7 @@ The unload sequence is the mirror image, but has to additionally decide
 *how much* homing precision it can afford depending on how well the current
 position is actually known:
 
-```yaml
+```text
 _MMU_STEP_UNLOAD_TOOLHEAD PARK_POS={park_pos}   # only if past the extruder
 _MMU_STEP_UNLOAD_BOWDEN LENGTH={length}         # fast unload, if position is well known (>= END_BOWDEN)
 _MMU_STEP_UNLOAD_GATE                           # ...then park in the gate
@@ -143,7 +143,7 @@ direct homing methods than the default's sensor/entry-based approach.
 **Homing to a toolhead sensor**, with the gear and extruder synchronized for
 the final approach:
 
-```yaml
+```text
 _MMU_STEP_LOAD_GATE
 _MMU_STEP_LOAD_BOWDEN LENGTH={length}
 _MMU_STEP_HOMING_MOVE ENDSTOP=toolhead MOVE=50 MOTOR=gear+extruder
@@ -155,7 +155,7 @@ _MMU_STEP_SET_FILAMENT STATE=10    # LOADED
 **Homing on stallguard directly to the nozzle**, skipping a toolhead sensor
 entirely (needs an `mmu_ext_touch` endstop defined on the extruder stepper):
 
-```yaml
+```text
 _MMU_STEP_LOAD_GATE
 _MMU_STEP_LOAD_BOWDEN LENGTH={length}
 _MMU_STEP_HOMING_MOVE ENDSTOP=mmu_ext_touch MOVE=100 MOTOR=extruder
@@ -197,7 +197,7 @@ Once you have a replacement `_MMU_LOAD_SEQUENCE`/`_MMU_UNLOAD_SEQUENCE`
 defined in your own config (define your own copies, don't edit
 `mmu_sequence.cfg` in place - it's overwritten on upgrade), switch it on:
 
-```yaml
+```ini
 gcode_load_sequence   : 1   # 1 = use the macro sequence, 0 = internal logic (default)
 gcode_unload_sequence : 1
 ```

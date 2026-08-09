@@ -17,7 +17,7 @@ Both live behind a single command, `MMU_STATS`.
 
 ### Swap statistics
 
-```yaml
+```text
 MMU_STATS                # Summary: swap timing table, pause time, toolchange count
 MMU_STATS DETAIL=1       # Add per-gate load/unload timing and slippage/failure detail
 MMU_STATS TOTAL=1        # Force the lifetime-totals table even mid-print
@@ -28,7 +28,7 @@ Full parameter reference: [`MMU_STATS`](Command-Reference.md#mmu_stats). A
 plain `MMU_STATS` looks something like this (columns/rows shown are the
 shipped defaults - see Tuning below for customizing them):
 
-```text
+```{.text .console-output}
 +-----------+----------+-------------------+----------+
 |  114(46)  |unloading |      loading       | complete |
 |   swaps   |    -     |   -    |   post    |   swap   |
@@ -65,7 +65,7 @@ below).
 Every gate also gets a quality assessment, drawn from load/unload timing and
 (if an encoder is fitted) slippage tracking:
 
-```text
+```{.text .console-output}
 Gate Statistics:
 0:😎, 1:😃, 2:😊, 3:😐, 4:😟, 5:😢, 6:😱, 7:-, 8:-
 ```
@@ -73,7 +73,7 @@ Gate Statistics:
 (`-` means the gate has no recorded activity yet.) `DETAIL=1` adds the raw
 numbers behind that assessment, per gate:
 
-```text
+```{.text .console-output}
 Gate 0: Load: 1234.5mm (slippage: 0.3%); Unload: 1180.2mm (slippage: 0.4%); Failures: (load: 0 unload: 0 pauses: 0); Quality: 99.7%
 ```
 
@@ -94,13 +94,13 @@ are tracked for every gate regardless.
 A counter tracks any consumable you want reminders about. Worked example -
 a filament cutter blade rated for about 4000 cuts:
 
-```yaml
+```text
 MMU_STATS COUNTER=cutter_blade LIMIT=4000 WARNING="You may need to replace your cutting blade"
 ```
 
 Then, wherever the consumable actually gets used (typically a macro call):
 
-```yaml
+```text
 MMU_STATS COUNTER=cutter_blade INCR=1
 ```
 
@@ -114,7 +114,7 @@ MMU_STATS COUNTER=cutter_blade INCR=1
 Crossing the limit logs a warning (and, if the counter was set up with
 `PAUSE=1`, pauses the print):
 
-```text
+```{.text .console-output}
 Warning: You may need to replace your cutting blade
 Count cutter_blade (4001) above limit 4000
 Use 'MMU_STATS COUNTER=cutter_blade RESET=1' to reset
@@ -122,14 +122,14 @@ Use 'MMU_STATS COUNTER=cutter_blade RESET=1' to reset
 
 Check current counts, reset, or delete a counter you no longer need:
 
-```yaml
+```text
 MMU_STATS SHOWCOUNTS=1                       # List every counter
 MMU_STATS COUNTER=cutter_blade RESET=1       # Reset just this one counter to 0
 MMU_STATS COUNTER=cutter_blade LIMIT=-1      # Temporarily disable its limit check
 MMU_STATS COUNTER=cutter_blade DELETE=1      # Remove it entirely
 ```
 
-```text
+```{.text .console-output}
 > MMU_STATS SHOWCOUNTS=1
 Consumption counters:
 Count cutter_blade: 568 (limit 4000)
@@ -165,14 +165,14 @@ The swap-statistics table's columns and rows, and how gate quality is
 displayed, are configured in `mmu.cfg`'s `[mmu_parameters]` section (not the
 file literally named `mmu_parameters.cfg`):
 
-```yaml
+```ini
 log_statistics             : 1        # 1 = log the table on every toolchange (default), 0 = still recorded, just not printed
 console_stat_columns       : unload, load, post_load, total   # Any of: pre_unload, form_tip, unload, post_unload, pre_load, load, purge, post_load, total
 console_stat_rows          : total, total_average, job, job_average, last
 console_always_output_full : 1        # 1 = always show the full table, 0 = only outside a print
 console_gate_stat          : emoticon # string | percentage | emoticon
-console_show_colored_text  : 1        # 1 = colour console output where supported, 0 = plain monochrome text
-console_show_filament_color: 1        # 1 = show a coloured "swatch" for filament, 0 = a plain asterisk instead
+console_show_colored_text  : 1        # 1 = color console output where supported, 0 = plain monochrome text
+console_show_filament_color: 1        # 1 = show a colored "swatch" for filament, 0 = a plain asterisk instead
 ```
 
 Trim `console_stat_columns`/`console_stat_rows` to shrink the table - useful
@@ -181,7 +181,7 @@ popup. `console_gate_stat` swaps the gate-statistics line between the
 emoji version above, a plain string (`poor`/`good`/`perfect`/...), or a
 percentage. `console_show_colored_text`/`console_show_filament_color` sit in
 the same config section but aren't specific to this page - they affect
-colour and swatch use across Happy Hare's console output generally,
+color and swatch use across Happy Hare's console output generally,
 including gate-map listings elsewhere on this site.
 
 ## Troubleshooting

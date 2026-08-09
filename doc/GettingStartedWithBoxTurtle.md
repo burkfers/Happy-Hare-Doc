@@ -196,7 +196,7 @@ spool manager support**:
 This is one small example of the many software-side options living under
 **Software Options** — most of them, like this one, default to off and are
 entirely optional. If you run a [Spoolman](https://github.com/Donkie/Spoolman)
-instance and just want Happy Hare to pull filament details (material, colour,
+instance and just want Happy Hare to pull filament details (material, color,
 temperatures) onto each gate without pushing anything back, select **Read-only**
 as shown here. The help table on screen lays out exactly what each of the four
 modes does — off, read-only, push, and pull — so you can pick the one that

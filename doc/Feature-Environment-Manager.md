@@ -50,7 +50,7 @@ own config submenu once switched on.
 
 Produces, inside the unit's `[mmu_unit ...]` section in `mmu_hardware.cfg`:
 
-```yaml
+```ini
 environment_sensor : temperature_sensor unit0_Env
 ```
 
@@ -58,7 +58,7 @@ A per-gate design (`MMU_HAS_PER_GATE_ENV_SENSORS`, only available on
 hardware with a per-gate MCU) repeats the same prompts once per gate instead,
 and produces a comma-separated list:
 
-```yaml
+```ini
 environment_sensors : temperature_sensor unit0_Env0, temperature_sensor unit0_Env1, ...
 ```
 
@@ -77,13 +77,13 @@ environment_sensors : temperature_sensor unit0_Env0, temperature_sensor unit0_En
 
 Produces, alongside the sensor key in the same `[mmu_unit ...]` section:
 
-```yaml
+```ini
 filament_heater : heater_generic unit0_heater
 ```
 
 or, per-gate:
 
-```yaml
+```ini
 filament_heaters       : heater_generic unit0_heater0, heater_generic unit0_heater1, ...
 max_concurrent_heaters : 1
 ```
@@ -97,7 +97,7 @@ max_concurrent_heaters : 1
 The heater controller's own tuning constants live in `mmu_parameters.cfg`,
 alongside the drying-recipe table:
 
-```yaml
+```ini
 heater_max_temp             : 65     # Absolute ceiling; drying never targets above this regardless of drying_data
 heater_default_dry_temp     : 45     # Fallback drying temperature for an unrecognised or empty gate
 heater_default_dry_time     : 300    # Fallback drying time in minutes
@@ -121,7 +121,7 @@ Extend the table with your own materials freely - it's a plain dict, and
 `MMU_HEATER DRYING_DATA=1` dumps whatever is currently configured. A
 smaller, illustrative table showing just the shape of it:
 
-```yaml
+```ini
 drying_data: "{'PLA': (45, 240), 'PETG': (55, 300), 'NYLON': (65, 480)}"
 ```
 
@@ -131,7 +131,7 @@ drying_data: "{'PLA': (45, 240), 'PETG': (55, 300), 'NYLON': (65, 480)}"
 
 ## Commands
 
-```yaml
+```text
 MMU_HEATER                                     # Status report - heater state, or drying cycle progress
 MMU_HEATER TEMP=50                             # Set/adjust heater temperature directly
 MMU_HEATER DRY=1                               # Start a drying cycle, temp/time recommended from drying_data
@@ -151,7 +151,7 @@ Full parameter reference: [`MMU_HEATER`](Command-Reference.md#mmu_heater).
 With per-gate heaters, everything above takes a `GATES=` list (defaulting to
 all non-empty gates if omitted):
 
-```yaml
+```text
 MMU_HEATER DRY=1 GATES=0,2,3       # Dry only these gates (subject to the concurrency cap)
 MMU_HEATER TEMP=45 GATES=0,1       # Raw heater control for specific gates
 MMU_HEATER STOP=1 GATES=1,3        # Cancel only these gates, leaving the rest of the cycle running
@@ -174,14 +174,14 @@ cycle ends automatically.
 
 A plain `MMU_HEATER` with no drying cycle running just reports that:
 
-```text
+```{.text .console-output}
 MMU_HEATER
 Not in drying cycle and heater is off
 ```
 
 A status report while drying looks like this (single-heater mode):
 
-```text
+```{.text .console-output}
 MMU is in filament drying cycle:
 Drying filaments in gates: 1,2,6,7
 Cycle time: 4 hours (remaining: 3 hours 46 minutes)
@@ -193,7 +193,7 @@ Spool rotation enabled (running every 5 minutes, next in <1 minute)
 
 or, per-gate:
 
-```text
+```{.text .console-output}
 MMU is in filament drying cycle:
 Drying filaments in gates: 1,2,5,6,7,8
 Per-gate dryer mode (max concurrent heaters: 3). Humidty target 25.0%
@@ -229,7 +229,7 @@ mode, the macro is called with `GATES=<currently active gates>`; in
 single-heater mode it's called with no arguments. The shipped skeleton looks
 like this:
 
-```yaml
+```ini
 [gcode_macro _MMU_VENT]
 description: Simple reference MMU enclosure venting control
 

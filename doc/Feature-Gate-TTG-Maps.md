@@ -6,7 +6,7 @@ Happy Hare tracks filament using a handful of "maps," exposed as printer
 variables so your own macros can use them too:
 
 - **Gate map** - what's actually loaded in each gate right now: material,
-  colour, temperature, availability, and (if you use it)
+  color, temperature, availability, and (if you use it)
   [Spoolman](Feature-Spoolman.md)'s spool ID.
 - **Slicer tool map** - what the *slicer* expects for each tool in the
   current print, read from the g-code file. Only valid for the print
@@ -16,7 +16,7 @@ variables so your own macros can use them too:
   can be remapped freely.
 
 The TTG map is the layer that makes the other two useful together: it's how
-a print sliced for 4 colours can pull from whichever 4 gates you actually
+a print sliced for 4 colors can pull from whichever 4 gates you actually
 loaded, in whatever order, without re-slicing or reloading anything.
 [EndlessSpool](Feature-Endless-Spool-Runout.md) groups build on the same
 map - grouped gates are just alternative TTG targets Happy Hare can swap to
@@ -27,10 +27,10 @@ automatically when one runs out.
 ### Gate map
 
 <p align="center">
-  <img src="Feature-Gate-TTG-Maps/visual_ttg.png" alt="Diagram: a slicer's 4 tool colors mapped through the TTG map onto an 8-gate MMU, with two gates of the same colour grouped into an EndlessSpool group" width="80%">
+  <img src="Feature-Gate-TTG-Maps/visual_ttg.png" alt="Diagram: a slicer's 4 tool colors mapped through the TTG map onto an 8-gate MMU, with two gates of the same color grouped into an EndlessSpool group" width="80%">
 </p>
 
-```yaml
+```text
 MMU_GATE_MAP                                              # Display the current map
 MMU_GATE_MAP GATE=8 MATERIAL=PLA COLOR=ff0000 TEMP=205 AVAILABLE=1
 MMU_GATE_MAP GATE=8 AVAILABLE=1                           # Just mark it available again (e.g. after reloading from spool)
@@ -40,7 +40,7 @@ MMU_GATE_MAP GATES=0,1,2,3,4,5,6,7,8 AVAILABLE=-1         # Bulk reset every gat
 Full parameter reference: [`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map)
 - also takes `VENDOR=`, `NAME=`, `SPOOLID=`, `RFID=`, `SPEED=`, and
 `BYPASS=1` to set the same attributes for the bypass "gate." `COLOR=` takes
-a [w3c colour name](https://www.w3schools.com/tags/ref_colornames.asp) or an
+a [w3c color name](https://www.w3schools.com/tags/ref_colornames.asp) or an
 `RRGGBB`(`aa`) hex value - no `#`, since Klipper's config parser doesn't
 like it there.
 
@@ -52,7 +52,7 @@ like it there.
 
 A plain (no Spoolman) map looks like this:
 
-```text
+```{.text .console-output}
 > MMU_GATE_MAP
 Gates / Filaments:
 0: On spool; TPU     | 225C | orange | Orange Pie
@@ -75,33 +75,32 @@ page for the Spoolman-specific console format and sync behaviour.
     default, meaning gates reset to empty/unknown attributes. Filled in for a
     9-gate MMU, it would look something like this:
 
-    ```
-    default_gate_status:         1,      0,      1,      2,      2,     -1,     -1,      0,      1
-    default_gate_filament_name:  one,    two,    three,  four,   five,   six,    seven,  eight,  nine
-    default_gate_material:       PLA,    ABS,    ABS,    ABS+,   PLA,    PLA,    PETG,   TPU,    ABS
-    default_gate_color:          red,    black,  yellow, green,  blue,   indigo, ffffff, grey,   black
-    default_gate_temperature:    210,    240,    235,    245,    210,    200,    215,    240,    240
-    default_gate_spool_id:       3,      2,      1,      4,      5,      6,      7,      -1,     9
-    default_gate_speed_override: 100,    100,    100,    100,    100,    100,    100,    50,     100
-    ```
+        :::ini
+        default_gate_status:         1,      0,      1,      2,      2,     -1,     -1,      0,      1
+        default_gate_filament_name:  one,    two,    three,  four,   five,   six,    seven,  eight,  nine
+        default_gate_material:       PLA,    ABS,    ABS,    ABS+,   PLA,    PLA,    PETG,   TPU,    ABS
+        default_gate_color:          red,    black,  yellow, green,  blue,   indigo, ffffff, grey,   black
+        default_gate_temperature:    210,    240,    235,    245,    210,    200,    215,    240,    240
+        default_gate_spool_id:       3,      2,      1,      4,      5,      6,      7,      -1,     9
+        default_gate_speed_override: 100,    100,    100,    100,    100,    100,    100,    50,     100
 
-Happy Hare also exposes filament colour as ready-to-use RGB triples
+Happy Hare also exposes filament color as ready-to-use RGB triples
 (`printer.mmu.gate_color_rgb`) for driving LEDs or anything else that wants a
-plain `(r, g, b)` tuple instead of a colour name - see
+plain `(r, g, b)` tuple instead of a color name - see
 [Feature: LEDs](Feature-LEDs.md) for how Happy Hare's own LED segments use
 it. If you'd rather drive your own separate LED strip - one Happy Hare
 doesn't manage as part of its own LED effects - a macro can read the triple
 for a given gate directly and hand it to Klipper's own `SET_LED`:
 
-```yaml
+```text
 {% set gate_color_rgb = printer['mmu']['gate_color_rgb'] %}
 {% set rgb = gate_color_rgb[GATE] %}
 SET_LED LED=my_led INDEX={GATE + 1} RED={rgb[0]} GREEN={rgb[1]} BLUE={rgb[2]} TRANSMIT=1
 ```
 
-Any colour format `MMU_GATE_MAP COLOR=...` accepts (a name or a hex code)
+Any color format `MMU_GATE_MAP COLOR=...` accepts (a name or a hex code)
 converts to this triple automatically, so the macro never needs to parse
-colour strings itself.
+color strings itself.
 
 ### Slicer tool map
 
@@ -112,11 +111,11 @@ preprocessing that fills it in) - you shouldn't normally need to touch this
 by hand. The underlying printer variable looks roughly like this, per tool
 actually used in the print:
 
-```yaml
+```ini
 printer.mmu.slicer_tool_map:
   initial_tool: 0                  # Tool expected to be loaded at the start of the print
   referenced_tools: [0, 3]         # Every tool referenced anywhere in the print (T0 and T3 here)
-  tools.0.color: ff0000            # RRGGBB colour for T0
+  tools.0.color: ff0000            # RRGGBB color for T0
   tools.0.material: ABS            # Material for T0
   tools.0.temp: 240                # Extruder temperature for T0
   tools.0.name: eSun ABS Red       # Filament name for T0
@@ -131,7 +130,7 @@ printer.mmu.slicer_tool_map:
 
 To see what's currently loaded for the print in progress:
 
-```text
+```{.text .console-output}
 > MMU_SLICER_TOOL_MAP
 --------- Slicer MMU Tool Summary ---------
 2 color print (Purge volume map loaded)
@@ -147,7 +146,7 @@ covered on the Tip Forming and Purging feature page.
 
 ### Tool-to-Gate (TTG) map
 
-```text
+```{.text .console-output}
 > MMU_TTG_MAP
 TTG Map:
 T0 -> Gate 0
@@ -158,7 +157,7 @@ T3 -> Gate 3
 
 Add `DETAIL=1` to also see EndlessSpool grouping:
 
-```text
+```{.text .console-output}
 > MMU_TTG_MAP DETAIL=1
 TTG Map & EndlessSpool Groups:
 T0 -> Gate 0
@@ -169,7 +168,7 @@ T2 -> Gate 2
 A more tangled example, with EndlessSpool disabled, showing what a map can
 look like once tools have been remapped and swapped by hand:
 
-```text
+```{.text .console-output}
 T0 -> Gate 0 (S)
 T1 -> Gate 1 (B) [SELECTED on gate 1]
 T2 -> Gate 2 (B)
@@ -191,8 +190,8 @@ selecting T7 mid-print would pause rather than load.
 
 Remap a tool to a different gate:
 
-```yaml
-MMU_TTG_MAP TOOL=0 GATE=8       # T0 now pulls from gate 8 (and T8 now pulls from gate 0 - they swap)
+```text
+MMU_TTG_MAP TOOL=0 GATE=8               # T0 now pulls from gate 8 (and T8 now pulls from gate 0 - they swap)
 MMU_TTG_MAP TOOL=1 GATE=1 AVAILABLE=1   # Remap and mark the gate available in one go
 MMU_TTG_MAP MAP=8,7,6,5,4,3,2,1,0       # Replace the whole map in one command (index = tool number)
 ```
@@ -201,7 +200,7 @@ Full parameter reference: [`MMU_TTG_MAP`](Command-Reference.md#mmu_ttg_map).
 A few real uses for this: your slicer expects filament in a different order
 than you actually loaded it; some tools in the g-code don't have filament
 loaded and you'd rather remap them than have the print pause; or turning a
-multi-colour print monochrome by remapping every tool to one gate.
+multi-color print monochrome by remapping every tool to one gate.
 
 Some GUIs make this visual rather than command-driven - [KlipperScreen
 (Happy Hare edition)](https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition)
@@ -243,11 +242,11 @@ Print start/end (\_MMU_SOFTWARE)** in menuconfig):
 
 - `none` - no automapping (the default).
 - `filament_name` - match the tool's expected filament name to a gate.
-- `material` - match by material only, ignoring colour - useful if you have
-  several spools of the same colour in different materials.
-- `color` - match a gate whose material matches and whose colour matches
+- `material` - match by material only, ignoring color - useful if you have
+  several spools of the same color in different materials.
+- `color` - match a gate whose material matches and whose color matches
   exactly.
-- `closest_color` - match the *closest* available colour rather than an
+- `closest_color` - match the *closest* available color rather than an
   exact one, and reports how close the match was.
 - `spool_id` - not yet implemented; reserved for slicers that pass a spool
   ID directly.
@@ -260,7 +259,7 @@ EndlessSpool pair, set that group up yourself.
 You can also trigger a single tool's automap by hand, after the slicer tool
 map is loaded:
 
-```yaml
+```text
 MMU_SLICER_TOOL_MAP TOOL=1 AUTOMAP=filament_name
 MMU_SLICER_TOOL_MAP TOOL=6 AUTOMAP=closest_color
 ```
@@ -272,7 +271,7 @@ instead of compounding.
 
 ## Troubleshooting
 
-- **A gate's material/colour looks wrong after a print** - check whether
+- **A gate's material/color looks wrong after a print** - check whether
   `variable_reset_ttg`/automap remapped things at the end of the last print;
   the gate map itself doesn't change on its own, but which gate a tool
   points at can.

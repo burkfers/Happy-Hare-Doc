@@ -14,7 +14,7 @@ Each configured pin produces a `[gcode_button ...]` in `mmu_hardware.cfg`
 that calls [`MMU_EJECT`](Command-Reference.md#mmu_eject) for that specific
 gate:
 
-```yaml
+```ini
 [gcode_button unit0_eject0]
 pin: ^unit0_gate0:PB2
 press_gcode:

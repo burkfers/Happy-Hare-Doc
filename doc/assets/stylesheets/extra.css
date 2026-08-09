@@ -51,6 +51,46 @@ body {
 .codehilite .na,.codehilite .nv,.codehilite .vc,.codehilite .vg,.codehilite .vi{color:var(--md-code-hl-variable-color)}
 
 /*
+ * Fenced code blocks (.codehilite, see above) at a smaller font than body
+ * text - Material's default renders them at the same 16px as prose (`code`
+ * inside only looks smaller because of its own separate 0.85em rule), which
+ * is oversized for this site's long single-line macro/gcode/command
+ * examples (e.g. Slicer-Setup.md's MMU_START_SETUP call) - they wrap or
+ * scroll far more than needed. Set on `pre`, not `code`, so the two rules
+ * multiply cleanly (0.8em of body, then code's own existing 0.85em of
+ * that) instead of stacking two independent overrides. Inline code spans
+ * (single backticks in prose) aren't inside a .codehilite wrapper at all,
+ * so this doesn't touch them.
+ */
+.md-typeset .codehilite pre {
+  font-size: 0.8em;
+}
+
+/*
+ * Console-output blocks (```{.text .console-output} - fenced_code's own
+ * attribute syntax attaches the extra class straight onto the wrapping
+ * <div class="console-output codehilite">, verified directly against real
+ * markdown output) get a distinct terminal-green instead of the default
+ * text colour, so a block that's literal printer/console output at a
+ * glance reads differently from a gcode command example or corpus of a
+ * .cfg block, both plain ```text/```ini with no special colour. Two shades,
+ * one per scheme, for contrast against each page background - same
+ * attribute-selector convention as the mermaid dark-mode rule below
+ * ([data-md-color-scheme=...] on <body>, not <html> - checked directly).
+ * Only fenced blocks can carry this: the indented `:::lang` shebang form
+ * (used to nest code inside an admonition/list item - see TOC.md) has no
+ * attribute-attachment syntax of its own, so console-output blocks that
+ * need that nested form are left in the default text colour instead of
+ * forcing a workaround.
+ */
+.md-typeset .codehilite.console-output code {
+  color: #2e7d32;
+}
+[data-md-color-scheme="slate"] .md-typeset .codehilite.console-output code {
+  color: #4ade80;
+}
+
+/*
  * Section-separator marker on every H2, site-wide - a template-level
  * replacement for the wiki's per-heading tri-colour square images
  * (![#f03c15]![#c5f015]![#1589F0] before every major heading). Same three

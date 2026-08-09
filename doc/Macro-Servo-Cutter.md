@@ -30,7 +30,7 @@ Kconfig prompt's own help text says as much ("after enabling this be sure to
 edit Macro variables"). Add it as a
 [post-unload extension hook](Macro-Sequence.md) yourself:
 
-```yaml
+```ini
 variable_user_post_unload_extension : 'SERVO_CUTTER_ACTION'
 ```
 

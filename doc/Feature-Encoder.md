@@ -58,7 +58,7 @@ The `Type` choice's starting resolutions:
 That produces one `[mmu_encoder <unit_name>]` section in `mmu_hardware.cfg`
 per encoder:
 
-```yaml
+```ini
 [mmu_encoder unit0]
 encoder_pin        : ^unit0:PA3
 encoder_resolution : 0.979          # Starter value - OVERRIDDEN by calibration
@@ -79,7 +79,7 @@ its own - its `[mmu_unit]` simply names the first unit's encoder instead.
 One setting is exposed in `mmu_parameters.cfg` only when an encoder is
 fitted:
 
-```yaml
+```ini
 gate_endstop_to_encoder : 10   # Distance between gate endstop and encoder (+ve if encoder is after the endstop)
 ```
 
@@ -91,7 +91,7 @@ when a gate exit endstop is also fitted, `0` otherwise.
 A handful of advanced, non-menuconfig settings round out what the encoder
 enables for bowden moves - safe to leave at their defaults:
 
-```yaml
+```ini
 encoder_move_validation           : 1    # Use the encoder to sanity-check every movement (0 = faster, less safe)
 bowden_pre_unload_test            : 1    # Verify filament is clear of the extruder before the fast unload pull
 bowden_pre_unload_error_tolerance : 50   # % mismatch allowed by that check (100 = disabled)
@@ -119,13 +119,13 @@ page stops at the console output in [Commands](#commands) below.
 
 Full parameter reference: [`MMU_ENCODER`](Command-Reference.md#mmu_encoder).
 
-```yaml
+```text
 MMU_ENCODER          # Report current encoder position and FlowGuard status
 MMU_ENCODER POS=0    # Reset the encoder position counter to (approximately) zero
 MMU_ENCODER POS=100  # Set the encoder as close as possible to position 100mm
 ```
 
-```text
+```{.text .console-output}
 MMU_ENCODER
 Encoder unit0 position: 743.5
 FlowGuard/Runout: Active

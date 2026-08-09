@@ -12,11 +12,11 @@ in sync with what you'll actually see.
 
 **Parameters**
 
-```
+```{.text .console-output}
 ENABLE = [0|1]
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU ENABLE=1 ...Enable Happy Hare and reset MMU state
 MMU ENABLE=0 ...Disable Happy Hare (motors released, no MMU operations possible)
@@ -28,14 +28,14 @@ MMU ENABLE=0 ...Disable Happy Hare (motors released, no MMU operations possible)
 
 **Parameters**
 
-```
+```{.text .console-output}
 MIN        = #    Minimum purge volume (mm^3)
 MAX        = #    Maximum purge volume (mm^3)
 MULTIPLIER = #    Scale multiplier (float)
 SOURCE     = [gatemap|slicer]  Color source to build matrix from
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_CALC_PURGE_VOLUMES SOURCE=gatemap MULTIPLIER=1.1 ...calc purge matrix colors defined in the gate map with scaling
 MMU_CALC_PURGE_VOLUMES SOURCE=slicer MIN=50          ...calc purge matrix colors defined by slicer with minimum
@@ -48,7 +48,7 @@ MMU_CALC_PURGE_VOLUMES SOURCE=slicer MIN=50          ...calc purge matrix colors
 
 **Parameters**
 
-```
+```{.text .console-output}
 QUIET                 = [0|1]
 STANDALONE            = [0|1]
 RESTORE               = [0|1]
@@ -62,7 +62,7 @@ SLICER_RETRACTION     = #(mm)            (optional; captures the slicer retracti
 SLICER_FW_RETRACTION  = true|false|0|1   (optional; captures the slicer firmware retraction setting. Ignored if not enabled in printer)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_CHANGE_TOOL TOOL=2              ...Change to tool 2 (equivalent to running T2)
 MMU_CHANGE_TOOL TOOL=0 STANDALONE=1 ...Change to tool 0 forcing standalone tip forming/purging (not slicer)
@@ -75,7 +75,7 @@ MMU_CHANGE_TOOL GATE=3              ...Change to whichever tool is mapped to gat
 
 **Parameters**
 
-```
+```{.text .console-output}
 QUIET  = [0|1]
 TOOLS  = comma,separated,tools
 GATES  = comma,separated,gates
@@ -84,7 +84,7 @@ GATE   = g (single gate)
 ALL    = [0|1]
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_CHECK_GATE             ...Check the current gate
 MMU_CHECK_GATE ALL=1       ...Check every gate and update availability
@@ -98,7 +98,7 @@ MMU_CHECK_GATE TOOL=1      ...Check the gate mapped to tool 1
 
 **Parameters**
 
-```
+```{.text .console-output}
 GATE          = #(int)
 FORCE         = [0|1]
 EXTRUDER_ONLY = [0|1]
@@ -106,7 +106,7 @@ SKIP_TIP      = [0|1]
 RESTORE       = [0|1]
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_EJECT        ...Eject filament from current gate
 MMU_EJECT GATE=5 ...Eject filament on gate 5
@@ -118,14 +118,14 @@ MMU_EJECT GATE=5 ...Eject filament on gate 5
 
 **Parameters**
 
-```
+```{.text .console-output}
 POS    = #(float) Sets the encoder as close as possible to specified position (subject to resolution)
 VALUE  = #(float) Alias for POS=
 QUIET  = 1 for less verbose output
 (no parameters for status)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_ENCODER         ...Report current encoder position and status
 MMU_ENCODER POS=0   ...Reset the encoder position counter to (approximately) zero
@@ -138,14 +138,14 @@ MMU_ENCODER POS=100 ...Set the encoder as close as possible to position 100mm
 
 **Parameters**
 
-```
+```{.text .console-output}
 ENABLE = [0|1]
 QUIET  = [0|1]
 RESET  = [0|1]
 GROUPS = comma separated list of group membership
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_ENDLESS_SPOOL GROUPS=1,1,1,1   ...Put all four gates into same endless spool group
 MMU_ENDLESS_SPOOL RESET=1          ...Reset to default grouping. Typically each gate is in own group
@@ -158,7 +158,7 @@ MMU_ENDLESS_SPOOL ENABLE=0 QUIET=1 ...Disable endspool feature supressing consol
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT      = #(int)|_name_ Specify unit by name or number. OMIT if GATE supplied
 ALLOFF    = [0|1] Quick way to turn all espoolers off
 TRIGGER   = [0|1] Fire in-print trigger for testing
@@ -174,7 +174,7 @@ TIGHTEN   = [0|1] Quick way to tighten filament on spool
 (no parameters for status report)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_ESPOOLER                         ...Report espooler status
 MMU_ESPOOLER GATE=2 TIGHTEN=1        ...Tighten filament on the spool at gate 2
@@ -189,13 +189,13 @@ MMU_ESPOOLER ALLOFF=1                ...Turn all espoolers off
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT   = #(int)|_name_|ALL Specify unit by name, number or all-units (optional if single unit)
 ENABLE = [1|0] Enable/disable FlowGuard clog/tangle detection
 (no parameters for status report)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_FLOWGUARD          ...Report FlowGuard clog/tangle detection status
 MMU_FLOWGUARD ENABLE=1 ...Enable FlowGuard detection on the active unit
@@ -208,7 +208,7 @@ MMU_FLOWGUARD ENABLE=0 UNIT=ALL ...Disable FlowGuard detection on all units
 
 **Parameters**
 
-```
+```{.text .console-output}
 QUIET        = 1 To minimize console reporting
 RESET        = 1 To reset filament attributes to configured defaults
 GATES        = g,g,g comma separated list of gates (don't mix with GATE)
@@ -227,7 +227,7 @@ AVAILABLE    = [-1|0|1|2] Filament availability: Unknown | Empty | Available | A
 (no parameters for status report)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_GATE_MAP GATES=0,1,2,3 AVAILABLE=1      ...Mark gates 0-3 as having filament available
 MMU_GATE_MAP GATE=5 COLOR=red MATERIAL=pla  ...Set filament attributes for gate 5
@@ -247,7 +247,7 @@ MMU_GATE_MAP RESET=1                        ...Reset filament attributes (option
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT            = #(int) Optional if only one unit fitted to printer
 STOP            = [0|1] Turn off heater and drying cycle
 DRYING_DATA     = [0|1] Dump configured drying data for filament types
@@ -262,7 +262,7 @@ VENT_INTERVAL   = #(mins) How often to call 'vent' macro in drying cycle
 (no parameters for status report)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_HEATER TEMP=50                             ...Set heater temperature or adjusts if in drying cycle
 MMU_HEATER DRY=1                               ...Dry with intelligent temperature/time recommended from 'drying_data'
@@ -282,7 +282,7 @@ MMU_HEATER TEMP=45 GATES=0,1                   ...Turn heaters on for gates 0 & 
 
 **Parameters**
 
-```
+```{.text .console-output}
 PARAMS    = [0|1] Show parameter help and supplemental examples
 ALL       = [0|1] Show all user commands categories
 GENERAL   = [0|1] Regular MMU commands (DEFAULT ON)
@@ -296,7 +296,7 @@ CMD       = _cmd_ Show help on command (same as _cmd_ HELP=1)
 (without parameters it will summarize just major commands)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_HELP ALL=1                                   ...Summerize all user commands
 MMU_HELP PARAMS=1                                ...Summerize basic commands showing parameters and examples
@@ -310,7 +310,7 @@ MMU_HELP INTERNAL=1 PARAMS=1                     ...You are a developer? Caution
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT         = #(int)|_name_|ALL Specify unit by name, number or all-units (optional if single unit)
 TOOL         = #(int) Optionally select tool number after homing
 FORCE_UNLOAD = [0|1]  Force unloaded of filament
@@ -318,7 +318,7 @@ SKIP_HOMED   = [0|1]  Skip homing of units that are already homed
 (no parameters: home selector on single unit setup and select T0)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_HOME UNIT=ALL              ...Home all mmu units with selector kinimatics
 MMU_HOME UNIT=ALL SKIP_HOMED=1 ...Home only units that are not already homed
@@ -331,7 +331,7 @@ MMU_HOME UNIT=1 FORCE_UNLOAD=1 ...Home unit 1 unloading filament if necessary
 
 **Parameters**
 
-```
+```{.text .console-output}
 ENABLE        = [0|1] Enable/disable
 ANIMATION     = [0|1] Enable/disable animations
 EXIT_EFFECT   = [off|gate_status|filament_color|slicer_color|r,g,b|_effect_]
@@ -344,7 +344,7 @@ UNIT          = #(int)|_name_ Specify unit by name, number else will operate on 
 (no parameters for status report)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_LED EXIT_EFFECT=filament_color LOGO_EFFECT=(.5,0,0) ...Set exit effect to filament_color and logo to dim red
 MMU_LED ANIMATION=0 UNIT=1                              ...Turn off animation for LED's on unit 1
@@ -357,13 +357,13 @@ MMU_LED ENABLE=0                                        ...Turn off LED's
 
 **Parameters**
 
-```
+```{.text .console-output}
 EXTRUDER_ONLY = [0|1]
 SKIP_PURGE    = [0|1]
 RESTORE       = [0|1]
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_LOAD                 ...Load filament from current gate
 MMU_LOAD SKIP_PURGE=1    ...Load filament from current gate skipping purge macro
@@ -376,13 +376,13 @@ MMU_LOAD EXTRUDER_ONLY=1 ...Load filament into extruder (assumes filament is at 
 
 **Parameters**
 
-```
+```{.text .console-output}
 MSG   = _text_
 ERROR = [0|1]
 DEBUG = [0|1]
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_LOG MSG="Loading complete"         ...Write an informational message to console and mmu.log
 MMU_LOG MSG="Gate 3 is empty" ERROR=1  ...Write an error message
@@ -393,7 +393,7 @@ MMU_LOG MSG="entering load sequence" DEBUG=1 ...Write a debug-level message (onl
 
 *Turn off all MMU motors and servos*
 
-```
+```{.text .console-output}
 Examples:
 MMU_MOTORS_OFF ...Turn off all MMU motors and servos so the mechanism can be moved by hand
 ```
@@ -402,7 +402,7 @@ MMU_MOTORS_OFF ...Turn off all MMU motors and servos so the mechanism can be mov
 
 *Turn on all MMU motors and servos*
 
-```
+```{.text .console-output}
 Examples:
 MMU_MOTORS_ON ...Re-energize all MMU motors and servos
 ```
@@ -413,7 +413,7 @@ MMU_MOTORS_ON ...Re-energize all MMU motors and servos
 
 **Parameters**
 
-```
+```{.text .console-output}
 SHARED   = [0|1] Target the unit's shared reader
 GATE     = #(int) Target the reader for this gate (implies the unit)
 GATES    = g,g,g Target multiple gates' readers (don't mix with GATE/SHARED)
@@ -430,7 +430,7 @@ DETAILS  = [0|1] Include actual cached tag UIDs in the status report
 (no parameters for status report of all readers)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_NFC                        ...Report status of all readers (which have a cached tag)
 MMU_NFC DETAILS=1              ...As above but show the actual cached UIDs
@@ -451,11 +451,11 @@ MMU_NFC INIT_ALL=1             ...Re-initialize every reader on all units
 
 **Parameters**
 
-```
+```{.text .console-output}
 GATE = #(int) Gate to scan (default: current gate)
 ```
 
-```
+```{.text .console-output}
 Jogs the filament within the unit's 'nfc_gate_jog_scan_window' until the spool's
 RFID tag reaches the gate's reader, reads it, then re-parks the filament.
 Examples:
@@ -469,12 +469,12 @@ MMU_NFC_SCAN GATE=2 ...Jog and scan the RFID/NFC tag on gate 2
 
 **Parameters**
 
-```
+```{.text .console-output}
 MSG            = _text_
 FORCE_IN_PRINT = [0|1]
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_PAUSE                          ...Pause the MMU and enter the error/recovery state
 MMU_PAUSE MSG="Filament tangle"    ...Pause with a custom reason shown to the user
@@ -487,11 +487,11 @@ MMU_PAUSE FORCE_IN_PRINT=1         ...Pause using in-print behaviour even when n
 
 **Parameters**
 
-```
+```{.text .console-output}
 GATE = #(int)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_PRELOAD        ...Preload filament into the current gate
 MMU_PRELOAD GATE=3 ...Preload filament into gate 3
@@ -503,7 +503,7 @@ MMU_PRELOAD GATE=3 ...Preload filament into gate 3
 
 **Parameters**
 
-```
+```{.text .console-output}
 TOOL   = t Optionally force the assignment of specified tool number
 GATE   = g Optionally force the assignment of the specified gate number (fixes TTG map)
 BYPASS = 1 Used to force the assignment of the bypass Tool/Gate
@@ -512,7 +512,7 @@ STRICT = 1 If auto-recovering state, allows extended tests including extruder he
 (no parameters for automatic filament position recovery)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_RECOVER               ...automatically recover filament position
 MMU_RECOVER LOADED=1      ...to indicate filament is in the extruder
@@ -529,11 +529,11 @@ MMU_RECOVER TOOL=2 GATE=3 ...to indicate T2 is currently loaded from gate 3
 
 **Parameters**
 
-```
+```{.text .console-output}
 CONFIRM = [0|1]  Must be set to 1 to proceed
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_RESET CONFIRM=1  ...reset all persisted MMU state back to defaults
 ```
@@ -544,7 +544,7 @@ MMU_RESET CONFIRM=1  ...reset all persisted MMU state back to defaults
 
 **Parameters**
 
-```
+```{.text .console-output}
 TOOL   = #(int) Logical tool index (0..num_gates-1)
 GATE   = #(int) Physical gate index (0..num_gates-1)
 BYPASS = [0|1]
@@ -552,7 +552,7 @@ QUIET  = [0|1]
 (must specify TOOL, GATE, or BYPASS)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_SELECT TOOL=2   ...Select tool 2 (moves selector to the mapped gate but does not load)
 MMU_SELECT GATE=0   ...Select physical gate 0 directly
@@ -565,12 +565,12 @@ MMU_SELECT BYPASS=1 ...Select the bypass (for direct-to-extruder loading)
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT   = #(int) Specify unit else unit with active gate will be assumed
 DETAIL = [0|1]  Set to also see disabled sensors
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_SENSORS DETAIL=1 ...report state of all sensors on all units (even disabled ones)
 MMU_SENSORS UNIT=1   ...report state of active sensors on unit index 1
@@ -582,7 +582,7 @@ MMU_SENSORS UNIT=1   ...report state of active sensors on unit index 1
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT   = #(int) Optional, defaults to all units
 RESET  = 1      Clear saved calibration
 SAVE   = 1      Save current position against pos if calibrating
@@ -595,7 +595,7 @@ POS    = [off|up|move|down]
 
 **Parameters**
 
-```
+```{.text .console-output}
 GATE          = #(int)
 UNIT          = #(int)|_name_ Specify unit by name or number. OMIT if GATE supplied
 EXIT_EFFECT   = [off|gate_status|filament_color|slicer_color|r,g,b|_effect_]
@@ -606,7 +606,7 @@ DURATION      = #.#(float) seconds
 FADETIME      = #.#(float) seconds
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_SET_LED EXIT_EFFECT=mmu_ready_orange GATE=2 DURATION=5 ...Set the exit LED on gate 2 to orange effect for 5 seconds then revert
 MMU_SET_LED ENTRY_EFFECT=(1,1,1) GATE=4                    ...Set the entry LED on gate 4 to solid white until state change
@@ -618,7 +618,7 @@ MMU_SET_LED ENTRY_EFFECT=(1,1,1) GATE=4                    ...Set the entry LED 
 
 **Parameters**
 
-```
+```{.text .console-output}
 DETAIL           = 1 Log additional details to console
 PURGE_MAP        = 1 Display purge map
 SPARSE_PURGE_MAP = 1 Display purge map for only toolchanges possible in print
@@ -638,7 +638,7 @@ SKIP_AUTOMAP     = 1 Skip automap for next print (one-print option)
 (no parameters for status report)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_SLICER_TOOL_MAP PURGE_MAP=1                               ...Display the current purge volume matrix
 --- Generally this is done by the Happy Hare print start macros ---
@@ -653,7 +653,7 @@ MMU_SLICER_TOOL_MAP AUTOMAP=kkkkpla ...Set tool 0 color, temp and type
 
 **Parameters**
 
-```
+```{.text .console-output}
 QUIET     = [0|1] Suppress non-critical console output
 SYNC      = 1 Sync the local and remote (spoolman) gate maps
 CLEAR     = 1 Clear all gate/spool assignments for this printer in the spoolman db
@@ -666,7 +666,7 @@ SPOOLINFO = [-1|spool_id] Display spoolman details for a spool (0 = the active s
 (no parameters to show the current spoolman gate/spool assignments)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_SPOOLMAN                   ...Show the current spoolman gate/spool assignments
 MMU_SPOOLMAN REFRESH=1         ...Refresh the local gate map from the spoolman database
@@ -685,7 +685,7 @@ See MMU_SPOOLMAN_TAG to register a tag/UID onto a spool record.
 
 **Parameters**
 
-```
+```{.text .console-output}
 QUIET    = [0|1] Suppress non-critical console output
 SPOOLID  = #(int) Spoolman spool id to register the tag against
 GATE     = #(int)|LAST Gate whose assigned spool (RFID=) or recorded tag (REGISTER=) to use. If omitted implies current gate
@@ -694,7 +694,7 @@ APPEND   = 1 Add to the existing UID(s) instead of replacing them
 REGISTER = 1 Bind the gate's already-recorded UID onto SPOOLID (needs spoolman_support != pull)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_SPOOLMAN_TAG SPOOLID=45 RFID=E2003412          ...Register tag E2003412 against spool id 45 in the spoolman db (replaces any existing tags)
 MMU_SPOOLMAN_TAG SPOOLID=45 RFID=E2003499 APPEND=1 ...Register a second tag on the same spool (e.g. one on each side), keeping E2003412
@@ -713,7 +713,7 @@ See MMU_SPOOLMAN read or change gate-spool assignment in spoolman
 
 **Parameters**
 
-```
+```{.text .console-output}
 RESET      = [0|1]
 TOTAL      = [0|1]
 DETAIL     = [0|1]
@@ -727,7 +727,7 @@ WARNING    = _text_ (with COUNTER)
 PAUSE      = [0|1] (with COUNTER)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_STATS                          ...Show swap/job statistics summary
 MMU_STATS DETAIL=1                 ...Show detailed statistics including per-gate breakdown
@@ -742,12 +742,12 @@ MMU_STATS COUNTER=blade LIMIT=3000 WARNING="Replace cutter blade" ...Configure a
 
 **Parameters**
 
-```
+```{.text .console-output}
 SHOWCONFIG = [0|1]
 DETAIL     = [0|1]
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_STATUS              ...Show current MMU state (gates, tool, filament position)
 MMU_STATUS DETAIL=1     ...Show verbose status including per-gate detail
@@ -760,7 +760,7 @@ MMU_STATUS SHOWCONFIG=1 ...Also display the key configuration values in use
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT           = #(int)|_name_ Implied by gate else specify name or number
 ENABLE         = [1|0] enable/disable sync feedback control
 RESET          = 1 reset sync controller and return RD to last known good value
@@ -769,7 +769,7 @@ AUTOTUNE       = [1|0] allow saving of autotuned rotation distance
 (no parameters for status report)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_SYNC_FEEDBACK                  ...Report sync feedback controller status
 MMU_SYNC_FEEDBACK ENABLE=1         ...Enable sync feedback control on the active unit
@@ -783,12 +783,12 @@ MMU_SYNC_FEEDBACK RESET=1          ...Reset the controller and restore last know
 
 **Parameters**
 
-```
+```{.text .console-output}
 SYNC = [0|1] Specify whether to force extruder/mmu syncing out of a print
 (no parameters will default SYNC=1)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_SYNC_GEAR_MOTOR        ...Sync the gear motor to the extruder (SYNC defaults to 1)
 MMU_SYNC_GEAR_MOTOR SYNC=1 ...Force the gear motor synced to the extruder
@@ -801,7 +801,7 @@ MMU_SYNC_GEAR_MOTOR SYNC=0 ...Unsync the gear motor from the extruder
 
 **Parameters**
 
-```
+```{.text .console-output}
 TOOL   = t        Specifies tool. Defaults to all tools if not specified
 M220   = #(1-200) Speed multiplier percent (100 = unchanged)
 M221   = #(1-200) Extrusion multiplier percent (100 = unchanged)
@@ -809,7 +809,7 @@ RESET  = [0|1]    Reset overrides to 100%% for tool (defaults to all tools if TO
 (no parameters for status)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_TOOL_OVERRIDES                        ...Show current per-tool speed/extrusion overrides
 MMU_TOOL_OVERRIDES TOOL=2 M220=95 M221=98 ...Set tool 2 to 95% speed and 98% extrusion
@@ -823,7 +823,7 @@ MMU_TOOL_OVERRIDES TOOL=2 RESET=1         ...Reset overrides to 100% for tool 2 
 
 **Parameters**
 
-```
+```{.text .console-output}
 QUIET     = 1 To minimize console reporting
 RESET     = 1 To reset filament attributes to configured defaults
 DETAIL    = 1 Include additional details like EndlessSpool grouping
@@ -835,7 +835,7 @@ AVAILABLE = [0|1] Optionally specify the filament availablity in the gate
 (no parameters for status report)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_TTG_MAP TOOL=2 GATES=5 ...Map T2 to gate 5
 MMU_TTG_MAP RESET=1        ...Reset TTG map to configured default (generally, Tx > gate_x for all gates
@@ -848,13 +848,13 @@ MMU_TTG_MAP MAP=0,0,0,0    ...Quickly map all tools (on 4 gate MMU) to the same 
 
 **Parameters**
 
-```
+```{.text .console-output}
 EXTRUDER_ONLY = [0|1] Act only on extruder (implied for bypass)
 SKIP_TIP      = [0|1] Force skipping of tip forming / cutting
 RESTORE       = [0|1] Set to 0 to disable restoring toolhead position after unload
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_UNLOAD            ...Unload filament from current gate
 MMU_UNLOAD SKIP_TIP=1 ...Unload filament from current gate skipping purge macro
@@ -866,11 +866,11 @@ MMU_UNLOAD SKIP_TIP=1 ...Unload filament from current gate skipping purge macro
 
 **Parameters**
 
-```
+```{.text .console-output}
 (no parameters)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_UNLOCK ...Wake the MMU after an error/pause to restore heater temperatures and timeouts prior to resume
 ```
@@ -883,7 +883,7 @@ MMU_UNLOCK ...Wake the MMU after an error/pause to restore heater temperatures a
 
 **Parameters**
 
-```
+```{.text .console-output}
 REPEATS       = #(count) Number of repetitions (default: 3, min: 1, max: 10)
 SAVE          = [0|1] Save calibration (default: 1)
 MANUAL        = [0|1] Use manual calibration method (default: 0)
@@ -893,7 +893,7 @@ HOMING_MAX    = #(mm) Extruder homing maximum (default: 150)
 BOWDEN_LENGTH = #(mm) Approx bowden length (slightly < actual if using COLLISION)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_CALIBRATE_BOWDEN             ...calibrate bowden in current gate
 MMU_CALIBRATE_BOWDEN MANUAL=1    ...calibrate bowden in reverse from manually placed filament at extruder gear
@@ -907,7 +907,7 @@ MMU_CALIBRATE_BOWDEN RESET=1     ...reset calibrated bowden for current gate. (a
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT     = #(int)|_name_ Specify unit by name, number (optional if single unit)
 LENGTH   = #(mm) Commanded distance (default: 400)
 REPEATS  = #(count) Number of repetitions (default: 3, min: 1, max: 10)
@@ -918,7 +918,7 @@ MAXSPEED = #(mm/s) Maximum speed, speed of last repeat (default: SPEED)
 SAVE     = [0|1] Save calibration (default: 1)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_CALIBRATE_ENCODER LENGTH=200 REPEATS=5      ...average over 5 repetitions with a move length of 200mm
 MMU_CALIBRATE_ENCODER SAVE=0                    ...perform default calibration but don't save result
@@ -931,7 +931,7 @@ MMU_CALIBRATE_ENCODER MINSPEED=100 MAXSPEED=300 ...calibrate over default three 
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT    = #(int)|_name_ Specify unit by name, number (only required if ALL=1 and multi-unit)
 LENGTH  = #(mm) Commanded distance (default: 400)
 REPEATS = #(count) Number of repetitions (default: 3, min: 1, max: 10)
@@ -941,7 +941,7 @@ SAVE    = [0|1] Save calibration (default: 1)
 RESET   = [0|1] Reset gate rotation_distance
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_CALIBRATE_GATE                         ...default calibration procedure of rd for current gate
 MMU_CALIBRATE_GATE GATE=2 LENGTH=200       ...calibrate rd for gate 2 using a shorter than default 200mm movement
@@ -956,14 +956,14 @@ MMU_CALIBRATE_GATE RESET=1 ALL=1           ...reset rd on all gates except first
 
 **Parameters**
 
-```
+```{.text .console-output}
 MEASURED = #(mm) Measured moved distance
 LENGTH   = #(mm) Commanded distance (default: 100, min: 50)
 SAVE     = [0|1] Save calculated rotation_distance (default: 1)
 RESET    = [0|1] Reset rotation_distance to default for selected gate (default: 0)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_CALIBRATE_GEAR MEASURED=96.5           ...measured 96.5mm on default 100mm move
 MMU_CALIBRATE_GEAR LENGTH=200 MEASURED=202 ...moved 200mm and measured 202mm
@@ -976,11 +976,11 @@ MMU_CALIBRATE_GEAR RESET=1                 ...reset rotation distance for curren
 
 **Parameters**
 
-```
+```{.text .console-output}
 MOVE = #(mm) Movement range used to search limits (default: buffer_maxrange, min: 1, max: 100)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_CALIBRATE_PSENSOR         ...perform calibration using default movement
 MMU_CALIBRATE_PSENSOR MOVE=30 ...calibrate using a longer filament movement - for larger buffers
@@ -993,7 +993,7 @@ MMU_CALIBRATE_PSENSOR MOVE=30 ...calibrate using a longer filament movement - fo
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT   = #(int) Optional if only one unit fitted to printer
 GATE   = #(int) Optional, default all gates on unit
 SAVE   = [0|1]  Whether to persist the calibration results
@@ -1007,7 +1007,7 @@ QUICK  = [0|1]  Calibrate all offsets based on CAD geometry (good for initial se
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT         = #(int) Optional if only one unit fitted to printer
 GATE         = #(int) Optional, default all gates on unit
 AUTO         = [0|1] Force fully automatic calibration (have first gate selected)
@@ -1018,7 +1018,7 @@ BYPASS       = [0|1] Specify bypass gate instead of regular gate
 BYPASS_BLOCK = [0|1] Special: If bypass block exists on ERCFv1.1 only
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_CALIBRATE_SELECTOR GATE=8 SAVE=0         ...calibrate logical gate 8 position, display but don't save results
 MMU_CALIBRATE_SELECTOR UNIT=1 BYPASS=1       ...calibrate the bypass gate position on unit 1
@@ -1034,13 +1034,13 @@ MMU_CALIBRATE_SELECTOR AUTO=1 BYPASS_BLOCK=2 ...auto calibrate old ERCFv1.1 with
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT  = #(int) Optional if only one unit fitted to printer
 SAVE  = [0|1] Whether to persist the calibration results (default: 1)
 RESET = [0|1] Reset selector index calibration
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_CALIBRATE_SELECTOR_INDEXES         ...detect selector index gate order and endstop widths
 MMU_CALIBRATE_SELECTOR_INDEXES SAVE=0  ...detect and report results but don't save
@@ -1054,7 +1054,7 @@ MMU_CALIBRATE_SELECTOR_INDEXES RESET=1 ...reset selector index calibration
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT    = #(int) Optional if only one unit fitted to printer
 ANGLE   = #(int) Move servo to designated angle
 GATE    = #(int) Specify the gate by it's global logical index
@@ -1068,7 +1068,7 @@ RESET   = 1      To remove calibrated settings and default to configured startin
 (no options to show the current calibration)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_CALIBRATE_SERVO_SELECTOR                           ...Report on current calibration
 MMU_CALIBRATE_SERVO_SELECTOR ANGLE=83                  ...Set servo to angle of 83°
@@ -1083,7 +1083,7 @@ MMU_CALIBRATE_SERVO_SELECTOR RELEASE=1                 ...Save the current angle
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT  = #(int)|_name_ Specify unit by name, number (optional if single unit)
 CLEAN = [0|1] Measure clean nozzle dimensions (after cold pull)
 DIRTY = [0|1] Measure residual filament (dirty nozzle)
@@ -1091,7 +1091,7 @@ CUT   = [0|1] Measure blade position (hold cutter closed)
 SAVE  = [0|1] Persist results in active config (default: 1)
 ```
 
-```
+```{.text .console-output}
 Reminder - run with this sequence of options:
     1) CLEAN=1 with clean extruder for: toolhead_extruder_to_nozzle, toolhead_sensor_to_nozzle (and toolhead_entry_to_extruder)
     2) DIRTY=1 with dirty extruder (uncut tip fragment) for: toolhead_residual_filament (and toolhead_entry_to_extruder)
@@ -1113,14 +1113,14 @@ Reminder - run with this sequence of options:
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT   = #(int)|_name_ Optional to constrain test to specific unit
 LOOP   = #(int)        How many times to do complete T0-Tx test loops (default 1)
 RANDOM = 1             Randomize tool selection (tools may be skipped)
 FULL   = [0|1]         Whether to perform full load to extruder enntry or quick partial bowden load
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_SOAKTEST_LOAD_SEQUENCE LOOP=2        ...Loop sequentially through all tools twice performing partial bowden load
 MMU_SOAKTEST_LOAD_SEQUENCE UNIT=1 FULL=1 ...Loop through all tools on unit 1 loading filament to extruder entrance each time
@@ -1132,14 +1132,14 @@ MMU_SOAKTEST_LOAD_SEQUENCE UNIT=1 FULL=1 ...Loop through all tools on unit 1 loa
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT  = #(int) Optional if only one unit fitted to printer
 LOOP  = #(int) Test loops (default 10)
 GRIP  = [0|1]  Force filament gripping after selection where optional
 HOME  = [0|1]  Randomized homing
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_SOAKTEST_SELECTOR UNIT=1 LOOP=1000 ...make 1000 gate selections on unit 1
 MMU_SOAKTEST_SELECTOR HOME=1           ...randomly home whilst testing selection on current unit
@@ -1152,11 +1152,11 @@ MMU_SOAKTEST_SELECTOR GRIP=1           ...force filament grip after selection (w
 
 **Parameters**
 
-```
+```{.text .console-output}
 MOTOR = [gear|gears|<selector_motor_name>]
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_TEST_BUZZ_MOTOR                ...Buzz the gear motor (default) to confirm wiring/direction
 MMU_TEST_BUZZ_MOTOR MOTOR=gears    ...Buzz the gear motor at every gate in turn
@@ -1169,14 +1169,14 @@ MMU_TEST_BUZZ_MOTOR MOTOR=selector ...Buzz the selector motor (exact name depend
 
 **Parameters**
 
-```
+```{.text .console-output}
 UNIT  = #(int)|_name_ Specify unit by name, number (optional if single unit or changing shared parameters))
 ALL   = [0|1]  Report all parameters even if not in user configfile (i.e system default values)
 QUIET = [0|1]  Suppress non essential console messages
 (no parameters to dump of current settings)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_TEST_CONFIG extruder_homing_max=150 log_level=2 ...set the extruder_homing_max parameter to 150 and console logging to 2 (debug) level
 MMU_TEST_CONFIG toolhead_ooze_reduction=2.5 QUIET=1 ...silently set toolhead_ooze_reduction
@@ -1189,7 +1189,7 @@ MMU_TEST_CONFIG UNIT=1 sync_to_extruder=1           ...turn on extruder syncing 
 
 **Parameters**
 
-```
+```{.text .console-output}
 RESET         = 1     To reset macro parameters to defaults
 SHOW          = [0|1]
 RUN           = [0|1]
@@ -1197,7 +1197,7 @@ EXTRUDER_ONLY = 1     To prevent syncing with MMU
 (also accepts macro variable overrides; can use 'variable_' prefix or omit it)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_TEST_FORM_TIP               ...Run the standalone tip forming sequence for tuning
 MMU_TEST_FORM_TIP SHOW=1        ...Display the current tip forming macro parameters
@@ -1209,7 +1209,7 @@ MMU_TEST_FORM_TIP RESET=1       ...Reset the tip forming macro parameters to the
 
 *Test the MMU grip for a Tool*
 
-```
+```{.text .console-output}
 Examples:
 MMU_TEST_GRIP ...Exercise the filament grip/servo for the current tool to verify operation
 ```
@@ -1220,7 +1220,7 @@ MMU_TEST_GRIP ...Exercise the filament grip/servo for the current tool to verify
 
 **Parameters**
 
-```
+```{.text .console-output}
 ALLOW_BYPASS = [0|1]  Ignore bypass check
 MOVE         = mm     Specify the move distance (default 100)
 ENDSTOP      = _endstop_name_
@@ -1233,7 +1233,7 @@ WAIT         = [0|1]  Wait for move to complete (make move synchronous)
 DEBUG        = [0|1]  Turn on developer stepper movement debugging
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_TEST_HOMING_MOVE MOVE=50 ENDSTOP=extruder STOP_ON_ENDSTOP=1 ...Home up to 50mm in the extrude direction onto the extruder entry sensor
 MMU_TEST_HOMING_MOVE MOVE=100 MOTOR=gear ENDSTOP=encoder STOP_ON_ENDSTOP=1 ...Home the gear motor up to 100mm using the encoder as endstop
@@ -1246,12 +1246,12 @@ MMU_TEST_HOMING_MOVE MOVE=-100 ENDSTOP=toolhead STOP_ON_ENDSTOP=-1 ...Home up to
 
 **Parameters**
 
-```
+```{.text .console-output}
 FULL   = [0|1]
 LENGTH = #(float) Bowden move length (when FULL=0)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_TEST_LOAD           ...Test load a short default distance from the gate
 MMU_TEST_LOAD LENGTH=50 ...Test load 50mm of bowden movement from the gate
@@ -1264,7 +1264,7 @@ MMU_TEST_LOAD FULL=1    ...Test a full load from gate to the extruder
 
 **Parameters**
 
-```
+```{.text .console-output}
 ALLOW_BYPASS = [0|1]  Ignore bypass check
 MOVE         = mm     Specify the move distance (default 100)
 SPEED        = mm/s   Optionally override the default speed
@@ -1275,7 +1275,7 @@ WAIT         = 0      Don't wait for move to complete (default 1 makes move sync
 DEBUG        = 1      Turn on developer stepper movement debugging
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_TEST_MOVE SPEED=100                   ...Move filament default 100mm at 100mm/s speed
 MMU_TEST_MOVE MOVE=50 MOTOR=gear+extruder ...Move filament 50mm sync extruder synced to gear
@@ -1288,13 +1288,13 @@ MMU_TEST_MOVE MOVE=100 GRIP=1             ...Move filament 100mm retaining filam
 
 **Parameters**
 
-```
+```{.text .console-output}
 LAST_TOOL           = t
 NEXT_TOOL           = t
 EXTRUDER_ONLY       = 1 To prevent syncing with MMU
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_TEST_PURGE                          ...Run the standalone purge macro for the current tool
 MMU_TEST_PURGE LAST_TOOL=0 NEXT_TOOL=2  ...Purge using the volume calculated for a change from tool 0 to tool 2
@@ -1307,11 +1307,11 @@ MMU_TEST_PURGE EXTRUDER_ONLY=1          ...Purge without syncing the MMU gear mo
 
 **Parameters**
 
-```
+```{.text .console-output}
 TYPE = _event_type_ (optional, e.g. runout or clog)
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_TEST_RUNOUT            ...Simulate a filament runout to test detection/EndlessSpool handling
 MMU_TEST_RUNOUT TYPE=clog  ...Simulate a clog event instead of a runout
@@ -1323,13 +1323,13 @@ MMU_TEST_RUNOUT TYPE=clog  ...Simulate a clog event instead of a runout
 
 **Parameters**
 
-```
+```{.text .console-output}
 DIRECTION   = [-1|1]   Move in retract or extruder direction
 STEP        = #(float) mm of filament movement between encoder samples
 SENSITIVITY = #(float) Override the default/calibrated encoder resolution
 ```
 
-```
+```{.text .console-output}
 Examples:
 MMU_TEST_TRACKING                    ...Run the gear-feed vs encoder tracking test
 MMU_TEST_TRACKING STEP=2             ...Sample the encoder every 2mm of filament movement
@@ -1344,12 +1344,12 @@ MMU_TEST_TRACKING DIRECTION=-1 STEP=1 ...Test tracking in the retract direction 
 
 **Parameters**
 
-```
+```{.text .console-output}
 IDLE_TIMEOUT = [0|1] Internally set if called by klipper idle_timeout
 STATE        = [complete|error|cancelled|ready|standby] End state, defaults to complete
 ```
 
-```
+```{.text .console-output}
 Call without parameters at the end of your print in the slicer's gcode end block
 Examples:
 MMU_PRINT_END               ...Clean up MMU state after a normal (complete) print
@@ -1360,7 +1360,7 @@ MMU_PRINT_END STATE=cancelled ...Clean up after a cancelled print
 
 *Forces initialization of MMU state ready for print (usually automatic)*
 
-```
+```{.text .console-output}
 Call at the start of your print in the slicer's gcode start block
 Examples:
 MMU_PRINT_START ...Initialize MMU state ready for a print
@@ -1372,7 +1372,7 @@ MMU_PRINT_START ...Initialize MMU state ready for a print
 
 *Select the filament bypass (alias for MMU_SELECT BYPASS=1)*
 
-```
+```{.text .console-output}
 Examples:
 MMU_SELECT_BYPASS ...Select the bypass so filament can be loaded straight into the extruder
 ```
@@ -1405,7 +1405,7 @@ See the [Developer Guide](Dev-Code-Layout.md).
 
 **Parameters**
 
-```
+```{.text .console-output}
 HELP=1 Show this help
 SYNC_STATE=['compression'|'tension'|'both'|'neutral'] Set the sync state ('loop' is disabled - it busy-waits and wedges the reactor)
 SYNC_EVENT=[-1.0 ... 1.0] Generate sync feedback event
@@ -1460,7 +1460,7 @@ NFC_READ=1 Simulate an NFC tag read. Params: UID={hex} DEEP=[0|1] GATE={n}(per-g
 
 **Parameters**
 
-```
+```{.text .console-output}
 EVENTTIME = #(float)
 SENSOR    = _sensor_name_
 ```
@@ -1471,7 +1471,7 @@ SENSOR    = _sensor_name_
 
 **Parameters**
 
-```
+```{.text .console-output}
 EVENTTIME = #(float)
 SENSOR    = _sensor_name_
 GATE      = #(int)
@@ -1483,7 +1483,7 @@ GATE      = #(int)
 
 **Parameters**
 
-```
+```{.text .console-output}
 EVENTTIME = #(float)
 SENSOR    = _sensor_name_
 GATE      = #(int)
@@ -1495,7 +1495,7 @@ GATE      = #(int)
 
 **Parameters**
 
-```
+```{.text .console-output}
 EVENTTIME = #(float)
 SENSOR    = _sensor_name_
 GATE      = #(int)
@@ -1507,7 +1507,7 @@ GATE      = #(int)
 
 **Parameters**
 
-```
+```{.text .console-output}
 EVENTTIME = #(float)
 SENSOR    = _sensor_name_
 ```
@@ -1516,7 +1516,7 @@ SENSOR    = _sensor_name_
 
 *User composable loading step: Home to extruder sensor or entrance through collision detection*
 
-```
+```{.text .console-output}
 Examples:
 _MMU_STEP_HOME_EXTRUDER ...Home filament to the extruder entrance (sensor or collision detection)
 ```
@@ -1527,11 +1527,11 @@ _MMU_STEP_HOME_EXTRUDER ...Home filament to the extruder entrance (sensor or col
 
 **Parameters**
 
-```
+```{.text .console-output}
 (see MMU_TEST_HOMING_MOVE HELP=1 for options)
 ```
 
-```
+```{.text .console-output}
 Examples:
 _MMU_STEP_HOMING_MOVE MOVE=50 ENDSTOP=extruder STOP_ON_ENDSTOP=1 ...Home up to 50mm onto the extruder entry sensor
 _MMU_STEP_HOMING_MOVE MOVE=100 MOTOR=gear ENDSTOP=encoder STOP_ON_ENDSTOP=1 ...Home the gear motor up to 100mm using the encoder
@@ -1543,12 +1543,12 @@ _MMU_STEP_HOMING_MOVE MOVE=100 MOTOR=gear ENDSTOP=encoder STOP_ON_ENDSTOP=1 ...H
 
 **Parameters**
 
-```
+```{.text .console-output}
 LENGTH    = mm   Override the default calibrated bowden length)
 START_POS = mm   Postion of filament past the gate homing point at start of move
 ```
 
-```
+```{.text .console-output}
 Examples:
 _MMU_STEP_LOAD_BOWDEN            ...Load the bowden using the calibrated length
 _MMU_STEP_LOAD_BOWDEN LENGTH=650 ...Load 650mm of bowden instead of the calibrated length
@@ -1558,7 +1558,7 @@ _MMU_STEP_LOAD_BOWDEN LENGTH=650 ...Load 650mm of bowden instead of the calibrat
 
 *User composable loading step: Move filament from gate to start of bowden*
 
-```
+```{.text .console-output}
 Examples:
 _MMU_STEP_LOAD_GATE ...Load filament from the gate to the start of the bowden (used in custom load sequences)
 ```
@@ -1569,11 +1569,11 @@ _MMU_STEP_LOAD_GATE ...Load filament from the gate to the start of the bowden (u
 
 **Parameters**
 
-```
+```{.text .console-output}
 EXTRUDER_ONLY   = [0|1] Extruder only load (e.g. when in bypass)
 ```
 
-```
+```{.text .console-output}
 Examples:
 _MMU_STEP_LOAD_TOOLHEAD                 ...Load filament from the extruder entrance into the nozzle
 _MMU_STEP_LOAD_TOOLHEAD EXTRUDER_ONLY=1 ...Load the extruder only (e.g. when using bypass)
@@ -1585,11 +1585,11 @@ _MMU_STEP_LOAD_TOOLHEAD EXTRUDER_ONLY=1 ...Load the extruder only (e.g. when usi
 
 **Parameters**
 
-```
+```{.text .console-output}
 (see MMU_TEST_MOVE HELP=1 for options)
 ```
 
-```
+```{.text .console-output}
 Examples:
 _MMU_STEP_MOVE MOVE=50                    ...Move filament 50mm on the gear motor
 _MMU_STEP_MOVE MOVE=100 MOTOR=gear+extruder ...Move filament 100mm with the gear synced to the extruder
@@ -1601,12 +1601,12 @@ _MMU_STEP_MOVE MOVE=100 MOTOR=gear+extruder ...Move filament 100mm with the gear
 
 **Parameters**
 
-```
+```{.text .console-output}
 RESTORE = [0|1]   Set to restore previous action state
 STATE   = _state_ Set action state and save previous for restore operation
 ```
 
-```
+```{.text .console-output}
 Examples:
 _MMU_STEP_SET_ACTION STATE=1   ...Set the action state (e.g. 1 = Loading; values are ACTION_* constants) saving the previous
 _MMU_STEP_SET_ACTION RESTORE=1 ...Restore the previously saved action state
@@ -1618,12 +1618,12 @@ _MMU_STEP_SET_ACTION RESTORE=1 ...Restore the previously saved action state
 
 **Parameters**
 
-```
+```{.text .console-output}
 STATE   = _state_ Filament position state
 SILENT  = [0|1]   Set to suppress logging of new position
 ```
 
-```
+```{.text .console-output}
 Examples:
 _MMU_STEP_SET_FILAMENT STATE=0          ...Mark filament as fully unloaded
 _MMU_STEP_SET_FILAMENT STATE=10 SILENT=1 ...Mark filament as loaded without logging (values are FILAMENT_POS_* constants)
@@ -1635,11 +1635,11 @@ _MMU_STEP_SET_FILAMENT STATE=10 SILENT=1 ...Mark filament as loaded without logg
 
 **Parameters**
 
-```
+```{.text .console-output}
 LENGTH   = mm   Override the default calibrated bowden length)
 ```
 
-```
+```{.text .console-output}
 Examples:
 _MMU_STEP_UNLOAD_BOWDEN            ...Unload the bowden using the calibrated length
 _MMU_STEP_UNLOAD_BOWDEN LENGTH=650 ...Unload 650mm of bowden instead of the calibrated length
@@ -1651,11 +1651,11 @@ _MMU_STEP_UNLOAD_BOWDEN LENGTH=650 ...Unload 650mm of bowden instead of the cali
 
 **Parameters**
 
-```
+```{.text .console-output}
 FULL   = [0|1]
 ```
 
-```
+```{.text .console-output}
 Examples:
 _MMU_STEP_UNLOAD_GATE        ...Unload filament from the bowden and park in the gate (fast, minimal homing)
 _MMU_STEP_UNLOAD_GATE FULL=1 ...Unload with full homing distance (use when starting position is uncertain)
@@ -1667,12 +1667,12 @@ _MMU_STEP_UNLOAD_GATE FULL=1 ...Unload with full homing distance (use when start
 
 **Parameters**
 
-```
+```{.text .console-output}
 EXTRUDER_ONLY   = [0|1] Extruder only unload (e.g. when in bypass)
 PARK_POS        = mm    The starting position of the filament in extruder (after tip forming / retraction)
 ```
 
-```
+```{.text .console-output}
 Examples:
 _MMU_STEP_UNLOAD_TOOLHEAD                 ...Unload filament from the nozzle back to the extruder entrance
 _MMU_STEP_UNLOAD_TOOLHEAD PARK_POS=35     ...Unload assuming the tip is parked 35mm inside the extruder

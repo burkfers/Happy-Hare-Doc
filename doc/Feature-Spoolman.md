@@ -10,7 +10,7 @@ the same Raspberry Pi. Happy Hare integrates with it in two independent ways:
   filament, it tells Spoolman (via Moonraker) which spool is now active, so
   usage is logged against the right spool and the previous one is
   deactivated.
-- **Filament attributes.** Spoolman can supply material, colour and other
+- **Filament attributes.** Spoolman can supply material, color and other
   attributes for a gate directly, instead of (or overriding) whatever is set
   locally - this is also refreshed in bulk whenever the MMU initializes.
 
@@ -35,10 +35,10 @@ printers' gate assignments centrally, and the local gate map is kept in sync
 with it rather than the other way round.
 
 Each gate's entry in the local gate map carries (at minimum) a filament
-availability status, material, colour, a load/unload speed override, and -
+availability status, material, color, a load/unload speed override, and -
 if Spoolman is enabled - a `SpoolId`. `MMU_GATE_MAP` reports it:
 
-```text
+```{.text .console-output}
 Gates / Filaments:
 0 : On spool;  Id: 3    TPU  | 210C | DC6834 | Filamentum Industrial Flexifill TPU 98A Grey | RFID
 1 : Buffered;  Id: 2    PETG | 220C | DCDA34 | n/a
@@ -46,24 +46,24 @@ Gates / Filaments:
 3 : Unknown             ABS  | 240C | n/a    | n/a [Speed:50%]
 ```
 
-(The real console output also prefixes each line with a small colour swatch
+(The real console output also prefixes each line with a small color swatch
 and any tools mapped to that gate - simplified here for readability.) A
 gate showing `| RFID` has a tag UID cached locally from a scan - see
 [NFC/RFID Reading](Feature-NFC.md), which covers the readers that populate
 gates automatically instead of by hand.
 
 If a gate has a `SpoolId` set, Spoolman's attributes for that spool
-overwrite whatever material/colour/name were set locally - so once a
+overwrite whatever material/color/name were set locally - so once a
 `SpoolId` is current, keeping it up to date as spools are swapped is enough;
 everything else follows automatically. That's also true of LEDs, if
-configured, which reflect the spool's colour.
+configured, which reflect the spool's color.
 
 ## Moonraker Setup
 
 Happy Hare's Moonraker extension (`mmu_server`) needs a few settings in
 `moonraker.conf`:
 
-```yaml
+```ini
 [mmu_server]
 enable_file_preprocessor: True
 enable_toolchange_next_pos: True
@@ -100,7 +100,7 @@ than the extra columns.
 
 In `mmu.cfg`:
 
-```yaml
+```ini
 spoolman_support            : off   # off | readonly | push | pull
 spoolman_pending_id_timeout : 20    # Seconds before a pending spool_id assignment is voided
 spoolman_led_segment        : gate_status   # gate_status | status | both
@@ -131,7 +131,7 @@ Full parameter reference: [`MMU_SPOOLMAN`](Command-Reference.md#mmu_spoolman),
 Day-to-day gate assignment normally goes through `MMU_GATE_MAP`, which
 updates the local gate map first and then syncs to Spoolman if enabled:
 
-```yaml
+```text
 MMU_GATE_MAP GATE=0 SPOOLID=5          # Assign spool 5 to gate 0
 MMU_GATE_MAP GATE=0 SPOOLID=-1         # Unset gate 0's spool (other attributes can still be set manually)
 MMU_GATE_MAP NEXT_SPOOLID=45           # Auto-assign spool 45 to whichever gate is loaded/preloaded next (0 cancels)
@@ -150,7 +150,7 @@ that support it.
 (where `MMU_GATE_MAP` alone can't reach the remote assignment) and for
 maintenance:
 
-```yaml
+```text
 MMU_SPOOLMAN                            # Show this printer's gate/spool assignments in Spoolman
 MMU_SPOOLMAN GATE=1 SPOOLID=5           # Remotely associate gate 1 with spool 5 (any existing gate for spool 5 is cleared)
 MMU_SPOOLMAN GATE=1                     # Unassign whatever spool is on gate 1
@@ -161,7 +161,7 @@ MMU_SPOOLMAN REFRESH=1 FIX=1            # As above, and clear any gate with more
 MMU_SPOOLMAN CLEAR=1                    # Clear every gate assignment for this printer in Spoolman
 ```
 
-```text
+```{.text .console-output}
 MMU_SPOOLMAN SPOOLINFO=1
 Spool is: Matte Green (id: 1)
 - Material: n/a
@@ -172,7 +172,7 @@ Spool is: Matte Green (id: 1)
 Operations combine in one call - e.g. to clear the database, fix any
 inconsistencies, then assign spool 6 to gate 0:
 
-```yaml
+```text
 MMU_SPOOLMAN CLEAR=1 REFRESH=1 FIX=1 GATE=0 SPOOLID=6
 ```
 
@@ -208,7 +208,7 @@ depending on which one you have in hand first:
 Spoolman - the case where a spool is registered but its tag isn't bound
 yet (e.g. sticking a blank tag on it):
 
-```yaml
+```text
 MMU_SPOOLMAN_TAG SPOOLID=45 RFID=E2003412            # Bind tag UID E2003412 to spool 45 (replaces any existing tag(s))
 MMU_SPOOLMAN_TAG SPOOLID=45 RFID=E2003499 APPEND=1   # Register a second tag on the same spool (e.g. one on each side), keeping E2003412
 MMU_SPOOLMAN_TAG SPOOLID=45 RFID=''                  # Clear all tags registered against spool 45
@@ -286,11 +286,11 @@ new one - Mainsail and Fluidd's own Spoolman panel reflects this:
 </p>
 
 [KlipperScreen Happy Hare Edition](https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition)
-visualizes the gate map with Spoolman data (material, colour, remaining
+visualizes the gate map with Spoolman data (material, color, remaining
 weight) alongside each gate, and lets you edit a gate's `SpoolId` directly:
 
 <p align="center">
-  <img src="Feature-Spoolman/klipperscreen-gate-view.png" alt="KlipperScreen Happy Hare Edition gate list showing Spoolman material, colour and remaining weight per gate" width="60%">
+  <img src="Feature-Spoolman/klipperscreen-gate-view.png" alt="KlipperScreen Happy Hare Edition gate list showing Spoolman material, color and remaining weight per gate" width="60%">
 </p>
 
 And in Spoolman's own web UI, once the extra columns are shown (see
@@ -311,7 +311,7 @@ which side ends up authoritative for what.
 
 #### `off`
 
-Nothing to configure beyond the setting itself. Local material/colour
+Nothing to configure beyond the setting itself. Local material/color
 attributes are used as-is; a `SpoolId` in the gate map isn't shown or used.
 [Automatic tool-to-gate mapping](Command-Reference.md#mmu_ttg_map) still
 works but without Spoolman-sourced attributes to key off.
@@ -329,7 +329,7 @@ sequenceDiagram
 #### `readonly`
 
 Set a `SpoolId` per gate with `MMU_GATE_MAP GATE=<n> SPOOLID=<id>`; Happy
-Hare fetches and applies that spool's material/colour from Spoolman
+Hare fetches and applies that spool's material/color from Spoolman
 immediately, and again in bulk at every startup. Nothing is ever written
 back to Spoolman in this mode.
 
@@ -345,7 +345,7 @@ sequenceDiagram
     L-->>K: gate map (with any SpoolIds)
     K->>M: request filament attributes for each SpoolId
     M->>S: look up spool details
-    S-->>M: material, colour, ...
+    S-->>M: material, color, ...
     M->>K: MMU_GATE_MAP MAP={filament details}
     K->>L: update local attributes
 </pre>
@@ -370,7 +370,7 @@ sequenceDiagram
     K->>M: push gate/SpoolId assignments
     M->>S: write printer + gate association
     M->>S: read filament attributes
-    S-->>M: material, colour, ...
+    S-->>M: material, color, ...
     M->>K: MMU_GATE_MAP MAP={filament details}
     K->>L: update local attributes
 </pre>
@@ -392,7 +392,7 @@ sequenceDiagram
     K->>M: push the change
     M->>S: write gate/SpoolId association
     M->>S: read filament attributes
-    S-->>M: material, colour, ...
+    S-->>M: material, color, ...
     M->>K: MMU_GATE_MAP MAP={filament details}
     K->>L: update local attributes
 </pre>
@@ -451,11 +451,11 @@ assignments are managed centrally rather than per-printer. `MMU_SPOOLMAN`
 with no parameters lists this printer's own gate assignments; add
 `PRINTER=<name>` to check another printer sharing the same database:
 
-```yaml
+```text
 MMU_SPOOLMAN PRINTER=BigRed
 ```
 
-```text
+```{.text .console-output}
 Spoolman gate assignment for printer: BigRed
 Gate | SpoolId
 -----+--------
@@ -474,7 +474,7 @@ change the assignment remotely instead, which then propagates back down.
 Happy Hare re-syncs on its own when it needs to, but if the local and
 remote gate maps ever look out of step:
 
-```yaml
+```text
 MMU_SPOOLMAN SYNC=1              # Re-sync local <-> remote in the direction spoolman_support implies
 MMU_SPOOLMAN REFRESH=1           # Rebuild the Moonraker cache first, then sync
 MMU_SPOOLMAN REFRESH=1 FIX=1     # ...and clear any gate with more than one spool assigned to it
@@ -498,7 +498,7 @@ reader. Whatever the source, the workflow is the same:
    with entry sensors fitted, just feed it into the back of the gate (this
    can even be done mid-print).
 
-The gate that ends up loaded gets that `SpoolId`, with material/colour
+The gate that ends up loaded gets that `SpoolId`, with material/color
 pulled from Spoolman - governed by the same `spoolman_pending_id_timeout`
 that bounds a shared NFC/RFID scan.
 

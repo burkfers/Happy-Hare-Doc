@@ -4,7 +4,7 @@
 
 Every toolchange needs two things done well: a clean filament **tip** (no
 blobs, no long hairs - a good tip looks like a tiny spear) so the next load
-doesn't jam, and a **purge** big enough to clear the old colour/material
+doesn't jam, and a **purge** big enough to clear the old color/material
 out of the nozzle without wasting excessive filament.
 
 <p align="center">
@@ -54,7 +54,7 @@ Two independent menus, both unconditional (every MMU type gets them):
 These produce, in `mmu.cfg`'s general parameters (not the file literally
 named `mmu_parameters.cfg`):
 
-```yaml
+```ini
 force_form_tip_standalone : 1              # 1 = always standalone tip forming (turn the slicer's off)
 form_tip_macro             : _MMU_FORM_TIP  # or _MMU_CUT_TIP, BLOBIFIER, or your own
 extruder_form_tip_current  : 100
@@ -106,19 +106,23 @@ section. Tuning by hand:
 1. Remove the bowden tube at the toolhead so you can feed filament directly.
 2. Cut a ~400mm fragment of the filament you're tuning, heat the extruder,
    and hold the fragment to the gears:
-   ```yaml
-   MMU_LOAD EXTRUDER_ONLY=1
-   ```
+
+        :::text
+        MMU_LOAD EXTRUDER_ONLY=1
+
 3. Extrude a few mm by hand to prime, then:
-   ```yaml
-   MMU_TEST_FORM_TIP
-   ```
-   This runs the tip-forming macro and ejects the result for inspection.
+
+        :::text
+        MMU_TEST_FORM_TIP
+
+    This runs the tip-forming macro and ejects the result for inspection.
+
 4. Adjust one variable at a time on the command line - changes are sticky
    for the session:
-   ```yaml
-   MMU_TEST_FORM_TIP cooling_moves=5 unloading_speed=15
-   ```
+
+        :::text
+        MMU_TEST_FORM_TIP cooling_moves=5 unloading_speed=15
+
 5. Re-insert the fragment (`MMU_LOAD EXTRUDER_ONLY=1` again) and repeat.
    Expect this to take a few dozen attempts to converge.
 
@@ -191,20 +195,20 @@ automatic option: enabling **Advanced wiping volume** (under **Printer
 Settings → Single Extruder MM Setup**) lets the slicer calculate purge
 volume from each filament's **pigment percentage** (0-1) instead of a fixed
 number - tune the percentage per filament to fine-tune the result. If you
-use the same base filament profile for several colours, you'll need to
-duplicate that profile per colour so each can carry its own pigment
+use the same base filament profile for several colors, you'll need to
+duplicate that profile per color so each can carry its own pigment
 percentage, and make sure the right profile is selected for each tool.
 
-Happy Hare can also calculate its own matrix from filament colours, as an
+Happy Hare can also calculate its own matrix from filament colors, as an
 alternative to any of the slicer's own methods - typically run from your
 print-start macro:
 
-```yaml
-MMU_CALC_PURGE_VOLUMES SOURCE=gatemap MULTIPLIER=1.1     # From the gate map's (or Spoolman's) colours
-MMU_CALC_PURGE_VOLUMES SOURCE=slicer MIN=50              # From the slicer's own tool colours, floored at 50mm3
+```text
+MMU_CALC_PURGE_VOLUMES SOURCE=gatemap MULTIPLIER=1.1     # From the gate map's (or Spoolman's) colors
+MMU_CALC_PURGE_VOLUMES SOURCE=slicer MIN=50              # From the slicer's own tool colors, floored at 50mm3
 ```
 
-```text
+```{.text .console-output}
 > MMU_CALC_PURGE_VOLUMES SOURCE=gatemap MULTIPLIER=1.1
 Purge map updated. Use 'MMU_SLICER_TOOL_MAP PURGE_MAP=1' to view
 ```
@@ -216,7 +220,7 @@ View the result with `MMU_SLICER_TOOL_MAP PURGE_MAP=1` (or
 loaded print) - each cell is the calculated purge volume, in mm³, for that
 row-to-column transition:
 
-```text
+```{.text .console-output}
 > MMU_SLICER_TOOL_MAP PURGE_MAP=1
 Purge Volume Map (mm^3):
 To -> T0   T1   T2   T3   T4   T5   T6   T7   T8
@@ -254,7 +258,7 @@ matrix, `MMU_SLICER_TOOL_MAP PURGE_VOLUMES=...` directly, or
     configured matrix into the g-code even with the tower itself off. Leave
     it disabled from the start and there's no matrix to edit at all.
 
-```yaml
+```text
 MMU_SLICER_TOOL_MAP PURGE_VOLUMES=70                                    # One value for every transition
 MMU_SLICER_TOOL_MAP PURGE_VOLUMES=70,70,70,70,70,70,70,70,70            # N values - one per tool's "to" column
 MMU_SLICER_TOOL_MAP PURGE_VOLUMES=70,70,70,...                         # NxN (or 2xN, see Command Reference) - full matrix
@@ -262,7 +266,7 @@ MMU_SLICER_TOOL_MAP PURGE_VOLUMES=70,70,70,...                         # NxN (or
 
 A flat `PURGE_VOLUMES=70` fills every transition with the same value:
 
-```text
+```{.text .console-output}
 > MMU_SLICER_TOOL_MAP PURGE_MAP=1
 Purge Volume Map:
 To -> T0   T1   T2   T3   T4   T5   T6   T7   T8
@@ -301,7 +305,7 @@ setting below as a band-aid.
 `toolhead_ooze_reduction` is a small final adjustment on top of that,
 tunable live mid-print:
 
-```yaml
+```text
 MMU_TEST_CONFIG toolhead_ooze_reduction=1
 ```
 
@@ -319,10 +323,10 @@ once you're happy with it.
 
 ## Commands
 
-```yaml
+```text
 MMU_TEST_FORM_TIP                        # Run the tip-forming macro standalone, for tuning
 MMU_TEST_PURGE LAST_TOOL=0 NEXT_TOOL=3   # Run the standalone purge macro for a specific tool transition
-MMU_CALC_PURGE_VOLUMES SOURCE=gatemap    # Recalculate the purge matrix from current filament colours
+MMU_CALC_PURGE_VOLUMES SOURCE=gatemap    # Recalculate the purge matrix from current filament colors
 MMU_SLICER_TOOL_MAP PURGE_MAP=1          # View the current purge volume matrix
 MMU_TEST_CONFIG toolhead_ooze_reduction=1
 ```
@@ -355,7 +359,7 @@ Filament`/`Purging` states while each of these runs.
   `toolhead_ooze_reduction` instead.
 - **Wasting a lot of filament on purging** - review whether you're using
   the slicer's simple per-tool volumes (least efficient) versus the full
-  matrix or Happy Hare's own colour-based calculation.
+  matrix or Happy Hare's own color-based calculation.
 - **Switched to a toolhead cutter but tips are still being formed the old
   way** - `form_tip_macro` needs to actually be changed to `_MMU_CUT_TIP`;
   simply having `MMU_HAS_TOOLHEAD_CUTTER` fitted doesn't switch it

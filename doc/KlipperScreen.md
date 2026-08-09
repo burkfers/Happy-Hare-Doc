@@ -66,8 +66,8 @@ check against the actually-running Happy Hare version, not a static message.
 
 Accessed via the carrot icon on the left navbar (or from buttons on the
 KlipperScreen home/print pages instead, if you turn the carrot off in
-settings). Each gate's loaded spool renders as an actual coloured spool
-graphic - colour and material come from the gate map's
+settings). Each gate's loaded spool renders as an actual colored spool
+graphic - color and material come from the gate map's
 `gate_material`/`gate_color`, set either as defaults in `mmu.cfg` or live
 with [`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map). Below the spool
 row, one button per gate shows its number with the tool(s) mapped to it
@@ -112,7 +112,7 @@ material/temperature, and spool ID - are a third:
 ### Tool Picker Panel
 
 An alternative way to pick a tool, showing which gate it maps to and that
-gate's filament type/colour at a glance:
+gate's filament type/color at a glance:
 
 <p align="center">
   <img src="KlipperScreen/mmu_picker.png" alt="KlipperScreen tool picker panel" width="80%">
@@ -184,7 +184,7 @@ but not always, the same number - a gate can back more than one tool).
   <img src="KlipperScreen/mmu_filament_editor2.png" alt="KlipperScreen filament editor detail" width="80%">
 </p>
 
-Colour is set by name or an RGB picker; material accepts capital letters,
+Color is set by name or an RGB picker; material accepts capital letters,
 digits, and `+`/`-`/`_` (no spaces). Filament availability can also be set
 here directly, skipping an automatic gate check if you're confident it's
 correct.

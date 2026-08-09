@@ -36,7 +36,7 @@ Setting `log_startup_status: 1` in `mmu_parameters.cfg` (or running
 [`MMU_STATUS`](Command-Reference.md#mmu_status) at any time) shows a visual
 summary of exactly what was recovered:
 
-```text
+```{.text .console-output}
 Unit : -------------------- unit0 ---------------------|
 Gate :  |0  |1  |2  |3  |4  |5  |6  |7  |8  |
 Tools:  |T0 |T1 |T2 |T4 | - |T5 |T6 |T7 |T8 |
@@ -59,12 +59,12 @@ unit gets its own block in this display, side by side.
 
 Resetting specific pieces of state, rather than everything:
 
-```yaml
+```text
 MMU_RESET CONFIRM=1           # Reset gate/TTG/EndlessSpool maps and current selection/position back to defaults
 MMU_STATS RESET=1             # Reset swap and gate statistics only (not consumption counters - see below)
 MMU_TTG_MAP RESET=1           # Reset just the tool-to-gate mapping
 MMU_ENDLESS_SPOOL RESET=1     # Reset just the EndlessSpool groups
-MMU_GATE_MAP RESET=1          # Reset filament type/colour/availability for every gate
+MMU_GATE_MAP RESET=1          # Reset filament type/color/availability for every gate
 MMU_RECOVER                   # Reconcile saved state against what's actually loaded (see Troubleshooting)
 ```
 
@@ -86,7 +86,7 @@ after handling the MMU while it was off.
 Defaults for the maps above can be preset in `mmu.cfg`, so a reset restores
 *your* starting point rather than a blank one:
 
-```yaml
+```ini
 default_gate_status          : 1, 0, 1, 2, 2, -1, -1, 0, 1
 default_gate_vendor          : eSun, Prusa, ...
 default_gate_filament_name   : one, two, three, ...

@@ -26,7 +26,7 @@ That distinction decides what happens next:
   automatically. No pause at all.
 
 A "group" is just every gate loaded with the same filament (typically the
-same colour and material, on separate spools) - EndlessSpool cycles through
+same color and material, on separate spools) - EndlessSpool cycles through
 a group's gates in order, skipping any it already knows are empty, and gives
 up (falling back to a pause) only once every gate in the group has been
 tried. The same mechanism can also apply at the *start* of a load rather than
@@ -53,7 +53,7 @@ Two checkboxes live under **Software Options** in menuconfig:
 Both default **off**. They set two plain settings in `mmu.cfg`, alongside two
 more that only a hand-edit reaches:
 
-```yaml
+```ini
 endless_spool_enabled    : 0    # 0 = disable, 1 = enable EndlessSpool
 endless_spool_on_load    : 0    # 0 = don't apply on load, 1 = run EndlessSpool if the gate is empty
 endless_spool_eject_gate : -1   # Which gate to eject filament remains to. -1 = current gate
@@ -86,14 +86,14 @@ benefit from this option.
 
 Full parameter reference: [`MMU_ENDLESS_SPOOL`](Command-Reference.md#mmu_endless_spool).
 
-```yaml
+```text
 MMU_ENDLESS_SPOOL                     # Report current status and groups
 MMU_ENDLESS_SPOOL GROUPS=1,1,2,2      # Gates 0+1 share a group, gates 2+3 share another
 MMU_ENDLESS_SPOOL RESET=1             # Back to the default grouping (normally one gate per group)
 MMU_ENDLESS_SPOOL ENABLE=0 QUIET=1    # Turn EndlessSpool off without any console/log output
 ```
 
-```text
+```{.text .console-output}
 MMU_ENDLESS_SPOOL
 EndlessSpool is enabled
 EndlessSpool Groups:
@@ -111,7 +111,7 @@ else is rejected with an error rather than partially applied.
 mapped to gate 0, and gate 3 already known empty from an earlier runout,
 gate 0 running dry mid-print produces:
 
-```text
+```{.text .console-output}
 Gate 0 is empty! Checking for alternative gates for T0 in EndlessSpool Group A (checked gates: 3,6)
 Remapping T0 to gate 6
 ```
@@ -122,7 +122,7 @@ it's already marked empty, and gate 6 is the first one found that isn't. If
 every other gate in the group is also empty, the print pauses instead
 (same as EndlessSpool being off):
 
-```text
+```{.text .console-output}
 Gate 0 is empty!
 No alternatives gates available after checking for T0 in EndlessSpool Group A (checked gates: 3,6)
 ```
@@ -130,7 +130,7 @@ No alternatives gates available after checking for T0 in EndlessSpool Group A (c
 To rehearse the whole thing without an actual runout, use
 [`MMU_TEST_RUNOUT`](Command-Reference.md#mmu_test_runout):
 
-```yaml
+```text
 MMU_TEST_RUNOUT            # Simulate a runout - triggers EndlessSpool if enabled
 MMU_TEST_RUNOUT TYPE=clog  # Simulate a clog/tangle instead - always pauses
 ```
@@ -150,7 +150,7 @@ read it, but new macros should use `endless_spool_enabled` instead.
 ## Tuning
 
 - **Set up groups before you need them, not during a print.** Work out which
-  gates share the same filament (colour and material) and assign them the
+  gates share the same filament (color and material) and assign them the
   same group number with `MMU_ENDLESS_SPOOL GROUPS=...` - a gate with no
   match of its own should get a group number no other gate shares.
 - **Rehearse with `MMU_TEST_RUNOUT` first.** It exercises the exact same

@@ -11,7 +11,7 @@ but happening at upload time rather than at slice time, and using `!...!`
 delimiters specifically so the two don't collide.
 
 The main use is passing print-specific information into your `START_PRINT`
-macro - which tools are actually used, filament colours/materials/
+macro - which tools are actually used, filament colors/materials/
 temperatures from the slicer, purge volumes - without having to duplicate
 that information by hand or rely on a slicer placeholder that may not exist
 yet (`{referenced_tools}`, for example, has been a pending PrusaSlicer
@@ -30,7 +30,7 @@ slicer rather than just re-uploading the same file.
 Installed automatically as part of `moonraker.conf`'s `[mmu_server]`
 section:
 
-```yaml
+```ini
 [mmu_server]
 enable_file_preprocessor: True        # Substitute !placeholder! tokens on upload
 enable_toolchange_next_pos: True      # See Next Toolhead Position below
@@ -43,10 +43,10 @@ preprocessor without removing the section entirely.
     Preprocessing a very large g-code file can occasionally take longer
     than Moonraker's default 20-second metadata-parsing timeout. If you see
     a Moonraker timeout error on upload, raise it in `moonraker.conf`:
-    ```yaml
-    [file_manager]
-    default_metadata_parser_timeout: 120
-    ```
+
+        :::ini
+        [file_manager]
+        default_metadata_parser_timeout: 120
 
 ## Parameter Setup
 
@@ -55,7 +55,7 @@ values this preprocessor injects - it always injects them, but whether
 `MMU_CHANGE_TOOL` acts on the toolhead-position one depends on
 `mmu_macro_vars.cfg`:
 
-```yaml
+```ini
 variable_restore_xy_pos : "next"   # last|next|none - toolhead XY behaviour after a toolchange
 ```
 
@@ -73,7 +73,7 @@ in `START_PRINT`:
 | `!total_toolchanges!` | Count of tool-change commands the slicer emitted (excluding the initial tool). Some slicers offer their own `{total_toolchanges}` placeholder, but it isn't always supported - `!total_toolchanges!` always works. Pass it in at print start as recommended and Happy Hare keeps a running countdown of changes remaining |
 | `!filament_names!` | Comma-separated filament names, one per extruder/tool |
 | `!materials!` | Comma-separated material types, one per tool - also what the `material` [automap strategy](Feature-Gate-TTG-Maps.md#automatic-ttg-mapping) matches against |
-| `!colors!` | Comma-separated colours, one per tool |
+| `!colors!` | Comma-separated colors, one per tool |
 | `!temperatures!` | Comma-separated print temperatures, one per tool |
 | `!purge_volumes!` | Comma-separated N×N purge-volume matrix - see [Tip Forming and Purging](Feature-Tip-Forming-Purging.md) |
 
@@ -90,7 +90,7 @@ Combined with [`MMU_CHECK_GATE`](Command-Reference.md#mmu_check_gate), this
 lets a start macro verify every gate the print needs actually has filament
 before committing to the print:
 
-```yaml
+```text
 START_PRINT REFERENCED_TOOLS=!referenced_tools! INITIAL_TOOL={initial_tool} ...
 ```
 
@@ -111,7 +111,7 @@ gcode:
 
 !!! note
     A print that selects tool 0 at least once (the normal case for any
-    Happy Hare print, even single-colour) substitutes `!referenced_tools!`
+    Happy Hare print, even single-color) substitutes `!referenced_tools!`
     with `0`. A file with no tool-selection line at all - a genuinely
     non-MMU print run through the same printer profile - leaves the
     placeholder unsubstituted, literally `!referenced_tools!`, in the
@@ -125,7 +125,7 @@ gcode:
 
 ### Worked example: `!colors!`
 
-```yaml
+```text
 START_PRINT COLORS=!colors! ...
 ```
 
@@ -142,19 +142,19 @@ gcode:
 ```
 
 This is a *manual* alternative shown for illustration - the recommended
-`MMU_START_SETUP` macro already stores slicer colours in the slicer tool map
+`MMU_START_SETUP` macro already stores slicer colors in the slicer tool map
 for you, and setting an LED segment's effect to `slicer_color` displays them
-with no macro work at all. `gate_color_rgb` (gate map colours) and
-`slicer_color_rgb` (slicer tool map colours) are both available as RGB
+with no macro work at all. `gate_color_rgb` (gate map colors) and
+`slicer_color_rgb` (slicer tool map colors) are both available as RGB
 `(r, g, b)` tuples if you want to drive something other than Happy Hare's
 own [LEDs](Feature-LEDs.md) with them.
 
-Once colours are registered against the gate map this way (rather than left
+Once colors are registered against the gate map this way (rather than left
 in the slicer tool map), the `filament_color` effect is what displays them.
-For example, to show the current gate's colour on both the exit and status
+For example, to show the current gate's color on both the exit and status
 LEDs:
 
-```yaml
+```text
 MMU_LED EXIT_EFFECT=filament_color STATUS_EFFECT=filament_color
 ```
 

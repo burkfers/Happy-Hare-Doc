@@ -186,13 +186,13 @@ def render_command(cmd):
 
     params = strip_heading_line(cmd["help_params"])
     if params:
-        lines += ["**Parameters**", "", "```", params, "```", ""]
+        lines += ["**Parameters**", "", "```{.text .console-output}", params, "```", ""]
 
     supplement = cmd["help_supplement"].strip()
     if supplement:
         # HELP_SUPPLEMENT is shown verbatim - it's exactly what `CMD HELP=1` prints
         # on a real printer, "Examples:" line included.
-        lines += ["```", supplement, "```", ""]
+        lines += ["```{.text .console-output}", supplement, "```", ""]
 
     return "\n".join(lines)
 

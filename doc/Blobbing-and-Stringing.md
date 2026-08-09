@@ -3,7 +3,7 @@
 This page assumes your MMU is already set up and working, and walks through
 tuning the toolhead dimensions and toolchange movement that most affect
 print quality - blobs on the wipe tower, and stringing when the toolhead
-moves away for a colour change. Some of this makes more sense once you've
+moves away for a color change. Some of this makes more sense once you've
 got some hands-on experience with a starting configuration borrowed from
 someone else's setup, rather than reading it cold.
 
@@ -121,7 +121,7 @@ Reattach the bowden tube if you removed it for the cold pull, select the
 gate you want to calibrate with, and make sure filament is available and
 parked at the gate - not loaded into the extruder yet. Then:
 
-```yaml
+```text
 MMU_CALIBRATE_TOOLHEAD CLEAN=1
 ```
 
@@ -129,7 +129,7 @@ MMU_CALIBRATE_TOOLHEAD CLEAN=1
 repeatability). This runs a series of probing moves on a cold extruder and
 reports the empty-toolhead dimensions:
 
-```text
+```{.text .console-output}
 Measuring clean toolhead dimensions after cold pull...
 Measured toolhead_sensor_to_nozzle: 62.1
 Measured toolhead_extruder_to_nozzle: 70.6
@@ -190,11 +190,11 @@ dirty the same way an eject normally would:
 
 With the nozzle now "dirty," measure how much filament that leaves behind:
 
-```yaml
+```text
 MMU_CALIBRATE_TOOLHEAD DIRTY=1
 ```
 
-```text
+```{.text .console-output}
 -----------------------------------
 Calibration Results (dirty nozzle):
 > toolhead_residual_filament: 3.0 (currently: 3.4)
@@ -246,11 +246,10 @@ next load.
 4. `MMU_UNLOAD SKIP_TIP=1` - unload without re-running tip forming.
 5. With filament unloaded/parked and the nozzle cold:
 
-```yaml
-MMU_CALIBRATE_TOOLHEAD CUT=1
-```
+        :::text
+        MMU_CALIBRATE_TOOLHEAD CUT=1
 
-```text
+```{.text .console-output}
 -----------------------------------
 Calibration Results (cut tip):
 > variable_blade_pos: 36.2 (currently: 37.5)
@@ -270,7 +269,7 @@ New calibrated variables active until restart. Update mmu_macro_vars.cfg to pers
 </p>
 
 A larger `variable_retract_length` needs less purge to clear the previous
-colour, but too aggressive risks clogs (you're cutting a still-hot section
+color, but too aggressive risks clogs (you're cutting a still-hot section
 of filament) - roughly 5mm shorter than `variable_blade_pos` is a reasonable
 starting point; shorten it further if clogging shows up. Lock any bowden
 tension sensor in place for this step too.
@@ -295,7 +294,7 @@ for the full mechanism) bundles this as one of five values in its
 per-operation tuple - x, y, z-hop, z-hop ramp, and retraction - rather than
 as separate settings:
 
-```yaml
+```ini
 variable_park_toolchange: -999, -999, 1, 10, 2
 ```
 
@@ -305,7 +304,7 @@ enough to minimize oozing (a little more on high-flow systems); the
 retract/un-retract speed itself is set separately and independently of your
 normal load/unload speeds:
 
-```yaml
+```ini
 variable_retract_speed: 25      ; mm/s
 variable_unretract_speed: 25    ; mm/s
 ```
@@ -358,7 +357,7 @@ above.
 2. Open the extruder latch, manually feed in ~250mm of filament, close the
    latch.
 3. Extrude 20-30mm, or until it comes out the loaded filament's actual
-   colour.
+   color.
 4. Turn the heater off and let the nozzle cool.
 5. Keep the nozzle full while it's still reasonably hot by extruding 1-2mm
    occasionally.
@@ -381,11 +380,11 @@ the actual pull:
    rather feel the correct pace yourself (some extruders, e.g. Galileo 2,
    have enough grip/torque to manage without any manual help at all).
 
-```yaml
+```text
 MMU_COLD_PULL MATERIAL=pla
 ```
 
-```text
+```{.text .console-output}
 Cold Pull with pull_temp=120°C, hot_temp=250°C, min_extrude_temp=160°C, cold_temp=45°C
 Heating extruder to 250°C
 Cleaning nozzle tip with 25mm of filament
@@ -424,7 +423,7 @@ It can take a few attempts to get a clean result.
 Beyond `MATERIAL=`, every temperature/speed value has its own override -
 useful if the defaults below don't suit your specific filament:
 
-```text
+```{.text .console-output}
 MATERIAL          = nylon|pla|abs|petg  Starting temperature profile
 HOT_TEMP          = #                   Initial high temp
 COLD_TEMP         = #                   Temp to cool to before pulling

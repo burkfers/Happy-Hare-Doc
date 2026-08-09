@@ -55,7 +55,7 @@ gate, bowden, toolhead, nozzle - each independently tunable in
 actually fitted. `log_visual: 1` renders each phase in a compact ASCII
 diagram as it happens:
 
-```text
+```{.text .console-output}
 Loading filament...
 1.  MMU [T2] >.. [En] ....... [Ex] .. [Ts] .. [Nz] UNLOADED (@0.0 mm)
 2.  MMU [T2] >>> [En] >...... [Ex] .. [Ts] .. [Nz] (@43.8 mm)
@@ -177,7 +177,7 @@ stale, which then surfaces as a confusing second error on `RESUME`.
 state - gate/tool availability, current selection, and filament position -
 so you can judge whether anything needs correcting:
 
-```text
+```{.text .console-output}
 Gates: |#0 |#1 |#2 |#3 |#4 |#5 |#6 |#7 |#8 |
 Tools: |T0 |T1 |T2 |T3 |T4 |T5 |T6 |T7 |T8 |
 Avail: | B | B | B | ? | . | ? | S | ? | B |
@@ -188,7 +188,7 @@ MMU [T2] >>> [En] >>>>>>> [Ex] >> [Ts] >> [Nz] LOADED (@0.0 mm)
 [`MMU_RECOVER`](Command-Reference.md#mmu_recover) fixes it in most cases,
 run alone or with parameters to state explicitly what's true:
 
-```yaml
+```text
 MMU_RECOVER                            # Re-check sensors/filament position automatically
 MMU_RECOVER TOOL=0                     # Tell Happy Hare T0 is selected; still auto-detect filament position
 MMU_RECOVER TOOL=5 LOADED=1            # Tell Happy Hare T5 is selected and filament is loaded, ready to print

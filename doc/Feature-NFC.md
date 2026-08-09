@@ -41,7 +41,7 @@ A read can be shallow or deep:
   own stored data, when the tag carries any. Several third-party tag
   formats are recognised (Bambu, Creality, and the plain NDEF format used by
   OpenSpool/OpenTag-style tags and printable QR/NFC combo tags), giving
-  material, colour, vendor and temperature straight from the tag - useful
+  material, color, vendor and temperature straight from the tag - useful
   on its own, and it's *also* what feeds
   [Spoolman auto-create](Feature-Spoolman.md#parameter-setup) for a tag
   Spoolman has never seen before. A tag in a format Happy Hare doesn't
@@ -85,7 +85,7 @@ and the shared `0x24`/`0x28` address stops being a conflict.
 That produces one `[mmu_nfc_reader <name>]` section per reader in
 `mmu_hardware.cfg`. A shared RC522 over SPI:
 
-```yaml
+```ini
 [mmu_nfc_reader unit0_nfc]
 reader_type : rc522
 cs_pin      : unit0:PA4
@@ -96,7 +96,7 @@ debug       : 0
 A per-gate PN532, wired for software I2C so each gate gets an independent
 bus at the shared `0x24` address:
 
-```yaml
+```ini
 [mmu_nfc_reader unit0_nfc0]
 reader_type          : pn532
 i2c_mcu              : unit0
@@ -111,7 +111,7 @@ The owning `[mmu_unit]` in the same file then names the reader(s) it uses -
 `nfc_reader` for a shared reader, or `nfc_readers` (one name per gate, blank
 for a gate with none) for per-gate:
 
-```yaml
+```ini
 nfc_reader  : unit0_nfc               # Shared reader
 nfc_readers : unit0_nfc0, unit0_nfc1  # Per-gate, one per gate slot
 ```
@@ -128,7 +128,7 @@ and capturing one would need extra scene setup not done this session.
 
 In `mmu_parameters.cfg` (per unit):
 
-```yaml
+```ini
 nfc_deep_read               : 1        # Parse full tag contents, not just the UID
 nfc_gate_jog_scan_window    : -50, 50  # Max retract/extrude (mm) when jogging to find a tag during MMU_NFC_SCAN. "0, 0" disables jogging
 nfc_preload_jog_scan_window : -50, 50  # Same, but for the compound NFC/gate home MMU_PRELOAD runs (see Tuning). Defaults to nfc_gate_jog_scan_window's value
@@ -166,7 +166,7 @@ Full parameter reference: [`MMU_NFC`](Command-Reference.md#mmu_nfc),
 `MMU_NFC` is the day-to-day status/control command, addressing either the
 shared reader, one gate, or several:
 
-```yaml
+```text
 MMU_NFC                        # Status of every configured reader
 MMU_NFC DETAILS=1              # As above, but show the actual cached UIDs
 MMU_NFC GATE=3 READ=1          # Read the reader on gate 3 once, report the result
@@ -179,7 +179,7 @@ MMU_NFC GATE=2 INIT=1          # (Re)initialize a reader that isn't responding
 MMU_NFC INIT_ALL=1             # (Re)initialize every reader on every unit
 ```
 
-```text
+```{.text .console-output}
 MMU_NFC DETAILS=1
 MMU NFC readers:
 shared:  enabled=1 active=1 alive=1 tag=none
@@ -193,7 +193,7 @@ tag the first time. It jogs the filament within
 `nfc_gate_jog_scan_window` until the tag reaches the reader, reads it, then
 re-parks:
 
-```yaml
+```text
 MMU_NFC_SCAN        # Scan the current gate
 MMU_NFC_SCAN GATE=2 # Scan a specific gate
 ```
@@ -240,7 +240,7 @@ than one reader is configured.
 `printer.mmu.nfc` is a list of per-unit dicts, present only when at least
 one unit has a reader configured:
 
-```text
+```{.text .console-output}
 {'unit': 'unit0', 'polling': True,
  'shared': {'enabled': True, 'active': True, 'alive': True, 'present': False, 'uid': None},
  'gates': {0: {'enabled': True, 'active': True, 'alive': True, 'present': True, 'uid': 'E2003412'}}}

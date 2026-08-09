@@ -22,7 +22,7 @@ it that will look like bugs the first time you see them.
 make console
 ```
 
-```
+```{.text .console-output}
 > MMU_CHANGE_TOOL TOOL=1
 Tool change requested: T1
 ...
@@ -131,7 +131,7 @@ Seconds are shown because the virtual clock usually moves in fractions of one: a
 resolution a whole session reads as a single instant. Only the first line of a reply is
 stamped; the rest are indented to line up under it:
 
-```
+```{.text .console-output}
 > MMU_SENSORS
 22:45:16 filament_compression  --> Open
          filament_tension      --> TRIGGERED
@@ -152,7 +152,7 @@ Useful flags — `make console ARGS='...'`:
 --scrollback 5000              # lines kept for /scroll; 0 disables it
 --no-live                      # freeze the clock (default: live at a terminal)
 --no-timestamp                 # no clock in the output (default: on at a terminal)
---color 256|truecolor|16|auto  # colour depth (see below)
+--color 256|truecolor|16|auto  # color depth (see below)
 --log-dir /tmp                 # where mmu.log goes; --no-log to discard it
 --trace 4                      # full Happy Hare narration
 --no-preload                   # leave every gate empty
@@ -172,7 +172,7 @@ boots the machine cold and the calibration warnings then appear for real.
 
 Two more things happen at startup that a printer does for itself and a frozen clock does not:
 
-- **The gate map is primed** — every gate gets a vendor, material, colour and temperature, so
+- **The gate map is primed** — every gate gets a vendor, material, color and temperature, so
   the gate table and the LED `filament_color` effect have something to show instead of
   `Unknown | 200C | Unknown`. Seeded, so a session is reproducible; `--seed N` for a different
   spread, `--no-prime` for none.
@@ -244,7 +244,7 @@ insert by 0.5s and no virtual time ever passed. Everything still completes corre
 of **when Happy Hare produced the line**, not when it was printed — `_drain()` runs after a
 command returns, so stamping there gave every line of a load the same end-of-command reading.
 
-```
+```{.text .console-output}
 > /pace 1
 > MMU_LOAD
 23:05:41 Loading filament...
@@ -267,7 +267,7 @@ is still a cold start.
 Lines the **console itself** adds are dimmed and prefixed `#`, so there is never a question
 about which of them came off the MMU:
 
-```
+```{.text .console-output}
 (")_(") Happy Hare v4.0.0 Ready...          <- Happy Hare, exactly as on a printer
 Unit : ------------- unit0 -------------
 ...
@@ -300,14 +300,14 @@ how the console runs.
 
 ### If a warning shows up on a pink background
 
-Run `make console ARGS='--color 16'`. Happy Hare's console messages carry HTML colours which
+Run `make console ARGS='--color 16'`. Happy Hare's console messages carry HTML colors which
 the console translates to ANSI, and 24-bit `ESC[38;2;R;G;Bm` is **not** safely ignored by a
 terminal that lacks truecolor — the channels get read as separate SGR codes. HH's warning
-colour is `#FF69B4`, whose green channel is `0x69` = 105, and SGR 105 means *bright magenta
+color is `#FF69B4`, whose green channel is `0x69` = 105, and SGR 105 means *bright magenta
 background*. So the warning arrives on a pink background.
 
 `--color` defaults to `auto`, which only uses truecolor when `$COLORTERM` says `truecolor`
-or `24bit` and otherwise emits 256-colour (`38;5;N`). `--color 16` is the belt-and-braces
+or `24bit` and otherwise emits 256-color (`38;5;N`). `--color 16` is the belt-and-braces
 option: it emits nothing but plain `30-37`/`90-97`, which no terminal can misread.
 
 The header is **pinned to the top of the terminal** while output scrolls beneath it, and it
@@ -320,7 +320,7 @@ it falls back to reprinting above each prompt.
 
 ### Reading the LED rows
 
-```
+```{.text .console-output}
   led unit0 exit     ██ ██ ██ ██ ██ ██ ██ ██ ██  [gate_status]
   led unit0 entry    ██ ██ ██ ██ ██ ██ ██ ██ ██  [filament_color]
   led unit0 status   ████████  [filament_color]
@@ -328,7 +328,7 @@ it falls back to reprinting above each prompt.
   led unit1 exit     ██████████████ ██████████████ ██████████████ ██████████████  [gate_status]
 ```
 
-One block per **physical** LED, in that LED's own colour: `██` lit, `▓▓` lit but too dim to
+One block per **physical** LED, in that LED's own color: `██` lit, `▓▓` lit but too dim to
 show honestly, `··` off (grey). The LEDs of one gate run together and the gates are separated
 by a space, so ViViD's seven-per-gate strip reads as four groups rather than 28
 undifferentiated cells — and fits in 100 columns, which the ungrouped 117-column version did
@@ -342,10 +342,10 @@ below 25% is therefore painted at 25% with its hue kept, and the lighter glyph i
 you the brightness on screen is a floor rather than a reading.
 
 A lit LED used to be `##`, which was a problem rather than a shorthand: the glyph was painted
-in the LED's colour, and a white or grey LED — `mmu_breathing_white_fast` on `selecting`,
+in the LED's color, and a white or grey LED — `mmu_breathing_white_fast` on `selecting`,
 `mmu_sparkle` on `complete`, `white_light` for an uncoloured gate under `filament_color` — came
 out indistinguishable from ordinary text, because the terminal's default foreground *is* white.
-A block in the same colour still reads as a block.
+A block in the same color still reads as a block.
 
 All four segments are shown. `ercf_vvd`'s unit0 configures every one of them (9 exit, 9 entry,
 4 status, 3 logo) precisely so every effect path has somewhere to land. Note `define_on` in
@@ -365,7 +365,7 @@ The console therefore keeps its own copy of every line it printed — which is a
 `/redraw` repaints from — and **`/s`** (or `/scroll`) opens a viewer over it, header still
 pinned:
 
-```
+```{.text .console-output}
   ...the log, scrolled back...
  scrollback  15-40 of 66 (26 back)   up/down  pgup/pgdn  home/end   q to return
 ```
