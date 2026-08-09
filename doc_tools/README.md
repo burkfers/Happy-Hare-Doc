@@ -7,7 +7,7 @@ interprets what it draws, and renders the screen to a PNG; `doc_tools/shots.py` 
 of images the documentation needs.
 
 The split is deliberate: **this directory is code**, and everything it produces -
-`doc/images/`, `doc/GettingStartedWithBoxTurtle.md` and its image folder,
+`doc/images/`, `doc/GettingStarted-BoxTurtle.md` and its image folder,
 `doc/Command-Reference.md`, the built site itself, any future page - lives under `doc/`
 (or `./site`, for the build) instead. Nothing here is installed on a printer or imported
 by Happy Hare, the installer or the tests. The dependencies (`pyte`, `Pillow`, `zensical`)
@@ -144,8 +144,8 @@ the seed or the unit has to change.
 
 ### A getting-started page's images live next to the page
 
-By convention, a page like `doc/GettingStartedWithBoxTurtle.md` keeps its images in
-`doc/GettingStartedWithBoxTurtle/` — not in the shared `doc/images/` pool. Give the
+By convention, a page like `doc/GettingStarted-BoxTurtle.md` keeps its images in
+`doc/GettingStarted-BoxTurtle/` — not in the shared `doc/images/` pool. Give the
 session an `outdir` (relative to `doc/`) and it always writes there, regardless of
 `--outdir`:
 
@@ -153,9 +153,9 @@ session an `outdir` (relative to `doc/`) and it always writes there, regardless 
 SESSIONS = [
     {
         'name': 'getting-started-boxturtle',
-        'caption': 'doc/GettingStartedWithBoxTurtle.md - first menuconfig pass',
+        'caption': 'doc/GettingStarted-BoxTurtle.md - first menuconfig pass',
         'scenes': _getting_started_boxturtle,
-        'outdir': 'GettingStartedWithBoxTurtle',
+        'outdir': 'GettingStarted-BoxTurtle',
         'seed': 'none',
     },
 ]
@@ -176,7 +176,7 @@ inside a `.md` file:
 
 ```html
 <p align="center">
-  <img src="GettingStartedWithBoxTurtle/01-first-run.png" alt="..." width="70%">
+  <img src="GettingStarted-BoxTurtle/01-first-run.png" alt="..." width="70%">
 </p>
 ```
 

@@ -101,8 +101,8 @@ nav:
       - What Is an MMU?: Conceptual-MMU.md
   - Getting Started:
       - Installation: Installation.md
-      - Box Turtle: GettingStartedWithBoxTurtle.md
-      - BTT ViViD: GettingStartedWithViViD.md
+      - Box Turtle: GettingStarted-BoxTurtle.md
+      - BTT ViViD: GettingStarted-ViViD.md
   - Slicer & Toolchange:
       - Slicer Setup: Slicer-Setup.md
       - Toolchange Movement: Toolchange-Movement.md

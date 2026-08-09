@@ -302,13 +302,13 @@ anything. Don't silently decide something wasn't worth keeping.
 
 | Page | Source | Status |
 |---|---|---|
-| `Installation.md` | `wiki/Installation.md` | **done** — code-verified against the real `install.sh` (flags, usage text) and `installer/build.py`/`Kconfig.options`. Slots in before the per-type Getting Started pages, deliberately scoped to what those pages *don't* cover: cloning, the real flag reference, client macros, upgrading. Dropped the entire v3 sequential-Q&A "Creating Base Klipper Config" walkthrough (10+ screenshots) - v4 replaced that flow with `menuconfig` entirely, already covered per-type by the two `GettingStartedWith*.md` pages; reusing those stale screenshots of a flow that no longer exists would have been wrong. Also dropped the nonfunctional `-r` (Repetier-Server) flag - commented out/TODO in real `install.sh`, doesn't work; corrected the client-macros mechanism from "hand-edit `printer.cfg`" to the real `menuconfig` yes/no prompt (`INSTALL_CLIENT_MACROS`); dropped the `z_hop_height_error`/`z_hop_speed` pause-mechanics paragraph since that setting doesn't exist in v4 (see item 48's `Operation.md` finding on unified parking) - deferred to `Operation.md` instead. |
-| `GettingStartedWithBoxTurtle.md` | existing `doc/` page | **done**, incl. a "Picking a toolhead" step (shared toolhead/extruder geometry database, optional, reduces calibration) with two real screenshots |
-| `GettingStartedWithViViD.md` | new, from `installer/mmu_types/Kconfig.vvd` + `installer/boards/custom/Kconfig.vvd` + `installer/connection/Kconfig.{mmu_mcu,buffer_mcu}` | **done** - second Getting Started page, with a real `getting-started-vivid` `doc_tools/shots.py` session (7 screenshots) for every screen except the two live serial-device-list screens (see session log for why those stay text). Covers the two-separate-MCU serial selection unique to this design, otherwise a lighter walkthrough than Box Turtle's since almost everything defaults correctly for this fully-specified design. |
+| `Installation.md` | `wiki/Installation.md` | **done** — code-verified against the real `install.sh` (flags, usage text) and `installer/build.py`/`Kconfig.options`. Slots in before the per-type Getting Started pages, deliberately scoped to what those pages *don't* cover: cloning, the real flag reference, client macros, upgrading. Dropped the entire v3 sequential-Q&A "Creating Base Klipper Config" walkthrough (10+ screenshots) - v4 replaced that flow with `menuconfig` entirely, already covered per-type by the two `GettingStarted-*.md` pages; reusing those stale screenshots of a flow that no longer exists would have been wrong. Also dropped the nonfunctional `-r` (Repetier-Server) flag - commented out/TODO in real `install.sh`, doesn't work; corrected the client-macros mechanism from "hand-edit `printer.cfg`" to the real `menuconfig` yes/no prompt (`INSTALL_CLIENT_MACROS`); dropped the `z_hop_height_error`/`z_hop_speed` pause-mechanics paragraph since that setting doesn't exist in v4 (see item 48's `Operation.md` finding on unified parking) - deferred to `Operation.md` instead. |
+| `GettingStarted-BoxTurtle.md` | existing `doc/` page | **done**, incl. a "Picking a toolhead" step (shared toolhead/extruder geometry database, optional, reduces calibration) with two real screenshots |
+| `GettingStarted-ViViD.md` | new, from `installer/mmu_types/Kconfig.vvd` + `installer/boards/custom/Kconfig.vvd` + `installer/connection/Kconfig.{mmu_mcu,buffer_mcu}` | **done** - second Getting Started page, with a real `getting-started-vivid` `doc_tools/shots.py` session (7 screenshots) for every screen except the two live serial-device-list screens (see session log for why those stay text). Covers the two-separate-MCU serial selection unique to this design, otherwise a lighter walkthrough than Box Turtle's since almost everything defaults correctly for this fully-specified design. |
 | `MMU-Types-Overview.md` (comparison table: all 15 Kconfig types, selector class, gate count, status) | new, from `installer/Kconfig.mmu_types/*` | new |
 | `Upgrading-from-v3.md` | `wiki/Upgrade-Notice.md`, `wiki/Change-Log.md` | rewrite for v4 |
-| `GettingStartedWith3MS.md` | `wiki/Quick-Start-3MS.md` | new — found during the 2026-08-07 wiki-gap audit (item 47 below), not previously on this table at all. Same genre as the two `GettingStartedWith*.md` pages above (real menuconfig screenshots via `doc_tools/shots.py`, not a port of the wiki's raw command transcript). |
-| `GettingStartedWithQuattroBox.md` | `wiki/Quick-Start-QuattroBox.md` | new — same finding/genre as 3MS above. |
+| `GettingStarted-3MS.md` | `wiki/Quick-Start-3MS.md` | new — found during the 2026-08-07 wiki-gap audit (item 47 below), not previously on this table at all. Same genre as the two `GettingStarted-*.md` pages above (real menuconfig screenshots via `doc_tools/shots.py`, not a port of the wiki's raw command transcript). |
+| `GettingStarted-QuattroBox.md` | `wiki/Quick-Start-QuattroBox.md` | new — same finding/genre as 3MS above. |
 
 ### 2. Concepts
 
@@ -568,7 +568,7 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
    Alpine parity testing, not just "a clean sandbox").
 10. Swapped the `Dev-Simulator.md` ASCII transcription for a real screenshot the
     user supplied as a file, and added the "Picking a toolhead" step to
-    `GettingStartedWithBoxTurtle.md` with two new real screenshots generated via
+    `GettingStarted-BoxTurtle.md` with two new real screenshots generated via
     `doc_tools/shots.py` (extended the existing `getting-started-boxturtle`
     session, renumbering `11-spoolman-readonly.png` → `13-`). Hit and fixed a
     real `doc_tools/capture.py` quirk along the way: `toggle()` on a long
@@ -918,7 +918,7 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
     `unit0:PA0`-style pins already used on `Feature-Espooler.md`. Worth
     grepping any future page's example `.cfg` blocks for a bare symbolic name
     where a real pin should be, since this is an easy slip to reintroduce.
-28. **Second Getting Started page: `GettingStartedWithViViD.md`.** BTT ViViD
+28. **Second Getting Started page: `GettingStarted-ViViD.md`.** BTT ViViD
     is a fully-specified type (`installer/mmu_types/Kconfig.vvd`) - LEDs,
     dual-sensor environment monitoring, heater, per-gate NFC readers, and the
     indexed selector are all `select`ed unconditionally, and `BOARD_TYPE`/
@@ -953,7 +953,7 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       once the user asked for captures after all - see item 29.
     - **Toolhead selection and the Spoolman NFC auto-create example** are
       both generic, non-ViViD-specific Kconfig options (same ones
-      `GettingStartedWithBoxTurtle.md` uses) - written fresh rather than
+      `GettingStarted-BoxTurtle.md` uses) - written fresh rather than
       copy-pasted, but deliberately parallel in structure. Caught and fixed
       one own mistake before finishing: first draft implied **Select
       spoolman spool manager support** defaults to `Push` for ViViD - it
@@ -961,7 +961,7 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       `Kconfig.options` directly), ViViD's built-in NFC readers just make
       turning it on worthwhile.
     - **The `./install.sh` / `./install.sh -i` sections are intentionally
-      near-verbatim copies** of `GettingStartedWithBoxTurtle.md`'s own
+      near-verbatim copies** of `GettingStarted-BoxTurtle.md`'s own
       wording, per explicit request to include that text on this page too
       rather than just cross-reference it - this is genuinely
       installer-universal behaviour, not something to vary per MMU type.
@@ -969,7 +969,7 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       time a section gains its first page" rule doesn't apply here - Getting
       Started already has its first card (pointing at the Box Turtle guide),
       so a second page in the same section doesn't get a second card.
-29. **Added real menuconfig screenshots to `GettingStartedWithViViD.md`
+29. **Added real menuconfig screenshots to `GettingStarted-ViViD.md`
     after all**, per explicit follow-up request - a new `getting-started-vivid`
     session in `doc_tools/shots.py` (seed `'none'`, same first-run approach as
     `getting-started-boxturtle`), 7 images: MMU Type (BTT ViViD + its buffer
@@ -1791,7 +1791,7 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       than coincidentally matching it) against `rgba(0,0,0,0.87)` on
       `.md-footer` and a further `rgba(0,0,0,0.32)` on `.md-footer-meta`.
       Confirmed the same fix holds for the first page in the nav order
-      (`GettingStartedWithBoxTurtle.md` — empty `<span>` placeholder where
+      (`GettingStarted-BoxTurtle.md` — empty `<span>` placeholder where
       "Previous" would go, real "Next" link, still footer's first child).
       One caveat noted, not fixed: at the 1280px-wide viewport used for
       testing, Material bumps root font-size to `20px` in a responsive
@@ -1977,7 +1977,7 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       "a large enough topic to deserve their own future page" - that future
       page was never actually added to §10a until this pass. `wiki/Quick-
       Start-3MS.md` and `wiki/Quick-Start-QuattroBox.md` are the same
-      genre as the two already-done `GettingStartedWith*.md` pages (Box
+      genre as the two already-done `GettingStarted-*.md` pages (Box
       Turtle, ViViD) but for two more MMU hardware types - §1's own table
       only ever named those two, with no row for these at all. All three
       added to their respective tables above.
@@ -1996,7 +1996,7 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       `wiki/Happy-Hare-Parameters.md`, and `wiki/Quick-Start-BoxTurtle.md`
       are fully superseded by the already-done generated/rewritten
       `Command-Reference.md`, `Parameters.md`, and
-      `GettingStartedWithBoxTurtle.md` respectively. `wiki/_Footer.md`/
+      `GettingStarted-BoxTurtle.md` respectively. `wiki/_Footer.md`/
       `wiki/_Sidebar.md` are wiki chrome, not content.
     - Reported as a chat summary first, then logged here on request - the
       summary itself (section-by-section open list, table above) isn't
@@ -2478,11 +2478,11 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       buffer/espooler bullet above) and `Feature-Espooler.md`.
     - **HTLF logged here, not yet added anywhere else** except one vendor
       table row on `Conceptual-MMU.md` (Type-A, "shared gear stepper, rotary
-      cam selector") since it's now visible on `GettingStartedWithBoxTurtle.md`'s
+      cam selector") since it's now visible on `GettingStarted-BoxTurtle.md`'s
       own MMU Type screenshot - worth remembering when `MMU-Types-Overview.md`
       finally gets written (§1).
     - **One pre-existing screenshot bug fixed as an incidental side effect,
-      not a source change**: `GettingStartedWithBoxTurtle/11-toolhead-selected.png`
+      not a source change**: `GettingStarted-BoxTurtle/11-toolhead-selected.png`
       used to show a phantom `( ) default` line at the top of the Toolhead
       list that doesn't exist in any Kconfig source (`installer/toolheads/`
       has no file that would produce it, confirmed by opening the Toolhead
@@ -2504,7 +2504,7 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
 done, and §10 down to just its own remaining ⚠️-flagged pages, the next open
 sections are §1's remaining pages (`MMU-Types-Overview.md` - remember HTLF,
 new per item 56 above - `Upgrading-from-v3.md`, and the
-`GettingStartedWith3MS.md`/`GettingStartedWithQuattroBox.md` pair from
+`GettingStarted-3MS.md`/`GettingStarted-QuattroBox.md` pair from
 item 47), §2's other two pages (`Understanding-Operation.md`,
 `Print-Job-State-Machine.md` - lean on `Conceptual-MMU.md`'s terminology
 rather than re-defining it), §3's four `Configuring-mmu*.cfg.md` generators

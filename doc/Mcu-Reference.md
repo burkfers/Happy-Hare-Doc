@@ -6,7 +6,7 @@ ones with images available, plus the complete current list of every board
 `menuconfig`'s **Board type** screen offers. Picking one there sets up the
 default pin layout for your setup automatically; pins can still be
 customized afterward in Advanced Settings if needed. See
-[Getting Started with Box Turtle](GettingStartedWithBoxTurtle.md#board-type)
+[Getting Started with Box Turtle](GettingStarted-BoxTurtle.md#board-type)
 for what that screen actually looks like.
 
 ## Popular MCUs
@@ -145,7 +145,7 @@ part of the design:
 | Box Turtle/KMS | BIQU KMS MCU | |
 | BTT ViViD | BTT ViViD MCU | |
 
-See [Getting Started with BTT ViViD](GettingStartedWithViViD.md) for that
+See [Getting Started with BTT ViViD](GettingStarted-ViViD.md) for that
 design's own MCU connection walkthrough.
 
 ## Flashing Firmware
@@ -181,8 +181,8 @@ all:
 
 ## See also
 
-- [Getting Started with Box Turtle](GettingStartedWithBoxTurtle.md#board-type)
-- [Getting Started with BTT ViViD](GettingStartedWithViViD.md)
+- [Getting Started with Box Turtle](GettingStarted-BoxTurtle.md#board-type)
+- [Getting Started with BTT ViViD](GettingStarted-ViViD.md)
 - [Installation](Installation.md)
 
 ---

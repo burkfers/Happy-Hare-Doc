@@ -1,7 +1,7 @@
 # Kconfig & Installer Architecture
 
 How a `menuconfig` choice becomes a real `.cfg` file on the printer - the
-pipeline behind [Getting Started with Box Turtle](GettingStartedWithBoxTurtle.md)
+pipeline behind [Getting Started with Box Turtle](GettingStarted-BoxTurtle.md)
 and [doc_tools' screenshot pipeline](Dev-Doc-Tooling.md), from a contributor's
 side rather than a user's.
 
@@ -104,7 +104,7 @@ from-scratch parser.
   → writer) built specifically so a user's hand-edits survive a
   regeneration. This is the **Refresh / Replace / Merge** choice `./install.sh -i`
   asks about when it detects a conflict - see the note on it in
-  [Getting Started with Box Turtle](GettingStartedWithBoxTurtle.md#saving-and-coming-back-later).
+  [Getting Started with Box Turtle](GettingStarted-BoxTurtle.md#saving-and-coming-back-later).
 - Runs any applicable `installer/upgrades.py` step - a per-version-pair
   `upgrade_<from>_to_<to>(self, cfg)` method that migrates old option names/
   values forward. Every function currently in that file is commented out

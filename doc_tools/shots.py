@@ -51,7 +51,7 @@ from .capture import DEFAULT_COLS, DEFAULT_SEED, DOC, IMAGES, MIN_ROWS, Menuconf
 #   caption  what the session covers, for whoever writes the prose
 #   scenes   f(mc, shot) - navigate, calling shot('image-name') at each screen
 #   outdir   where this session's images go, relative to doc/ - name it after the
-#            page (e.g. 'GettingStartedWithBoxTurtle'). Every session should set
+#            page (e.g. 'GettingStarted-BoxTurtle'). Every session should set
 #            this; see the header above.
 #   seed     a config to start from - a built-in name or a path (default: boxturtle)
 #   min_rows shortest a fitted screenshot may be (default 30, for a consistent set)
@@ -63,7 +63,7 @@ from .capture import DEFAULT_COLS, DEFAULT_SEED, DOC, IMAGES, MIN_ROWS, Menuconf
 
 def _getting_started_boxturtle(mc, shot):
     """
-    For doc/GettingStartedWithBoxTurtle.md - the installer screens a first-time Box
+    For doc/GettingStarted-BoxTurtle.md - the installer screens a first-time Box
     Turtle owner walks through, in that order. Runs from a bare Kconfig ('seed': None)
     rather than the boxturtle seed used elsewhere, because the page is about DRIVING
     menuconfig - selecting MMU Type is the first real thing a reader does with it,
@@ -137,7 +137,7 @@ def _getting_started_boxturtle(mc, shot):
 
 def _getting_started_vivid(mc, shot):
     """
-    For doc/GettingStartedWithViViD.md - the installer screens a first-time BTT ViViD
+    For doc/GettingStarted-ViViD.md - the installer screens a first-time BTT ViViD
     owner walks through. Like the Box Turtle session, starts from a bare Kconfig
     ('seed': None) so selecting MMU Type is the first real action, not something the
     seed already decided.
@@ -505,9 +505,9 @@ def _macro_purge(mc, shot):
 SESSIONS = [
     {
         'name': 'getting-started-boxturtle',
-        'caption': 'doc/GettingStartedWithBoxTurtle.md - first menuconfig pass for a Box Turtle',
+        'caption': 'doc/GettingStarted-BoxTurtle.md - first menuconfig pass for a Box Turtle',
         'scenes': _getting_started_boxturtle,
-        'outdir': 'GettingStartedWithBoxTurtle',
+        'outdir': 'GettingStarted-BoxTurtle',
         'seed': 'none',
     },
     {
@@ -579,9 +579,9 @@ SESSIONS = [
     },
     {
         'name': 'getting-started-vivid',
-        'caption': 'doc/GettingStartedWithViViD.md - first menuconfig pass for a BTT ViViD',
+        'caption': 'doc/GettingStarted-ViViD.md - first menuconfig pass for a BTT ViViD',
         'scenes': _getting_started_vivid,
-        'outdir': 'GettingStartedWithViViD',
+        'outdir': 'GettingStarted-ViViD',
         'seed': 'none',
     },
     {

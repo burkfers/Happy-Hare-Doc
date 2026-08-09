@@ -8,8 +8,8 @@ setting up — cloning, the installer's command-line flags, the optional client
 macros, and upgrading later. The actual first-run walkthrough (the
 `menuconfig` screens you'll see and the choices worth pausing on) is one page
 per MMU type - see the getting started guides for popular machines as examples
-[Getting Started with Box Turtle](GettingStartedWithBoxTurtle.md)
-or [Getting Started with BTT ViViD](GettingStartedWithViViD.md).
+[Getting Started with Box Turtle](GettingStarted-BoxTurtle.md)
+or [Getting Started with BTT ViViD](GettingStarted-ViViD.md).
 
 ## Cloning Happy Hare
 
@@ -23,6 +23,11 @@ cd Happy-Hare
 ```
 
 ## Running the Installer
+
+Consult the Getting Started guide for your particular MMU type (or pick a design
+similar to yours because there is often a lot of overlap) for a walk-through of
+essential `menuconfig` screens and hardware verification. In the unusual case
+you need special install options keep reading.
 
 ```bash
 ./install.sh
@@ -128,8 +133,8 @@ default locations and likely miss your actual install.
 
 ## See also
 
-- [Getting Started with Box Turtle](GettingStartedWithBoxTurtle.md)
-- [Getting Started with BTT ViViD](GettingStartedWithViViD.md)
+- [Getting Started with Box Turtle](GettingStarted-BoxTurtle.md)
+- [Getting Started with BTT ViViD](GettingStarted-ViViD.md)
 - [Operation](Operation.md) - what happens when the MMU pauses, and how to
   resume/recover
 

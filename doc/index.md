@@ -129,7 +129,7 @@ Whichever you use, having these ready up front gets you a faster answer:
     New to Happy Hare? Walk through installing and configuring an MMU from
     scratch, `menuconfig` screen by screen.
 
-    [Box Turtle guide &rarr;](GettingStartedWithBoxTurtle.md)
+    [Box Turtle guide &rarr;](GettingStarted-BoxTurtle.md)
 
 -   **Concepts**
 

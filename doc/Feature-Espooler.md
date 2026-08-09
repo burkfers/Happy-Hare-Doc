@@ -153,7 +153,7 @@ An eSpooler and a filament (catchment) buffer both exist to solve the same
 only fit one or the other in practice - but menuconfig no longer *enforces*
 that as a general rule. Box Turtle is the one exception with a hardcoded
 choice: it ships as an eSpooler design (see
-[GettingStartedWithBoxTurtle.md](GettingStartedWithBoxTurtle.md)) and its
+[GettingStarted-BoxTurtle.md](GettingStarted-BoxTurtle.md)) and its
 filament buffer option is always off, regardless of the eSpooler toggle. BTT
 ViViD hardcodes the opposite pairing - both options are off, since it uses a
 different buffer mechanism entirely. On every other MMU type, the two options
@@ -405,7 +405,7 @@ MMU_ESPOOLER
   burst mechanism
 - [Printer Variables: per-gate arrays](Printer-Variables.md#per-gate-arrays-merged-across-every-unit)
   for the `espooler` status field
-- [GettingStartedWithBoxTurtle.md](GettingStartedWithBoxTurtle.md) - enabling
+- [GettingStarted-BoxTurtle.md](GettingStarted-BoxTurtle.md) - enabling
   the eSpooler feature during initial `menuconfig` setup
 
 ---

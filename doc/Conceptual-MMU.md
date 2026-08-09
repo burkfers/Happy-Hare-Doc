@@ -258,7 +258,7 @@ to support it.
   the multi-unit aggregation object
 - [Code Layout: Selector hierarchy](Dev-Code-Layout.md#selector-hierarchy) -
   the real class hierarchy behind this page's mechanism families
-- [Getting Started: Box Turtle](GettingStartedWithBoxTurtle.md) - a concrete
+- [Getting Started: Box Turtle](GettingStarted-BoxTurtle.md) - a concrete
   Type-B setup walkthrough
 
 ---
