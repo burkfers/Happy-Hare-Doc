@@ -2648,6 +2648,25 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       section's existing alphabetical order.
     - Clean `zensical build --clean` after all edits.
 
+61. **Anchor-scroll offset (`--md-scroll-margin`) fixed to clear the taller
+    header**, reported as "TOC/heading links scroll past the header, landing
+    on the text right after it." Confirmed directly (not assumed): the real
+    header renders at 5.6rem (matching `.md-header__inner`'s min-height),
+    but Material bakes its own default straight into `.md-typeset :target`
+    at *build* time (`--md-scroll-margin: 3.6rem`, sized for its stock
+    header) rather than deriving it from the header's actual rendered
+    height - so growing the header earlier in the session never grew this
+    to match. Overrode the same custom property on the same selector
+    (`.md-typeset :target { --md-scroll-margin: 6rem; }`, equal specificity,
+    later in the cascade) rather than fighting it with a competing
+    `scroll-margin-top`. Verified via `getBoundingClientRect()` on a real
+    clicked "On this page" link, not just computed-style inspection - before:
+    heading landed 44px behind the header; after: ~4px clear of it. (The
+    preview server here is a plain static file server over `site/`, not a
+    watch/rebuild loop - `zensical build --clean` is required before a
+    reload picks up any doc/CSS change, confirmed the hard way when the
+    first reload after this edit still served the stale rule.)
+
 **To pick this back up:** with §1, §4, §5, §6, §7, §8, and now §10b Macros
 all done, and §10 down to just its own remaining ⚠️-flagged pages, the next
 open sections are §1's remaining pages (`MMU-Types-Overview.md` - remember

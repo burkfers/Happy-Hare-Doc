@@ -331,6 +331,30 @@ body {
 .md-header__inner {
   min-height: 5.6rem;
 }
+
+/*
+ * Anchor-scroll offset ("On this page"/TOC links, and any #heading URL) -
+ * needs to clear the taller header above, or the target heading lands
+ * partially behind the sticky bar and only the paragraph below it is
+ * visible on landing. Material bakes its own default straight into
+ * `.md-typeset :target` at build time (`--md-scroll-margin: 3.6rem`,
+ * sized for its *stock* header height) rather than deriving it from the
+ * header's actual rendered height, so growing the header above did not
+ * grow this to match - confirmed directly: the real header renders at
+ * 5.6rem (matching `.md-header__inner`'s min-height above, checked via
+ * getBoundingClientRect at both desktop and mobile widths), while a
+ * clicked TOC link was landing at Material's stock 3.6rem, leaving the
+ * heading itself ~2rem behind the header. Same selector as Material's own
+ * rule, so this simply overrides that one custom property in place
+ * (equal specificity, later in the cascade) rather than fighting it with
+ * a competing `scroll-margin-top`. 6rem, not exactly 5.6rem, for a touch
+ * of breathing room below the header rather than the heading landing
+ * flush against its bottom edge.
+ */
+.md-typeset :target {
+  --md-scroll-margin: 6rem;
+}
+
 .md-header__ellipsis {
   position: relative;
 }
