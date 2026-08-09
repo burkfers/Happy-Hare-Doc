@@ -123,7 +123,7 @@ Needed for sequential printing - see [Toolchange Movement](Toolchange-Movement.m
 Add to your slicer's custom **after layer change** gcode:
 
 ```{.text .console-output}
-_MMU_UPDATE_HEIGHT
+MMU_UPDATE_HEIGHT
 
 ; If using the Happy Hare client macros, also add this for pause-at-layer support:
 SET_PRINT_STATS_INFO CURRENT_LAYER={layer_num}

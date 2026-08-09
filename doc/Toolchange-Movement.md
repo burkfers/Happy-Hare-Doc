@@ -238,7 +238,7 @@ needs to be at least as tall as the tallest printed object. Add this to
 your slicer's **after layer change** custom gcode:
 
 ```text
-_MMU_UPDATE_HEIGHT
+MMU_UPDATE_HEIGHT
 ```
 
 That's it - harmless during normal printing, but during sequential
@@ -249,7 +249,7 @@ so it always ends up the intended height above any printed object.
 
 !!! note
     If you need to call this from **before** layer change gcode instead,
-    pass the height explicitly: `_MMU_UPDATE_HEIGHT HEIGHT=[layer_z]` (or
+    pass the height explicitly: `MMU_UPDATE_HEIGHT HEIGHT=[layer_z]` (or
     whatever your slicer's own next-layer-height placeholder is). The
     after-layer-change version needs no parameters, which is why it's
     recommended.
