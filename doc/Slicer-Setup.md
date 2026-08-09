@@ -13,7 +13,7 @@ this properly - see [Start G-Code](#start-g-code) below for why.
 Add this to your slicer's custom start gcode box, in place of a bare call
 to your own start-print macro:
 
-```text
+```{.text .console-output}
 MMU_START_SETUP INITIAL_TOOL={initial_tool} TOTAL_TOOLCHANGES=!total_toolchanges! REFERENCED_TOOLS=!referenced_tools! TOOL_COLORS=!colors! TOOL_TEMPS=!temperatures! TOOL_MATERIALS=!materials! FILAMENT_NAMES=!filament_names! PURGE_VOLUMES=!purge_volumes!
 
 MMU_START_CHECK
@@ -107,7 +107,7 @@ SET_PRINT_STATS_INFO TOTAL_LAYER={total_layer_count} ; For pause-at-layer and be
 
 Add this to your slicer's custom end gcode box:
 
-```text
+```{.text .console-output}
 MMU_END
 ; Place your existing print-end macro call here if you have one
 ```
@@ -122,7 +122,7 @@ since that one likely turns off heaters and motors.
 Needed for sequential printing - see [Toolchange Movement](Toolchange-Movement.md#z-hop-moves).
 Add to your slicer's custom **after layer change** gcode:
 
-```text
+```{.text .console-output}
 _MMU_UPDATE_HEIGHT
 
 ; If using the Happy Hare client macros, also add this for pause-at-layer support:
@@ -134,7 +134,7 @@ SET_PRINT_STATS_INFO CURRENT_LAYER={layer_num}
 Usually already the slicer default, but worth confirming - custom tool
 change gcode should just be:
 
-```text
+```{.text .console-output}
 T[next_extruder]
 ```
 
