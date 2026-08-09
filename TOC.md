@@ -445,13 +445,14 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
 | `Troubleshooting-and-Common-Issues.md` | `wiki/Troubleshooting-and-Common-Issues.md` |
 | `FAQ.md` | `wiki/FAQ.md` |
 
-### 12. Developer Guide — **done (all 7 pages)**
+### 12. Developer Guide — **done (all 8 pages)**
 
 | Page | Source | Notes |
 |---|---|---|
 | `Dev-Code-Layout.md` | new — `extras/mmu/` structure | Object-ownership tree, the 3 "extends" relationships (composition / mixin-split / command-pattern), full selector hierarchy incl. genuine multi-inheritance type-C classes, command auto-discovery pipeline, hardware-boundary quotes pulled straight from NFC/sync-feedback docstrings. The flagship page — read it first if picking this session back up. |
 | `Dev-Kconfig-Structure.md` | new — `installer/Kconfig` tree, `installer/build.py`/`parser.py`/`upgrades.py` | Covers the Kconfig dialect extensions, and `./install.sh -z`/`-t` (git-update skip / sandboxed test-mode install to `/tmp/mmu_test`). Deliberately drops a "Makefile targets" table that was here — too detailed, per feedback. |
 | `Dev-Testing.md` | `test/README.md` §1–7 (minus §1a) | Trimmed: no more exhaustive per-test-file table (it only grows) — one illustrative file (`test_mmu_console.py`) plus "browse `test/test_mmu_*.py`". Counts genericized to `>900`. |
+| `Dev-Test-Command.md` | new — `extras/mmu/commands/mmu_dev_test.py` (`_MMU_TEST`) | **done (item 58)** — the hidden, always-registered developer command (leading underscore = Klipper's hide-from-help convention, not a special build flag; every option is live on any install). Groups its ~25 sub-tests by risk tier (safe introspection / moves real hardware / provokes known bugs on purpose / sequence timing / fake autotune telemetry) rather than repeating the flat parameter list already generated onto `Command-Reference.md`'s appendix. Cross-linked from `Dev-Testing.md`'s coverage-map row. |
 | `Dev-Simulator.md` | `test/README.md` §1a — **renamed from "Console"** | Opens with a real colour screenshot (`doc/Dev-Simulator/Simulator.png`, user-supplied) of a live session before the ported detail. |
 | `Dev-Doc-Tooling.md` | `doc_tools/README.md` | Kept in sync with the actual `doc_tools/README.md` — edit both together. Includes a note on the Zensical build-cache bug (see below). |
 | `Dev-Installer-Docker.md` | `installer-dev/README.md`, rewritten after reading the actual Dockerfiles/compose file | Real purpose: cross-**Python-version** testing (Alpine target runs Python 2.7, matching Creality K1's busybox environment) — not just "a clean sandbox", which `-t` already gives you on your own host Python. |
@@ -2550,6 +2551,44 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       Setup`/`## Calibration`/`## Checking Basic Operation`) would read as
       an accidental partial edit rather than intentional scoping; leave for
       whoever eventually writes all three together.
+    - Clean `zensical build --clean` after all edits.
+
+58. **`GettingStarted-BoxTurtle.md`'s 5 remaining empty stub headings
+    filled in** (the trio flagged in item 57 plus two more that turned out
+    to also be empty - `Printing with MMU`/`What Next?`), and a new
+    `Dev-Test-Command.md` page written for the hidden `_MMU_TEST` command.
+    - Content for the 5 stubs was dictated directly by the user rather
+      than derived from source, since it's operational/procedural
+      knowledge (what to actually check, in what order) rather than a
+      fact extractable from Kconfig or code - `MMU_SELECT`/`MMU_TEST_MOVE`
+      for gear direction, `MMU_SENSORS` with a filament fragment for
+      sensor validation, the Turtle Neck buffer's compression-extends/
+      tension-compresses orientation check via `MMU_SYNC_FEEDBACK`, and an
+      `MMU_ESPOOLER` burst test, all under "Validating Hardware Setup";
+      `MMU_CALIBRATE_GEAR` (recommended, not forced) under "Calibration",
+      now linking to the real §4 pages; `MMU_LOAD`/`MMU_UNLOAD`/
+      `MMU_SELECT` under "Checking Basic Operation"; the purge-tower vs.
+      Happy-Hare-controlled-purge decision plus `mmu_macro_vars.cfg`
+      parking tuning under "Printing with MMU"; KlipperScreen/Mainsail-
+      Fluidd plus "explore Features one at a time" under "What Next?".
+      Real command syntax/params for all of these were still verified
+      against `Command-Reference.md` before writing, same as always -
+      only the narrative/sequencing came from the user directly.
+      `GettingStarted-ViViD.md`'s equivalent stubs were left alone (out of
+      scope for this request, and mid-edit by the user concurrently).
+    - `_MMU_TEST` (`extras/mmu/commands/mmu_dev_test.py`) turned out to
+      already be machine-generated onto `Command-Reference.md`'s "Internal
+      / developer commands" appendix (it's `CATEGORY_INTERNAL`, not
+      excluded from generation) - so `Dev-Test-Command.md` deliberately
+      doesn't repeat that flat parameter list, and instead groups the
+      ~25 sub-tests by risk (safe introspection / moves real hardware /
+      provokes known bugs on purpose / sequence timing / fake autotune
+      telemetry) and explains that the leading underscore is only
+      Klipper's hide-from-`MMU_HELP` convention - there's no separate
+      developer-mode flag gating it, `check_if_disabled()` is the same
+      "MMU enabled" guard every command has. Placed in Developer Guide
+      nav right after `Dev-Testing.md`, and cross-linked from that page's
+      coverage-map row (which already mentioned `_MMU_TEST` in passing).
     - Clean `zensical build --clean` after all edits.
 
 **To pick this back up:** with §1, §4, §5, §6, §7, §8, and now §10b Macros

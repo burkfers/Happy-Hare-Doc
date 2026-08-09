@@ -159,6 +159,7 @@ nav:
       - Code Layout: Dev-Code-Layout.md
       - Kconfig & Installer Architecture: Dev-Kconfig-Structure.md
       - Testing: Dev-Testing.md
+      - Developer Test Command: Dev-Test-Command.md
       - The Simulator: Dev-Simulator.md
       - Documentation Tooling: Dev-Doc-Tooling.md
       - Installer Dev (Docker): Dev-Installer-Docker.md

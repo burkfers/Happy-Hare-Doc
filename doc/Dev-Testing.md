@@ -239,7 +239,7 @@ Green is not the same as covered. Roughly where things stand:
 | Sync feedback / buffer sensors | **partial** | EMU's analog sensor boots; the tension logic has a known bug |
 | Physical selector homing and selection | **good** | both selector families home, select and move filament — `test_mmu_selector.py` |
 | Calibration | **partial** | seeded by default for speed, but `MMU_CALIBRATE_SELECTOR` (manual and `AUTO=1`) and `MMU_CALIBRATE_BOWDEN` run for real — `test_mmu_selector.py` |
-| Developer commands (`_MMU_TEST`) | **partial** | every option is run and must not raise — `test_mmu_dev_test.py`. What the stress probes *provoke* is step-generation timing the harness does not model |
+| Developer commands ([`_MMU_TEST`](Dev-Test-Command.md)) | **partial** | every option is run and must not raise — `test_mmu_dev_test.py`. What the stress probes *provoke* is step-generation timing the harness does not model |
 | Espooler, FlowGuard | **none** | |
 | Multi-unit machines | **good** | `ercf_vvd` renders, boots and loads on both units |
 | Klipper motion and timing | **none** | out of scope by design — see §9 |

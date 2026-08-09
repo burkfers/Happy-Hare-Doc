@@ -250,9 +250,104 @@ ever hand-edit the generated `.cfg` files directly.
 
 ## Validating Hardware Setup
 
+With Klipper accepting the config and no startup errors, confirm the
+physical mechanism actually does what Happy Hare thinks it does before
+calibrating anything or trying to print.
+
+**Gear stepper direction.** Each gate has its own gear stepper, and which
+way it spins depends entirely on how its motor cable happens to be
+plugged in. Check each one — feed a scrap of filament in by hand first
+so you can see which way it moves:
+
+```{.text .console-output}
+MMU_SELECT GATE=0
+MMU_TEST_MOVE MOVE=50
+```
+
+It should feed forward, away from the spool. If a gate runs backward,
+give that gate's **Gear dir pin** a `!` (see [Pins: gear
+direction](#pins-gear-direction) above) and try again. Repeat with
+`GATE=1`, `GATE=2`, `GATE=3`.
+
+**Sensors.** Insert a short fragment of filament into a gate's entry by
+hand and check it registers:
+
+```{.text .console-output}
+MMU_SENSORS DETAIL=1
+mmu_entry_0           --> TRIGGERED
+mmu_entry_1           --> Open
+filament_compression  --> Open
+filament_tension      --> Open
+```
+
+Remove the fragment and confirm it goes back to `Open`. Do this for every
+gate you plan to use, not just the first — a per-gate sensor is exactly
+as likely to be miswired as a gear direction pin.
+
+**Sync-feedback buffer orientation.** A Turtle Neck buffer trips people up
+here, because the mapping isn't the one you'd guess: filament under
+**compression** (excess being fed in) makes the buffer **extend**;
+filament under **tension** (being pulled taut, not enough slack) makes it
+**fully compress**. Centered, at rest, it should read neutral. Move the
+shuttle by hand to each extreme and confirm:
+
+```{.text .console-output}
+MMU_SYNC_FEEDBACK
+Sync feedback: Neutral
+```
+
+If compression and tension read backward from what you expect, swap
+`compression_pin`/`tension_pin` in `mmu_hardware.cfg` (or their inversions)
+rather than second-guessing the mechanism.
+
+**eSpooler.** With filament at the gate, confirm the motor spins the right
+way for both directions:
+
+```{.text .console-output}
+MMU_ESPOOLER GATE=0 BURST=1 OPERATION=rewind
+MMU_ESPOOLER GATE=0 BURST=1 OPERATION=assist
+```
+
+`rewind` should take up slack onto the spool; `assist` should feed
+filament off it. If either runs backward, invert that gate's espooler
+motor pin the same way as the gear direction fix above.
+
 ## Calibration
 
+A Box Turtle doesn't need much here. Bowden length is auto-calibrated on
+first load by default (`autocal_bowden_length`, on for the Turtle Neck v2
+buffer this guide assumes), so there's nothing to run by hand for that.
+
+The one step worth doing anyway is calibrating each gate/lane's gear
+stepper for an accurate `rotation_distance`:
+
+```{.text .console-output}
+MMU_CALIBRATE_GEAR MEASURED=102.5
+```
+
+It isn't forced — Happy Hare will run on the installed default
+regardless — but it's genuinely worth the few minutes per gate for
+accurate filament changes and fewer load/unload errors down the line.
+See [Calibration](Calibration.md) for the full picture (which steps apply
+to which MMU type, and why) and [Calibration: Gear
+Rotation Distance](Calibration-Gear.md) for the complete procedure.
+
 ## Checking Basic Operation
+
+Outside of a print, confirm the basics work end to end on a gate you've
+already validated above:
+
+```{.text .console-output}
+MMU_SELECT GATE=0
+MMU_LOAD
+MMU_UNLOAD
+```
+
+Each should complete without error — no pauses, no "not calibrated"
+warnings you weren't expecting. If something goes wrong here, it's much
+easier to diagnose now than mid-print; see [Operation: Debugging
+Problems](Operation.md#debugging-problems) if any of it doesn't behave as
+expected.
 
 ## Slicer Setup
 
@@ -264,6 +359,38 @@ changes and return here.
 
 ## Printing with MMU
 
+Besides the slicer gcode hooks above, there's one real decision left before
+your first multi-material print: how purging between colors happens.
+
+- **Slicer-controlled** — your slicer's own wipe tower, printed alongside
+  the model. Simplest to set up; costs bed space and filament.
+- **Happy Hare-controlled** — a dedicated purge macro runs at each
+  toolchange instead of a wipe tower: either [Macro:
+  Purge](Macro-Purge.md) (simple, prints a purge line) or [Macro:
+  Blobifier](Macro-Blobifier.md) (a dedicated purge/park station, more
+  capable but its own hardware). See [Purging without a wipe
+  tower](Feature-Tip-Forming-Purging.md#purging-without-a-wipe-tower) for
+  how to disable the slicer's tower and hand purging over to Happy Hare.
+
+Either way, the toolchange parking positions and movement (retraction,
+z-hop, where the toolhead parks during a change) live in
+`mmu_macro_vars.cfg`, tunable through **Macro Variables** in `menuconfig`
+— see [Toolchange Movement](Toolchange-Movement.md) for what each setting
+actually does before changing the defaults.
+
+Once that's decided, slice something with more than one filament and run
+your first print.
+
 ## What Next?
+
+- Install [KlipperScreen (Happy Hare edition)](KlipperScreen.md) if you
+  want a touchscreen front end, or drive everything from [Mainsail /
+  Fluidd](Mainsail-Fluidd-Integration.md) — either works, and both are
+  covered.
+- From here, explore the rest of this site's [Features](Feature-Espooler.md)
+  section one page at a time as you actually need them — Spoolman
+  integration, NFC/RFID tags, EndlessSpool, and the rest. Trying to absorb
+  all of it before your first print is the fastest way to feel
+  overwhelmed by an MMU that, day to day, mostly just works.
 
 ---
