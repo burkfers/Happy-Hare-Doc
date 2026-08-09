@@ -97,10 +97,13 @@ example:
 | `assist_trigger_pin_<gate>` | Optional tension-switch input for the sensor-based in-print burst trigger |
 
 Enable this in menuconfig with `Has eSpooler?` under **MMU Features /
-Additions**, which then opens an **eSpooler pins** menu with one row per gate:
+Additions** (Box Turtle ships with it fixed on already, since it's an
+eSpooler design by default), which then opens an **eSpooler config** menu -
+the tuning knobs from [Parameter Setup](#parameter-setup) first, then a pin
+row per gate at the bottom:
 
 <p align="center">
-  <img src="Feature-Espooler/espooler-pins.png" alt="menuconfig: eSpooler pins screen, showing enable/rewind/forward/trigger pins for 4 gates on a Box Turtle" width="85%">
+  <img src="Feature-Espooler/espooler-pins.png" alt="menuconfig: eSpooler config screen, showing the tuning parameters followed by enable/rewind/forward/trigger pins for 4 gates on a Box Turtle" width="85%">
 </p>
 
 That produces one `[mmu_espooler <unit_name>]` section in `mmu_hardware.cfg`
@@ -145,19 +148,23 @@ espooler : unit0     # Name of [mmu_espooler unit0] above
     assignments first - Happy Hare's own eSpooler pins will conflict if both
     try to drive the same physical pin.
 
-An eSpooler and a filament (catchment) buffer are mutually exclusive on the
-same unit - selecting `Has eSpooler?` in menuconfig turns the buffer option
-off, since both exist to solve the same "manage slack in the filament path"
-problem in different ways. Every MMU type except BTT ViViD (which uses a
-different buffer mechanism) allows the choice; see
-[GettingStartedWithBoxTurtle.md](GettingStartedWithBoxTurtle.md) for a worked
-example of enabling it during setup - Box Turtle (via an AFC-family board) is
-the most common eSpooler-equipped design.
+An eSpooler and a filament (catchment) buffer both exist to solve the same
+"manage slack in the filament path" problem in different ways, so most designs
+only fit one or the other in practice - but menuconfig no longer *enforces*
+that as a general rule. Box Turtle is the one exception with a hardcoded
+choice: it ships as an eSpooler design (see
+[GettingStartedWithBoxTurtle.md](GettingStartedWithBoxTurtle.md)) and its
+filament buffer option is always off, regardless of the eSpooler toggle. BTT
+ViViD hardcodes the opposite pairing - both options are off, since it uses a
+different buffer mechanism entirely. On every other MMU type, the two options
+are independently togglable, so check what your specific hardware actually
+supports before enabling both.
 
 ## Parameter Setup
 
 Per-unit tuning in `mmu_parameters.cfg`, only shown by menuconfig/`MMU_TEST_CONFIG`
-on units that have the feature enabled:
+on units that have the feature enabled - the same **eSpooler config** screen
+shown under [Hardware Setup](#hardware-setup) above, before its pin rows:
 
 ```yaml
 espooler_min_distance: 50                    # Individual stepper movements less than this distance will not activate espooler

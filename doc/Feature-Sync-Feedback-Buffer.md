@@ -85,7 +85,7 @@ Enable this under **MMU Features / Additions**, in a **Buffer config**
 submenu that only appears once **Has sync-feedback buffer?** is selected:
 
 <p align="center">
-  <img src="Feature-Sync-Feedback-Buffer/buffer-config.png" alt="Buffer config screen: buffer name, sensor range and max range, resting spring state, and both a compression and tension switch pin fitted" width="80%">
+  <img src="Feature-Sync-Feedback-Buffer/buffer-config.png" alt="Buffer config screen: buffer name, sensor range and max range, resting spring state, both a compression and tension switch pin fitted, and the Feedback Tuning section below" width="80%">
 </p>
 
 | Setting | Purpose |
@@ -126,6 +126,10 @@ triggering the buffer by hand to confirm the orientation is wired the way
 you expect - a squeezed buffer commonly means tension, an expanded one
 compression, but it depends entirely on your specific mechanism.
 
+The same **Buffer config** screen also has a **Feedback Tuning** section
+below the sensors - that's the `sync_feedback_*` software tuning covered
+under [Parameter Setup](#parameter-setup) next, not more hardware wiring.
+
 ### Setting `buffer_range`/`buffer_maxrange`
 
 Both are physical measurements of the buffer mechanism itself, used to
@@ -163,7 +167,7 @@ setting from the buffer itself, under **Other Settings → MMU/Extruder
 sync**:
 
 <p align="center">
-  <img src="Feature-Sync-Feedback-Buffer/motor-sync.png" alt="MMU/Extruder sync screen: dynamic sync feedback enabled, synchronized gear current at 100 percent" width="80%">
+  <img src="Feature-Sync-Feedback-Buffer/motor-sync.png" alt="MMU/Extruder sync screen: dynamic sync feedback enabled, synchronized gear current at 100 percent, and the two toolhead tension toggles" width="80%">
 </p>
 
 ```yaml
@@ -177,7 +181,21 @@ sync_feedback_speed_multiplier  : 5   # % gear speed delta used to keep filament
 sync_feedback_boost_multiplier  : 3   # % extra speed boost while first finding neutral (switch sensors)
 sync_feedback_extrude_threshold : 5   # mm of extruder movement between AutoTune checks
 sync_feedback_debug_log         : 0   # 1 = write a telemetry log for tuning (see Tuning)
+
+toolhead_post_load_tension_adjust : 1  # Relax bowden tension to neutral right after loading (see below)
+toolhead_entry_tension_test       : 1  # Check for neutral tension as filament passes the extruder entry (see below)
 ```
+
+`toolhead_post_load_tension_adjust` is what actually drives the automatic
+`ADJUST_TENSION=1` call described under [Commands](#commands) below - on by
+default, and only fires when synced to the extruder (or `sync_purge`) with a
+tension/compression/proportional sensor active. `toolhead_entry_tension_test`
+is a separate check, using a compression sensor differently: while synced
+and loading without a toolhead sensor fitted, it checks for neutral tension
+right as the filament passes the extruder entry, to catch a failed grip at
+that specific transition early rather than discovering it further
+downstream. It's ignored outright on any design with a toolhead sensor,
+since that sensor already gives a more direct check.
 
 Whether `sync_to_extruder` is a real choice or fixed on depends on your MMU
 design: a design that can release its own grip on the filament (typically
@@ -185,8 +203,9 @@ one with a moving selector and a servo) can print without any
 synchronization at all, so the setting shows as a genuine toggle. A
 gear-per-gate design that always grips the filament has nothing to
 choose - Happy Hare forces it on, and the toggle doesn't appear (the
-screenshot above, from a gear-per-gate design, shows exactly that - only the
-buffer-feedback and current settings are present).
+screenshot above, from a gear-per-gate design, shows exactly that - the
+sync toggle itself is missing, but the current and tension settings are
+still present).
 
 If you normally run the gear stepper near its maximum current,
 `sync_gear_current` is worth lowering - it only applies while actually
@@ -215,7 +234,10 @@ MMU_SYNC_FEEDBACK ADJUST_TENSION=1   # Nudge the buffer back towards neutral rig
 Full parameter reference: [`MMU_SYNC_FEEDBACK`](Command-Reference.md#mmu_sync_feedback).
 Happy Hare calls the equivalent of `ADJUST_TENSION=1` automatically after a
 filament load and again after purging, so this is mainly useful for
-checking status or recovering manually.
+checking status or recovering manually. That automatic post-load call is
+gated by `toolhead_post_load_tension_adjust`, covered together with the
+related `toolhead_entry_tension_test` under [Parameter
+Setup](#parameter-setup) above.
 
 ```yaml
 MMU_SYNC_GEAR_MOTOR          # Force sync on right now (SYNC defaults to 1)

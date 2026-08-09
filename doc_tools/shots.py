@@ -195,9 +195,16 @@ def _feature_espooler(mc, shot):
     For doc/Feature-Espooler.md - the per-gate pin entry screen for the eSpooler
     feature. Uses the boxturtle seed (default), which already has eSpooler enabled,
     so the menu is reachable without any setup in the scene itself.
+
+    'eSpooler pins' used to be its own submenu, directly under 'MMU Features /
+    Additions'. Since the eSpooler tuning options (assist/rewind burst, speed
+    exponent, etc.) were exposed via menuconfig, the pins moved to being the tail
+    section of the now much longer 'eSpooler config' menu instead - select into
+    the first pin row rather than trying to enter a submenu that no longer exists.
     """
     mc.enter('MMU Features / Additions')
-    mc.enter('eSpooler pins')
+    mc.enter('eSpooler config')
+    mc.select('eSpooler enable 0 pin')
     shot('espooler-pins')                            # one row of rewind/forward/enable/trigger per gate
 
 

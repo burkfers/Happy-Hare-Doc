@@ -129,20 +129,28 @@ and capturing one would need extra scene setup not done this session.
 In `mmu_parameters.cfg` (per unit):
 
 ```yaml
-nfc_deep_read            : 1        # Parse full tag contents, not just the UID
-nfc_gate_jog_scan_window : -50, 50  # Max retract/extrude (mm) when jogging to find a tag. "0, 0" disables jogging
-nfc_led_segment          : auto     # auto | status | exit | entry - which LED segment shows read/fail feedback
+nfc_deep_read               : 1        # Parse full tag contents, not just the UID
+nfc_gate_jog_scan_window    : -50, 50  # Max retract/extrude (mm) when jogging to find a tag during MMU_NFC_SCAN. "0, 0" disables jogging
+nfc_preload_jog_scan_window : -50, 50  # Same, but for the compound NFC/gate home MMU_PRELOAD runs (see Tuning). Defaults to nfc_gate_jog_scan_window's value
+nfc_led_segment             : auto     # auto | status | exit | entry - which LED segment shows read/fail feedback
 ```
 
 `nfc_deep_read` gates everything metadata-related: with it off, readers
 still resolve tags to spools by UID, but never parse tag contents, never
 populate the gate map from tag data directly, and never feed Spoolman
-auto-create. `nfc_gate_jog_scan_window` only matters for per-gate readers -
-it's the range [`MMU_NFC_SCAN`](#commands) (and an automatic preload, see
-[Tuning](#tuning)) will jog the filament while hunting for a tag that isn't
-already sitting on the reader; keep it inside your gate's safe travel, and
-size it generously (480mm+) if you want a full spool rotation's worth of
-reach. `nfc_led_segment: auto` follows the reader type - `status` for a
+auto-create. `nfc_gate_jog_scan_window` and `nfc_preload_jog_scan_window`
+only matter for per-gate readers - each is the range a different operation
+will jog the filament while hunting for a tag that isn't already sitting on
+the reader: [`MMU_NFC_SCAN`](#commands) uses the former,
+`MMU_PRELOAD`'s automatic reader/endstop race (see [Tuning](#tuning)) uses
+the latter. They're independently tunable because preload frequently homes
+against a different endstop (the gate's own entry sensor) than a normal gate
+load does, making the two moves' safe jogging range not always the same -
+but `nfc_preload_jog_scan_window` defaults to whatever
+`nfc_gate_jog_scan_window` is set to, so most setups never need to touch it
+separately. Keep both inside your gate's safe travel, and size them
+generously (480mm+) if you want a full spool rotation's worth of reach.
+`nfc_led_segment: auto` follows the reader type - `status` for a
 shared/bypass reader, `exit` for a per-gate one.
 
 Spoolman's side of this - `spoolman_nfc_auto_create` (create an unknown tag
@@ -284,7 +292,7 @@ scan...". Two outcomes:
   endstop): the tag is read immediately, then homing continues on to the
   physical endstop as normal.
 - The **endstop** triggers first (tag is further in): Happy Hare sweeps
-  forward through `nfc_gate_jog_scan_window` looking for the tag, then
+  forward through `nfc_preload_jog_scan_window` looking for the tag, then
   re-homes back to the endstop before parking.
 
 Use [`MMU_NFC_SCAN`](#commands) instead when the gate is already parked and

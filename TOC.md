@@ -124,8 +124,17 @@ repo root (not under `doc/`) specifically so it's never a candidate for publishi
   (`filament_buffer` field) both had this wrong; fixed 2026-08-06. The
   catchment buffer catches loose filament on rewind for faster loading
   speeds; sync feedback is the tension/compression buffer feeding FlowGuard
-  and tangle prevention. Espooler is mutually exclusive with the *catchment*
-  buffer specifically, not sync feedback.
+  and tangle prevention. Espooler only ever overlapped with the *catchment*
+  buffer specifically, never sync feedback — **but as of the 2026-08-08
+  menuconfig cleanup (item 56), that overlap is no longer software-enforced
+  as a general rule.** `Kconfig.espooler`'s own
+  `select UNSELECT_MMU_HAS_FILAMENT_BUFFER` (forced off when eSpooler is
+  chosen) is gone; Box Turtle and BTT ViViD each hardcode their own fixed
+  choice directly in their `mmu_types/Kconfig.*` instead (Box Turtle: buffer
+  always off, since it ships as an eSpooler design; ViViD: both off). Every
+  other MMU type can now enable both independently in menuconfig. Don't
+  reintroduce "mutually exclusive" as a blanket claim on any page — verify
+  per type against source if it matters.
 - **The ASCII-art logo and copyright line live in the real theme footer bar,
   not the article body** (moved there 2026-08-07, see item 41 for the full
   history — originally an in-article `.hh-footer` block per page, added
@@ -2411,10 +2420,90 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
       re-guessing) and a live preview check of both new sections and the
       cross-links between them.
 
+56. **Full menuconfig screenshot regen (`make shots`, all 22 sessions) plus a
+    content audit of every resulting diff**, on explicit request ("menuconfig
+    has been updated with new settings so the pages are slightly dated").
+    `.happy-hare-src` was already at the tip of `origin/v4` (`3c2222e5`,
+    same commit item 55 synced to) - the staleness was against four commits
+    already inside that checkout that hadn't had a screenshot pass run
+    against them yet: `af68143d` (~45 previously-hardcoded parameters
+    exposed as real menuconfig prompts for the first time - selector/gear
+    stepper tuning, espooler burst/speed tuning, sync-feedback tuning,
+    bowden correction, logging, timeouts, workflow toggles), `9c6a8540`
+    (reordered the "MMU Features / Additions" menu, added a new MMU type
+    - **HTLF**, "HappyTurtleLettuceFeeder", a 4-gate rotary-cam Type-A
+    design - and removed the general espooler↔filament-buffer
+    mutual-exclusivity mechanism), `740313fd` (cosmetic macro-vars menu
+    title padding), and `b9edb7a1` (split `nfc_preload_jog_scan_window` out
+    of `nfc_gate_jog_scan_window`).
+    - **One session broke outright and needed a real fix, not just a
+      re-shoot**: `feature-espooler`'s scene tried to enter a submenu
+      literally named "eSpooler pins", which `af68143d` folded into a
+      comment-marked tail section of the new, much longer "eSpooler config"
+      menu instead (13 new tuning items now live above the pin rows).
+      Fixed `doc_tools/shots.py` to enter "eSpooler config" and select the
+      first pin row rather than a submenu that no longer exists. Bonus: the
+      resulting autofit shot happens to capture the *entire* menu in one
+      110x45 image - tuning knobs and pins together - so
+      `Feature-Espooler.md`'s Hardware Setup/Parameter Setup text and both
+      section's image references were updated to describe the shared
+      screenshot instead of treating it as pins-only.
+    - **Because `Parameters.md`/`Feature-*.md` pages are built from the raw
+      `.cfg` templates directly, not from screenshots, almost all of the
+      ~45 newly-exposed settings were already documented correctly by
+      value** - the regen mostly just made menuconfig visibly catch up to
+      what the prose already said. Two genuine gaps found by cross-checking
+      every setting against every page regardless: `nfc_preload_jog_scan_window`
+      (`Feature-NFC.md` only had the older, now-imprecise
+      `nfc_gate_jog_scan_window` cited in its preload-tuning section) and
+      `toolhead_post_load_tension_adjust`/`toolhead_entry_tension_test`
+      (real settings driving the sync-feedback buffer's post-load
+      `ADJUST_TENSION=1` call and an extruder-entry tension check
+      respectively, both confirmed against `mmu_filament_movement.py`,
+      previously only a bare row in `Parameters.md`'s flat table with zero
+      mention on `Feature-Sync-Feedback-Buffer.md`). Both fixed, and the
+      **new "Feedback Tuning" section now visible on the buffer-config
+      screenshot** (same "one screen serves two doc sections" pattern as
+      the espooler fix) got a cross-reference between Hardware Setup and
+      Parameter Setup rather than a duplicated explanation.
+    - **A real, verified break in a "Structure decisions locked in" rule**:
+      `9c6a8540` removed `Kconfig.espooler`'s general
+      `select UNSELECT_MMU_HAS_FILAMENT_BUFFER` (forced off whenever eSpooler
+      was chosen, on any type) and replaced it with two type-specific
+      hardcodes instead (Box Turtle: buffer always off regardless of
+      eSpooler; BTT ViViD: both off, unchanged). Confirmed via a full grep
+      of `installer/` that no other type has this exclusivity any more -
+      every other MMU type can now enable both features independently.
+      Fixed the blanket "mutually exclusive" claim on both this file (the
+      buffer/espooler bullet above) and `Feature-Espooler.md`.
+    - **HTLF logged here, not yet added anywhere else** except one vendor
+      table row on `Conceptual-MMU.md` (Type-A, "shared gear stepper, rotary
+      cam selector") since it's now visible on `GettingStartedWithBoxTurtle.md`'s
+      own MMU Type screenshot - worth remembering when `MMU-Types-Overview.md`
+      finally gets written (§1).
+    - **One pre-existing screenshot bug fixed as an incidental side effect,
+      not a source change**: `GettingStartedWithBoxTurtle/11-toolhead-selected.png`
+      used to show a phantom `( ) default` line at the top of the Toolhead
+      list that doesn't exist in any Kconfig source (`installer/toolheads/`
+      has no file that would produce it, confirmed by opening the Toolhead
+      menu fresh in isolation with `CAPTURE=1` and seeing no such line) -
+      almost certainly the exact stale-ncurses-fragment bug already
+      documented in `doc_tools/README.md`'s "Photographing an editor"/
+      repaint() section, from earlier in that same long multi-screen
+      session. The regen's fresh render doesn't have it.
+    - Every other changed screenshot (all 8 macro-vars pages, plus
+      `Feature-Gate-TTG-Maps`/`Feature-Endless-Spool-Runout`) pixel-diffed
+      to confirm the change is confined to the breadcrumb padding
+      (`740313fd`'s cosmetic fix) with zero content impact - checked
+      exhaustively rather than assumed, since a blanket "just cosmetic"
+      call on 8 files without checking would have been exactly the kind of
+      thing this audit was supposed to catch.
+    - Clean `zensical build --clean` after all edits.
+
 **To pick this back up:** with §1, §5, §6, §7, §8, and now §10b Macros all
 done, and §10 down to just its own remaining ⚠️-flagged pages, the next open
-sections are §1's remaining pages (`MMU-Types-Overview.md`,
-`Upgrading-from-v3.md`, and the
+sections are §1's remaining pages (`MMU-Types-Overview.md` - remember HTLF,
+new per item 56 above - `Upgrading-from-v3.md`, and the
 `GettingStartedWith3MS.md`/`GettingStartedWithQuattroBox.md` pair from
 item 47), §2's other two pages (`Understanding-Operation.md`,
 `Print-Job-State-Machine.md` - lean on `Conceptual-MMU.md`'s terminology
