@@ -97,15 +97,14 @@ body {
  * looks like at full size). `h2#see-also + ul` needs no markdown changes:
  * `toc`'s heading-id slugifier gives every page's own "## See also" the same
  * id, and it's always followed directly by the list with nothing in
- * between - checked against the real rendered HTML, not assumed - so this
- * can't accidentally catch any other list on the page. margin-bottom
- * overrides Material's own default of 0.5em on `.md-typeset ul li`.
+ * between. margin-bottom overrides Material's own default of 0.5em
+ * on `.md-typeset ul li`.
  */
 .md-typeset h2#see-also + ul {
   font-size: 0.85em;
 }
 .md-typeset h2#see-also + ul li {
-  margin-bottom: 0.3em;
+  margin-bottom: 0.1em;
 }
 
 /*

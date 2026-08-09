@@ -6,7 +6,7 @@ pausing on. It's the first of a set of getting-started pages; other pages cover
 toolhead calibration and multi-unit setups in more depth. Here we're just getting
 a Box Turtle installed and talking to Klipper.
 
-## Starting the installer
+## Menuconfig Installer
 
 From your Happy-Hare checkout:
 
@@ -248,4 +248,3 @@ ever hand-edit the generated `.cfg` files directly.
     Happy Hare sofware.
 
 ---
-
