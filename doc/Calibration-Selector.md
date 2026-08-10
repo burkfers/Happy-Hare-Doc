@@ -151,7 +151,11 @@ persisting.
 ## Indexed selectors
 
 BTT ViViD has one index switch per gate rather than a single home switch,
-so calibration is detection rather than measurement:
+so calibration is detection rather than measurement. It is highly unlikey
+that you would need to re-calibrate the ViViD, but this command will at
+least ensure that movement from one gate to another is as quick as possible
+and that selection provides maximal filament grip by centering the stopping
+point.
 
 ```{.text .console-output}
 MMU_CALIBRATE_SELECTOR_INDEXES

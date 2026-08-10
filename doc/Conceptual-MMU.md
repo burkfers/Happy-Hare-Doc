@@ -8,14 +8,14 @@ print with more than one filament. Other names for the same idea exist -
 `AFC` (Automatic Filament Changer), `AMS` (Automatic Material System) - Happy
 Hare uses MMU throughout regardless of what a given vendor calls their design.
 
-**Gate** - sometimes called a "lane", a gate is where one filament sits when
-it isn't loaded into the printer. Happy Hare numbers gates from 0.
+**Gate** - often called a **"Lane"** or **"Slot"**, a gate is where one filament
+sits when it isn't loaded into the printer. Happy Hare numbers gates from 0.
 
-**Gear stepper** - sometimes called the "filament drive stepper", this is
-whichever stepper(s) actually push and pull filament through the MMU. Once
-filament reaches the extruder, the gear stepper is typically synced to the
-extruder stepper to double the driving force and overcome the extra friction
-the MMU's filament path adds.
+**Gear stepper** - sometimes called the **"filament drive stepper"** or
+**"MMU extruder stepper"**, this is whichever stepper(s) actually push and pull
+filament through the MMU. Once filament reaches the extruder, the gear stepper
+is typically synced to the extruder stepper to double the driving force and
+overcome the extra friction the MMU's filament path adds.
 
 **Selector** - the mechanism that brings a chosen gate's filament in line with
 the gear stepper (or the gear stepper in line with a chosen gate, depending on
@@ -31,18 +31,20 @@ loop-catchment slot, a coiling wheel, a passive spool-rewinding device, or an
 active DC-motor-driven eSpooler. See the
 [eSpooler feature page](Feature-Espooler.md) for the active variant.
 
-**Sync-feedback sensor** - a *different* thing that also sometimes gets
-called a "buffer" informally, which causes real confusion: this is a sensor
-that detects compression or tension in the filament path, used to keep the
-gear stepper and extruder stepper synced without one fighting the other. Some
-designs happen to add a few millimetres of physical slack to house this
+**Sync-feedback buffer** - sometimes combined with the splitter and called a
+**"Hub"** or sometimes just **"Buffer"** informally, which causes real confusion:
+this is a sensor that detects compression or tension in the filament path, used
+to keep the gear stepper and extruder stepper synced without one fighting the other.
+Some designs happen to add a few millimetres of physical slack to house this
 sensor, which is where the "buffer" nickname comes from - but its job is
 sensing tension/compression, not catching loose filament. Happy Hare exposes
 this as `sync_feedback_state` (`compressed`/`expanded`/`neutral`/`disabled`)
 in [Printer Variables](Printer-Variables.md#printermmu) and reuses it to
-drive [FlowGuard](Feature-FlowGuard.md) and tangle-prevention.
+drive [FlowGuard](Feature-FlowGuard.md) and tangle-prevention. Recent advancements
+have introduced devices with a single analog import with proportional measurement
+of filament tension. They are the **ultimate** and fully supported by Happy Hare.
 
-**Combiner / splitter** - on gear-per-gate designs, the physical manifold
+**Combiner / Splitter** aka "Hub" - on gear-per-gate designs, the physical manifold
 that merges every gate's individual bowden into the one tube feeding the
 toolhead. Used interchangeably with "splitter" even though nothing is
 actually being split. This is purely a description of physical hardware -
@@ -156,7 +158,7 @@ doesn't fit any of the patterns above.
 | MMX6 / Low Rider | Shared gear stepper, rotary carriage | Type-A |
 | HTLF | Shared gear stepper, rotary cam selector | Type-A |
 | Box Turtle, Night Owl, Angry Beaver, 3MS, Quattro Box, KMS, EMU | Gear-per-gate, no moving selector | Type-B |
-| *(custom MMU only, no vendor default yet)* | Gear-per-gate + moving carriage | Type-C |
+| *(custom MMU only)* | Gear-per-gate + moving carriage | Type-C |
 | *(custom MMU only)* | Fully custom, gcode-macro-driven | - |
 
 See [Code Layout](Dev-Code-Layout.md#selector-hierarchy) for the exact class
@@ -165,8 +167,8 @@ just choosing a vendor in menuconfig.
 
 ## Multi-unit machines
 
-A **unit** is one physical MMU device - one Box Turtle, one ERCF, and so on.
-A **machine** is the logical combination of one or more units, managed by
+A **Unit** is one physical MMU device - one Box Turtle, one ERCF, and so on.
+A **Machine** is the logical combination of one or more units, managed by
 Happy Hare as a single MMU.
 
 Units in one machine don't have to match - Happy Hare ships a real tested
@@ -199,8 +201,8 @@ varies by design and budget.
 | Entry sensor (per gate) | Detects filament arriving at/leaving each gate. Drives filament autoload (selector moves to a gate as soon as filament is inserted), keeps the gate-availability map current, and can act as an early runout trigger. |
 | Exit sensor (per gate) | Sits after the gear stepper on each gate. It orovides a homing point close to the MMU once a gate is selected. It can also trigger runout on that gate. |
 | Shared Exit sensor | Sits after combiner (shared, one per unit) typically on the exit of the "Hub". Provides a homing point close to the MMU once a gate is selected and driving, and can also trigger runout. |
-| Encoder | Measures filament movement for move validation and clog detection, and can substitute for (or combine with) the exit sensor as a homing reference. Some designs (ERCF) rely on it exclusively; others (Tradrack) treat it as optional extra reliability on top of an exit sensor. |
-| Sync-feedback sensors (compression / tension / proportional) | This sit in what is commonly called a "Buffer". The sensors detect the gear stepper and extruder pulling against each other, for stepper syncing. The compression sensor can also serve as an extruder-entry homing point and simplify bowden-length calibration. |
+| Encoder | Measures filament movement for move validation and clog detection, and can substitute for (or combine with) the exit sensor as a homing reference. Some designs (ERCF) rely on it exclusively; others (Tradrack) treat it as optional extra reliability on top of a shared exit sensor. |
+| Sync-feedback sensors (compression / tension / proportional) | This sit in what is commonly called a "Buffer". The sensors detect the gear stepper and extruder pulling against each other, for stepper syncing. The compression sensor can also serve as an extruder-entry homing point and simplify bowden-length calibration. A modern proportional (analog) design allievates the need for extruder entry and even toolhead sensors as well has allowing filament tension management and [FlowGuard](Feature-FlowGuard.md) - highly recommended |
 | Extruder entry sensor | Sits just before the extruder gears. Provides a homing point at the end of the bowden move, can trigger automatic bypass loading, and gives a reliable "clear of the extruder" point before a fast unload. |
 | Toolhead sensor | Sits after the extruder entrance, before the hotend - arguably the single most useful sensor: the most reliable way to know filament is actually loaded (especially after a restart), the most accurate homing point near the nozzle, and what toolhead calibration uses to measure residual filament. |
 | Stallguard-based virtual sensors | If the relevant stepper has TMC stallguard configured, Happy Hare can detect a mechanical stall as a virtual endstop with no extra wiring: on the gear stepper (an alternative way to detect hitting the extruder entrance), or on the extruder stepper itself (experimental nozzle-collision detection). |
@@ -215,9 +217,9 @@ varies by design and budget.
 If a gate runs out (detected by an entry sensor, exit sensor, or the
 encoder), and EndlessSpool is enabled, Happy Hare unloads, remaps the current
 tool to another gate in the same configured group, reloads, and resumes the
-print automatically - the potentially-kinked filament end never has to pass
-back through the MMU's own mechanisms, which is what makes this more
-reliable than reacting to a `nozzle-side` runout.
+print automatically - the potentially-kinked filament at the spool end never
+has to pass back through the MMU's own mechanisms, which is what makes this
+more reliable than reacting to a `nozzle-side` runout.
 
 !!! warning "Important"
     EndlessSpool does nothing until you actually configure
