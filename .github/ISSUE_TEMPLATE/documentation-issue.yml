@@ -1,0 +1,144 @@
+name: "📄 Documentation Issue"
+description: "Report something wrong, unclear, or missing on a Happy Hare documentation page."
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the Happy Hare docs! This repo covers the
+        **documentation site only**. If you've found a bug in the Happy Hare
+        software itself, please report it on the
+        [Happy-Hare issue tracker](https://github.com/moggieuk/Happy-Hare/issues)
+        instead.
+
+        Please fill in as much detail as you can below - it saves a lot of
+        back-and-forth.
+
+  - type: dropdown
+    id: page
+    attributes:
+      label: Which page has the issue?
+      description: Pick the page this report is about. If more than one page is affected, choose the main one and list the rest in the description below.
+      options:
+        - "Home (index.md)"
+        - "Concepts — What Is an MMU? (Conceptual-MMU.md)"
+        - "Getting Started — Installation (Installation.md)"
+        - "Getting Started — Box Turtle (GettingStarted-BoxTurtle.md)"
+        - "Getting Started — BTT ViViD (GettingStarted-ViViD.md)"
+        - "Calibration — Overview (Calibration.md)"
+        - "Calibration — Selector (Calibration-Selector.md)"
+        - "Calibration — Gear Rotation Distance (Calibration-Gear.md)"
+        - "Calibration — Encoder (Calibration-Encoder.md)"
+        - "Calibration — Bowden Length (Calibration-Bowden.md)"
+        - "Calibration — Toolhead (Calibration-Toolhead.md)"
+        - "Slicer & Toolchange — Slicer Setup (Slicer-Setup.md)"
+        - "Slicer & Toolchange — Toolchange Movement (Toolchange-Movement.md)"
+        - "Operation — Operation (Operation.md)"
+        - "Operation — KlipperScreen (KlipperScreen.md)"
+        - "Operation — Mainsail / Fluidd (Mainsail-Fluidd-Integration.md)"
+        - "Tuning — Blobbing and Stringing (Blobbing-and-Stringing.md)"
+        - "Features — Cold Pull (Feature-Cold-Pull.md)"
+        - "Features — Eject Buttons (Feature-Eject-Buttons.md)"
+        - "Features — Encoder (Feature-Encoder.md)"
+        - "Features — EndlessSpool & Runout Detection (Feature-Endless-Spool-Runout.md)"
+        - "Features — Environment Manager (Feature-Environment-Manager.md)"
+        - "Features — eSpooler (Feature-Espooler.md)"
+        - "Features — Fan Control (Feature-Fan-Control.md)"
+        - "Features — Filament Bypass (Feature-Filament-Bypass.md)"
+        - "Features — FlowGuard (Feature-FlowGuard.md)"
+        - "Features — G-code Preprocessing (Feature-Gcode-Preprocessing.md)"
+        - "Features — Gate/TTG Maps (Feature-Gate-TTG-Maps.md)"
+        - "Features — LEDs (Feature-LEDs.md)"
+        - "Features — NFC/RFID Reading (Feature-NFC.md)"
+        - "Features — Spoolman Integration (Feature-Spoolman.md)"
+        - "Features — State Persistence (Feature-State-Persistence.md)"
+        - "Features — Statistics & Consumption Counters (Feature-Statistics-Counters.md)"
+        - "Features — Sync-Feedback Buffer (Feature-Sync-Feedback-Buffer.md)"
+        - "Features — Tip Forming and Purging (Feature-Tip-Forming-Purging.md)"
+        - "Macros — Macro Customization (Macro-Customization.md)"
+        - "Macros — Print Start/End (Macro-Print-Start-End.md)"
+        - "Macros — State Change Hooks (Macro-State-Change-Hooks.md)"
+        - "Macros — Sequence (Macro-Sequence.md)"
+        - "Macros — Client (Macro-Client.md)"
+        - "Macros — Tip Forming (Macro-Tip-Forming.md)"
+        - "Macros — Toolhead Tip Cutting (Macro-Toolhead-Tip-Cutting.md)"
+        - "Macros — Servo Cutter (Macro-Servo-Cutter.md)"
+        - "Macros — Blobifier (Macro-Blobifier.md)"
+        - "Macros — Purge (Macro-Purge.md)"
+        - "Advanced Customization — Custom Load/Unload Sequences (Custom-Load-Unload-Sequences.md)"
+        - "Reference — Command Reference (Command-Reference.md)"
+        - "Reference — Config Parameters (Parameters.md)"
+        - "Reference — Macro Variables (Macro-Vars.md)"
+        - "Reference — Printer Variables (Printer-Variables.md)"
+        - "Reference — MCU Reference (Mcu-Reference.md)"
+        - "Developer Guide — Code Layout (Dev-Code-Layout.md)"
+        - "Developer Guide — Kconfig & Installer Architecture (Dev-Kconfig-Structure.md)"
+        - "Developer Guide — Testing (Dev-Testing.md)"
+        - "Developer Guide — Developer Command Reference (Dev-Command-Reference.md)"
+        - "Developer Guide — Developer Test Command (Dev-Test-Command.md)"
+        - "Developer Guide — The Simulator (Dev-Simulator.md)"
+        - "Developer Guide — Documentation Style Guide (Dev-Documentation-Style-Guide.md)"
+        - "Developer Guide — Documentation Tooling (Dev-Doc-Tooling.md)"
+        - "Developer Guide — Installer Dev (Docker) (Dev-Installer-Docker.md)"
+        - "Developer Guide — Contributing (Dev-Contributing.md)"
+        - "Command Reference screenshots / generated images"
+        - "Other / not sure (describe below)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mmu-ownership
+    attributes:
+      label: MMU ownership type(s)
+      description: Which MMU hardware does this report relate to? Select every type this applies to - pick "Not MMU-specific" if the issue applies regardless of hardware, or if you're not an MMU owner (e.g. a wording/typo fix).
+      multiple: true
+      options:
+        - "ERCF"
+        - "Tradrack"
+        - "BTT ViViD"
+        - "MMX / PicoMMU"
+        - "Box Turtle"
+        - "Night Owl"
+        - "Angry Beaver"
+        - "3MS"
+        - "Quattro Box"
+        - "KMS"
+        - "EMU"
+        - "Custom MMU"
+        - "Not MMU-specific / applies to all types"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What's wrong?
+      description: Describe the problem - inaccurate instructions, broken link/image, unclear wording, missing content, outdated screenshot, etc.
+      placeholder: On the Selector Calibration page, step 3 says to run MMU_CALIBRATE_SELECTOR but the command is actually...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should it say instead? (optional)
+      description: If you already know the fix, put it here - happy to take a suggested rewrite.
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context (optional)
+      description: Screenshots, links, Happy Hare version/branch, or anything else that helps track this down.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I checked this against the latest published docs (not a cached page) before reporting.
+          required: true
