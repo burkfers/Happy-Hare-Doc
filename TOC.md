@@ -349,7 +349,7 @@ to its procedure instead of being repeated across two class-based pages.
 | `Calibration-Toolhead.md` | new | **done** — deliberately short: requirement/skip-logic only, links to `Blobbing-and-Stringing.md#calibrating-the-toolhead` for the real procedure rather than moving it (that page's own mermaid diagram and "Summary of Tuning Steps" are built around it staying there) |
 | `MMU_CALIBRATE_PSENSOR` | — | **not moved** — stays on `Feature-Sync-Feedback-Buffer.md` (already covered per item 53); cross-linked from `Calibration.md` instead, since it's gated behind an optional feature toggle rather than being universal or MMU-type-driven |
 
-### 5. Features — all 17 pages done
+### 5. Features — all 18 pages done
 
 | Feature page | Kconfig source | Wiki source | Status |
 |---|---|---|---|
@@ -371,6 +371,7 @@ to its procedure instead of being repeated across two class-based pages.
 | ~~`Feature-Addon-Integrations.md`~~ | — | **removed 2026-08-08 (item 52)** — per explicit request, once nothing on it was genuinely load-bearing any more: EREC/servo-cutter and Blobifier were already just redirect stubs to `Feature-Tip-Forming-Purging.md`/the new `Macro-Servo-Cutter.md`/`Macro-Blobifier.md` pages, and DC eSpooler was a pure redirect to `Feature-Espooler.md` - only Eject Buttons was real, unclaimed content, moved to its own page below. The `erec-logo.jpg`/`blobifier.jpg` photos moved with their respective sections into `Macro-Servo-Cutter.md`/`Macro-Blobifier.md` (`git mv`, preserving history) rather than being dropped. |
 | `Feature-Eject-Buttons.md` | `Kconfig.eject_buttons` | (previously a section of `Feature-Addon-Integrations.md` — see above) | **done** — split out into its own Feature page (item 52), carrying forward the real eject-button pin-polarity footgun (normally-closed vs. normally-open wiring) and its menuconfig screenshot unchanged; only the page-level framing (no more "addon" language, no more redirect sections around it) changed. |
 | `Feature-Cold-Pull.md` | `config/macros/mmu_misc.cfg` (`[gcode_macro MMU_COLD_PULL]`) | (previously a section of `Blobbing-and-Stringing.md`) | **done (item 60)**, per explicit request — extracted the "Cleaning the Extruder with a Cold Pull" section (manual + `MMU_COLD_PULL`-guided procedures, parameters, per-material temperature table, both images) into its own Feature page; `Blobbing-and-Stringing.md` keeps only a one-line pointer plus its Step 1 cross-link, since (unlike `MMU_CALIBRATE_TOOLHEAD`, kept in place per item 57) nothing on that page's own diagrams/narrative depended on the section staying there. `MMU_COLD_PULL` is a real `gcode_macro`, not a Python `BaseCommand` - confirmed it's genuinely absent from `Command-Reference.md` because `gen_command_reference.py` only scans `extras/mmu/**.py`, never `config/macros/*.cfg`; noted on the new page rather than silently treated as an oversight. Flagged as a separate task: several other real user-facing `MMU_*` macros (`MMU_FAN`, `MMU_DUMP_VARS`, `MMU_CHANGE_TOOL_STANDALONE`, `MMU_CHECK_GATES`, `MMU_REMAP_TTG`, `MMU_FORM_TIP`) share this same generator blind spot - some already have coverage elsewhere (e.g. `MMU_START_SETUP`/`MMU_END` on `Slicer-Setup.md`), others may not; worth a dedicated audit rather than fixing piecemeal. |
+| `Feature-Fan-Control.md` | `Kconfig.fans` + `config/macros/mmu_fan_control.cfg` (`MMU_FAN`) | new — the one real gap the audit above found; everything else it turned up was an undocumented legacy-alias macro name, explicitly out of scope per the user ("no need to document the old aliases... trying to get users to use new commands... no need to document double underscore set") | **done (item 62)** — real menuconfig screenshots (`feature-fan-control` session, boxturtle seed, scene toggles both "Has environment sensor(s)?" and "Has cooling fans?" since the feature's own `_MMU_FAN_VARS` block is gated on **both** together — verified directly against `config/base/mmu_macro_vars.cfg`'s `if MMU_HAS_FANS and MMU_HAS_ENVIRONMENT_SENSOR` guard, not assumed from the Kconfig comment header alone. **A real functional bug found and verified empirically, not just read**: `variable_fans`/`variable_fan_sensors` are documented (by the template's own header comment, and by this site's pre-existing `Macro-Vars.md` entry) as auto-populated from the configured fan/sensor pins, but the Jinja template actually references `VAR_FAN_FANS` (single-sensor case) and `PARAM_ENVIRONMENT_SENSOR_NAME_$(i)` (per-gate case) - neither of which exists as a real Kconfig symbol anywhere (confirmed by grep and by rendering the real template end-to-end via `test.hh.cfg.render()` against a synthetic profile, using a throwaway scratchpad venv with `jinja2` installed since neither this repo's venv nor `.happy-hare-src` had one). Result: `fan_sensors` alone auto-populates correctly for the single-sensor case; `fans` never does; neither does in the per-gate case. Documented as a manual-setup step on the new page and corrected `Macro-Vars.md`'s "*(auto-generated)*" claim to match. Not fixed upstream - that's Happy Hare's own repo, not this doc site. |
 
 ### 6. Slicer & Toolchange — done (both pages)
 
@@ -2666,6 +2667,43 @@ noted on `Macro-Vars.md` itself; not a gap in this table.
     watch/rebuild loop - `zensical build --clean` is required before a
     reload picks up any doc/CSS change, confirmed the hard way when the
     first reload after this edit still served the stale rule.)
+
+62. **New `Feature-Fan-Control.md` page**, closing the one real gap the
+    `MMU_*` macro audit found. The user explicitly scoped the audit's other
+    two findings out: "no need to document the old aliases because I'm
+    trying to get users to use new commands. no need to document double
+    underscore set" - so `MMU_CHECK_GATES`/`MMU_REMAP_TTG`/`MMU_FORM_TIP`/
+    `MMU_CHANGE_TOOL_STANDALONE` (legacy-alias macro names) and the twelve
+    `MMU__X` Mainsail/Fluidd UI-visibility aliases stay undocumented by
+    design, not by oversight - see the rewritten §5 table row above.
+    - See the §5 table row for the full verified-bug writeup (the
+      `variable_fans`/`fan_sensors` auto-population that doesn't actually
+      work) - not repeating it here. Short version: confirmed by rendering
+      the real Jinja template end-to-end against a synthetic profile via
+      `test.hh.cfg.render()`, not by reading the template and assuming its
+      own header comment was accurate. Needed a throwaway venv
+      (`python3 -m venv` in the scratchpad dir, `pip install jinja2`) since
+      neither this repo's venv nor a fresh `.happy-hare-src` checkout had
+      one - `pip install --user` hit PEP 668 (externally-managed-environment)
+      on this machine, so a fully isolated scratchpad venv was the clean
+      answer rather than `--break-system-packages` on the real system Python.
+    - New `_feature_fan_control` scene in `doc_tools/shots.py`, modeled on
+      `_feature_environment_manager`'s "toggle a feature that's off by
+      default, screenshot its submenu(s)" pattern - toggles both
+      "Has environment sensor(s)?" and "Has cooling fans?" since the
+      feature needs both. First attempt failed
+      (`could not put the highlight on 'Has cooling fans?'`) from a stray
+      `mc.back()` after the first toggle - since no submenu was ever
+      entered after toggling the environment sensor, `back()` popped all
+      the way to `(Top)` instead of staying on "MMU Features / Additions".
+      Removed the unneeded `back()` call and the retry succeeded cleanly.
+    - Corrected `Macro-Vars.md`'s `_MMU_FAN_VARS` section to match the
+      verified behaviour (was previously marked `fan_sensors`/`fans` as
+      `*(auto-generated)*`, and "Not yet covered by any Feature page" -
+      both now updated) and cross-linked it to the new page both ways.
+    - `Feature-Fan-Control.md` added to nav alphabetically between
+      eSpooler and Filament Bypass, matching that section's existing order.
+    - Clean `zensical build --clean` after all edits.
 
 **To pick this back up:** with §1, §4, §5, §6, §7, §8, and now §10b Macros
 all done, and §10 down to just its own remaining ⚠️-flagged pages, the next

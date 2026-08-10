@@ -358,6 +358,32 @@ def _feature_environment_manager(mc, shot):
     shot('heater-config')                             # per-gate toggle, heater name, drying temp/time/humidity defaults
 
 
+def _feature_fan_control(mc, shot):
+    """
+    For doc/Feature-Fan-Control.md - the fan config and fan controls screens.
+    Both MMU_HAS_FANS is off by default on every MMU type including boxturtle, and
+    the feature's own _MMU_FAN_VARS block only renders when an environment sensor is
+    ALSO enabled (config/base/mmu_macro_vars.cfg's `if MMU_HAS_FANS and
+    MMU_HAS_ENVIRONMENT_SENSOR` guard - verified directly against the real Jinja
+    template, not assumed) - so this scene toggles both, same pattern as
+    _feature_environment_manager.
+    """
+    mc.enter('MMU Features / Additions')
+    mc.select('Has environment sensor(s)?')
+    mc.toggle()
+    mc.autofit()                                      # still on "MMU Features / Additions" - no submenu entered
+
+    mc.select('Has cooling fans?')
+    mc.toggle()
+    mc.autofit()                                      # "Fan config"/"Fan controls" submenus just appeared
+    mc.enter('Fan config')
+    shot('fan-config')                                # max power, kick-start time, single fan pin
+    mc.back()                                         # -> MMU Features / Additions
+
+    mc.enter('Fan controls')
+    shot('fan-controls')                              # on/off temps, polling time, forced mode choice
+
+
 def _feature_endless_spool_runout(mc, shot):
     """
     For doc/Feature-Endless-Spool-Runout.md - the EndlessSpool section of Software
@@ -569,6 +595,12 @@ SESSIONS = [
         'caption': 'doc/Feature-Environment-Manager.md - environment sensor and heater config screens',
         'scenes': _feature_environment_manager,
         'outdir': 'Feature-Environment-Manager',
+    },
+    {
+        'name': 'feature-fan-control',
+        'caption': 'doc/Feature-Fan-Control.md - fan config and fan controls screens',
+        'scenes': _feature_fan_control,
+        'outdir': 'Feature-Fan-Control',
     },
     {
         'name': 'feature-nfc',

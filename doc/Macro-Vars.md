@@ -321,7 +321,8 @@ capable alternative.
 Only present with both fans and an environment sensor enabled
 (`MMU_HAS_FANS and MMU_HAS_ENVIRONMENT_SENSOR`) - temperature-driven fan
 automation for the MMU enclosure, distinct from the toolhead's own part
-fan. Not yet covered by any Feature page.
+fan. See [Feature: Fan Control](Feature-Fan-Control.md) for hardware
+setup, commands, and troubleshooting.
 
 | Variable | Default | Description |
 |---|---|---|
@@ -330,8 +331,15 @@ fan. Not yet covered by any Feature page.
 | `fan_polling_time` | `5.0` s | Interval between temperature checks |
 | `fan_control_enabled` | `True` | Master on/off for the automatic temperature-based control |
 | `fan_forced` | `2` (`AUTO`) | Force override: `0`=all off, `1`=all on, `2`=automatic |
-| `fan_sensors` | *(auto-generated)* | Comma-separated `temperature_sensor` names this control reads |
-| `fans` | *(auto-generated)* | Comma-separated `fan_generic` names this control drives |
+| `fan_sensors` | *(see below)* | Comma-separated `temperature_sensor` names this control reads |
+| `fans` | *(see below)* | Comma-separated `fan_generic` names this control drives |
+
+`fan_sensors`/`fans` are documented as auto-generated from your fan/sensor
+pins, but confirmed (by rendering the real config template directly) not
+to reliably work: `fan_sensors` picks up the single-sensor case correctly,
+`fans` does not, and neither populates in the per-gate case. Check both
+by hand - see [Feature: Fan Control](Feature-Fan-Control.md#parameter-setup)
+for what to set them to.
 
 ## See also
 
@@ -342,6 +350,8 @@ fan. Not yet covered by any Feature page.
   deeper override mechanism `_MMU_SEQUENCE_VARS` sits in front of
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md) -
   concept and tuning workflow for tip forming/cutting and purging
+- [Feature: Fan Control](Feature-Fan-Control.md) - concept, hardware
+  setup, and commands for `_MMU_FAN_VARS`
 - [Macro: Blobifier](Macro-Blobifier.md) / [Macro: Servo
   Cutter](Macro-Servo-Cutter.md) - Blobifier and the MMU-mounted servo
   cutter builds
