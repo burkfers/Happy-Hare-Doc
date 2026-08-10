@@ -1,0 +1,23 @@
+name: Validate docs
+
+# No `paths:` filter - if this is ever made a required status check, a
+# path-filtered required check simply never reports on PRs that don't touch
+# doc/, and GitHub then refuses to let those PRs merge at all.
+on:
+  pull_request: {}
+
+permissions:
+  contents: read
+
+jobs:
+  docs_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      # Strict build (broken page-to-page links) + doc_tools/check_refs.py
+      # (dead nav entries, broken image references) - see Makefile for why
+      # these live in docs_check rather than docs_build.
+      - run: make docs_check
