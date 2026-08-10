@@ -154,12 +154,12 @@ This site uses Material-style icon identifiers in config (examples: `material/ta
 
 Useful icon references:
 
-- Zensical: https://zensical.org
-- Lucide: https://lucide.dev/icons/
-- Material Design: https://pictogrammers.com/library/mdi/
-- FontAwesome: https://fontawesome.com/search?m=free
-- Octicons: https://octicons.github.com/
-- Simple Icons: https://simpleicons.org/
+- [Zensical](https://zensical.org)
+- [Lucide](https://lucide.dev/icons/)
+- [Material Design](https://pictogrammers.com/library/mdi/)
+- [FontAwesome](https://fontawesome.com/search?m=free)
+- [Octicons](https://octicons.github.com/)
+- [Simple Icons](https://simpleicons.org/)
 
 Example social icon entries:
 
