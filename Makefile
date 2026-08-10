@@ -27,7 +27,7 @@ VENV     ?= venv
 VENV_PY  := $(VENV)/bin/python
 BOOTSTRAP_PY := $(if $(shell command -v $(PY) 2>/dev/null),$(PY),python3)
 
-.PHONY: fetch-source clean-source shots command_reference docs docs_build docs_preview
+.PHONY: fetch-source clean-source shots command_reference docs docs_build docs_check docs_preview
 
 
 ###########################
@@ -97,6 +97,17 @@ docs: $(VENV_READY_STAMP)
 # the CI deploy workflow runs).
 docs_build: $(VENV_READY_STAMP)
 	$(Q)"$(VENV)/bin/zensical" build
+
+# What the PR-validation workflow runs: a strict build (aborts on broken
+# `[text](Page.md)`-style page links, per Zensical's own --strict flag) plus
+# doc_tools/check_refs.py for the two classes of broken reference --strict
+# doesn't catch - dead mkdocs.yml nav entries and broken image src=/![]()
+# targets. Kept separate from docs_build (used by the deploy workflow and local
+# `make docs`/`make docs_preview`) since those have no reason to abort on a
+# warning mid-draft.
+docs_check: $(VENV_READY_STAMP)
+	$(Q)"$(VENV)/bin/zensical" build --strict
+	$(Q)"$(VENV_PY)" -m doc_tools.check_refs
 
 # Serves the already-built ./site as plain static files - no rebuild, no live
 # reload. This is what GitHub Pages (or any static host) actually does with the
