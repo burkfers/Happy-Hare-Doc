@@ -17,8 +17,13 @@ HAPPY_HARE_REF      := $(shell cat HAPPY_HARE_REF)
 #   HAPPY_HARE_SRC=/path/to/Happy-Hare make shots
 HAPPY_HARE_SRC ?= $(CURDIR)/.happy-hare-src
 
+# Stamp files avoid Make target parsing issues when workspace paths contain
+# spaces or '#'.
+SOURCE_FETCH_STAMP := .make/source-fetched.stamp
+VENV_READY_STAMP   := .make/venv-ready.stamp
+
 # Shared venv for doc tooling (pyte, Pillow, zensical - see doc_tools/requirements.txt)
-VENV     ?= $(CURDIR)/venv
+VENV     ?= venv
 VENV_PY  := $(VENV)/bin/python
 BOOTSTRAP_PY := $(if $(shell command -v $(PY) 2>/dev/null),$(PY),python3)
 
@@ -37,27 +42,29 @@ BOOTSTRAP_PY := $(if $(shell command -v $(PY) 2>/dev/null),$(PY),python3)
 # Tries a fast shallow clone first (works for a branch or tag name); falls back to
 # a full clone + checkout, which is needed if HAPPY_HARE_REF is ever pinned to an
 # arbitrary commit SHA rather than a branch/tag.
-$(HAPPY_HARE_SRC)/.git:
+$(SOURCE_FETCH_STAMP):
 	$(Q)echo "Fetching Happy-Hare @ $(HAPPY_HARE_REF) into $(HAPPY_HARE_SRC)"
-	$(Q)git clone --depth 1 --branch $(HAPPY_HARE_REF) $(HAPPY_HARE_REPO_URL) $(HAPPY_HARE_SRC) 2>/dev/null || \
-	    (git clone $(HAPPY_HARE_REPO_URL) $(HAPPY_HARE_SRC) && cd $(HAPPY_HARE_SRC) && git checkout $(HAPPY_HARE_REF))
+	$(Q)mkdir -p "$(dir $@)"
+	$(Q)test -d "$(HAPPY_HARE_SRC)/.git" || \
+	    (git clone --depth 1 --branch "$(HAPPY_HARE_REF)" "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)" 2>/dev/null || \
+	    (git clone "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)" && cd "$(HAPPY_HARE_SRC)" && git checkout "$(HAPPY_HARE_REF)")
+	$(Q)touch "$@"
 
-fetch-source: $(HAPPY_HARE_SRC)/.git
+fetch-source: $(SOURCE_FETCH_STAMP)
 
 clean-source:
-	$(Q)rm -rf $(HAPPY_HARE_SRC)
+	$(Q)rm -rf "$(HAPPY_HARE_SRC)"
+	$(Q)rm -f "$(SOURCE_FETCH_STAMP)"
 
 
 #######################
 ##### Python venv #####
 #######################
 
-$(VENV_PY):
-	$(Q)echo "Creating virtualenv in venv/"
-	$(Q)$(BOOTSTRAP_PY) -m venv "$(VENV)"
-
-$(VENV)/.hh-doc_tools-requirements: doc_tools/requirements.txt | $(VENV_PY)
-	$(Q)$(VENV_PY) -m pip install --quiet --disable-pip-version-check -r "$<"
+$(VENV_READY_STAMP): doc_tools/requirements.txt
+	$(Q)mkdir -p "$(dir $@)"
+	$(Q)if [ ! -x "$(VENV_PY)" ]; then echo "Creating virtualenv in $(VENV)/"; "$(BOOTSTRAP_PY)" -m venv "$(VENV)"; fi
+	$(Q)"$(VENV_PY)" -m pip install --quiet --disable-pip-version-check -r "$<"
 	$(Q)touch "$@"
 
 
@@ -70,26 +77,26 @@ $(VENV)/.hh-doc_tools-requirements: doc_tools/requirements.txt | $(VENV_PY)
 # doc/ - see doc_tools/README.md. Pass flags through ARGS, e.g.:
 #   make shots ARGS='--list'
 #   make shots ARGS='--only feature-espooler'
-shots: fetch-source $(VENV)/.hh-doc_tools-requirements
-	$(Q)HAPPY_HARE_SRC=$(HAPPY_HARE_SRC) $(VENV_PY) -m doc_tools.$(if $(CAPTURE),capture,shots) $(ARGS)
+shots: fetch-source $(VENV_READY_STAMP)
+	$(Q)HAPPY_HARE_SRC="$(HAPPY_HARE_SRC)" "$(VENV_PY)" -m doc_tools.$(if $(CAPTURE),capture,shots) $(ARGS)
 
 # Regenerates doc/Command-Reference.md and doc/Dev-Command-Reference.md from
 # the real HELP_BRIEF/HELP_PARAMS/HELP_SUPPLEMENT text in the fetched
 # checkout's extras/mmu/** - stdlib only, no venv needed.
 command_reference: fetch-source
-	$(Q)HAPPY_HARE_SRC=$(HAPPY_HARE_SRC) $(PY) -m doc_tools.gen_command_reference
+	$(Q)HAPPY_HARE_SRC="$(HAPPY_HARE_SRC)" "$(PY)" -m doc_tools.gen_command_reference
 
 # Builds and serves the doc/ site at http://127.0.0.1:8000 with live reload -
 # rebuilds on every source change, so this is the one to leave running while
 # writing a page. Reads mkdocs.yml at the repo root. Needs no Happy-Hare source -
 # it only renders the doc/*.md and images already committed in this repo.
-docs: $(VENV)/.hh-doc_tools-requirements
-	$(Q)$(VENV)/bin/zensical serve
+docs: $(VENV_READY_STAMP)
+	$(Q)"$(VENV)/bin/zensical" serve
 
 # Builds the static site into ./site - what actually gets published (and what
 # the CI deploy workflow runs).
-docs_build: $(VENV)/.hh-doc_tools-requirements
-	$(Q)$(VENV)/bin/zensical build
+docs_build: $(VENV_READY_STAMP)
+	$(Q)"$(VENV)/bin/zensical" build
 
 # Serves the already-built ./site as plain static files - no rebuild, no live
 # reload. This is what GitHub Pages (or any static host) actually does with the
