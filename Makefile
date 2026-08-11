@@ -45,11 +45,15 @@ BOOTSTRAP_PY := $(if $(shell command -v $(PY) 2>/dev/null),$(PY),python3)
 $(SOURCE_FETCH_STAMP):
 	$(Q)echo "Fetching Happy-Hare @ $(HAPPY_HARE_REF) into $(HAPPY_HARE_SRC)"
 	$(Q)mkdir -p "$(dir $@)"
-	$(Q)test -d "$(HAPPY_HARE_SRC)/.git" || \
-	    (git clone --depth 1 --branch "$(HAPPY_HARE_REF)" "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)" 2>/dev/null || \
-	    (git clone "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)" && cd "$(HAPPY_HARE_SRC)" && git checkout "$(HAPPY_HARE_REF)")
+	$(Q)if ! test -d "$(HAPPY_HARE_SRC)/.git"; then \
+			if git clone --depth 1 --branch "$(HAPPY_HARE_REF)" "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)" 2>/dev/null; then \
+				: ; \
+			else \
+				git clone "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)" && \
+				cd "$(HAPPY_HARE_SRC)" && git checkout "$(HAPPY_HARE_REF)"; \
+			fi; \
+		fi
 	$(Q)touch "$@"
-
 fetch-source: $(SOURCE_FETCH_STAMP)
 
 clean-source:
