@@ -368,9 +368,9 @@ plateau at either end.
   `sync_gear_current`; it only applies while synced during printing, and
   full current returns automatically for loading and unloading.
 - **AutoTune seems to "hunt" continuously between two speeds** - for a
-  switch-based sensor (TO/CO/D) this is expected, by design, and not a fault
-  - the whole mechanism works by continuously seeking the correct rotation
-  distance. It doesn't affect print quality; if it's actually causing
+  switch-based sensor (TO/CO/D) this is expected, by design, and not a
+  fault - the whole mechanism works by continuously seeking the correct
+  rotation distance. It doesn't affect print quality; if it's actually causing
   problems, see the Tuning notes above on filament "play" first.
 
 ## See also
