@@ -13,8 +13,9 @@ or [Getting Started with BTT ViViD](GettingStarted-ViViD.md).
 
 ## Cloning Happy Hare
 
-Log into the machine running Klipper (most commonly a Raspberry Pi) over SSH,
-then clone the repository:
+Log into the machine running Klipper (most commonly a Raspberry Pi) as the user you
+used to install klipper over SSH using PuTTY, KiTTY, MobaXterm or similar utility
+(e.g. `ssh pi@myprinter.local`), then clone the repository:
 
 ```bash
 cd ~
@@ -42,7 +43,6 @@ something, add `-i`:
 ```bash
 ./install.sh -i
 ```
-
 The installer looks for Klipper and Moonraker in their standard locations.
 If you've customized where they live, or have more than one Klipper instance
 on the same machine, override the paths directly:
@@ -51,35 +51,71 @@ on the same machine, override the paths directly:
 ./install.sh -k <klipper_home_dir> -c <klipper_config_dir> -m <moonraker_home_dir>
 ```
 
-Full flag reference:
+!!! note
+    An existing install is never overwritten outright - it's moved to a
+    timestamped backup directory (e.g. `mmu-20260807_102329`) and the new one is
+    rebuilt from your previous choices plus whatever you change this run.
 
-```text
--i for interactive install (open menuconfig)
--u, -d for uninstall
--f to just restore klipper/moonraker symlinks (recover after hard klipper update)
--z skip github update check (nullifies -b <branch>)
--s to skip restart of services
--b <branch> to switch to specified feature branch (sticky)
--n to specify a multiple MMU unit setup
--k <dir> non-default klipper home directory
--c <dir> non-default klipper config directory
--m <dir> non-default moonraker home directory
--a <name>  alternative Klipper service name (e.g. when installed via Kiauh)
--e, --emu Enables multi MCU support (for EMU design)
--o Override compatibility checks (e.g. Kalico detection)
--t  test mode - write config to /tmp instead of your real install
-(-q verbose make for debugging)
-(-v verbose builder for debugging)
-```
 
-!!! tip
-    Nervous about running the installer against a live config? `-t` builds
-    everything in an isolated `/tmp` directory instead of touching your real
-    printer config, so you can look at the result before committing to it.
+## Other, common install options
 
-An existing install is never overwritten outright - it's moved to a
-timestamped backup directory (e.g. `mmu-20260807_102329`) and the new one is
-rebuilt from your previous choices plus whatever you change this run.
+=== "Test Mode"
+
+    !!! tip
+        Nervous about running the installer against a live config? `-t` builds
+        and generates configuration in an isolated `/tmp` directory instead of touching your real
+        printer config, so you can review results before committing to it.
+
+    This is enabled by specifying `-t` e.g.
+
+    ```bash
+    ./install.sh -i -t
+    ```
+    ```json
+    Running in test mode to simulate without changing real configuration
+    Forcing flags '-s -c /tmp/mmu_test/printer_data/config -k /tmp/mmu_test/klipper -m /tmp/mmu_test/moonraker /tmp/mmu_test/.mmu_config'
+    ```
+
+=== "Multiple MMU's"
+
+    Happy Hare can manage multiple MMU's connected to the same printer. Each MMU can
+    can be named to make it easier to identify its configuration.
+
+    This is enabled by specifying `-n` e.g.
+
+    ```bash
+    ./install.sh -i -n
+    ```
+
+=== "Per Lane Controllers"
+
+    For MMU's like EMU that use dedicated controllers/MCU's per lane, support needs
+    to be enabled by specifying `-e`/`-emu` e.g. 
+
+    ```bash 
+    ./install.sh -i -e
+    ```
+
+=== "Full install flag reference"
+
+    ```text
+    -i for interactive install (open menuconfig)
+    -u, -d for uninstall
+    -f to just restore klipper/moonraker symlinks (recover after hard klipper update)
+    -z skip github update check (nullifies -b <branch>)
+    -s to skip restart of services
+    -b <branch> to switch to specified feature branch (sticky)
+    -n to specify a multiple MMU unit setup
+    -k <dir> non-default klipper home directory
+    -c <dir> non-default klipper config directory
+    -m <dir> non-default moonraker home directory
+    -a <name>  alternative Klipper service name (e.g. when installed via Kiauh)
+    -e, --emu Enables multi MCU support (for EMU design)
+    -o Override compatibility checks (e.g. Kalico detection)
+    -t  test mode - write config to /tmp instead of your real install
+    (-q verbose make for debugging)
+    (-v verbose builder for debugging)
+    ```
 
 ## Client Macros
 
@@ -90,10 +126,16 @@ rebuilt from your previous choices plus whatever you change this run.
 Saying yes (the default) includes `client_macros.cfg` - ready-made
 `PAUSE`/`RESUME`/`CANCEL_PRINT` macros that already know how to work with
 Happy Hare's own toolhead-parking logic on an MMU error, rather than just the
-plain Klipper versions. If you already have your own PAUSE/RESUME macros and
+plain Klipper versions. If you already have your own `PAUSE`/`RESUME` macros and
 want to keep them, say no here - see
 [Operation](Operation.md#what-happens-when-the-mmu-pauses) for what your own
 macros need to account for.
+
+!!! info
+    The installer will insert `[include mmu/optional/client_macros.cfg]` into
+    `printer.cfg` after the last `[include ... ]` block, or at the end of
+    `printer.cfg` to ensure these macros are used in preference to
+    any other `PAUSE`/`RESUME`/`CANCEL_PRINT` macros.
 
 ## Upgrading
 
@@ -119,7 +161,7 @@ default locations and likely miss your actual install.
 
 ## Troubleshooting
 
-- **"step pin not defined for..." at Klipper startup** - usually means a
+- **"`step pin not defined for...`" at Klipper startup** - usually means a
   Klipper update wiped the symlinks Happy Hare needs. Run `./install.sh -f`
   to restore just the symlinks without going through the rest of the
   installer.

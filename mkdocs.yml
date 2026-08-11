@@ -75,8 +75,12 @@ markdown_extensions:
   - fenced_code
   - codehilite
   - admonition
+  - pymdownx.tabbed
   - attr_list
   - md_in_html
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
   # NOT pymdownx.superfences/mermaid: Zensical's custom-fence handling was observed
   # non-deterministic (~1 build in 4 rendered a ```mermaid block as a diagram; the
   # rest rendered raw source as plain code) even with --clean. Diagrams in this
