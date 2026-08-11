@@ -105,6 +105,7 @@ nav:
       - What Is an MMU?: Conceptual-MMU.md
   - Getting Started:
       - Installation: Installation.md
+      - Upgrading from v3 to v4: Upgrade-v3-v4.md
       - Box Turtle: GettingStarted-BoxTurtle.md
       - BTT ViViD: GettingStarted-ViViD.md
   - Calibration:
