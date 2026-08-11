@@ -8,7 +8,7 @@ of images the documentation needs.
 
 The split is deliberate: **this directory is code**, and everything it produces -
 `doc/images/`, `doc/GettingStarted-BoxTurtle.md` and its image folder,
-`doc/Command-Reference.md`, the built site itself, any future page - lives under `doc/`
+`doc/Reference-Commands.md`, the built site itself, any future page - lives under `doc/`
 (or `./site`, for the build) instead. Nothing here is installed on a printer or imported
 by Happy Hare, the installer or the tests. The dependencies (`pyte`, `Pillow`, `zensical`)
 live in `doc_tools/requirements.txt` and are installed into `./venv` on demand by the
@@ -34,7 +34,7 @@ calls, and re-executes each command class's `CMD`/`HELP_BRIEF`/`HELP_PARAMS`/
 `%`-formatting alike, without importing Happy Hare or Klipper at all:
 
 ```bash
-make command_reference    # stdlib only, no venv needed - regenerates doc/Command-Reference.md
+make command_reference    # stdlib only, no venv needed - regenerates doc/Reference-Commands.md
 ```
 
 Nothing about this page is hand-transcribed; if a command's help text is wrong here, the
@@ -74,7 +74,7 @@ longer needed on any page: the Material/Zensical theme renders its own
 "On this page" sidebar from the same headings on every page, so an inline
 `[TOC]` is now pure duplication rather than a navigation aid, on a
 long discursive page as much as a flat reference one. Don't add `[TOC]` to
-new pages; it's been removed from the ones that had it (`doc/Printer-Variables.md`).
+new pages; it's been removed from the ones that had it (`doc/Reference-Printer-Variables.md`).
 
 ## Regenerating the images
 

@@ -1,6 +1,6 @@
 # Developer Command Reference
 
-The commands [Command Reference](Command-Reference.md) leaves out -
+The commands [Command Reference](Reference-Commands.md) leaves out -
 individual loading/unloading steps and internal machinery, generated
 the same way from the same real `HELP_BRIEF`/`HELP_PARAMS`/
 `HELP_SUPPLEMENT` source. Not part of the supported user interface;

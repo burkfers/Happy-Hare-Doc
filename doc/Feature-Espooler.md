@@ -241,7 +241,7 @@ low and confirm it isn't dragging filament off the spool uncontrolled.
 
 ## Commands
 
-Full parameter reference: [`MMU_ESPOOLER`](Command-Reference.md#mmu_espooler).
+Full parameter reference: [`MMU_ESPOOLER`](Reference-Commands.md#mmu_espooler).
 
 ```text
 MMU_ESPOOLER                          # status of every gate's espooler
@@ -271,7 +271,7 @@ in-print assist mode for the unit's current gate.
 
 ## Printer variables exposed
 
-See [`espooler`](Printer-Variables.md#per-gate-arrays-merged-across-every-unit)
+See [`espooler`](Reference-Printer-Variables.md#per-gate-arrays-merged-across-every-unit)
 in the printer variable reference - a per-gate list of
 `''`/`off`/`rewind`/`assist`/`print` (empty string for a gate on a unit with
 no espooler). The deprecated `espooler_active` variable predates the `print`
@@ -399,11 +399,11 @@ MMU_ESPOOLER
 
 ## See also
 
-- [Command Reference: `MMU_ESPOOLER`](Command-Reference.md#mmu_espooler)
+- [Command Reference: `MMU_ESPOOLER`](Reference-Commands.md#mmu_espooler)
 - [Feature: Environment Manager](Feature-Environment-Manager.md) - its
   `MMU_HEATER DRY=1 ROTATE=1` drying option reuses the espooler's rewind
   burst mechanism
-- [Printer Variables: per-gate arrays](Printer-Variables.md#per-gate-arrays-merged-across-every-unit)
+- [Printer Variables: per-gate arrays](Reference-Printer-Variables.md#per-gate-arrays-merged-across-every-unit)
   for the `espooler` status field
 - [GettingStarted-BoxTurtle.md](GettingStarted-BoxTurtle.md) - enabling
   the eSpooler feature during initial `menuconfig` setup

@@ -121,7 +121,7 @@ register_buffer_sensors : 1
 
 An empty switch pin simply means that half of the sensor isn't fitted - a
 tension-only or compression-only design works fine with the other pin left
-blank. Use [`MMU_SENSORS`](Command-Reference.md#mmu_sensors) while manually
+blank. Use [`MMU_SENSORS`](Reference-Commands.md#mmu_sensors) while manually
 triggering the buffer by hand to confirm the orientation is wired the way
 you expect - a squeezed buffer commonly means tension, an expanded one
 compression, but it depends entirely on your specific mechanism.
@@ -231,7 +231,7 @@ MMU_SYNC_FEEDBACK RESET=1            # Reset the controller, restoring the last 
 MMU_SYNC_FEEDBACK ADJUST_TENSION=1   # Nudge the buffer back towards neutral right now
 ```
 
-Full parameter reference: [`MMU_SYNC_FEEDBACK`](Command-Reference.md#mmu_sync_feedback).
+Full parameter reference: [`MMU_SYNC_FEEDBACK`](Reference-Commands.md#mmu_sync_feedback).
 Happy Hare calls the equivalent of `ADJUST_TENSION=1` automatically after a
 filament load and again after purging, so this is mainly useful for
 checking status or recovering manually. That automatic post-load call is
@@ -244,18 +244,18 @@ MMU_SYNC_GEAR_MOTOR          # Force sync on right now (SYNC defaults to 1)
 MMU_SYNC_GEAR_MOTOR SYNC=0   # Force sync off and release the servo, on designs that have one
 ```
 
-Full parameter reference: [`MMU_SYNC_GEAR_MOTOR`](Command-Reference.md#mmu_sync_gear_motor).
+Full parameter reference: [`MMU_SYNC_GEAR_MOTOR`](Reference-Commands.md#mmu_sync_gear_motor).
 Happy Hare manages this automatically during normal operation - reach for it
 directly if you're operating the MMU by hand during a pause and want the
 gear synced (or not) for what you're about to do. You can still move the
 gear stepper on its own with
-[`MMU_TEST_MOVE`](Command-Reference.md#mmu_test_move) or
-[`MMU_TEST_HOMING_MOVE`](Command-Reference.md#mmu_test_homing_move)
+[`MMU_TEST_MOVE`](Reference-Commands.md#mmu_test_move) or
+[`MMU_TEST_HOMING_MOVE`](Reference-Commands.md#mmu_test_homing_move)
 regardless of the current sync state.
 
 ## Printer variables exposed
 
-See [sync feedback, FlowGuard and tangle prevention](Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
+See [sync feedback, FlowGuard and tangle prevention](Reference-Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
 in the printer variable reference - `sync_feedback_state`,
 `sync_feedback_enabled`, `sync_feedback_bias_raw`/`_modelled`, and
 `sync_feedback_flow_rate` (proportional sensors only).
@@ -305,7 +305,7 @@ for a quick glance without opening the meter:
 With `analog_pin` set in `mmu_hardware.cfg` and Klipper restarted, confirm
 the wiring works at all before trusting the automatic calibration below.
 Load filament, then move the buffer shuttle by hand to each extreme and
-check the raw value with [`MMU_SENSORS`](Command-Reference.md#mmu_sensors):
+check the raw value with [`MMU_SENSORS`](Reference-Commands.md#mmu_sensors):
 
 ```{.text .console-output}
 > MMU_SENSORS
@@ -317,7 +317,7 @@ it barely moves, the pin isn't actually ADC-capable (double check it's not
 a plain digital/endstop pin, the kind normally used for a thermistor).
 
 Once wiring is confirmed,
-[`MMU_CALIBRATE_PSENSOR`](Command-Reference.md#mmu_calibrate_psensor) does
+[`MMU_CALIBRATE_PSENSOR`](Reference-Commands.md#mmu_calibrate_psensor) does
 the rest automatically - it moves the gear stepper in small increments in
 both directions until the readings plateau at each extreme, then reports
 the values to enter into `mmu_hardware.cfg`:
@@ -371,11 +371,11 @@ plateau at either end.
 
 ## See also
 
-- [Command Reference: `MMU_SYNC_FEEDBACK`](Command-Reference.md#mmu_sync_feedback)
-- [Command Reference: `MMU_SYNC_GEAR_MOTOR`](Command-Reference.md#mmu_sync_gear_motor)
-- [Command Reference: `MMU_CALIBRATE_PSENSOR`](Command-Reference.md#mmu_calibrate_psensor)
-- [Command Reference: `MMU_SENSORS`](Command-Reference.md#mmu_sensors)
-- [Printer Variables: sync feedback, FlowGuard and tangle prevention](Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
+- [Command Reference: `MMU_SYNC_FEEDBACK`](Reference-Commands.md#mmu_sync_feedback)
+- [Command Reference: `MMU_SYNC_GEAR_MOTOR`](Reference-Commands.md#mmu_sync_gear_motor)
+- [Command Reference: `MMU_CALIBRATE_PSENSOR`](Reference-Commands.md#mmu_calibrate_psensor)
+- [Command Reference: `MMU_SENSORS`](Reference-Commands.md#mmu_sensors)
+- [Printer Variables: sync feedback, FlowGuard and tangle prevention](Reference-Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
 - [Feature: FlowGuard](Feature-FlowGuard.md) - the clog/tangle detection and tangle-prevention current boost this sensor feeds
 - [Feature: FlowGuard: Tuning with telemetry](Feature-FlowGuard.md#tuning-with-telemetry) - reading a `sync_feedback_debug_log` telemetry file, including these AutoTune simulation plots' real-print counterparts
 

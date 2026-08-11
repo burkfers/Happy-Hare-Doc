@@ -1341,6 +1341,14 @@ MMU_TEST_TRACKING DIRECTION=-1 STEP=1 ...Test tracking in the retract direction 
 
 ## MACROS
 
+### MMU_CHANGE_TOOL_STANDALONE
+
+*Convenience macro for inclusion in print_start for initial tool load*
+
+### MMU_END
+
+*Called when ending print to finalize MMU*
+
 ### MMU_PRINT_END
 
 *Forces clean up of state after after print end*
@@ -1368,6 +1376,60 @@ Call at the start of your print in the slicer's gcode start block
 Examples:
 MMU_PRINT_START ...Initialize MMU state ready for a print
 ```
+
+### MMU_START_CHECK
+
+*Helper macro. Can be called to perform pre-start checks on MMU based on slicer requirements*
+
+### MMU_START_LOAD_INITIAL_TOOL
+
+*Helper to load initial tool if not paused*
+
+### MMU_START_SETUP
+
+*Called when starting print to setup MMU*
+
+### MMU_UPDATE_HEIGHT
+
+*Record maximum toolhead height for z-hop base (call on layer change for sequential printing)*
+
+## CALLBACKS/HOOKS
+
+### _MMU_ACTION_CHANGED
+
+*Called when an action has changed*
+
+### _MMU_EVENT
+
+*Called when certain MMU actions occur*
+
+### _MMU_POST_FORM_TIP
+
+*Optional post tip forming/cutting routing*
+
+### _MMU_POST_LOAD
+
+*Optional post load routine for filament change*
+
+### _MMU_POST_PRELOAD
+
+*Optional post preload routine for filament change*
+
+### _MMU_POST_UNLOAD
+
+*Optional post unload routine for filament change*
+
+### _MMU_PRE_LOAD
+
+*Optional pre load routine for filament change*
+
+### _MMU_PRE_UNLOAD
+
+*Optional pre unload routine for filament change*
+
+### _MMU_PRINT_STATE_CHANGED
+
+*Called when print state changes*
 
 ## OTHER/ALIAS
 

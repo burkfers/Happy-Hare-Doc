@@ -103,7 +103,7 @@ Every one of the CAD-derived settings above except `toolhead_residual_filament`
 can, in principle, be measured directly from a CAD model (using the internal
 nozzle shoulder as the reference point - awkward on a CHT nozzle, see the
 cutaway below). With a toolhead sensor fitted, there's a faster, automated
-way: [`MMU_CALIBRATE_TOOLHEAD`](Command-Reference.md#mmu_calibrate_toolhead).
+way: [`MMU_CALIBRATE_TOOLHEAD`](Reference-Commands.md#mmu_calibrate_toolhead).
 
 <p align="center">
   <img src="Blobbing-and-Stringing/CHT_Cutaway.png" alt="CHT nozzle cutaway showing the internal shoulder reference point" width="40%">
@@ -355,10 +355,10 @@ temperature defaults.
 ## See also
 
 - [Feature: Cold Pull](Feature-Cold-Pull.md) - cleaning/prepping the nozzle before calibration
-- [Command Reference: `MMU_CALIBRATE_TOOLHEAD`](Command-Reference.md#mmu_calibrate_toolhead)
-- [Command Reference: `MMU_UNLOAD`](Command-Reference.md#mmu_unload)
+- [Command Reference: `MMU_CALIBRATE_TOOLHEAD`](Reference-Commands.md#mmu_calibrate_toolhead)
+- [Command Reference: `MMU_UNLOAD`](Reference-Commands.md#mmu_unload)
 - [Toolchange Movement](Toolchange-Movement.md)
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md)
-- [Printer Variables](Printer-Variables.md#core-state)
+- [Printer Variables](Reference-Printer-Variables.md#core-state)
 
 ---

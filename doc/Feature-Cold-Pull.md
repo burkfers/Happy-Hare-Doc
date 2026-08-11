@@ -15,7 +15,7 @@ the actual pull, though you can disengage it and pull fully by hand if
 you'd rather (some extruders, e.g. Galileo 2, have enough grip/torque to
 manage without any manual help at all). It's implemented as a plain
 `gcode_macro` (`config/macros/mmu_misc.cfg`), not a Python command, so it
-doesn't appear on [Command Reference](Command-Reference.md) - this page
+doesn't appear on [Command Reference](Reference-Commands.md) - this page
 is its documentation.
 
 ## Manual procedure
@@ -119,4 +119,4 @@ to cool down for the pull.
 ## See also
 
 - [Blobbing and Stringing: Calibrating the Toolhead](Blobbing-and-Stringing.md#calibrating-the-toolhead) - the calibration procedure a cold pull prepares the nozzle for
-- [Command Reference: `MMU_CALIBRATE_TOOLHEAD`](Command-Reference.md#mmu_calibrate_toolhead)
+- [Command Reference: `MMU_CALIBRATE_TOOLHEAD`](Reference-Commands.md#mmu_calibrate_toolhead)

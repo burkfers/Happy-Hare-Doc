@@ -35,7 +35,7 @@ command on this site, there's no manual fallback here - the command
 raises an error and refuses to run at all without one. If you don't have
 a toolhead sensor, your only path to more accurate values is hand-
 measuring and editing the four `toolhead_*` parameters directly (see
-[Config Parameters](Parameters.md) for their meaning), not a guided
+[Config Parameters](Reference-Parameters.md) for their meaning), not a guided
 command.
 
 ## Where it fits in the order
@@ -53,4 +53,4 @@ needing to redo anything else.
 - [Calibration](Calibration.md) - overview, order, and which steps apply to your MMU
 - [Getting Started with Box Turtle: Picking a toolhead](GettingStarted-BoxTurtle.md#picking-a-toolhead)
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md#toolhead-calibration-and-toolhead_ooze_reduction) - the manual fine-tune layered on top once calibrated
-- [Command Reference: `MMU_CALIBRATE_TOOLHEAD`](Command-Reference.md#mmu_calibrate_toolhead)
+- [Command Reference: `MMU_CALIBRATE_TOOLHEAD`](Reference-Commands.md#mmu_calibrate_toolhead)

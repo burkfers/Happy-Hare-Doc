@@ -60,7 +60,7 @@ SET_PRINT_STATS_INFO TOTAL_LAYER={total_layer_count} ; For pause-at-layer and be
            purge_volumes: [[100, 100], [100, 100]]  # NxN matrix, purge volume tool X -> tool Y
 
     Display it any time with
-    [`MMU_SLICER_TOOL_MAP`](Command-Reference.md#mmu_slicer_tool_map)
+    [`MMU_SLICER_TOOL_MAP`](Reference-Commands.md#mmu_slicer_tool_map)
     (`PURGE_MAP=1` or `SPARSE_PURGE_MAP=1` also shows the purge matrix,
     the latter limited to tools actually referenced in the print):
 
@@ -139,7 +139,7 @@ T[next_extruder]
 ```
 
 Happy Hare's Moonraker extension rewrites `Tn` lines into
-[`MMU_CHANGE_TOOL`](Command-Reference.md#mmu_change_tool) when it
+[`MMU_CHANGE_TOOL`](Reference-Commands.md#mmu_change_tool) when it
 pre-processes an uploaded gcode file.
 
 ## Customizing the Start/End Macros
@@ -317,7 +317,7 @@ real generated file is the reliable way to confirm it.
   `MMU_START_SETUP`/`MMU_START_LOAD_INITIAL_TOOL`/`MMU_END` settings this
   page's macros drive
 - [Feature: G-code Preprocessing](Feature-Gcode-Preprocessing.md)
-- [Command Reference: `MMU_SLICER_TOOL_MAP`](Command-Reference.md#mmu_slicer_tool_map)
-- [Command Reference: `MMU_CHANGE_TOOL`](Command-Reference.md#mmu_change_tool)
+- [Command Reference: `MMU_SLICER_TOOL_MAP`](Reference-Commands.md#mmu_slicer_tool_map)
+- [Command Reference: `MMU_CHANGE_TOOL`](Reference-Commands.md#mmu_change_tool)
 
 ---

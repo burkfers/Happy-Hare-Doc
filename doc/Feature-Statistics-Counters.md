@@ -24,7 +24,7 @@ MMU_STATS TOTAL=1        # Force the lifetime-totals table even mid-print
 MMU_STATS RESET=1        # Reset swap and gate statistics back to zero
 ```
 
-Full parameter reference: [`MMU_STATS`](Command-Reference.md#mmu_stats). A
+Full parameter reference: [`MMU_STATS`](Reference-Commands.md#mmu_stats). A
 plain `MMU_STATS` looks something like this (columns/rows shown are the
 shipped defaults - see Tuning below for customizing them):
 
@@ -144,7 +144,7 @@ Counters persist across restarts until explicitly deleted.
     Two of the pieces for a couple of obvious ones already exist as plain
     config values - `mmu_macro_vars.cfg`'s `_MMU_STATE_VARS` section ships
     a `servo_down_limit` and a `cutter_blade_limit` (see [Macro Variables:
-    State change hooks](Macro-Vars.md#state-change-hooks-_mmu_state_vars))
+    State change hooks](Reference-Macro-Vars.md#state-change-hooks-_mmu_state_vars))
     - but neither is wired to an actual counter automatically; you'd still
     set one up yourself with `MMU_STATS COUNTER=...` as above, just reusing
     Happy Hare's own suggested limit value.
@@ -198,13 +198,13 @@ including gate-map listings elsewhere on this site.
 
 ## See also
 
-- [Command Reference: `MMU_STATS`](Command-Reference.md#mmu_stats)
+- [Command Reference: `MMU_STATS`](Reference-Commands.md#mmu_stats)
 - [Feature: Encoder](Feature-Encoder.md) - the source of gate slippage/quality data
 - [Feature: EndlessSpool & Runout Detection](Feature-Endless-Spool-Runout.md) - a runout pause adds to that gate's pause count
 - [Macro: State Change Hooks](Macro-State-Change-Hooks.md) - the
   `servo_down_limit`/`cutter_blade_limit` maintenance thresholds a
   hand-wired counter here can use
-- [Printer Variables](Printer-Variables.md#core-state) - `num_toolchanges`/`slicer_tool_map.total_toolchanges`, the only part of this feature exposed as a printer variable; everything else is console/log only
+- [Printer Variables](Reference-Printer-Variables.md#core-state) - `num_toolchanges`/`slicer_tool_map.total_toolchanges`, the only part of this feature exposed as a printer variable; everything else is console/log only
 
 ---
 

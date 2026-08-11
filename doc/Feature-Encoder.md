@@ -117,7 +117,7 @@ page stops at the console output in [Commands](#commands) below.
 
 ## Commands
 
-Full parameter reference: [`MMU_ENCODER`](Command-Reference.md#mmu_encoder).
+Full parameter reference: [`MMU_ENCODER`](Reference-Commands.md#mmu_encoder).
 
 ```text
 MMU_ENCODER          # Report current encoder position and FlowGuard status
@@ -141,7 +141,7 @@ matched as closely as possible rather than exactly.
 
 ## Printer variables exposed
 
-See [`printer.mmu.encoder`](Printer-Variables.md#encoder) in the printer
+See [`printer.mmu.encoder`](Reference-Printer-Variables.md#encoder) in the printer
 variable reference for the full field list (`encoder_pos`, `detection_length`,
 `headroom`, `flow_rate`, and friends) - it's only present on a unit that has
 one fitted.
@@ -168,7 +168,7 @@ detection length is fixed or self-tuning.
   re-run `MMU_ENCODER` - the position should have increased (remember, it
   never decreases). If it hasn't moved, double-check `encoder_pin` - most
   encoders need the pull-up (`^`) even if they don't need inversion (`!`).
-- **Use fresh filament for [`MMU_CALIBRATE_ENCODER`](Command-Reference.md#mmu_calibrate_encoder).**
+- **Use fresh filament for [`MMU_CALIBRATE_ENCODER`](Reference-Commands.md#mmu_calibrate_encoder).**
   Grooves worn into a well-used filament strand by the extruder gears can
   throw off the count. Also make sure the selector is properly aligned with
   the gate first - a selector that's off to one side tends to give
@@ -188,7 +188,7 @@ detection length is fixed or self-tuning.
   try adding a pull-up (`^`) if one isn't already set; polarity/inversion
   (`!`) is rarely the actual problem.
 - **"Encoder resolution ... was not found in mmu_vars.cfg. Probably not
-  calibrated"** at startup - run [`MMU_CALIBRATE_ENCODER`](Command-Reference.md#mmu_calibrate_encoder)
+  calibrated"** at startup - run [`MMU_CALIBRATE_ENCODER`](Reference-Commands.md#mmu_calibrate_encoder)
   at least once; until then Happy Hare is running on the menuconfig starter
   value only.
 - **Bowden or gate moves report a movement mismatch** - check
@@ -203,13 +203,13 @@ detection length is fixed or self-tuning.
 
 ## See also
 
-- [Command Reference: `MMU_ENCODER`](Command-Reference.md#mmu_encoder)
-- [Command Reference: `MMU_CALIBRATE_ENCODER`](Command-Reference.md#mmu_calibrate_encoder)
-- [Command Reference: `MMU_CALIBRATE_GATE`](Command-Reference.md#mmu_calibrate_gate) -
+- [Command Reference: `MMU_ENCODER`](Reference-Commands.md#mmu_encoder)
+- [Command Reference: `MMU_CALIBRATE_ENCODER`](Reference-Commands.md#mmu_calibrate_encoder)
+- [Command Reference: `MMU_CALIBRATE_GATE`](Reference-Commands.md#mmu_calibrate_gate) -
   `ALL=1` (alias `MMU_CALIBRATE_GATES`) uses a calibrated encoder to
   calibrate every gate's rotation distance in one pass, instead of measuring
   each by hand
-- [Printer Variables: `encoder`](Printer-Variables.md#encoder)
+- [Printer Variables: `encoder`](Reference-Printer-Variables.md#encoder)
 - [Feature: FlowGuard](Feature-FlowGuard.md) - the clog/tangle/runout detection this page's movement signal feeds
 
 ---

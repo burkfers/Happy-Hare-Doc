@@ -29,7 +29,7 @@ choice of tip-forming method itself.
 `_MMU_CUT_TIP_VARS` in `mmu_macro_vars.cfg`, reachable from menuconfig's
 **Macro Variables → Toolhead tip cutting (\_MMU_CUT_TIP)** screen shown
 above, once the capability flag above is on. Full variable table: [Macro
-Variables: Toolhead tip cutting](Macro-Vars.md#toolhead-tip-cutting-_mmu_cut_tip_vars).
+Variables: Toolhead tip cutting](Reference-Macro-Vars.md#toolhead-tip-cutting-_mmu_cut_tip_vars).
 Tune the same one-variable-at-a-time way as tip forming (see [Feature: Tip
 Forming and Purging](Feature-Tip-Forming-Purging.md#tuning-tip-forming)) -
 the variables themselves just live in this different section.
@@ -57,7 +57,7 @@ guides on this topic:
   concept, trade-offs, and the cut routine
 - [Toolchange Movement: Tip Cutting Options](Toolchange-Movement.md#tip-cutting-options) -
   worked parking examples for a toolhead cutter
-- [Macro Variables: Toolhead tip cutting](Macro-Vars.md#toolhead-tip-cutting-_mmu_cut_tip_vars) -
+- [Macro Variables: Toolhead tip cutting](Reference-Macro-Vars.md#toolhead-tip-cutting-_mmu_cut_tip_vars) -
   every `_MMU_CUT_TIP_VARS` setting in full
 - [Macro: Tip Forming](Macro-Tip-Forming.md) - the default alternative this
   macro replaces

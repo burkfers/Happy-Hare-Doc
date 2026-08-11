@@ -52,7 +52,7 @@ menuconfig's **Macro Variables → Servo cutter at MMU
 (\_MMU_SERVO_CUTTER)** screen shown above, once **Have servo cutter at
 MMU?** is enabled under **Tip Forming / Cutting**. Full variable table:
 [Macro Variables: Servo cutter,
-MMU-mounted](Macro-Vars.md#servo-cutter-mmu-mounted-_mmu_servo_cutter_vars).
+MMU-mounted](Reference-Macro-Vars.md#servo-cutter-mmu-mounted-_mmu_servo_cutter_vars).
 
 `feed_length` - the distance from the gate parking position to the blade -
 is the one setting worth calibrating carefully rather than guessing: `48`mm
@@ -62,7 +62,7 @@ covers ERCF v2 and most other designs, `58`mm is the ERCF v1.1 value.
 
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md#servo-cutter-mmu-mounted) -
   how this fits alongside tip forming/cutting
-- [Macro Variables: Servo cutter, MMU-mounted](Macro-Vars.md#servo-cutter-mmu-mounted-_mmu_servo_cutter_vars) -
+- [Macro Variables: Servo cutter, MMU-mounted](Reference-Macro-Vars.md#servo-cutter-mmu-mounted-_mmu_servo_cutter_vars) -
   every `_MMU_SERVO_CUTTER_VARS` setting in full
 - [Macro: Sequence](Macro-Sequence.md) - the `post_load_extension` mechanism
   this macro runs through

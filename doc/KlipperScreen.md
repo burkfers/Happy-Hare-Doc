@@ -69,7 +69,7 @@ KlipperScreen home/print pages instead, if you turn the carrot off in
 settings). Each gate's loaded spool renders as an actual colored spool
 graphic - color and material come from the gate map's
 `gate_material`/`gate_color`, set either as defaults in `mmu.cfg` or live
-with [`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map). Below the spool
+with [`MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map). Below the spool
 row, one button per gate shows its number with the tool(s) mapped to it
 labelled above (`T2+` when more than one tool maps there); the currently
 selected gate's button is outlined.
@@ -215,7 +215,7 @@ mechanics.
 
 If Spoolman is enabled, this can be more useful than the plain Filament
 Editor above (though a spool ID can still be edited from either that panel
-or with [`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map)):
+or with [`MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map)):
 
 <p align="center">
   <img src="KlipperScreen/mmu_spoolman.png" alt="KlipperScreen Spoolman filaments panel" width="80%">
@@ -237,7 +237,7 @@ behaviour on the display side:
 
 - [Mainsail / Fluidd](Mainsail-Fluidd-Integration.md) - the equivalent web-UI
   panels
-- [Command Reference: `MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map)
+- [Command Reference: `MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map)
 - [Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md)
 - [Feature: Spoolman Integration](Feature-Spoolman.md)
 

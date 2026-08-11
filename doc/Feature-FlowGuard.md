@@ -79,7 +79,7 @@ MMU_FLOWGUARD ENABLE=0           # Disable on the active unit
 MMU_FLOWGUARD ENABLE=1 UNIT=ALL  # Enable on every unit
 ```
 
-Full parameter reference: [`MMU_FLOWGUARD`](Command-Reference.md#mmu_flowguard).
+Full parameter reference: [`MMU_FLOWGUARD`](Reference-Commands.md#mmu_flowguard).
 
 ```{.text .console-output}
 > MMU_FLOWGUARD
@@ -99,8 +99,8 @@ encoder to function."
 
 ## Printer variables exposed
 
-See [`flowguard`](Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
-and [`tangle_prevention`](Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
+See [`flowguard`](Reference-Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
+and [`tangle_prevention`](Reference-Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
 in the printer variable reference - both are dicts, present whenever the
 active unit has a buffer and/or encoder.
 
@@ -211,11 +211,11 @@ Reason for trip: Tension stuck after 63mm motion and 8.3mm relief (triggering pa
 
 ## See also
 
-- [Command Reference: `MMU_FLOWGUARD`](Command-Reference.md#mmu_flowguard)
+- [Command Reference: `MMU_FLOWGUARD`](Reference-Commands.md#mmu_flowguard)
 - [Feature: Sync-Feedback Buffer](Feature-Sync-Feedback-Buffer.md)
 - [Feature: Encoder](Feature-Encoder.md)
 - [Feature: EndlessSpool & Runout Detection](Feature-Endless-Spool-Runout.md)
-- [Printer Variables: sync feedback, FlowGuard and tangle prevention](Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
+- [Printer Variables: sync feedback, FlowGuard and tangle prevention](Reference-Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
 
 ---
 

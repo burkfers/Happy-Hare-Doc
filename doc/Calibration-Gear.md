@@ -100,7 +100,7 @@ It depends on your MMU's design:
 
 - [Calibration](Calibration.md) - overview, order, and which steps apply to your MMU
 - [Calibration: Encoder](Calibration-Encoder.md) - required before `MMU_CALIBRATE_GATE`
-- [Config Parameters](Parameters.md#calibration-and-autotune) - `skip_cal_rotation_distance`/`autotune_rotation_distance` in full
-- [Command Reference: `MMU_CALIBRATE_GEAR`](Command-Reference.md#mmu_calibrate_gear)
-- [Command Reference: `MMU_CALIBRATE_GATE`](Command-Reference.md#mmu_calibrate_gate)
-- [Command Reference: `MMU_TEST_MOVE`](Command-Reference.md#mmu_test_move)
+- [Config Parameters](Reference-Parameters.md#calibration-and-autotune) - `skip_cal_rotation_distance`/`autotune_rotation_distance` in full
+- [Command Reference: `MMU_CALIBRATE_GEAR`](Reference-Commands.md#mmu_calibrate_gear)
+- [Command Reference: `MMU_CALIBRATE_GATE`](Reference-Commands.md#mmu_calibrate_gate)
+- [Command Reference: `MMU_TEST_MOVE`](Reference-Commands.md#mmu_test_move)

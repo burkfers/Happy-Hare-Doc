@@ -39,7 +39,7 @@ same group lookup immediately, instead of erroring.
 Nothing to wire specifically for this feature - it's built entirely on
 sensors your MMU design already provides (gate or entry sensors) and/or an
 encoder, both covered on their own pages. Use
-[`MMU_SENSORS`](Command-Reference.md#mmu_sensors) to check what's currently
+[`MMU_SENSORS`](Reference-Commands.md#mmu_sensors) to check what's currently
 fitted and active.
 
 ## Parameter Setup
@@ -84,7 +84,7 @@ benefit from this option.
 
 ## Commands
 
-Full parameter reference: [`MMU_ENDLESS_SPOOL`](Command-Reference.md#mmu_endless_spool).
+Full parameter reference: [`MMU_ENDLESS_SPOOL`](Reference-Commands.md#mmu_endless_spool).
 
 ```text
 MMU_ENDLESS_SPOOL                     # Report current status and groups
@@ -128,7 +128,7 @@ No alternatives gates available after checking for T0 in EndlessSpool Group A (c
 ```
 
 To rehearse the whole thing without an actual runout, use
-[`MMU_TEST_RUNOUT`](Command-Reference.md#mmu_test_runout):
+[`MMU_TEST_RUNOUT`](Reference-Commands.md#mmu_test_runout):
 
 ```text
 MMU_TEST_RUNOUT            # Simulate a runout - triggers EndlessSpool if enabled
@@ -139,9 +139,9 @@ MMU_TEST_RUNOUT TYPE=clog  # Simulate a clog/tangle instead - always pauses
 
 | Variable | Meaning |
 |---|---|
-| [`endless_spool_enabled`](Printer-Variables.md#gate-and-tool-maps) | `0` off, `1` on |
-| [`endless_spool_groups`](Printer-Variables.md#gate-and-tool-maps) | Group membership per gate |
-| [`gate_status`](Printer-Variables.md#gate-and-tool-maps) | Per-gate empty/available state - what a runout actually updates |
+| [`endless_spool_enabled`](Reference-Printer-Variables.md#gate-and-tool-maps) | `0` off, `1` on |
+| [`endless_spool_groups`](Reference-Printer-Variables.md#gate-and-tool-maps) | Group membership per gate |
+| [`gate_status`](Reference-Printer-Variables.md#gate-and-tool-maps) | Per-gate empty/available state - what a runout actually updates |
 
 The deprecated `endless_spool` variable (under the gate-map group) still
 works for now since KlipperScreen and the Mainsail/Fluidd interfaces still
@@ -170,14 +170,14 @@ read it, but new macros should use `endless_spool_enabled` instead.
 
 - **A runout pauses instead of continuing, even with EndlessSpool on** - most
   likely every other gate in that group is already marked empty (check
-  [`gate_status`](Printer-Variables.md#gate-and-tool-maps) or `MMU_GATE_MAP`),
+  [`gate_status`](Reference-Printer-Variables.md#gate-and-tool-maps) or `MMU_GATE_MAP`),
   or the gate that ran out isn't actually assigned to a group with any other
   member. A group of one gate can never have an alternative to fall back to.
 - **A stuck-filament situation isn't being handled by EndlessSpool** - this
   is expected. Clogs and tangles always pause for manual intervention;
   EndlessSpool only ever acts on a confirmed runout.
 - **Runout isn't detected at all** - check
-  [`MMU_SENSORS`](Command-Reference.md#mmu_sensors) to confirm the relevant
+  [`MMU_SENSORS`](Reference-Commands.md#mmu_sensors) to confirm the relevant
   sensor is actually active, not disabled.
 - **`GROUPS=` was rejected** - it needs exactly one comma-separated,
   non-negative integer per gate; a mismatched count or a stray character
@@ -185,10 +185,10 @@ read it, but new macros should use `endless_spool_enabled` instead.
 
 ## See also
 
-- [Command Reference: `MMU_ENDLESS_SPOOL`](Command-Reference.md#mmu_endless_spool)
-- [Command Reference: `MMU_TEST_RUNOUT`](Command-Reference.md#mmu_test_runout)
-- [Command Reference: `MMU_SENSORS`](Command-Reference.md#mmu_sensors)
-- [Printer Variables: gate and tool maps](Printer-Variables.md#gate-and-tool-maps)
+- [Command Reference: `MMU_ENDLESS_SPOOL`](Reference-Commands.md#mmu_endless_spool)
+- [Command Reference: `MMU_TEST_RUNOUT`](Reference-Commands.md#mmu_test_runout)
+- [Command Reference: `MMU_SENSORS`](Reference-Commands.md#mmu_sensors)
+- [Printer Variables: gate and tool maps](Reference-Printer-Variables.md#gate-and-tool-maps)
 
 ---
 
