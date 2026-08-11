@@ -73,7 +73,7 @@ An MMU-end cutter (the classic EREC design, or similar) trims the tip
 Enabling it under **Tip Forming / Cutting** adds a servo pin prompt and
 generates `[mmu_servo cut_servo]` in `mmu.cfg`; its own tuning (open/close
 angles, feed/cut length, cut attempts) lives in `mmu_macro_vars.cfg`'s
-[`_MMU_SERVO_CUTTER_VARS`](Macro-Vars.md#servo-cutter-mmu-mounted-_mmu_servo_cutter_vars).
+[`_MMU_SERVO_CUTTER_VARS`](Reference-Macro-Vars.md#servo-cutter-mmu-mounted-_mmu_servo_cutter_vars).
 See [Macro: Servo Cutter](Macro-Servo-Cutter.md) for the build/wiring side.
 
 ## Parameter Setup
@@ -100,7 +100,7 @@ Multimaterial section settings as your own starting point:
 </p>
 
 Its tuning variables live in `mmu_macro_vars.cfg`'s
-[`_MMU_FORM_TIP_VARS`](Macro-Vars.md#tip-forming-_mmu_form_tip_vars)
+[`_MMU_FORM_TIP_VARS`](Reference-Macro-Vars.md#tip-forming-_mmu_form_tip_vars)
 section. Tuning by hand:
 
 1. Remove the bowden tube at the toolhead so you can feed filament directly.
@@ -137,7 +137,7 @@ section. Tuning by hand:
     Klipper restarts. Copy anything you want to keep into
     `mmu_macro_vars.cfg`.
 
-Full parameter reference: [`MMU_TEST_FORM_TIP`](Command-Reference.md#mmu_test_form_tip).
+Full parameter reference: [`MMU_TEST_FORM_TIP`](Reference-Commands.md#mmu_test_form_tip).
 
 ### Toolhead cutter (`_MMU_CUT_TIP`)
 
@@ -213,7 +213,7 @@ MMU_CALC_PURGE_VOLUMES SOURCE=slicer MIN=50              # From the slicer's own
 Purge map updated. Use 'MMU_SLICER_TOOL_MAP PURGE_MAP=1' to view
 ```
 
-Full parameter reference: [`MMU_CALC_PURGE_VOLUMES`](Command-Reference.md#mmu_calc_purge_volumes).
+Full parameter reference: [`MMU_CALC_PURGE_VOLUMES`](Reference-Commands.md#mmu_calc_purge_volumes).
 Volumes default to a 0-800mm³ range unless overridden with `MIN=`/`MAX=`.
 View the result with `MMU_SLICER_TOOL_MAP PURGE_MAP=1` (or
 `SPARSE_PURGE_MAP=1` to drop toolchanges that can't actually occur in the
@@ -332,10 +332,10 @@ MMU_TEST_CONFIG toolhead_ooze_reduction=1
 ```
 
 Full parameter reference:
-[`MMU_TEST_FORM_TIP`](Command-Reference.md#mmu_test_form_tip),
-[`MMU_TEST_PURGE`](Command-Reference.md#mmu_test_purge),
-[`MMU_CALC_PURGE_VOLUMES`](Command-Reference.md#mmu_calc_purge_volumes),
-[`MMU_SLICER_TOOL_MAP`](Command-Reference.md#mmu_slicer_tool_map).
+[`MMU_TEST_FORM_TIP`](Reference-Commands.md#mmu_test_form_tip),
+[`MMU_TEST_PURGE`](Reference-Commands.md#mmu_test_purge),
+[`MMU_CALC_PURGE_VOLUMES`](Reference-Commands.md#mmu_calc_purge_volumes),
+[`MMU_SLICER_TOOL_MAP`](Reference-Commands.md#mmu_slicer_tool_map).
 
 ## Printer variables exposed
 
@@ -343,7 +343,7 @@ Full parameter reference:
 `.slicer_tool_map.purge_volumes`, `.extruder_filament_remaining`, and
 `.filament_remaining`/`.filament_remaining_color` (residual/cut-fragment
 tracking) - see [Printer Variables: extruder / filament
-remaining](Printer-Variables.md#extruder-filament-remaining).
+remaining](Reference-Printer-Variables.md#extruder-filament-remaining).
 `printer.mmu.action` also includes `Forming Tip`/`Cutting Tip`/`Cutting
 Filament`/`Purging` states while each of these runs.
 
@@ -367,10 +367,10 @@ Filament`/`Purging` states while each of these runs.
 
 ## See also
 
-- [Command Reference: `MMU_TEST_FORM_TIP`](Command-Reference.md#mmu_test_form_tip)
-- [Command Reference: `MMU_TEST_PURGE`](Command-Reference.md#mmu_test_purge)
-- [Command Reference: `MMU_CALC_PURGE_VOLUMES`](Command-Reference.md#mmu_calc_purge_volumes)
-- [Command Reference: `MMU_SLICER_TOOL_MAP`](Command-Reference.md#mmu_slicer_tool_map)
+- [Command Reference: `MMU_TEST_FORM_TIP`](Reference-Commands.md#mmu_test_form_tip)
+- [Command Reference: `MMU_TEST_PURGE`](Reference-Commands.md#mmu_test_purge)
+- [Command Reference: `MMU_CALC_PURGE_VOLUMES`](Reference-Commands.md#mmu_calc_purge_volumes)
+- [Command Reference: `MMU_SLICER_TOOL_MAP`](Reference-Commands.md#mmu_slicer_tool_map)
 - [Macro: Blobifier](Macro-Blobifier.md) / [Macro: Servo Cutter](Macro-Servo-Cutter.md) - Blobifier and the servo cutter build/wiring
 - [Feature: G-code Preprocessing](Feature-Gcode-Preprocessing.md) - `!purge_volumes!` and friends
 - [Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md) - the slicer tool map this all reads from

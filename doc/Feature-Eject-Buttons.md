@@ -11,7 +11,7 @@ Enable under **MMU Features / Additions**:
 </p>
 
 Each configured pin produces a `[gcode_button ...]` in `mmu_hardware.cfg`
-that calls [`MMU_EJECT`](Command-Reference.md#mmu_eject) for that specific
+that calls [`MMU_EJECT`](Reference-Commands.md#mmu_eject) for that specific
 gate:
 
 ```ini
@@ -42,6 +42,6 @@ manual use.
 
 ## See also
 
-- [Command Reference: `MMU_EJECT`](Command-Reference.md#mmu_eject)
+- [Command Reference: `MMU_EJECT`](Reference-Commands.md#mmu_eject)
 
 ---

@@ -31,7 +31,7 @@ calling convention):
 Every setting here lives in `_MMU_SOFTWARE_VARS` in `mmu_macro_vars.cfg`,
 reachable from menuconfig's **Macro Variables → Print start/end
 (\_MMU_SOFTWARE)** screen shown above. The full variable table is on [Macro
-Variables: Print start/end](Macro-Vars.md#print-startend-_mmu_software_vars)
+Variables: Print start/end](Reference-Macro-Vars.md#print-startend-_mmu_software_vars)
 - a few worth knowing about specifically:
 
 - **`automap_strategy`** drives Happy Hare's automatic tool-to-gate
@@ -50,7 +50,7 @@ Variables: Print start/end](Macro-Vars.md#print-startend-_mmu_software_vars)
 
 - [Macro Customization](Macro-Customization.md) - the extension mechanism
   `user_pre_initialize_extension`/`user_print_end_extension` above use
-- [Macro Variables: Print start/end](Macro-Vars.md#print-startend-_mmu_software_vars) -
+- [Macro Variables: Print start/end](Reference-Macro-Vars.md#print-startend-_mmu_software_vars) -
   every `_MMU_SOFTWARE_VARS` setting in full
 - [Slicer Setup](Slicer-Setup.md#customizing-the-startend-macros) - where
   `MMU_START_SETUP`/`MMU_START_LOAD_INITIAL_TOOL`/`MMU_END` are actually

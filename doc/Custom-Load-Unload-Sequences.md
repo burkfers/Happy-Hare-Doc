@@ -31,7 +31,7 @@ to a `user_*_extension` gcode macro variable defined in
 `mmu_macro_vars.cfg` if you set one - the toolchange parking/z-hop/retract
 behaviour, timelapse-frame capture on load, and per-operation park
 positions are all controlled through this same file's `_MMU_SEQUENCE_VARS`
-section (see [Macro Variables: Sequence/parking](Macro-Vars.md#sequenceparking-_mmu_sequence_vars)
+section (see [Macro Variables: Sequence/parking](Reference-Macro-Vars.md#sequenceparking-_mmu_sequence_vars)
 for the full list), without touching the sequence at all. This is the
 right place to start: adding a nozzle-wipe after loading, or injecting
 logic for an MMU-mounted cutter after unload, rarely needs more than one
@@ -45,7 +45,7 @@ esoteric enough that the callback hooks genuinely aren't enough.
 
 Both the internal logic and any custom sequence macro track filament
 position as a single state, exposed as
-[`printer.mmu.filament_pos`](Printer-Variables.md#core-state). A custom
+[`printer.mmu.filament_pos`](Reference-Printer-Variables.md#core-state). A custom
 sequence must be able to complete correctly from *any* of these states -
 especially on unload, which can be called with filament anywhere along the
 path:
@@ -203,7 +203,7 @@ gcode_unload_sequence : 1
 ```
 
 Both live in `mmu.cfg`'s shared parameters - see
-[Parameters](Parameters.md#misc). If you renamed the macros themselves,
+[Parameters](Reference-Parameters.md#misc). If you renamed the macros themselves,
 point Happy Hare at the new names with `load_sequence_macro`/
 `unload_sequence_macro`, also in `mmu.cfg`.
 
@@ -226,12 +226,12 @@ point Happy Hare at the new names with `load_sequence_macro`/
 
 - [Developer Command Reference](Dev-Command-Reference.md) - full parameters for every
   `_MMU_STEP_*` command
-- [Parameters](Parameters.md#macros) - the lighter-weight callback macro
+- [Parameters](Reference-Parameters.md#macros) - the lighter-weight callback macro
   settings, and the `gcode_load_sequence`/`gcode_unload_sequence` toggle
-- [Macro Variables: Sequence/parking](Macro-Vars.md#sequenceparking-_mmu_sequence_vars) -
+- [Macro Variables: Sequence/parking](Reference-Macro-Vars.md#sequenceparking-_mmu_sequence_vars) -
   every `_MMU_SEQUENCE_VARS` tuning knob (parking positions, z-hop, retract,
   extension hooks) in full
-- [Printer Variables: Core state](Printer-Variables.md#core-state) - the
+- [Printer Variables: Core state](Reference-Printer-Variables.md#core-state) - the
   `filament_pos` field this page's state machine describes
 
 ---

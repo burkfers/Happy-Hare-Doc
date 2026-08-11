@@ -19,7 +19,7 @@ and fully callable on **every** Happy Hare install, same as `MMU_LOAD` or
 `MMU ENABLE=1` if the unit is currently disabled.
 
 Unlike every real command, `_MMU_TEST` is deliberately **excluded** from
-the user-facing [Command Reference](Command-Reference.md) - not something
+the user-facing [Command Reference](Reference-Commands.md) - not something
 a regular user should stumble onto while looking up a real command. Its
 generated parameter list instead lives on [Developer Command
 Reference](Dev-Command-Reference.md#_mmu_test), alongside the other

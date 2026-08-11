@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🐛 Happy Hare software bug
+    url: https://github.com/moggieuk/Happy-Hare/issues/new/choose
+    about: Found a bug in the Happy Hare Klipper extension itself, not the docs? Report it there.
+  - name: 💬 Ask a question / discuss
+    url: https://discord.gg/aABQUjkZPk
+    about: General questions, setup help, or discussion are best on the Happy Hare Discord.

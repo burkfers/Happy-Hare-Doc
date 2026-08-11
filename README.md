@@ -24,13 +24,13 @@ and images already committed under `doc/`.
 
 ## Regenerating generated content
 
-Two things - `doc/Command-Reference.md` and the menuconfig screenshots under
+Two things - `doc/Reference-Commands.md` and the menuconfig screenshots under
 `doc/*/` - are generated directly from Happy Hare's source rather than
 hand-written. Regenerating either needs a checkout of that source, which these
 targets fetch automatically:
 
 ```bash
-make command_reference   # regenerates doc/Command-Reference.md
+make command_reference   # regenerates doc/Reference-Commands.md
 make shots                # regenerates menuconfig screenshots (make shots ARGS='--list' to see sessions)
 ```
 

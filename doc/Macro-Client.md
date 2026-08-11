@@ -35,13 +35,13 @@ settings apply regardless.
 `_MMU_CLIENT_VARS` in `mmu_macro_vars.cfg`, reachable from menuconfig's
 **Macro Variables → Client macros (\_MMU_CLIENT)** screen shown above. Full
 variable table: [Macro Variables: Client
-macros](Macro-Vars.md#client-macros-_mmu_client_vars).
+macros](Reference-Macro-Vars.md#client-macros-_mmu_client_vars).
 
 ## See also
 
 - [Macro Customization](Macro-Customization.md) - the extension mechanism
   the three hooks above use
-- [Macro Variables: Client macros](Macro-Vars.md#client-macros-_mmu_client_vars) -
+- [Macro Variables: Client macros](Reference-Macro-Vars.md#client-macros-_mmu_client_vars) -
   every `_MMU_CLIENT_VARS` setting in full
 - [Macro: Sequence](Macro-Sequence.md) - the parking/z-hop/retract behavior
   around pause, resume, and cancel

@@ -1,6 +1,6 @@
 ---
 name: happy-hare-doc-pages
-description: Use whenever editing, adding, or reviewing a page under doc/ in the Happy-Hare-Doc repo, or regenerating menuconfig screenshots / doc/Command-Reference.md. Covers this Zensical-based site's locked-in style conventions (admonition syntax, code-fence language, footer, no [TOC]/mermaid, no version narrative, no developer references outside the Developer Guide), the Feature-page and Macro-page templates, and the make shots / make command_reference workflows. Trigger this for requests like "add a Feature page for X", "port this wiki page", "regenerate the screenshots", "update the command reference", "why doesn't this admonition have an icon", or any doc/*.md edit — even if the requester has never heard of this skill or read TOC.md.
+description: Use whenever editing, adding, or reviewing a page under doc/ in the Happy-Hare-Doc repo, or regenerating menuconfig screenshots / doc/Reference-Commands.md. Covers this Zensical-based site's locked-in style conventions (admonition syntax, code-fence language, footer, no [TOC]/mermaid, no version narrative, no developer references outside the Developer Guide), the Feature-page and Macro-page templates, and the make shots / make command_reference workflows. Trigger this for requests like "add a Feature page for X", "port this wiki page", "regenerate the screenshots", "update the command reference", "why doesn't this admonition have an icon", or any doc/*.md edit — even if the requester has never heard of this skill or read TOC.md.
 ---
 
 # Happy Hare doc pages
@@ -166,5 +166,5 @@ Every page under §10b Macros uses this lighter structure instead:
    <menu>**, from a `doc_tools/shots.py` session; toggle the owning
    capability first if the group is gated), plus only the handful of
    settings worth calling out specifically. The full variable table always
-   lives on `Macro-Vars.md` — never re-tabulate it here.
+   lives on `Reference-Macro-Vars.md` — never re-tabulate it here.
 4. **See also**

@@ -33,13 +33,13 @@ position to load/unload console output - covered below.
 
 Two commands help confirm the MMU is actually ready before a print starts:
 
-- [`MMU_PRELOAD`](Command-Reference.md#mmu_preload) spins the gear stepper
+- [`MMU_PRELOAD`](Reference-Commands.md#mmu_preload) spins the gear stepper
   (servo depressed) until filament feeds in, then parks it at the correct
   position in the gate - the recommended way to load filament by hand,
   since it can't under- or over-insert it. Gates with a pre-gate sensor run
   this automatically outside of a print when filament is detected; inserted
   filament is only *noted*, not loaded, if that happens mid-print.
-- [`MMU_CHECK_GATE`](Command-Reference.md#mmu_check_gate) checks the
+- [`MMU_CHECK_GATE`](Reference-Commands.md#mmu_check_gate) checks the
   current gate (no options), every gate (`ALL=1`), or a specific one
   (`GATE=`), confirming filament is present and correctly parked, and
   updates the [gate map](Feature-Gate-TTG-Maps.md#gate-map)'s availability
@@ -102,7 +102,7 @@ measured distance are normal (calibration accuracy, minor slippage) and not
 a cause for concern below roughly 5%.
 
 !!! tip
-    [`MMU_STATUS SHOWCONFIG=1`](Command-Reference.md#mmu_status) prints an
+    [`MMU_STATUS SHOWCONFIG=1`](Reference-Commands.md#mmu_status) prints an
     English-language description of the load/unload sequence exactly as
     your current configuration would run it, parameter values included -
     genuinely useful while tuning, and worth running once just to see what
@@ -149,7 +149,7 @@ graph TD
 </pre>
 
 - If the extruder has cooled (or is about to), run
-  [`MMU_UNLOCK`](Command-Reference.md#mmu_unlock) first and give it time to
+  [`MMU_UNLOCK`](Reference-Commands.md#mmu_unlock) first and give it time to
   reheat - `RESUME` does this automatically if needed, but running it
   yourself first means you're not waiting on it during the resume.
 - Fix whatever caused the pause, manually or with `MMU_*` commands as
@@ -173,7 +173,7 @@ and uses that to decide what a command should do next. Fixing a problem
 fixing it by hand (moving filament, swapping a gate's spool) can leave it
 stale, which then surfaces as a confusing second error on `RESUME`.
 
-[`MMU_STATUS`](Command-Reference.md#mmu_status) shows the current tracked
+[`MMU_STATUS`](Reference-Commands.md#mmu_status) shows the current tracked
 state - gate/tool availability, current selection, and filament position -
 so you can judge whether anything needs correcting:
 
@@ -185,7 +185,7 @@ Selct: --------| * |------------------------ T4
 MMU [T2] >>> [En] >>>>>>> [Ex] >> [Ts] >> [Nz] LOADED (@0.0 mm)
 ```
 
-[`MMU_RECOVER`](Command-Reference.md#mmu_recover) fixes it in most cases,
+[`MMU_RECOVER`](Reference-Commands.md#mmu_recover) fixes it in most cases,
 run alone or with parameters to state explicitly what's true:
 
 ```text
@@ -248,8 +248,8 @@ already run.
   above
 - [Macro: Client](Macro-Client.md) - the cancel-behavior settings and
   pause/resume/cancel extension hooks behind the shipped client macros
-- [Command Reference: `MMU_RECOVER`](Command-Reference.md#mmu_recover)
-- [Command Reference: `MMU_STATUS`](Command-Reference.md#mmu_status)
+- [Command Reference: `MMU_RECOVER`](Reference-Commands.md#mmu_recover)
+- [Command Reference: `MMU_STATUS`](Reference-Commands.md#mmu_status)
 - [Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md)
 
 ---

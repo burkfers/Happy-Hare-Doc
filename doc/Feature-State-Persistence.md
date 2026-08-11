@@ -10,8 +10,8 @@ every restart. This is a genuine time-saver, but it comes with one
 responsibility: if you physically touch the MMU while it's powered off
 (swap a spool, move the selector by hand), the saved state no longer
 matches reality until you correct it - with
-[`MMU_RECOVER`](Command-Reference.md#mmu_recover), or by re-homing with
-[`MMU_HOME`](Command-Reference.md#mmu_home).
+[`MMU_RECOVER`](Reference-Commands.md#mmu_recover), or by re-homing with
+[`MMU_HOME`](Reference-Commands.md#mmu_home).
 
 Happy Hare helps here where it can: on startup, if fitted sensors (an
 extruder-entry sensor especially) disagree with the saved filament
@@ -33,7 +33,7 @@ check fails, rather than silently running with an empty or corrupted state.
 ## Startup status
 
 Setting `log_startup_status: 1` in `mmu_parameters.cfg` (or running
-[`MMU_STATUS`](Command-Reference.md#mmu_status) at any time) shows a visual
+[`MMU_STATUS`](Reference-Commands.md#mmu_status) at any time) shows a visual
 summary of exactly what was recovered:
 
 ```{.text .console-output}
@@ -68,14 +68,14 @@ MMU_GATE_MAP RESET=1          # Reset filament type/color/availability for every
 MMU_RECOVER                   # Reconcile saved state against what's actually loaded (see Troubleshooting)
 ```
 
-Full parameter reference: [`MMU_RESET`](Command-Reference.md#mmu_reset). It
+Full parameter reference: [`MMU_RESET`](Reference-Commands.md#mmu_reset). It
 requires `CONFIRM=1` - without it, nothing happens beyond a warning, since
 this clears a lot of state at once. It deliberately leaves swap/gate
 statistics and consumption counters alone -
 [`MMU_STATS RESET=1`](Feature-Statistics-Counters.md) is the separate
 command for those.
 
-[`MMU_CHECK_GATE`](Command-Reference.md#mmu_check_gate) is the other
+[`MMU_CHECK_GATE`](Reference-Commands.md#mmu_check_gate) is the other
 command worth knowing here - it physically inspects gates (all, or a
 selection) for filament presence and updates their recorded availability,
 which is the practical way to reconcile the saved gate map against reality
@@ -110,7 +110,7 @@ loaded, then reselects whichever gate was last in use - useful if you'd
 rather always start from a known physical position than trust the saved
 one. Leaving it at the default (`0`) trusts the saved selector position
 instead, which is what makes homing-on-every-restart unnecessary in the
-first place; running [`MMU_MOTORS_OFF`](Command-Reference.md#mmu_motors_off)
+first place; running [`MMU_MOTORS_OFF`](Reference-Commands.md#mmu_motors_off)
 explicitly discards that saved position and does force a re-home next time
 the selector needs to move. `startup_reset_ttg_map` (also
 `mmu_parameters.cfg`) resets the TTG map on every startup if you'd rather
@@ -119,8 +119,8 @@ never carry a remap between sessions.
 ## Troubleshooting
 
 - **The MMU was touched while powered off, and the saved state is wrong** -
-  run [`MMU_RECOVER`](Command-Reference.md#mmu_recover) to reconcile it, or
-  [`MMU_CHECK_GATE`](Command-Reference.md#mmu_check_gate) to physically
+  run [`MMU_RECOVER`](Reference-Commands.md#mmu_recover) to reconcile it, or
+  [`MMU_CHECK_GATE`](Reference-Commands.md#mmu_check_gate) to physically
   re-inspect gates and refresh their availability.
 - **Startup automatically changed the recovered state** - this is Happy
   Hare noticing a mismatch between the saved filament position and what a
@@ -131,20 +131,20 @@ never carry a remap between sessions.
   isn't why a gate looks unused.
 - **Don't confuse this with `MMU_DUMP_VARS`** - that dumps the *live*
   in-memory printer status object (see [Printer
-  Variables](Printer-Variables.md)), not the persisted file this page
+  Variables](Reference-Printer-Variables.md)), not the persisted file this page
   describes; they usually agree, but only the persisted file survives a
   restart.
 
 ## See also
 
-- [Command Reference: `MMU_RESET`](Command-Reference.md#mmu_reset)
-- [Command Reference: `MMU_RECOVER`](Command-Reference.md#mmu_recover)
-- [Command Reference: `MMU_CHECK_GATE`](Command-Reference.md#mmu_check_gate)
-- [Command Reference: `MMU_STATUS`](Command-Reference.md#mmu_status)
+- [Command Reference: `MMU_RESET`](Reference-Commands.md#mmu_reset)
+- [Command Reference: `MMU_RECOVER`](Reference-Commands.md#mmu_recover)
+- [Command Reference: `MMU_CHECK_GATE`](Reference-Commands.md#mmu_check_gate)
+- [Command Reference: `MMU_STATUS`](Reference-Commands.md#mmu_status)
 - [Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md)
 - [Feature: EndlessSpool & Runout Detection](Feature-Endless-Spool-Runout.md)
 - [Feature: Statistics & Consumption Counters](Feature-Statistics-Counters.md)
-- [Printer Variables](Printer-Variables.md) - the live equivalent of the state this page persists
+- [Printer Variables](Reference-Printer-Variables.md) - the live equivalent of the state this page persists
 
 ---
 

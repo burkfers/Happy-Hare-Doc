@@ -16,11 +16,11 @@ calls them directly in normal use:
 
 - **`_MMU_ACTION_CHANGED`** - runs whenever `printer.mmu.action` changes
   (`Idle`, `Loading`, `Unloading`, `Forming Tip`, `Selecting`, and so on -
-  see [Printer Variables: Core state](Printer-Variables.md#core-state) for
+  see [Printer Variables: Core state](Reference-Printer-Variables.md#core-state) for
   the full list). Receives `ACTION`/`OLD_ACTION`.
 - **`_MMU_PRINT_STATE_CHANGED`** - runs whenever `printer.mmu.print_state`
   changes (`printing`, `paused`, `complete`, `error`, and so on - also on
-  [Printer Variables: Core state](Printer-Variables.md#core-state)).
+  [Printer Variables: Core state](Reference-Printer-Variables.md#core-state)).
   Receives `STATE`/`OLD_STATE`.
 - **`_MMU_EVENT`** - runs on one-off events that aren't really a state
   transition: `restart`, `gate_map_changed`, `servo_down`, `filament_cut`.
@@ -38,7 +38,7 @@ the same parameters the original call received.
 `_MMU_STATE_VARS` in `mmu_macro_vars.cfg`, reachable from menuconfig's
 **Macro Variables → State change hooks (\_MMU_STATE)** screen shown above.
 Full variable table: [Macro Variables: State change
-hooks](Macro-Vars.md#state-change-hooks-_mmu_state_vars).
+hooks](Reference-Macro-Vars.md#state-change-hooks-_mmu_state_vars).
 
 Two settings here aren't extension hooks at all - `servo_down_limit` and
 `cutter_blade_limit` are maintenance-warning thresholds for a servo-cycle
@@ -56,9 +56,9 @@ and cutter-blade-use counter.
 
 - [Macro Customization](Macro-Customization.md) - the extension mechanism
   these three hooks use
-- [Macro Variables: State change hooks](Macro-Vars.md#state-change-hooks-_mmu_state_vars) -
+- [Macro Variables: State change hooks](Reference-Macro-Vars.md#state-change-hooks-_mmu_state_vars) -
   every `_MMU_STATE_VARS` setting in full
-- [Printer Variables: Core state](Printer-Variables.md#core-state) - the
+- [Printer Variables: Core state](Reference-Printer-Variables.md#core-state) - the
   `action`/`print_state` fields these macros report on
 - [Feature: Statistics & Consumption Counters](Feature-Statistics-Counters.md#consumption-counters) -
   building a real counter from the limits above

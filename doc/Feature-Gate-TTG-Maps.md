@@ -37,7 +37,7 @@ MMU_GATE_MAP GATE=8 AVAILABLE=1                           # Just mark it availab
 MMU_GATE_MAP GATES=0,1,2,3,4,5,6,7,8 AVAILABLE=-1         # Bulk reset every gate's availability to "unknown"
 ```
 
-Full parameter reference: [`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map)
+Full parameter reference: [`MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map)
 - also takes `VENDOR=`, `NAME=`, `SPOOLID=`, `RFID=`, `SPEED=`, and
 `BYPASS=1` to set the same attributes for the bypass "gate." `COLOR=` takes
 a [w3c color name](https://www.w3schools.com/tags/ref_colornames.asp) or an
@@ -140,7 +140,7 @@ Initial Tool: T0
 -------------------------------------------
 ```
 
-Full parameter reference: [`MMU_SLICER_TOOL_MAP`](Command-Reference.md#mmu_slicer_tool_map).
+Full parameter reference: [`MMU_SLICER_TOOL_MAP`](Reference-Commands.md#mmu_slicer_tool_map).
 The purge-volume matrix this command can also show is its own topic -
 covered on the Tip Forming and Purging feature page.
 
@@ -196,7 +196,7 @@ MMU_TTG_MAP TOOL=1 GATE=1 AVAILABLE=1   # Remap and mark the gate available in o
 MMU_TTG_MAP MAP=8,7,6,5,4,3,2,1,0       # Replace the whole map in one command (index = tool number)
 ```
 
-Full parameter reference: [`MMU_TTG_MAP`](Command-Reference.md#mmu_ttg_map).
+Full parameter reference: [`MMU_TTG_MAP`](Reference-Commands.md#mmu_ttg_map).
 A few real uses for this: your slicer expects filament in a different order
 than you actually loaded it; some tools in the g-code don't have filament
 loaded and you'd rather remap them than have the print pause; or turning a
@@ -236,7 +236,7 @@ and Mainsail/Fluidd both have a TTG editor:
 
 Rather than remap tools by hand every time, Happy Hare can do it
 automatically once the slicer tool map is loaded, based on a strategy set in
-`mmu_macro_vars.cfg` ([`automap_strategy`](Macro-Vars.md#print-startend-_mmu_software_vars)
+`mmu_macro_vars.cfg` ([`automap_strategy`](Reference-Macro-Vars.md#print-startend-_mmu_software_vars)
 in the `_MMU_SOFTWARE_VARS` macro, also reachable from **Macro Variables →
 Print start/end (\_MMU_SOFTWARE)** in menuconfig):
 
@@ -286,10 +286,10 @@ instead of compounding.
 
 ## See also
 
-- [Command Reference: `MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map)
-- [Command Reference: `MMU_TTG_MAP`](Command-Reference.md#mmu_ttg_map)
-- [Command Reference: `MMU_SLICER_TOOL_MAP`](Command-Reference.md#mmu_slicer_tool_map)
-- [Printer Variables: gate and tool maps](Printer-Variables.md#gate-and-tool-maps)
+- [Command Reference: `MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map)
+- [Command Reference: `MMU_TTG_MAP`](Reference-Commands.md#mmu_ttg_map)
+- [Command Reference: `MMU_SLICER_TOOL_MAP`](Reference-Commands.md#mmu_slicer_tool_map)
+- [Printer Variables: gate and tool maps](Reference-Printer-Variables.md#gate-and-tool-maps)
 - [Feature: Spoolman Integration](Feature-Spoolman.md)
 - [Feature: EndlessSpool & Runout Detection](Feature-Endless-Spool-Runout.md)
 - [Feature: LEDs](Feature-LEDs.md)

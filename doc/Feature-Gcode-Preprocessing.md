@@ -80,13 +80,13 @@ in `START_PRINT`:
 `!filament_names!`/`!materials!`/`!colors!`/`!temperatures!`/`!purge_volumes!`
 are exactly what the recommended `MMU_START_SETUP` macro (see the slicer
 setup instructions) already passes into
-[`MMU_SLICER_TOOL_MAP`](Command-Reference.md#mmu_slicer_tool_map) to build
+[`MMU_SLICER_TOOL_MAP`](Reference-Commands.md#mmu_slicer_tool_map) to build
 the slicer tool map - you only need to work with these placeholders directly
 if you're doing something custom.
 
 ### Worked example: `!referenced_tools!`
 
-Combined with [`MMU_CHECK_GATE`](Command-Reference.md#mmu_check_gate), this
+Combined with [`MMU_CHECK_GATE`](Reference-Commands.md#mmu_check_gate), this
 lets a start macro verify every gate the print needs actually has filament
 before committing to the print:
 
@@ -195,9 +195,9 @@ the toolchange-movement page for what happens with it.
 
 ## See also
 
-- [Command Reference: `MMU_CHECK_GATE`](Command-Reference.md#mmu_check_gate)
-- [Command Reference: `MMU_CHANGE_TOOL`](Command-Reference.md#mmu_change_tool)
-- [Command Reference: `MMU_SLICER_TOOL_MAP`](Command-Reference.md#mmu_slicer_tool_map)
+- [Command Reference: `MMU_CHECK_GATE`](Reference-Commands.md#mmu_check_gate)
+- [Command Reference: `MMU_CHANGE_TOOL`](Reference-Commands.md#mmu_change_tool)
+- [Command Reference: `MMU_SLICER_TOOL_MAP`](Reference-Commands.md#mmu_slicer_tool_map)
 - [Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md)
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md) - purge volumes
 - [Feature: LEDs](Feature-LEDs.md)

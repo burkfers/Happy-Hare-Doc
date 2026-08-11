@@ -40,7 +40,7 @@ nothing to configure or restore by hand.
 **Macro Variables → Tip forming (\_MMU_FORM_TIP)** screen shown above,
 grouped by the same five steps the tuning workflow walks through. Full
 variable table: [Macro Variables: Tip
-forming](Macro-Vars.md#tip-forming-_mmu_form_tip_vars).
+forming](Reference-Macro-Vars.md#tip-forming-_mmu_form_tip_vars).
 
 ### Hotend starting points
 
@@ -60,7 +60,7 @@ rather than the shipped default:
 
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md#tuning-tip-forming) -
   concept and the full `MMU_TEST_FORM_TIP` tuning workflow
-- [Macro Variables: Tip forming](Macro-Vars.md#tip-forming-_mmu_form_tip_vars) -
+- [Macro Variables: Tip forming](Reference-Macro-Vars.md#tip-forming-_mmu_form_tip_vars) -
   every `_MMU_FORM_TIP_VARS` setting in full
 - [Macro: Toolhead Tip Cutting](Macro-Toolhead-Tip-Cutting.md) - the
   alternative that skips tip forming entirely

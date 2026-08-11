@@ -151,7 +151,11 @@ persisting.
 ## Indexed selectors
 
 BTT ViViD has one index switch per gate rather than a single home switch,
-so calibration is detection rather than measurement:
+so calibration is detection rather than measurement. It is highly unlikey
+that you would need to re-calibrate the ViViD, but this command will at
+least ensure that movement from one gate to another is as quick as possible
+and that selection provides maximal filament grip by centering the stopping
+point.
 
 ```{.text .console-output}
 MMU_CALIBRATE_SELECTOR_INDEXES
@@ -165,9 +169,9 @@ without persisting; `RESET=1` clears the saved calibration.
 
 - [Calibration](Calibration.md) - overview, order, and which steps apply to your MMU
 - [What Is an MMU?](Conceptual-MMU.md#selector-mechanisms) - the Type-A/B/C taxonomy and vendor table
-- [Command Reference: `MMU_CALIBRATE_SELECTOR`](Command-Reference.md#mmu_calibrate_selector)
-- [Command Reference: `MMU_SERVO`](Command-Reference.md#mmu_servo)
-- [Command Reference: `MMU_CALIBRATE_SERVO_SELECTOR`](Command-Reference.md#mmu_calibrate_servo_selector)
-- [Command Reference: `MMU_CALIBRATE_ROTARY_SELECTOR`](Command-Reference.md#mmu_calibrate_rotary_selector)
-- [Command Reference: `MMU_CALIBRATE_SELECTOR_INDEXES`](Command-Reference.md#mmu_calibrate_selector_indexes)
+- [Command Reference: `MMU_CALIBRATE_SELECTOR`](Reference-Commands.md#mmu_calibrate_selector)
+- [Command Reference: `MMU_SERVO`](Reference-Commands.md#mmu_servo)
+- [Command Reference: `MMU_CALIBRATE_SERVO_SELECTOR`](Reference-Commands.md#mmu_calibrate_servo_selector)
+- [Command Reference: `MMU_CALIBRATE_ROTARY_SELECTOR`](Reference-Commands.md#mmu_calibrate_rotary_selector)
+- [Command Reference: `MMU_CALIBRATE_SELECTOR_INDEXES`](Reference-Commands.md#mmu_calibrate_selector_indexes)
 - [Feature: Filament Bypass](Feature-Filament-Bypass.md) - using the bypass position once calibrated

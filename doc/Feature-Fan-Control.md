@@ -142,4 +142,4 @@ Fan forced       : AUTO
 ## See also
 
 - [Feature: Environment Manager](Feature-Environment-Manager.md) - the sensor this feature requires
-- [Macro Variables: Fan control](Macro-Vars.md) - every `_MMU_FAN_VARS` setting in full
+- [Macro Variables: Fan control](Reference-Macro-Vars.md) - every `_MMU_FAN_VARS` setting in full

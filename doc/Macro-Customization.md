@@ -41,28 +41,28 @@ site replaces only ever listed them as one flat list:
 
 | Hook | Lives in | Extends |
 |---|---|---|
-| `user_pre_initialize_extension` | [`_MMU_SOFTWARE_VARS`](Macro-Vars.md#print-startend-_mmu_software_vars) | `MMU_START_SETUP`, at the very start |
-| `user_print_end_extension` | [`_MMU_SOFTWARE_VARS`](Macro-Vars.md#print-startend-_mmu_software_vars) | `MMU_END`, at the very start |
-| `user_action_changed_extension` | [`_MMU_STATE_VARS`](Macro-Vars.md#state-change-hooks-_mmu_state_vars) | `_MMU_ACTION_CHANGED` |
-| `user_print_state_changed_extension` | [`_MMU_STATE_VARS`](Macro-Vars.md#state-change-hooks-_mmu_state_vars) | `_MMU_PRINT_STATE_CHANGED` |
-| `user_mmu_event_extension` | [`_MMU_STATE_VARS`](Macro-Vars.md#state-change-hooks-_mmu_state_vars) | `_MMU_EVENT` |
-| `user_mmu_error_extension` | [`_MMU_SEQUENCE_VARS`](Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | An MMU error condition |
-| `user_pre_unload_extension` | [`_MMU_SEQUENCE_VARS`](Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | `_MMU_PRE_UNLOAD` |
-| `user_post_form_tip_extension` | [`_MMU_SEQUENCE_VARS`](Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | `_MMU_POST_FORM_TIP` |
-| `user_post_unload_extension` | [`_MMU_SEQUENCE_VARS`](Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | `_MMU_POST_UNLOAD` |
-| `user_pre_load_extension` | [`_MMU_SEQUENCE_VARS`](Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | `_MMU_PRE_LOAD` |
-| `user_post_load_extension` | [`_MMU_SEQUENCE_VARS`](Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | `_MMU_POST_LOAD` |
-| `user_post_preload_extension` | [`_MMU_SEQUENCE_VARS`](Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | A successful gate preload |
-| `user_pause_extension` | [`_MMU_CLIENT_VARS`](Macro-Vars.md#client-macros-_mmu_client_vars) | Klipper's base pause |
-| `user_resume_extension` | [`_MMU_CLIENT_VARS`](Macro-Vars.md#client-macros-_mmu_client_vars) | Klipper's base resume (runs *before*, not after) |
-| `user_cancel_extension` | [`_MMU_CLIENT_VARS`](Macro-Vars.md#client-macros-_mmu_client_vars) | Klipper's base `cancel_print` (runs *before*) |
+| `user_pre_initialize_extension` | [`_MMU_SOFTWARE_VARS`](Reference-Macro-Vars.md#print-startend-_mmu_software_vars) | `MMU_START_SETUP`, at the very start |
+| `user_print_end_extension` | [`_MMU_SOFTWARE_VARS`](Reference-Macro-Vars.md#print-startend-_mmu_software_vars) | `MMU_END`, at the very start |
+| `user_action_changed_extension` | [`_MMU_STATE_VARS`](Reference-Macro-Vars.md#state-change-hooks-_mmu_state_vars) | `_MMU_ACTION_CHANGED` |
+| `user_print_state_changed_extension` | [`_MMU_STATE_VARS`](Reference-Macro-Vars.md#state-change-hooks-_mmu_state_vars) | `_MMU_PRINT_STATE_CHANGED` |
+| `user_mmu_event_extension` | [`_MMU_STATE_VARS`](Reference-Macro-Vars.md#state-change-hooks-_mmu_state_vars) | `_MMU_EVENT` |
+| `user_mmu_error_extension` | [`_MMU_SEQUENCE_VARS`](Reference-Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | An MMU error condition |
+| `user_pre_unload_extension` | [`_MMU_SEQUENCE_VARS`](Reference-Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | `_MMU_PRE_UNLOAD` |
+| `user_post_form_tip_extension` | [`_MMU_SEQUENCE_VARS`](Reference-Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | `_MMU_POST_FORM_TIP` |
+| `user_post_unload_extension` | [`_MMU_SEQUENCE_VARS`](Reference-Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | `_MMU_POST_UNLOAD` |
+| `user_pre_load_extension` | [`_MMU_SEQUENCE_VARS`](Reference-Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | `_MMU_PRE_LOAD` |
+| `user_post_load_extension` | [`_MMU_SEQUENCE_VARS`](Reference-Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | `_MMU_POST_LOAD` |
+| `user_post_preload_extension` | [`_MMU_SEQUENCE_VARS`](Reference-Macro-Vars.md#sequenceparking-_mmu_sequence_vars) | A successful gate preload |
+| `user_pause_extension` | [`_MMU_CLIENT_VARS`](Reference-Macro-Vars.md#client-macros-_mmu_client_vars) | Klipper's base pause |
+| `user_resume_extension` | [`_MMU_CLIENT_VARS`](Reference-Macro-Vars.md#client-macros-_mmu_client_vars) | Klipper's base resume (runs *before*, not after) |
+| `user_cancel_extension` | [`_MMU_CLIENT_VARS`](Reference-Macro-Vars.md#client-macros-_mmu_client_vars) | Klipper's base `cancel_print` (runs *before*) |
 
 One hook doesn't fit the "runs after" pattern: `user_park_move_macro`
 (`_MMU_SEQUENCE_VARS`) **replaces** the default straight-line `G1 X Y` park
 move rather than extending it, so you can route around an obstacle instead
 of moving through it. It's called with `X=`/`Y=`/`F=`, and again with
 `RESTORE=1` plus the restore coordinates when un-parking. See [Macro
-Variables: Sequence/parking](Macro-Vars.md#sequenceparking-_mmu_sequence_vars)
+Variables: Sequence/parking](Reference-Macro-Vars.md#sequenceparking-_mmu_sequence_vars)
 for the full parking mechanism this sits inside.
 
 ## Method 2: Replacement
@@ -89,9 +89,9 @@ load_sequence_macro      : _MMU_LOAD_SEQUENCE
 ```
 
 Full reference table (with each one's default and a one-line description):
-[Parameters: Macros](Parameters.md#macros) (`form_tip_macro`/`purge_macro`
-are in that page's [Tip forming](Parameters.md#tip-forming)/
-[Purging](Parameters.md#purging) sections instead, alongside their other
+[Parameters: Macros](Reference-Parameters.md#macros) (`form_tip_macro`/`purge_macro`
+are in that page's [Tip forming](Reference-Parameters.md#tip-forming)/
+[Purging](Reference-Parameters.md#purging) sections instead, alongside their other
 settings).
 
 !!! warning "Important"
@@ -131,7 +131,7 @@ the full tuning workflow: [Tip Forming](Macro-Tip-Forming.md)
 
 ## See also
 
-- [Macro Variables](Macro-Vars.md) - every `variable_*` this page's
+- [Macro Variables](Reference-Macro-Vars.md) - every `variable_*` this page's
   extension hooks and the macro pages below configure, in full
 - [Macro: Print Start/End](Macro-Print-Start-End.md),
   [State Change Hooks](Macro-State-Change-Hooks.md),
@@ -143,7 +143,7 @@ the full tuning workflow: [Tip Forming](Macro-Tip-Forming.md)
   above belongs to
 - [Custom Load/Unload Sequences](Custom-Load-Unload-Sequences.md) - the
   deepest replacement level, for `load_sequence_macro`/`unload_sequence_macro`
-- [Command Reference](Command-Reference.md) - full parameters for every
+- [Command Reference](Reference-Commands.md) - full parameters for every
   `MMU_*`/`_MMU_*` command named above
 
 ---

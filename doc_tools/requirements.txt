@@ -16,10 +16,10 @@ pyte
 # terminal - the whole pipeline stays inside the venv.
 pillow
 
-# Builds/serves the documentation site itself (`make docs`, `make docs_build`).
-# Reads mkdocs.yml (docs_dir: doc) at the repo root directly - one package,
-# no separate theme dependency; it bundles Material's styling itself.
-zensical
-
-# Extra Markdown extensions used by this site's content (e.g. === content tabs).
-pymdown-extensions
+# Builds/serves the documentation site itself (`make docs`, `make docs_build`,
+# `make docs_check`). Reads mkdocs.yml (docs_dir: doc) at the repo root directly -
+# one package, no separate theme dependency; it bundles Material's styling itself.
+# Pinned, not floating: this is still a pre-1.0 package, and `make docs_check`'s
+# PR gate depends on its --strict warning behaviour at this exact version - a
+# silent minor bump could change what CI does or doesn't catch.
+zensical==0.0.53

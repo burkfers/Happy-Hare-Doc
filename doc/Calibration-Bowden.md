@@ -106,5 +106,5 @@ these two sit alongside the other autotuning settings.
 
 - [Calibration](Calibration.md) - overview, order, and which steps apply to your MMU
 - [Feature: FlowGuard](Feature-FlowGuard.md#tuning) - `flowguard_encoder_max_motion`, seeded by this command's encoder-collision method
-- [Config Parameters](Parameters.md#calibration-and-autotune) - `autocal_bowden_length`/`autotune_bowden_length` in full
-- [Command Reference: `MMU_CALIBRATE_BOWDEN`](Command-Reference.md#mmu_calibrate_bowden)
+- [Config Parameters](Reference-Parameters.md#calibration-and-autotune) - `autocal_bowden_length`/`autotune_bowden_length` in full
+- [Command Reference: `MMU_CALIBRATE_BOWDEN`](Reference-Commands.md#mmu_calibrate_bowden)

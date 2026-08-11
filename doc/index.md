@@ -104,6 +104,24 @@ is a printer variable read from a macro or UI panel. A **warning** box means
 something that can genuinely bite you if skipped; a plain **tip** is a
 shortcut, not a requirement.
 
+## Donations
+
+Happy Hare is a labor of love, not a funded project - but it's a genuinely
+large undertaking to maintain: tens of thousands of lines of driver and
+installer code, thousands of lines of macros and config, a comparable amount
+of documentation with hundreds of images and illustrations, and dedicated
+integrations with KlipperScreen, Mainsail and Fluidd alongside it all.
+
+If you've found value in Happy Hare and want to contribute, donations are
+welcome via PayPal. Any support goes toward improving the experience for
+whichever MMU/AFC you're running. Thank you!
+
+<p align="center">
+  <a href="https://www.paypal.me/moggieuk">
+    <img src="assets/images/donate.svg" width="30%">
+  </a>
+</p>
+
 ## Getting help
 
 Join the [Happy Hare Discord](https://discord.gg/aABQUjkZPk) - there are
@@ -212,7 +230,7 @@ Whichever you use, having these ready up front gets you a faster answer:
     Every `MMU_*` command and `printer.mmu.*` variable, generated straight
     from the source.
 
-    [Command Reference &rarr;](Command-Reference.md)
+    [Command Reference &rarr;](Reference-Commands.md)
 
 -   **Developer Guide**
 

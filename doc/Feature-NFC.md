@@ -160,8 +160,8 @@ stays pending) - live in `mmu.cfg` and are documented on
 
 ## Commands
 
-Full parameter reference: [`MMU_NFC`](Command-Reference.md#mmu_nfc),
-[`MMU_NFC_SCAN`](Command-Reference.md#mmu_nfc_scan).
+Full parameter reference: [`MMU_NFC`](Reference-Commands.md#mmu_nfc),
+[`MMU_NFC_SCAN`](Reference-Commands.md#mmu_nfc_scan).
 
 `MMU_NFC` is the day-to-day status/control command, addressing either the
 shared reader, one gate, or several:
@@ -223,7 +223,7 @@ plus `RFID=''` to clear every tag from a spool, and a `REGISTER=1` mode for
 binding a tag that's already been scanned onto a gate but didn't resolve at
 the time - see [Registering an unresolved
 tag](#registering-an-unresolved-tag-after-the-fact) below) and the `RFID=`
-parameter on [`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map).
+parameter on [`MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map).
 
 ### Advanced: raw per-reader commands
 
@@ -249,7 +249,7 @@ one unit has a reader configured:
 `gate_spool_rfid` (per-gate list, on `printer.mmu`) holds the same cached
 UID, indexed by global gate number instead of nested by unit - the more
 convenient form for a macro that only cares about one gate. Full reference:
-[Printer Variables: NFC](Printer-Variables.md#nfc).
+[Printer Variables: NFC](Reference-Printer-Variables.md#nfc).
 
 If LEDs are configured, reads and failures get a brief flash on the segment
 `nfc_led_segment` selects - there's no separate persistent NFC indicator
@@ -415,12 +415,12 @@ bus.
 
 - [Feature: Spoolman Integration](Feature-Spoolman.md) - what a resolved
   tag actually does: activation, attributes, auto-create
-- [Command Reference: `MMU_NFC`](Command-Reference.md#mmu_nfc)
-- [Command Reference: `MMU_NFC_SCAN`](Command-Reference.md#mmu_nfc_scan)
-- [Command Reference: `MMU_SPOOLMAN`](Command-Reference.md#mmu_spoolman)
-- [Command Reference: `MMU_SPOOLMAN_TAG`](Command-Reference.md#mmu_spoolman_tag)
-- [Command Reference: `MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map)
-- [Printer Variables: NFC](Printer-Variables.md#nfc)
+- [Command Reference: `MMU_NFC`](Reference-Commands.md#mmu_nfc)
+- [Command Reference: `MMU_NFC_SCAN`](Reference-Commands.md#mmu_nfc_scan)
+- [Command Reference: `MMU_SPOOLMAN`](Reference-Commands.md#mmu_spoolman)
+- [Command Reference: `MMU_SPOOLMAN_TAG`](Reference-Commands.md#mmu_spoolman_tag)
+- [Command Reference: `MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map)
+- [Printer Variables: NFC](Reference-Printer-Variables.md#nfc)
 
 ---
 

@@ -113,14 +113,14 @@ empty_light             : (0, 0, 0)         # RGB used for an empty gate
 filament_color_intensity: 0.5               # 0.0-1.0, dims the filament/slicer-color segments
 ```
 
-- **`gate_status`** shows [`printer.mmu.gate_status`](Printer-Variables.md#gate-and-tool-maps)
+- **`gate_status`** shows [`printer.mmu.gate_status`](Reference-Printer-Variables.md#gate-and-tool-maps)
   as a color (empty/available/unknown/buffered).
 - **`filament_color`** shows the loaded filament's actual color
-  ([`printer.mmu.gate_color_rgb`](Printer-Variables.md#gate-and-tool-maps)),
+  ([`printer.mmu.gate_color_rgb`](Reference-Printer-Variables.md#gate-and-tool-maps)),
   falling back to `white_light`/`black_light`/`empty_light` as appropriate -
   there's no separate fixed color for "filament loaded."
 - **`slicer_color`** shows the color the slicer expects for that gate's tool
-  ([`printer.mmu.slicer_color_rgb`](Printer-Variables.md#gate-and-tool-maps)),
+  ([`printer.mmu.slicer_color_rgb`](Reference-Printer-Variables.md#gate-and-tool-maps)),
   set by `MMU_SLICER_TOOL_MAP COLOR=...` (normally done for you by the
   print-start macro) - empty until a print sets it.
 - Any of the four `*_effect` settings also accepts a plain `r,g,b` value, or
@@ -177,7 +177,7 @@ MMU_LED ANIMATION=0                  # Static colors only, for this unit
 MMU_LED ENABLE=0                     # Turn LEDs off entirely
 ```
 
-Full parameter reference: [`MMU_LED`](Command-Reference.md#mmu_led). A
+Full parameter reference: [`MMU_LED`](Reference-Commands.md#mmu_led). A
 status report looks like this:
 
 ```{.text .console-output}
@@ -201,13 +201,13 @@ single gate and/or auto-revert after a set time:
 MMU_SET_LED EXIT_EFFECT=mmu_ready_orange GATE=2 DURATION=5
 ```
 
-Full parameter reference: [`MMU_SET_LED`](Command-Reference.md#mmu_set_led).
+Full parameter reference: [`MMU_SET_LED`](Reference-Commands.md#mmu_set_led).
 Reach for `MMU_LED` for "this is how gate 2 should normally look"; reach for
 `MMU_SET_LED` for "flash this one gate right now."
 
 ## Printer variables exposed
 
-See [`printer['mmu_leds <unit_name>']`](Printer-Variables.md#directly-registered-per-object-status) for the
+See [`printer['mmu_leds <unit_name>']`](Reference-Printer-Variables.md#directly-registered-per-object-status) for the
 directly-registered per-object status (LED counts per segment, current
 effects, animation state).
 
@@ -276,13 +276,13 @@ motion.
   pin.
 - **Filament color never shows on entry/exit/status** - `filament_color`
   needs a color set for that gate, either directly
-  ([`MMU_GATE_MAP COLOR=...`](Command-Reference.md#mmu_gate_map)) or via
+  ([`MMU_GATE_MAP COLOR=...`](Reference-Commands.md#mmu_gate_map)) or via
   [Spoolman](Feature-Spoolman.md).
 
 ## See also
 
-- [Command Reference: `MMU_LED`](Command-Reference.md#mmu_led)
-- [Command Reference: `MMU_SET_LED`](Command-Reference.md#mmu_set_led)
+- [Command Reference: `MMU_LED`](Reference-Commands.md#mmu_led)
+- [Command Reference: `MMU_SET_LED`](Reference-Commands.md#mmu_set_led)
 - [Feature: Spoolman Integration](Feature-Spoolman.md) - the pending-spool-ID
   LED overlay
 - [Feature: NFC/RFID Reading](Feature-NFC.md) - the scan-feedback LED overlay

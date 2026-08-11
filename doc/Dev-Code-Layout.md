@@ -250,7 +250,7 @@ for name, cls in sorted(COMMAND_REGISTRY.items()):
                 # self.mmu.gcode.register_command(...) for real
 ```
 
-See the [Command Reference](Command-Reference.md) for the resulting list, and
+See the [Command Reference](Reference-Commands.md) for the resulting list, and
 `doc_tools/gen_command_reference.py` for a second, independent consumer of
 this same structure (it walks the source with `ast` rather than importing it,
 for the reasons explained in that file's own header comment).
@@ -262,7 +262,7 @@ Hare, in their own words:
 
 - **Sync feedback vs. sync control.** `mmu_sync_feedback.py` is the
   MmuUnit-facing interface and status surface (what `printer.mmu` sees - see
-  [Printer-Variables.md](Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)).
+  [Reference-Printer-Variables.md](Reference-Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)).
   The actual control theory - dual-level switching, the PD+EKF proportional
   controller, autotuning, FlowGuard's clog/tangle detection - lives in
   `mmu_sync_controller.py`'s `SyncController`, `_AutotuneEngine` and
@@ -282,7 +282,7 @@ Hare, in their own words:
   graph runs inside, with no printer attached.
 - [The Simulator](Dev-Simulator.md) - driving that same graph by hand,
   interactively.
-- [Command Reference](Command-Reference.md) / [Printer Variable Reference](Printer-Variables.md) -
+- [Command Reference](Reference-Commands.md) / [Printer Variable Reference](Reference-Printer-Variables.md) -
   the user-facing surface this architecture produces.
 
 ---

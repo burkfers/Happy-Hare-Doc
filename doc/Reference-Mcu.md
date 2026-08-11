@@ -14,14 +14,14 @@ for what that screen actually looks like.
 ### Standard EASY-BRD (SAMD21)
 
 <p align="center">
-  <img src="Mcu-Reference/Easy_Brd_Pcb.jpg" alt="Standard EASY-BRD PCB">
+  <img src="Reference-Mcu/Easy_Brd_Pcb.jpg" alt="Standard EASY-BRD PCB">
 </p>
 
 <details>
   <summary>Firmware flashing</summary>
 
 <p align="center">
-  <img src="Mcu-Reference/menuconfig_easy_brd_v11.jpg" alt="Klipper make menuconfig settings for EASY-BRD v1.1">
+  <img src="Reference-Mcu/menuconfig_easy_brd_v11.jpg" alt="Klipper make menuconfig settings for EASY-BRD v1.1">
 </p>
 
 See [Flashing Firmware](#flashing-firmware) below for the full procedure.
@@ -30,20 +30,20 @@ See [Flashing Firmware](#flashing-firmware) below for the full procedure.
 ### Fysetc Burrows ERB v2
 
 <p align="center">
-  <img src="Mcu-Reference/ERB_V2_Pinout_White.png" alt="Fysetc Burrows ERB v2 pinout">
+  <img src="Reference-Mcu/ERB_V2_Pinout_White.png" alt="Fysetc Burrows ERB v2 pinout">
 </p>
 
 Connection diagram:
 
 <p align="center">
-  <img src="Mcu-Reference/ERB_v2_Connections.png" alt="Fysetc Burrows ERB v2 connection diagram">
+  <img src="Reference-Mcu/ERB_v2_Connections.png" alt="Fysetc Burrows ERB v2 connection diagram">
 </p>
 
 <details>
   <summary>Firmware flashing</summary>
 
 <p align="center">
-  <img src="Mcu-Reference/menuconfig_fysetc_erb_v2.png" alt="Klipper make menuconfig settings for Fysetc Burrows ERB v2">
+  <img src="Reference-Mcu/menuconfig_fysetc_erb_v2.png" alt="Klipper make menuconfig settings for Fysetc Burrows ERB v2">
 </p>
 
 See [Flashing Firmware](#flashing-firmware) below for the full procedure.
@@ -52,7 +52,7 @@ See [Flashing Firmware](#flashing-firmware) below for the full procedure.
 ### BTT MMB CAN v1.0
 
 <p align="center">
-  <img src="Mcu-Reference/MMB_CAN_v1.0_Pinout.jpg" alt="BTT MMB CAN v1.0 pinout">
+  <img src="Reference-Mcu/MMB_CAN_v1.0_Pinout.jpg" alt="BTT MMB CAN v1.0 pinout">
 </p>
 
 !!! note
@@ -64,7 +64,7 @@ See [Flashing Firmware](#flashing-firmware) below for the full procedure.
 ### BTT MMB CAN v2.0
 
 <p align="center">
-  <img src="Mcu-Reference/MMB_CAN_v2.0_Pinout.png" alt="BTT MMB CAN v2.0 pinout">
+  <img src="Reference-Mcu/MMB_CAN_v2.0_Pinout.png" alt="BTT MMB CAN v2.0 pinout">
 </p>
 
 !!! note
@@ -74,7 +74,7 @@ See [Flashing Firmware](#flashing-firmware) below for the full procedure.
 ### Mellow EASY-BRD CAN v1
 
 <p align="center">
-  <img src="Mcu-Reference/Mellow_CAN_v1.png" alt="Mellow EASY-BRD CAN v1 pinout">
+  <img src="Reference-Mcu/Mellow_CAN_v1.png" alt="Mellow EASY-BRD CAN v1 pinout">
 </p>
 
 !!! note
@@ -84,7 +84,7 @@ See [Flashing Firmware](#flashing-firmware) below for the full procedure.
 ### Mellow EASY-BRD CAN v2
 
 <p align="center">
-  <img src="Mcu-Reference/Mellow_CAN_v2.png" alt="Mellow EASY-BRD CAN v2 pinout">
+  <img src="Reference-Mcu/Mellow_CAN_v2.png" alt="Mellow EASY-BRD CAN v2 pinout">
 </p>
 
 !!! note
@@ -164,7 +164,18 @@ all:
    interface) - specific to the MCU chip on your board, not something this
    page can give one universal answer for.
 4. Save and exit (`Q`).
-5. Then flash it:
+5. You will need the correct device name. You can use `lsusb` to
+   list all USB devices. E.g
+
+        :::
+        Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+        Bus 001 Device 007: ID 2e8a:0003 Raspberry Pi RP2 Boot
+        Bus 001 Device 004: ID 1d50:614e OpenMoko, Inc. stm32f446xx
+   ID `2e8a:0003` should match you new device. Then flash it:
+
+        :::bash
+        make flash FLASH_DEVICE=2e8a:0003
+   Alternatively you can find you device with `ls -l /dev/serial/by-id` and flash:
 
         :::bash
         make flash FLASH_DEVICE=/dev/serial/by-id/<your-mcu-id>
@@ -180,9 +191,5 @@ all:
     disappeared - that's the one that was yours.
 
 ## See also
-
-- [Getting Started with Box Turtle](GettingStarted-BoxTurtle.md#board-type)
-- [Getting Started with BTT ViViD](GettingStarted-ViViD.md)
-- [Installation](Installation.md)
 
 ---

@@ -62,5 +62,5 @@ setting sits alongside the others.
 - [Calibration: Gear](Calibration-Gear.md) - required before this step
 - [Calibration: Gear](Calibration-Gear.md#mmu_calibrate_gate-remaining-gates-automatically) - `MMU_CALIBRATE_GATE`, which uses this calibration to tune every other gate
 - [Feature: Encoder](Feature-Encoder.md) - wiring, resolution concept, tuning, and troubleshooting
-- [Config Parameters](Parameters.md#calibration-and-autotune) - `skip_cal_encoder` in full
-- [Command Reference: `MMU_CALIBRATE_ENCODER`](Command-Reference.md#mmu_calibrate_encoder)
+- [Config Parameters](Reference-Parameters.md#calibration-and-autotune) - `skip_cal_encoder` in full
+- [Command Reference: `MMU_CALIBRATE_ENCODER`](Reference-Commands.md#mmu_calibrate_encoder)

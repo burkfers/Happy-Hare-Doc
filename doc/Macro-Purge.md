@@ -28,16 +28,16 @@ length itself is calculated.
 **Macro Variables → Purge (\_MMU_PURGE)** screen shown above - genuinely
 one setting, `extruder_purge_speed`: as fast as possible without the
 extruder skipping steps. Extruder current for purging can also be raised
-separately, in [`extruder_purge_current`](Parameters.md#tip-forming). Full
+separately, in [`extruder_purge_current`](Reference-Parameters.md#tip-forming). Full
 detail: [Macro Variables: Reference
-purge](Macro-Vars.md#reference-purge-_mmu_purge_vars).
+purge](Reference-Macro-Vars.md#reference-purge-_mmu_purge_vars).
 
 ## See also
 
 - [Macro: Blobifier](Macro-Blobifier.md) - the more capable alternative
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md#purge-volumes) -
   purge volume calculation and the `purge_macro` setting
-- [Macro Variables: Reference purge](Macro-Vars.md#reference-purge-_mmu_purge_vars) -
+- [Macro Variables: Reference purge](Reference-Macro-Vars.md#reference-purge-_mmu_purge_vars) -
   the full variable table
 
 ---

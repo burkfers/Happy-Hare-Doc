@@ -91,8 +91,8 @@ MMU_LOAD                  # Load the manually-inserted filament to the nozzle
 MMU_UNLOAD                # Unload it again
 ```
 
-Full parameter reference: [`MMU_SELECT_BYPASS`](Command-Reference.md#mmu_select_bypass),
-[`MMU_SELECT`](Command-Reference.md#mmu_select). Insert filament through
+Full parameter reference: [`MMU_SELECT_BYPASS`](Reference-Commands.md#mmu_select_bypass),
+[`MMU_SELECT`](Reference-Commands.md#mmu_select). Insert filament through
 the bypass all the way to the extruder entrance before `MMU_LOAD`, and pull
 it back out by hand after `MMU_UNLOAD` before selecting a normal gate again.
 `MMU_LOAD`/`MMU_UNLOAD`/`MMU_EJECT` all automatically behave as
@@ -114,9 +114,9 @@ MMU_GATE_MAP BYPASS=1 MATERIAL=PETG COLOR=orange
 ## Printer variables exposed
 
 `printer.mmu.tool`/`.gate` both read `-2` while bypass is selected. See
-[Printer Variables: core state](Printer-Variables.md#core-state), and the
+[Printer Variables: core state](Reference-Printer-Variables.md#core-state), and the
 per-unit `has_bypass` field under
-[`printer.mmu_machine`](Printer-Variables.md) for whether a given unit is
+[`printer.mmu_machine`](Reference-Printer-Variables.md) for whether a given unit is
 configured to show one at all. (A deprecated top-level
 `printer.mmu.has_bypass` also exists, always `True` now - kept only for
 older macros, see the deprecation note on that same page.)
@@ -141,10 +141,10 @@ older macros, see the deprecation note on that same page.)
 
 ## See also
 
-- [Command Reference: `MMU_SELECT_BYPASS`](Command-Reference.md#mmu_select_bypass)
-- [Command Reference: `MMU_SELECT`](Command-Reference.md#mmu_select)
-- [Command Reference: `MMU_CALIBRATE_SELECTOR`](Command-Reference.md#mmu_calibrate_selector)
-- [Command Reference: `MMU_RECOVER`](Command-Reference.md#mmu_recover)
+- [Command Reference: `MMU_SELECT_BYPASS`](Reference-Commands.md#mmu_select_bypass)
+- [Command Reference: `MMU_SELECT`](Reference-Commands.md#mmu_select)
+- [Command Reference: `MMU_CALIBRATE_SELECTOR`](Reference-Commands.md#mmu_calibrate_selector)
+- [Command Reference: `MMU_RECOVER`](Reference-Commands.md#mmu_recover)
 - [Conceptual: What Is an MMU?](Conceptual-MMU.md) - selector mechanisms and which ones support a physical bypass
 - [Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md)
 - [Feature: Spoolman Integration](Feature-Spoolman.md)

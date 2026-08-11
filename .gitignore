@@ -2,6 +2,7 @@ venv/
 site/
 .cache/
 .happy-hare-src/
+.make/
 __pycache__/
 *.pyc
 .DS_Store

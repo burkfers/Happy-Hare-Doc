@@ -245,7 +245,7 @@ Green is not the same as covered. Roughly where things stand:
 | Klipper motion and timing | **none** | out of scope by design — see §9 |
 
 Blunter version: only a small fraction of the commands in the
-[Command Reference](Command-Reference.md) are actually driven from a test. The ones that are
+[Command Reference](Reference-Commands.md) are actually driven from a test. The ones that are
 cover what a print depends on, and the internal `_MMU_*` sequence macros run underneath them
 — but most administrative and calibration commands have never been called here. A green
 suite says the operational core works, not that the command set does.
