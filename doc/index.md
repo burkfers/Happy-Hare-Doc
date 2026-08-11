@@ -230,7 +230,7 @@ Whichever you use, having these ready up front gets you a faster answer:
     Every `MMU_*` command and `printer.mmu.*` variable, generated straight
     from the source.
 
-    [Command Reference &rarr;](Command-Reference.md)
+    [Command Reference &rarr;](Reference-Commands.md)
 
 -   **Developer Guide**
 

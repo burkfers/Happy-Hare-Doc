@@ -5,8 +5,8 @@ real shipped config templates and the menuconfig help text behind each one -
 not the wiki, which this page treats as too unreliable to trust for facts
 that change from release to release. Feature pages explain the *why* behind
 a setting; this page is the flat, exhaustive lookup for *what it is and what
-it defaults to*, the same role [Command Reference](Command-Reference.md) and
-[Printer Variables](Printer-Variables.md) play for commands and status
+it defaults to*, the same role [Command Reference](Reference-Commands.md) and
+[Printer Variables](Reference-Printer-Variables.md) play for commands and status
 fields.
 
 Two other config files exist and are **not** covered here:
@@ -20,7 +20,7 @@ different MMU type or a different set of enabled features can change any
 default shown here; where a setting only appears with a particular feature
 enabled, that's noted alongside it. Many settings can also be changed live
 with `MMU_TEST_CONFIG <var>=<value>`, without a Klipper restart - see
-[`MMU_TEST_CONFIG`](Command-Reference.md#mmu_test_config).
+[`MMU_TEST_CONFIG`](Reference-Commands.md#mmu_test_config).
 
 ## Shared settings (`mmu.cfg`)
 
@@ -448,10 +448,10 @@ supplies automatically.
 ## See also
 
 - [Calibration](Calibration.md) - what the calibration/autotune settings above actually do, and their real defaults per MMU type
-- [Command Reference](Command-Reference.md) - every `MMU_*` command
-- [Macro Variables](Macro-Vars.md) - the equivalent flat reference for
+- [Command Reference](Reference-Commands.md) - every `MMU_*` command
+- [Macro Variables](Reference-Macro-Vars.md) - the equivalent flat reference for
   `mmu_macro_vars.cfg`
-- [Printer Variables](Printer-Variables.md) - every `printer.mmu.*` status field
+- [Printer Variables](Reference-Printer-Variables.md) - every `printer.mmu.*` status field
 - [Custom Load/Unload Sequences](Custom-Load-Unload-Sequences.md) - the
   macro-based alternative to internal load/unload logic
 

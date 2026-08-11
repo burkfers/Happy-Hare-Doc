@@ -54,7 +54,7 @@ them blank for the default bed-mounted brush.
 **Macro Variables → Blobifier (\_BLOBIFIER)** screen shown above, once
 Blobifier is enabled. The full ~60-variable table, organized the same way
 as the shipped file's own sections, is on [Macro Variables:
-Blobifier](Macro-Vars.md#blobifier-_blobifier_vars) - not repeated here.
+Blobifier](Reference-Macro-Vars.md#blobifier-_blobifier_vars) - not repeated here.
 Three settings are explicitly flagged **must calibrate** rather than
 tune-to-taste: `toolhead_x`/`toolhead_y` (nozzle-to-toolhead-edge offsets)
 and `tray_top` (the tray's real Z height) - the shipped defaults are a
@@ -65,7 +65,7 @@ specific build's measurements, not a sensible starting point for yours.
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md) - the
   `purge_macro` setting that activates Blobifier as an alternative to
   `_MMU_PURGE`
-- [Macro Variables: Blobifier](Macro-Vars.md#blobifier-_blobifier_vars) -
+- [Macro Variables: Blobifier](Reference-Macro-Vars.md#blobifier-_blobifier_vars) -
   every `_BLOBIFIER_VARS` setting in full
 - [Toolchange Movement](Toolchange-Movement.md#tip-cutting-options) - a
   worked example combining Blobifier with a fully custom park/purge, no

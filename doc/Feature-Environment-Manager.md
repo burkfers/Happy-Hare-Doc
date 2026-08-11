@@ -140,7 +140,7 @@ MMU_HEATER STOP=1                              # Stop the current drying cycle (
 MMU_HEATER DRYING_DATA=1                       # List the configured drying-data table
 ```
 
-Full parameter reference: [`MMU_HEATER`](Command-Reference.md#mmu_heater).
+Full parameter reference: [`MMU_HEATER`](Reference-Commands.md#mmu_heater).
 
 !!! warning "Important"
     `MMU_HEATER TEMP=50` outside a drying cycle sets the heater directly and
@@ -209,7 +209,7 @@ Gate 8: (queued waiting for heater slot, target 65.0°C)
 
 `drying_state` - a per-gate list of `''` \| `queued` \| `active` \| `complete`
 \| `canceled`. See
-[Per-gate arrays merged across every unit](Printer-Variables.md#per-gate-arrays-merged-across-every-unit)
+[Per-gate arrays merged across every unit](Reference-Printer-Variables.md#per-gate-arrays-merged-across-every-unit)
 in the printer variable reference.
 
 ## Tuning
@@ -314,10 +314,10 @@ sensor supports humidity at all.
 
 ## See also
 
-- [Command Reference: `MMU_HEATER`](Command-Reference.md#mmu_heater)
+- [Command Reference: `MMU_HEATER`](Reference-Commands.md#mmu_heater)
 - [Feature: eSpooler](Feature-Espooler.md) - the mechanism spool rotation
   reuses
-- [Printer Variables: per-gate arrays](Printer-Variables.md#per-gate-arrays-merged-across-every-unit)
+- [Printer Variables: per-gate arrays](Reference-Printer-Variables.md#per-gate-arrays-merged-across-every-unit)
   for the `drying_state` field
 
 ---

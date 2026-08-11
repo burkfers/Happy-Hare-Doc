@@ -125,8 +125,8 @@ so `off`/`readonly` never do it regardless of this setting) - full detail on
 
 ## Commands
 
-Full parameter reference: [`MMU_SPOOLMAN`](Command-Reference.md#mmu_spoolman),
-[`MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map).
+Full parameter reference: [`MMU_SPOOLMAN`](Reference-Commands.md#mmu_spoolman),
+[`MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map).
 
 Day-to-day gate assignment normally goes through `MMU_GATE_MAP`, which
 updates the local gate map first and then syncs to Spoolman if enabled:
@@ -190,7 +190,7 @@ hardware and the scanning side of this; this section is purely the
 Spoolman-record-writing side.
 
 Full parameter reference:
-[`MMU_SPOOLMAN_TAG`](Command-Reference.md#mmu_spoolman_tag).
+[`MMU_SPOOLMAN_TAG`](Reference-Commands.md#mmu_spoolman_tag).
 
 There are two independent ways to end up with a tag bound to a spool,
 depending on which one you have in hand first:
@@ -274,7 +274,7 @@ or re-scan the tag once the spool exists instead.
 | `gate_spool_rfid` | list | Per-gate RFID/NFC tag UID, if read |
 | `active_filament` | dict | `filament_name`, `material`, `vendor`, `color`, `spool_id`, `temperature` for the currently selected gate |
 
-Full reference: [Printer Variables](Printer-Variables.md#core-state).
+Full reference: [Printer Variables](Reference-Printer-Variables.md#core-state).
 
 ### UI (Mainsail/Fluidd/KlipperScreen/Spoolman)
 
@@ -313,7 +313,7 @@ which side ends up authoritative for what.
 
 Nothing to configure beyond the setting itself. Local material/color
 attributes are used as-is; a `SpoolId` in the gate map isn't shown or used.
-[Automatic tool-to-gate mapping](Command-Reference.md#mmu_ttg_map) still
+[Automatic tool-to-gate mapping](Reference-Commands.md#mmu_ttg_map) still
 works but without Spoolman-sourced attributes to key off.
 
 <pre class="hh-mermaid">
@@ -547,10 +547,10 @@ that bounds a shared NFC/RFID scan.
 
 ## See also
 
-- [Command Reference: `MMU_SPOOLMAN`](Command-Reference.md#mmu_spoolman)
-- [Command Reference: `MMU_SPOOLMAN_TAG`](Command-Reference.md#mmu_spoolman_tag)
-- [Command Reference: `MMU_GATE_MAP`](Command-Reference.md#mmu_gate_map)
-- [Printer Variables](Printer-Variables.md#core-state)
+- [Command Reference: `MMU_SPOOLMAN`](Reference-Commands.md#mmu_spoolman)
+- [Command Reference: `MMU_SPOOLMAN_TAG`](Reference-Commands.md#mmu_spoolman_tag)
+- [Command Reference: `MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map)
+- [Printer Variables](Reference-Printer-Variables.md#core-state)
 - [Feature: NFC/RFID Reading](Feature-NFC.md) - automatic tag-to-spool
   resolution, auto-create, and the hardware readers themselves
 

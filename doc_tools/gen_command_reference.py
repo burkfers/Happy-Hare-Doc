@@ -1,6 +1,6 @@
 # Happy Hare documentation tooling
 #
-# Generates doc/Command-Reference.md from the real command metadata scattered
+# Generates doc/Reference-Commands.md from the real command metadata scattered
 # across extras/mmu/ - the same HELP_BRIEF / HELP_PARAMS / HELP_SUPPLEMENT
 # strings a user sees from `<CMD> HELP=1` on a printer, and the same CATEGORY_*
 # grouping BaseCommand.register() uses. See doc_tools/README.md for the split
@@ -31,10 +31,11 @@ import argparse
 import ast
 import os
 import pathlib
+import re
 import sys
 
 DOC_ROOT = pathlib.Path(__file__).resolve().parent.parent
-OUT_FILE = DOC_ROOT / "doc" / "Command-Reference.md"
+OUT_FILE = DOC_ROOT / "doc" / "Reference-Commands.md"
 DEV_OUT_FILE = DOC_ROOT / "doc" / "Dev-Command-Reference.md"
 
 HAPPY_HARE_SRC = os.environ.get("HAPPY_HARE_SRC")
@@ -47,6 +48,7 @@ if not HAPPY_HARE_SRC or not (pathlib.Path(HAPPY_HARE_SRC) / "extras" / "mmu").i
 MMU_DIR = pathlib.Path(HAPPY_HARE_SRC) / "extras" / "mmu"
 BASE_COMMAND_FILE = MMU_DIR / "commands" / "mmu_base_command.py"
 CONSTANTS_FILE = MMU_DIR / "mmu_constants.py"
+CONFIG_DIR = pathlib.Path(HAPPY_HARE_SRC) / "config"
 
 HELP_FIELDS = ("CMD", "HELP_BRIEF", "HELP_PARAMS", "HELP_SUPPLEMENT")
 
@@ -132,6 +134,97 @@ def load_constants():
     return namespace
 
 
+MACRO_HEADER_RE = re.compile(r'^\[gcode_macro\s+(\S+)\]\s*$')
+DESCRIPTION_RE = re.compile(r'^description:\s*(.*)$')
+
+# Only these two - the rest of categorize_macro_command()'s range (GENERAL,
+# TESTING, OTHER, STEPS, INTERNAL) also has real gcode_macro-only hits
+# (MMU_COLD_PULL, legacy-alias macro names, _MMU_*_VARS containers, MMU__*
+# internal helpers) that already have a deliberate home elsewhere or are
+# explicitly not documented per prior request - see TOC.md. Folding those in
+# here too would need that same case-by-case call, not a mechanical scan.
+MACRO_CATEGORIES_INCLUDED = {"CATEGORY_MACROS", "CATEGORY_CALLBACKS"}
+
+
+def categorize_macro_command(name):
+    """Port of the `categorize()` closure inside
+    MmuHelpCommand.non_registered_commands() (extras/mmu/commands/mmu_help.py)
+    - the runtime name-matching heuristic MMU_HELP itself uses to bucket
+    gcode_macro-defined commands (found via the live printer's
+    ready_gcode_handlers) that were never BaseCommand.register()'d. Kept in
+    lockstep by hand; re-check it there if MMU_HELP's own categorization ever
+    changes."""
+    cu = name.upper()
+    if cu in ("MMU_COLD_PULL",):
+        return "CATEGORY_GENERAL"
+    if cu in ("MMU_QUERY_PSENSOR",):
+        return "CATEGORY_TESTING"
+    if (
+        cu.startswith("MMU_START")
+        or cu.startswith("MMU_END")
+        or cu in ("MMU_UPDATE_HEIGHT", "MMU_CHANGE_TOOL_STANDALONE")
+    ):
+        return "CATEGORY_MACROS"
+    if cu.startswith("_MMU"):
+        if cu in ("_MMU_M400", "_MMU_LOAD_SEQUENCE", "_MMU_UNLOAD_SEQUENCE"):
+            return "CATEGORY_STEPS"
+        if (
+            cu.startswith("_MMU_PRE_")
+            or cu.startswith("_MMU_POST_")
+            or cu in ("_MMU_ACTION_CHANGED", "_MMU_EVENT", "_MMU_PRINT_STATE_CHANGED")
+        ):
+            return "CATEGORY_CALLBACKS"
+        return "CATEGORY_INTERNAL"
+    if cu.startswith("MMU__"):
+        return "CATEGORY_INTERNAL"
+    if cu.startswith("MMU"):
+        return "CATEGORY_OTHER"
+    return None
+
+
+def collect_macro_commands(registered_names, categories):
+    """gcode_macro-defined commands (a plain Klipper `description:` line, no
+    HELP_PARAMS/HELP_SUPPLEMENT) that MMU_HELP finds on a real printer via
+    ready_gcode_handlers rather than BaseCommand._registered_commands - see
+    categorize_macro_command() above. Scans config/ only (not test/ installer
+    fixtures, which reuse some of these names)."""
+    commands = []
+    for path in sorted(CONFIG_DIR.rglob("*.cfg")):
+        lines = path.read_text().splitlines()
+        for i, line in enumerate(lines):
+            match = MACRO_HEADER_RE.match(line)
+            if not match:
+                continue
+            name = match.group(1)
+            if name.upper() in registered_names:
+                continue
+            category_name = categorize_macro_command(name)
+            if category_name not in MACRO_CATEGORIES_INCLUDED:
+                continue
+
+            description = ""
+            for follow in lines[i + 1:]:
+                if follow.startswith("[") or follow.strip().startswith("gcode:"):
+                    break
+                desc_match = DESCRIPTION_RE.match(follow)
+                if desc_match:
+                    description = desc_match.group(1).strip()
+                    break
+
+            commands.append(
+                {
+                    "cmd": name,
+                    "help_brief": description,
+                    "help_params": "",
+                    "help_supplement": "",
+                    "category": category_name,
+                    "category_label": categories.get(category_name, category_name),
+                    "file": str(path.relative_to(HAPPY_HARE_SRC)),
+                }
+            )
+    return commands
+
+
 def collect_commands():
     categories = extract_categories(BASE_COMMAND_FILE.read_text())
     constants = load_constants()
@@ -162,6 +255,9 @@ def collect_commands():
                     "file": str(path.relative_to(HAPPY_HARE_SRC)),
                 }
             )
+
+    registered_names = {cmd["cmd"].upper() for cmd in commands}
+    commands.extend(collect_macro_commands(registered_names, categories))
 
     seen = set()
     for cmd in commands:
@@ -248,7 +344,7 @@ def render_dev_page(commands, categories):
     out = [
         "# Developer Command Reference",
         "",
-        "The commands [Command Reference](Command-Reference.md) leaves out -",
+        "The commands [Command Reference](Reference-Commands.md) leaves out -",
         "individual loading/unloading steps and internal machinery, generated",
         "the same way from the same real `HELP_BRIEF`/`HELP_PARAMS`/",
         "`HELP_SUPPLEMENT` source. Not part of the supported user interface;",
@@ -282,7 +378,7 @@ def main():
     parser.add_argument(
         "--check",
         action="store_true",
-        help="Exit non-zero if doc/Command-Reference.md or doc/Dev-Command-Reference.md is stale instead of writing them",
+        help="Exit non-zero if doc/Reference-Commands.md or doc/Dev-Command-Reference.md is stale instead of writing them",
     )
     args = parser.parse_args()
 

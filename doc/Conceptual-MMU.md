@@ -39,7 +39,7 @@ Some designs happen to add a few millimetres of physical slack to house this
 sensor, which is where the "buffer" nickname comes from - but its job is
 sensing tension/compression, not catching loose filament. Happy Hare exposes
 this as `sync_feedback_state` (`compressed`/`expanded`/`neutral`/`disabled`)
-in [Printer Variables](Printer-Variables.md#printermmu) and reuses it to
+in [Printer Variables](Reference-Printer-Variables.md#printermmu) and reuses it to
 drive [FlowGuard](Feature-FlowGuard.md) and tangle-prevention. Recent advancements
 have introduced devices with a single analog import with proportional measurement
 of filament tension. They are the **ultimate** and fully supported by Happy Hare.
@@ -254,9 +254,9 @@ to support it.
 
 - [Feature: eSpooler](Feature-Espooler.md) - the active filament-buffer variant
 - [Feature: FlowGuard](Feature-FlowGuard.md)
-- [Printer Variables](Printer-Variables.md#printermmu) - `sync_feedback_state`,
+- [Printer Variables](Reference-Printer-Variables.md#printermmu) - `sync_feedback_state`,
   FlowGuard and tangle-prevention fields
-- [Printer Variables: `printer.mmu_machine`](Printer-Variables.md#printermmu_machine) -
+- [Printer Variables: `printer.mmu_machine`](Reference-Printer-Variables.md#printermmu_machine) -
   the multi-unit aggregation object
 - [Code Layout: Selector hierarchy](Dev-Code-Layout.md#selector-hierarchy) -
   the real class hierarchy behind this page's mechanism families

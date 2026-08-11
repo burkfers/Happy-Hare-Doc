@@ -112,5 +112,5 @@ the installed default.
 ## See also
 
 - [What Is an MMU?](Conceptual-MMU.md#selector-mechanisms) - the Type-A/B/C taxonomy this page builds on
-- [Config Parameters](Parameters.md#calibration-and-autotune) - every setting mentioned above, in full
-- [Command Reference](Command-Reference.md) - every `MMU_CALIBRATE_*` command's full parameter list
+- [Config Parameters](Reference-Parameters.md#calibration-and-autotune) - every setting mentioned above, in full
+- [Command Reference](Reference-Commands.md) - every `MMU_CALIBRATE_*` command's full parameter list

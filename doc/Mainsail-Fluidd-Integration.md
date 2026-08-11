@@ -79,7 +79,7 @@ Mainsail and Fluidd both support showing extra per-extruder attributes,
 which Happy Hare uses to give the "Tx" tool buttons a live color swatch. At
 print start, Happy Hare reads the sliced file's tool map into its own
 "Slicer Tool Map" (see [Command Reference:
-`MMU_SLICER_TOOL_MAP`](Command-Reference.md#mmu_slicer_tool_map)) and
+`MMU_SLICER_TOOL_MAP`](Reference-Commands.md#mmu_slicer_tool_map)) and
 reports it to the UI. Which color source feeds the swatch is controlled by
 `t_macro_color` in `mmu.cfg`:
 
@@ -133,7 +133,7 @@ color to whatever gate 7 has loaded:
 - [KlipperScreen](KlipperScreen.md) - the equivalent touchscreen UI
 - [Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md)
 - [Feature: Spoolman Integration](Feature-Spoolman.md)
-- [Command Reference: `MMU_SLICER_TOOL_MAP`](Command-Reference.md#mmu_slicer_tool_map)
-- [Command Reference: `MMU_TTG_MAP`](Command-Reference.md#mmu_ttg_map)
+- [Command Reference: `MMU_SLICER_TOOL_MAP`](Reference-Commands.md#mmu_slicer_tool_map)
+- [Command Reference: `MMU_TTG_MAP`](Reference-Commands.md#mmu_ttg_map)
 
 ---

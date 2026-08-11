@@ -64,10 +64,10 @@ If your change affects `printer.mmu.*`, adds/removes a command, or changes
 hand-editing:
 
 ```bash
-make command_reference   # doc/Command-Reference.md
+make command_reference   # doc/Reference-Commands.md
 ```
 
-`doc/Printer-Variables.md` has no generator (yet) - it's checked against the
+`doc/Reference-Printer-Variables.md` has no generator (yet) - it's checked against the
 real `get_status()` methods by hand; update it in the same PR if you touch
 one. See [Documentation Tooling](Dev-Doc-Tooling.md) for how the rest of this
 site is built, and its **Page conventions** section for the one formatting

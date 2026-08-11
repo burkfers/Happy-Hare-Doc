@@ -31,7 +31,7 @@ Sequences](Custom-Load-Unload-Sequences.md) for how these fit around the
 `_MMU_SEQUENCE_VARS` in `mmu_macro_vars.cfg`, reachable from menuconfig's
 **Macro Variables → Sequence macros (\_MMU_SEQUENCE)** screen shown above.
 Full variable table: [Macro Variables:
-Sequence/parking](Macro-Vars.md#sequenceparking-_mmu_sequence_vars). For the
+Sequence/parking](Reference-Macro-Vars.md#sequenceparking-_mmu_sequence_vars). For the
 parking/`restore_xy_pos`/z-hop settings shown on the same screen, see
 [Toolchange Movement](Toolchange-Movement.md) instead - this page focuses on
 what that one doesn't cover:
@@ -55,7 +55,7 @@ what that one doesn't cover:
   front of
 - [Macro Customization](Macro-Customization.md) - the extension mechanism
   every `user_*_extension` hook here uses
-- [Macro Variables: Sequence/parking](Macro-Vars.md#sequenceparking-_mmu_sequence_vars) -
+- [Macro Variables: Sequence/parking](Reference-Macro-Vars.md#sequenceparking-_mmu_sequence_vars) -
   every `_MMU_SEQUENCE_VARS` setting in full
 
 ---
