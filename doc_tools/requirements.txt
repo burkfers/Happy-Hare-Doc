@@ -20,3 +20,6 @@ pillow
 # Reads mkdocs.yml (docs_dir: doc) at the repo root directly - one package,
 # no separate theme dependency; it bundles Material's styling itself.
 zensical
+
+# Extra Markdown extensions used by this site's content (e.g. === content tabs).
+pymdown-extensions
