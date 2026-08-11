@@ -150,15 +150,7 @@ espooler : unit0     # Name of [mmu_espooler unit0] above
 
 An eSpooler and a filament (catchment) buffer both exist to solve the same
 "manage slack in the filament path" problem in different ways, so most designs
-only fit one or the other in practice - but menuconfig no longer *enforces*
-that as a general rule. Box Turtle is the one exception with a hardcoded
-choice: it ships as an eSpooler design (see
-[GettingStarted-BoxTurtle.md](GettingStarted-BoxTurtle.md)) and its
-filament buffer option is always off, regardless of the eSpooler toggle. BTT
-ViViD hardcodes the opposite pairing - both options are off, since it uses a
-different buffer mechanism entirely. On every other MMU type, the two options
-are independently togglable, so check what your specific hardware actually
-supports before enabling both.
+only fit one or the other in practice.
 
 ## Parameter Setup
 
@@ -405,8 +397,6 @@ MMU_ESPOOLER
   burst mechanism
 - [Printer Variables: per-gate arrays](Reference-Printer-Variables.md#per-gate-arrays-merged-across-every-unit)
   for the `espooler` status field
-- [GettingStarted-BoxTurtle.md](GettingStarted-BoxTurtle.md) - enabling
-  the eSpooler feature during initial `menuconfig` setup
 
 ---
 
