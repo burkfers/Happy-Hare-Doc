@@ -154,12 +154,15 @@ This site uses Material-style icon identifiers in config (examples: `material/ta
 
 Useful icon references:
 
-- [Zensical](https://zensical.org)
-- <img src="https://api.iconify.design/simple-icons:lucide.svg?color=%23cfd3dc" alt="Lucide icon" width="18">  [Lucide](https://lucide.dev/icons/)
-- <img src="https://api.iconify.design/simple-icons:materialdesignicons.svg?color=%23cfd3dc" alt="Material Design icon" width="18">  [Material Design](https://pictogrammers.com/library/mdi/)
-- <img src="https://api.iconify.design/simple-icons:fontawesome.svg?color=%23cfd3dc" alt="FontAwesome icon" width="18">   [FontAwesome](https://fontawesome.com/search?m=free)
-- <img src="https://api.iconify.design/simple-icons:github.svg?color=%23cfd3dc" alt="Octicons icon" width="18">   [Octicons](https://octicons.github.com/)
-- <img src="https://api.iconify.design/simple-icons:simpleicons.svg?color=%23cfd3dc" alt="Simple Icons icon" width="18">   [Simple Icons](https://simpleicons.org/)
+ <img src="https://api.iconify.design/simple-icons:lucide.svg?color=%23cfd3dc" alt="Lucide icon" width="12">  [Lucide](https://lucide.dev/icons/)
+<br>
+ <img src="https://api.iconify.design/simple-icons:materialdesignicons.svg?color=%23cfd3dc" alt="Material Design icon" width="12">  [Material Design](https://pictogrammers.com/library/mdi/)
+<br>
+<img src="https://api.iconify.design/simple-icons:fontawesome.svg?color=%23cfd3dc" alt="FontAwesome icon" width="12">   [FontAwesome](https://fontawesome.com/search?m=free)
+<br>
+<img src="https://api.iconify.design/simple-icons:github.svg?color=%23cfd3dc" alt="Octicons icon" width="12">   [Octicons](https://octicons.github.com/)
+<br>
+ <img src="https://api.iconify.design/simple-icons:simpleicons.svg?color=%23cfd3dc" alt="Simple Icons icon" width="12">   [Simple Icons](https://simpleicons.org/)
 
 Example social icon entries:
 

@@ -45,6 +45,46 @@ function syncPageNavToContent() {
   nav.style.paddingRight = Math.max(0, navRect.right - articleRect.right) + "px";
 }
 
+var backToTopButton = null;
+
+function updateBackToTopVisibility() {
+  if (!backToTopButton) return;
+  var y = window.scrollY || document.documentElement.scrollTop || 0;
+  if (y > 300) {
+    backToTopButton.classList.add("is-visible");
+  } else {
+    backToTopButton.classList.remove("is-visible");
+  }
+}
+
+function ensureBackToTopButton() {
+  if (backToTopButton && document.body.contains(backToTopButton)) {
+    updateBackToTopVisibility();
+    return;
+  }
+
+  var existing = document.querySelector(".hh-back-to-top");
+  if (existing) {
+    backToTopButton = existing;
+    updateBackToTopVisibility();
+    return;
+  }
+
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "hh-back-to-top";
+  btn.setAttribute("aria-label", "Back to top");
+  btn.title = "Back to top";
+  btn.textContent = "Back to Top";
+  btn.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  document.body.appendChild(btn);
+  backToTopButton = btn;
+  updateBackToTopVisibility();
+}
+
 // Registered once, not inside document$.subscribe below - that callback
 // re-fires (and rebuilds .hh-page-nav from scratch) on every in-app
 // navigation, but this script itself only loads once, so a listener
@@ -54,6 +94,8 @@ function syncPageNavToContent() {
 // hides the primary sidebar entirely - moves the content column without
 // document$ firing again.
 window.addEventListener("resize", syncPageNavToContent);
+window.addEventListener("resize", updateBackToTopVisibility);
+window.addEventListener("scroll", updateBackToTopVisibility, { passive: true });
 
 document$.subscribe(function () {
   // Lives inside the real theme <footer> now, not the article - prepended
@@ -134,4 +176,5 @@ document$.subscribe(function () {
 
   footer.insertBefore(nav, footer.firstChild);
   syncPageNavToContent();
+  ensureBackToTopButton();
 });
