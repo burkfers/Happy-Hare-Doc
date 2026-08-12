@@ -33,11 +33,6 @@ supported:
   position, including how far into tension or compression the buffer
   currently sits.
 
-!!! note
-    The pin names above the diagram are from the original design write-up -
-    the current configuration keys are `tension_pin` and `compression_pin`
-    (see [Hardware Setup](#hardware-setup) below).
-
 Which sensor style you have decides how AutoTune corrects things, and which
 of two algorithms it runs:
 
@@ -45,11 +40,11 @@ of two algorithms it runs:
   nudged a fixed % above or below the current rotation-distance estimate,
   and which way the switches respond decides which direction is correct.
   This means a switch sensor's gear speed is *always* oscillating in a
-  small, deliberate back-and-forth, even once AutoTune has converged - that
-  oscillation is how it keeps checking the estimate is still right, not a
+  small, deliberate back-and-forth motion, even once AutoTune has converged -
+  that oscillation is how it keeps checking the estimate is still right, not a
   fault. `sync_feedback_speed_multiplier`/`_boost_multiplier` (see
   [Parameter Setup](#parameter-setup) below) control how wide that
-  back-and-forth is.
+  back-and-forth motion is.
 - **EKF** (Extended Kalman Filter - proportional sensors only): a
   statistical model correlates the sensor's continuous position reading
   with extruder motion to estimate rotation distance directly, with no need
@@ -314,13 +309,14 @@ unit0:filament_proportional --> 0.02 (raw: 0.0064)
 
 The raw value should approach `0` at one extreme and `1` at the other - if
 it barely moves, the pin isn't actually ADC-capable (double check it's not
-a plain digital/endstop pin, the kind normally used for a thermistor).
+a plain digital/endstop pin, the kind normally used for a thermistor or
+if it's an unused diag pin with the jumper still installed).
 
-Once wiring is confirmed,
-[`MMU_CALIBRATE_PSENSOR`](Reference-Commands.md#mmu_calibrate_psensor) does
-the rest automatically - it moves the gear stepper in small increments in
-both directions until the readings plateau at each extreme, then reports
-the values to enter into `mmu_hardware.cfg`:
+Once wiring is confirmed, load filament through to the extruder and run
+[`MMU_CALIBRATE_PSENSOR`](Reference-Commands.md#mmu_calibrate_psensor) to
+automatically calibrate the sensor by moving the gear stepper in small
+increments in both directions until readings plateau at each extreme.
+You need to enter the reported values into `mmu_hardware.cfg`:
 
 ```{.text .console-output}
 > MMU_CALIBRATE_PSENSOR
@@ -359,14 +355,22 @@ plateau at either end.
 - **`MMU_CALIBRATE_PSENSOR` readings barely change during the sweep** -
   confirm the pin is wired to an ADC-capable GPIO (the kind normally used for
   a thermistor), not a standard digital/endstop pin - a proportional sensor
-  simply won't produce useful data on the wrong kind of pin.
+  simply won't produce useful data on the wrong kind of pin. If the pin is a
+  unused stepper diag pin, ensure the jumper is removed.
+- **`MMU_CALIBRATE_PSENSOR` doesn't automatically find the extremes** -
+  Check that filament is loaded, the bowden ECAS fittings are tight, and the
+  filament has enough preload not to slip. If that still fails, hold the
+  shuttle at each extreme and use the `RAW` values from `MMU_SENSORS` to
+  calibrate manually: the MMU-side value is `analog_max_compression`, the
+  other is `analog_max_tension`. Add the two values and divide by 2 to get
+  `analog_neutral_point`.
 - **The gear stepper runs noticeably hot during long prints** - lower
   `sync_gear_current`; it only applies while synced during printing, and
   full current returns automatically for loading and unloading.
 - **AutoTune seems to "hunt" continuously between two speeds** - for a
-  switch-based sensor (TO/CO/D) this is expected, by design, and not a fault
-  - the whole mechanism works by continuously seeking the correct rotation
-  distance. It doesn't affect print quality; if it's actually causing
+  switch-based sensor (TO/CO/D) this is expected, by design, and not a
+  fault - the whole mechanism works by continuously seeking the correct
+  rotation distance. It doesn't affect print quality; if it's actually causing
   problems, see the Tuning notes above on filament "play" first.
 
 ## See also
