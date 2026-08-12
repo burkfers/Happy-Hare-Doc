@@ -27,7 +27,11 @@ VENV     ?= venv
 VENV_PY  := $(VENV)/bin/python
 BOOTSTRAP_PY := $(if $(shell command -v $(PY) 2>/dev/null),$(PY),python3)
 
-.PHONY: fetch-source clean-source shots command_reference docs docs_build docs_check docs_preview
+.PHONY: fetch-source clean-source shots command_reference docs docs_build docs_check docs_preview help
+
+help:  # Print this help and exit
+	@awk 'BEGIN {FS = ":.*## "} /^[a-zA-Z0-9_-]+:[^:]*## / {printf "\033[36m%-24s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@echo ""
 
 
 ###########################
@@ -45,14 +49,18 @@ BOOTSTRAP_PY := $(if $(shell command -v $(PY) 2>/dev/null),$(PY),python3)
 $(SOURCE_FETCH_STAMP):
 	$(Q)echo "Fetching Happy-Hare @ $(HAPPY_HARE_REF) into $(HAPPY_HARE_SRC)"
 	$(Q)mkdir -p "$(dir $@)"
-	$(Q)test -d "$(HAPPY_HARE_SRC)/.git" || \
-	    (git clone --depth 1 --branch "$(HAPPY_HARE_REF)" "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)" 2>/dev/null || \
-	    (git clone "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)" && cd "$(HAPPY_HARE_SRC)" && git checkout "$(HAPPY_HARE_REF)")
+	$(Q)if ! test -d "$(HAPPY_HARE_SRC)/.git"; then \
+			if git clone --depth 1 --branch "$(HAPPY_HARE_REF)" "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)" 2>/dev/null; then \
+				: ; \
+			else \
+				git clone "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)" && \
+				cd "$(HAPPY_HARE_SRC)" && git checkout "$(HAPPY_HARE_REF)"; \
+			fi; \
+		fi
 	$(Q)touch "$@"
+fetch-source: $(SOURCE_FETCH_STAMP)  ## Fetch Happy-Hare source
 
-fetch-source: $(SOURCE_FETCH_STAMP)
-
-clean-source:
+clean-source:  ## Remove fetched source
 	$(Q)rm -rf "$(HAPPY_HARE_SRC)"
 	$(Q)rm -f "$(SOURCE_FETCH_STAMP)"
 
@@ -77,25 +85,25 @@ $(VENV_READY_STAMP): doc_tools/requirements.txt
 # doc/ - see doc_tools/README.md. Pass flags through ARGS, e.g.:
 #   make shots ARGS='--list'
 #   make shots ARGS='--only feature-espooler'
-shots: fetch-source $(VENV_READY_STAMP)
+shots: fetch-source $(VENV_READY_STAMP)  ## Build documentation screenshots
 	$(Q)HAPPY_HARE_SRC="$(HAPPY_HARE_SRC)" "$(VENV_PY)" -m doc_tools.$(if $(CAPTURE),capture,shots) $(ARGS)
 
 # Regenerates doc/Reference-Commands.md and doc/Dev-Command-Reference.md from
 # the real HELP_BRIEF/HELP_PARAMS/HELP_SUPPLEMENT text in the fetched
 # checkout's extras/mmu/** - stdlib only, no venv needed.
-command_reference: fetch-source
+command_reference: fetch-source  ## Regenerate command reference docs
 	$(Q)HAPPY_HARE_SRC="$(HAPPY_HARE_SRC)" "$(PY)" -m doc_tools.gen_command_reference
 
 # Builds and serves the doc/ site at http://127.0.0.1:8000 with live reload -
 # rebuilds on every source change, so this is the one to leave running while
 # writing a page. Reads mkdocs.yml at the repo root. Needs no Happy-Hare source -
 # it only renders the doc/*.md and images already committed in this repo.
-docs: $(VENV_READY_STAMP)
+docs: $(VENV_READY_STAMP)  ## Serve docs with live reload
 	$(Q)"$(VENV)/bin/zensical" serve
 
 # Builds the static site into ./site - what actually gets published (and what
 # the CI deploy workflow runs).
-docs_build: $(VENV_READY_STAMP)
+docs_build: $(VENV_READY_STAMP)  ## Build static site
 	$(Q)"$(VENV)/bin/zensical" build
 
 # What the PR-validation workflow runs: a strict build (aborts on broken
@@ -105,13 +113,13 @@ docs_build: $(VENV_READY_STAMP)
 # targets. Kept separate from docs_build (used by the deploy workflow and local
 # `make docs`/`make docs_preview`) since those have no reason to abort on a
 # warning mid-draft.
-docs_check: $(VENV_READY_STAMP)
+docs_check: $(VENV_READY_STAMP)  ## Run strict build validation
 	$(Q)"$(VENV)/bin/zensical" build --strict
 	$(Q)"$(VENV_PY)" -m doc_tools.check_refs
 
 # Serves the already-built ./site as plain static files - no rebuild, no live
 # reload. This is what GitHub Pages (or any static host) actually does with the
 # site, so it's the one to use for a final check before publishing.
-docs_preview: docs_build
+docs_preview: docs_build  ## Serve built site as static files
 	$(Q)echo "Serving ./site at http://127.0.0.1:8000 (Ctrl-C to stop)"
 	$(Q)cd site && $(PY) -m http.server 8000
