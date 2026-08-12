@@ -14,7 +14,7 @@ or [Getting Started with BTT ViViD](GettingStarted-ViViD.md).
 ## Cloning Happy Hare
 
 Log into the machine running Klipper (most commonly a Raspberry Pi) as the user you
-used to install klipper over SSH using PuTTY, KiTTY, MobaXterm or similar utility
+used to install klipper over SSH using PuTTY, KiTTY, MobaXterm, ssh or similar utility
 (e.g. `ssh pi@myprinter.local`), then clone the repository:
 
 ```bash
