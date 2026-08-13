@@ -1,7 +1,7 @@
 # MCU Reference
 
-Reference material for the MCU/control boards Happy Hare's installer knows
-about - pinouts, connection diagrams, and firmware-flashing notes for the
+Reference material for some of the MCU/control boards Happy Hare's installer
+knows about - pinouts, connection diagrams, and firmware-flashing notes for the
 ones with images available, plus the complete current list of every board
 `menuconfig`'s **Board type** screen offers. Picking one there sets up the
 default pin layout for your setup automatically; pins can still be
@@ -91,6 +91,117 @@ See [Flashing Firmware](#flashing-firmware) below for the full procedure.
     See [Esoterical's Mellow Fly SB2040 flashing guide](https://canbus.esoterical.online/toolhead_flashing/common_hardware/Mellow%20Fly%20SB2040/README.html)
     for CANbus-specific flashing steps.
 
+### BTT EBB CAN (EBB42 / EBB36)
+
+The BTT EBB CAN board has gone through three hardware revisions, each with a
+different pinout, offered in both an EBB42 and EBB36 size. The installer's
+**BTT EBB 42 CANbus V1.2** board choice (and the per-gate **EBB MCU** choice
+used by EMU designs) targets the v1.1/v1.2 revision below - its default pin
+layout matches that hardware directly.
+
+#### v1.0
+
+<p align="center">
+  <img src="Reference-Mcu/EBB42_CAN_v1.0_Pinout.png" alt="BTT EBB42 CAN v1.0 pinout">
+</p>
+
+<p align="center">
+  <img src="Reference-Mcu/EBB36_CAN_v1.0_Pinout.png" alt="BTT EBB36 CAN v1.0 pinout">
+</p>
+
+!!! note
+    The installer's default pin layout doesn't match this revision - pins
+    will need to be set manually in Advanced Settings.
+
+<details>
+  <summary>Firmware flashing</summary>
+
+<p align="center">
+  <img src="Reference-Mcu/menuconfig_btt_ebb_can_v1.0.png" alt="Klipper make menuconfig settings for BTT EBB CAN v1.0">
+</p>
+
+See [Esoterical's CANbus flashing guide](https://canbus.esoterical.online/toolhead_flashing.html)
+for CANbus-specific flashing steps.
+</details>
+
+#### v1.1 / v1.2
+
+<p align="center">
+  <img src="Reference-Mcu/EBB42_CAN_v1.1_v1.2_Pinout.png" alt="BTT EBB42 CAN v1.1/v1.2 pinout">
+</p>
+
+<p align="center">
+  <img src="Reference-Mcu/EBB36_CAN_v1.1_v1.2_Pinout.png" alt="BTT EBB36 CAN v1.1/v1.2 pinout">
+</p>
+
+<details>
+  <summary>Firmware flashing</summary>
+
+<p align="center">
+  <img src="Reference-Mcu/menuconfig_btt_ebb_can_v1.1_v1.2.png" alt="Klipper make menuconfig settings for BTT EBB CAN v1.1/v1.2">
+</p>
+
+See [Esoterical's CANbus flashing guide](https://canbus.esoterical.online/toolhead_flashing.html)
+for CANbus-specific flashing steps.
+</details>
+
+#### Gen2
+
+<p align="center">
+  <img src="Reference-Mcu/EBB42_CAN_Gen2_Pinout.jpg" alt="BTT EBB42 CAN Gen2 pinout">
+</p>
+
+<p align="center">
+  <img src="Reference-Mcu/EBB36_CAN_Gen2_Pinout.jpg" alt="BTT EBB36 CAN Gen2 pinout">
+</p>
+
+!!! note
+    The installer's default pin layout doesn't match this revision - pins
+    will need to be set manually in Advanced Settings.
+
+<details>
+  <summary>Firmware flashing</summary>
+
+<p align="center">
+  <img src="Reference-Mcu/menuconfig_btt_ebb_can_gen2.png" alt="Klipper make menuconfig settings for BTT EBB CAN Gen2">
+</p>
+
+See [Esoterical's CANbus flashing guide](https://canbus.esoterical.online/toolhead_flashing.html)
+for CANbus-specific flashing steps.
+</details>
+
+### AFC Pro v1.0
+
+<p align="center">
+  <img src="Reference-Mcu/AFC_Pro_Pcb.png" alt="AFC Pro v1.0 board photo">
+</p>
+
+<details>
+  <summary>Firmware flashing</summary>
+
+<p align="center">
+  <img src="Reference-Mcu/menuconfig_afc_pro.png" alt="Klipper make menuconfig settings for AFC Pro v1.0">
+</p>
+
+See [Flashing Firmware](#flashing-firmware) below for the full procedure.
+</details>
+
+### AFC Lite v1.0
+
+<p align="center">
+  <img src="Reference-Mcu/AFC_Lite_Pcb.png" alt="AFC Lite v1.0 board photo">
+</p>
+
+<details>
+  <summary>Firmware flashing</summary>
+
+<p align="center">
+  <img src="Reference-Mcu/menuconfig_afc_lite.png" alt="Klipper make menuconfig settings for AFC Lite v1.0">
+</p>
+
+See [Flashing Firmware](#flashing-firmware) below for the full procedure.
+</details>
+
 ## All Supported Boards
 
 Every board `menuconfig`'s **Board type** screen offers, direct from the
@@ -113,12 +224,12 @@ BTT ViViD:
 | BTT MMB v1.0 with CANbus | ✅ |
 | BTT MMB v1.1 with CANbus | |
 | BTT MMB v2.0 with CANbus | ✅ |
-| BTT EBB 42 CANbus V1.2 | |
+| BTT EBB 42 CANbus V1.2 | ✅ |
 | BTT SKR Pico v1.0 | |
 | Mellow EASY-BRD v1.x with CANbus | ✅ |
 | Mellow EASY-BRD v2.x with CANbus | ✅ |
-| AFC Pro v1.0 / designed for Box Turtle | |
-| AFC Lite v1.0 / designed for Box Turtle | |
+| AFC Pro v1.0 / designed for Box Turtle | ✅ |
+| AFC Lite v1.0 / designed for Box Turtle | ✅ |
 | WGB v3.0 / designed for Box Turtle | |
 | TZB v1.0 / designed for ERCF | |
 | Chameleon X5 v1 / designed for Quatrobox v2 | |
@@ -132,7 +243,7 @@ per gate instead of a single board for the whole unit:
 
 | Board | Pinout above? |
 |---|---|
-| EBB MCU | |
+| EBB MCU | ✅ |
 | SLB MCU | |
 
 ### Fixed boards
