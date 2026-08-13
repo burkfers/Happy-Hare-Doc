@@ -131,10 +131,12 @@ Present when the active unit has a sync-feedback buffer and/or an encoder;
 
 ### Sensors
 
-`sensors` is a dict keyed by sensor name: value is `True`/`False` if the
-sensor is enabled (triggered or not), or `None` if the sensor exists but is
-currently disabled (`/sensor NAME disable` in the console, or the equivalent
-at runtime).
+`sensors` is a dict keyed by sensor name, scoped to whichever sensors are
+active for the currently selected gate (generic names, no gate suffix):
+value is `True`/`False` if the sensor is enabled (triggered or not), or
+`None` if the sensor exists but is currently disabled - see [Feature:
+Sensors](Feature-Sensors.md) for how a sensor gets disabled and what that
+means for the rest of Happy Hare.
 
 ### Encoder
 

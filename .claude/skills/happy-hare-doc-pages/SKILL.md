@@ -5,32 +5,34 @@ description: Use whenever editing, adding, or reviewing a page under doc/ in the
 
 # Happy Hare doc pages
 
-This repo's real style guide is `TOC.md` at the repo root (2727 lines — don't
-read the whole thing). This skill exists so you don't have to: it names the
-stable section of TOC.md to read, plus the handful of conventions that fail
-**silently** (no build warning, no lint error) often enough to be worth
-stating here directly.
+This repo's real style guide is `TOC.md` at the repo root (2800+ lines —
+don't read the whole thing). This skill exists so you don't have to: it
+names the stable section of TOC.md to read, plus the handful of conventions
+that fail **silently** (no build warning, no lint error) often enough to be
+worth stating here directly.
 
 **Anti-drift rule:** new site-wide structural decisions get recorded in
-`TOC.md` (lines 1–292), never invented or edited in this skill. The list
-below is a "most commonly violated" cheat sheet, not the source of truth — if
-this skill and `TOC.md` ever disagree, `TOC.md` wins and this skill is stale
-and needs a fix.
+`TOC.md`'s stable section (see below), never invented or edited in this
+skill. The list below is a "most commonly violated" cheat sheet, not the
+source of truth — if this skill and `TOC.md` ever disagree, `TOC.md` wins
+and this skill is stale and needs a fix. Line numbers below drift every
+time that section grows - re-run the `grep` if anything looks off rather
+than trusting a stale number, and fix the number here while you're at it.
 
 ## Which parts of TOC.md to actually read
 
-Read `TOC.md` lines 1–292 (or jump to headings with
-`grep -n "^## \|^### " TOC.md`) — that range is stable, hand-checked
-conventions:
+Jump to headings with `grep -n "^## \|^### " TOC.md` and read everything
+before the first `---` divider (currently line 9 to a bit past line 300 —
+that range is stable, hand-checked conventions:
 
-- `## Structure decisions locked in` (line 9) — the full list: theme,
-  Zensical quirks, "no dev references" scope, buffer-terminology split, the
-  Getting Started/Feature/no-[TOC] rules, etc.
-- `## Macro page template` (line 232)
-- `## Feature page template` (line 257), including
-  `### Before finishing a Feature page` (line 285)
+- `## Structure decisions locked in` — the full list: theme, Zensical
+  quirks, "no dev references" scope, buffer-terminology split, the Getting
+  Started/Feature/no-[TOC] rules, etc.
+- `## Macro page template`
+- `## Feature page template`, including
+  `### Before finishing a Feature page`
 
-Everything from line 293 (`---`) onward is the per-page status table —
+Everything from that first `---` onward is the per-page status table —
 what's done, what's planned, session log. It changes every session and isn't
 a convention; don't load it unless you're specifically checking a page's
 status or looking for prior art on a similar page.
@@ -70,12 +72,16 @@ reader does.
   `failure`. `!!! important` is **not** one of them — it renders with no
   icon, no colour, and no build warning. For an "Important" callout, write
   `!!! warning "Important"` (styled callout, original label preserved).
-- **Code fences:** use ` ```yaml ` for config/command examples, even for
-  `.cfg`-style content — not `ini` or `text`. This repo uses `codehilite`
-  (not the normal `pymdownx.highlight`/`superfences` recipe) as a
-  deliberate workaround for a Zensical non-determinism bug, and Pygments'
-  YAML lexer colours `key:` / `#comment` / strings reasonably even for
-  non-YAML content.
+- **Code fences:** this repo uses `codehilite` (not the normal
+  `pymdownx.highlight` recipe) as a deliberate workaround for a Zensical
+  non-determinism bug. Match the language tag to the content: ` ```ini ` for
+  `.cfg`-style config examples (`mmu_parameters.cfg`, `mmu_hardware.cfg`,
+  ...), ` ```text ` for gcode command examples/lists. For a block that's
+  literal console/printer output specifically (not a command you'd type,
+  but what comes back), add the `console-output` class -
+  ` ```{.text .console-output} ` - which renders in a distinct
+  terminal-green instead of the default text colour, so real output reads
+  differently at a glance from a command example or a `.cfg` block.
 - **No `[TOC]` marker on any page** — the theme's own "On this page" sidebar
   makes it pure duplication.
 - **No ` ```mermaid ` fenced code blocks** — non-deterministic across clean

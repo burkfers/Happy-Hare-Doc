@@ -178,7 +178,10 @@ read it, but new macros should use `endless_spool_enabled` instead.
   EndlessSpool only ever acts on a confirmed runout.
 - **Runout isn't detected at all** - check
   [`MMU_SENSORS`](Reference-Commands.md#mmu_sensors) to confirm the relevant
-  sensor is actually active, not disabled.
+  sensor is actually active, not disabled. Conversely, a sensor that's
+  become flaky and is firing false runouts can be disabled on its own
+  without losing runout detection everywhere else - see
+  [Feature: Sensors](Feature-Sensors.md#tuning).
 - **`GROUPS=` was rejected** - it needs exactly one comma-separated,
   non-negative integer per gate; a mismatched count or a stray character
   fails the whole command rather than applying part of it.
@@ -189,6 +192,7 @@ read it, but new macros should use `endless_spool_enabled` instead.
 - [Command Reference: `MMU_TEST_RUNOUT`](Reference-Commands.md#mmu_test_runout)
 - [Command Reference: `MMU_SENSORS`](Reference-Commands.md#mmu_sensors)
 - [Printer Variables: gate and tool maps](Reference-Printer-Variables.md#gate-and-tool-maps)
+- [Feature: Sensors](Feature-Sensors.md) - naming/addressing, querying, and enabling/disabling any sensor at runtime
 
 ---
 
