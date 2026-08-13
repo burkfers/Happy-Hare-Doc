@@ -223,6 +223,7 @@ Reason for trip: Tension stuck after 63mm motion and 8.3mm relief (triggering pa
 - [Feature: Encoder](Feature-Encoder.md)
 - [Feature: EndlessSpool & Runout Detection](Feature-Endless-Spool-Runout.md)
 - [Printer Variables: sync feedback, FlowGuard and tangle prevention](Reference-Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
+- [Feature: Sensors](Feature-Sensors.md) - naming/addressing, querying, and enabling/disabling any sensor at runtime, including the buffer/encoder sensors that feed FlowGuard
 
 ---
 

@@ -211,6 +211,7 @@ detection length is fixed or self-tuning.
   each by hand
 - [Printer Variables: `encoder`](Reference-Printer-Variables.md#encoder)
 - [Feature: FlowGuard](Feature-FlowGuard.md) - the clog/tangle/runout detection this page's movement signal feeds
+- [Feature: Sensors](Feature-Sensors.md) - naming/addressing, querying, and enabling/disabling any sensor at runtime
 
 ---
 

@@ -273,7 +273,7 @@ direction](#pins-gear-direction) above) and try again. Repeat with
 hand and check it registers:
 
 ```{.text .console-output}
-MMU_SENSORS DETAIL=1
+MMU_SENSORS
 mmu_entry_0           --> TRIGGERED
 mmu_entry_1           --> Open
 filament_compression  --> Open
