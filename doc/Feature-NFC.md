@@ -107,6 +107,36 @@ i2c_speed            : 100000
 debug                : 0
 ```
 
+A per-gate PN532 wired for UART (HSU) instead - the only reader type that
+doesn't connect to an MCU at all:
+
+```ini
+[mmu_nfc_reader unit0_nfc0]
+reader_type : pn532
+interface   : uart
+serial      : /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+baud        : 115200
+debug       : 0
+```
+
+!!! tip "PN532 over UART (HSU)"
+    This reader plugs into a USB-serial adapter on the **host**, not into any
+    MCU - Klipper opens the serial port itself, so there are no pins to set
+    beyond the reader's own serial lines (`serial`, and optionally `baud`,
+    which defaults to 115200). Set the breakout board's mode pads to
+    `SEL0=0`, `SEL1=1` (SPI mode uses `SEL0=0`, `SEL1=0` instead - easy to
+    mix up), then wire adapter TX→PN532 RX, RX→TX, plus GND and power. Use
+    the `/dev/serial/by-id/` path (list them with `ls /dev/serial/by-id/`)
+    rather than `/dev/ttyUSB0` - the latter isn't stable across reboots or
+    replugs and can silently point at a different device afterwards. One
+    reader per adapter, exclusively - for more than one reader, use software
+    I2C instead (above).
+
+    An unplugged or disconnected adapter doesn't stop Klipper from starting -
+    the reader just comes up reporting `alive=0`. Reconnect it and run
+    `MMU_RFID_INIT` (or `MMU_NFC ... INIT=1`) to bring it back without a
+    restart.
+
 The owning `[mmu_unit]` in the same file then names the reader(s) it uses -
 `nfc_reader` for a shared reader, or `nfc_readers` (one name per gate, blank
 for a gate with none) for per-gate:
@@ -120,10 +150,6 @@ nfc_readers : unit0_nfc0, unit0_nfc1  # Per-gate, one per gate slot
     A single unit can mix both: a shared reader for spools you present by
     hand, plus per-gate readers on the gates that have room for one.
 
-No menuconfig screenshot on this page yet - the Box Turtle configuration
-used for this site's other screenshots doesn't select `MMU_HAS_NFC_READER`,
-and capturing one would need extra scene setup not done this session.
-
 ## Parameter Setup
 
 In `mmu_parameters.cfg` (per unit):
@@ -132,6 +158,9 @@ In `mmu_parameters.cfg` (per unit):
 nfc_deep_read               : 1        # Parse full tag contents, not just the UID
 nfc_gate_jog_scan_window    : -50, 50  # Max retract/extrude (mm) when jogging to find a tag during MMU_NFC_SCAN. "0, 0" disables jogging
 nfc_preload_jog_scan_window : -50, 50  # Same, but for the compound NFC/gate home MMU_PRELOAD runs (see Tuning). Defaults to nfc_gate_jog_scan_window's value
+nfc_neighbor_check          : 0        # Refuse a tag identified as a neighboring gate's own, instead of misattributing it (see Tuning). 0 = off (default)
+nfc_field_probe_reads       : 3        # How many times to probe a gate's reader for "anything in this field?" - only used with nfc_neighbor_check/_evict_distance
+nfc_neighbor_evict_distance : 0        # Also jog a neighbor's filament out of the field before reading (mm, signed - see Tuning). 0 = off (default)
 nfc_led_segment             : auto     # auto | status | exit | entry - which LED segment shows read/fail feedback
 ```
 
@@ -151,7 +180,13 @@ but `nfc_preload_jog_scan_window` defaults to whatever
 separately. Keep both inside your gate's safe travel, and size them
 generously (480mm+) if you want a full spool rotation's worth of reach.
 `nfc_led_segment: auto` follows the reader type - `status` for a
-shared/bypass reader, `exit` for a per-gate one.
+shared/bypass reader, `exit` for a per-gate one. `nfc_neighbor_check` and
+`nfc_neighbor_evict_distance` only matter with per-gate readers spaced close
+enough that one gate's field can reach a spool parked at the gate next door
+- see [Noisy neighbors](#noisy-neighbors) below for when to turn them on.
+`nfc_field_probe_reads` only affects those two: a tag right at the edge of a
+field reads intermittently, so it controls how many probes it takes before
+deciding "nothing there" is really nothing there.
 
 Spoolman's side of this - `spoolman_nfc_auto_create` (create an unknown tag
 as a new spool) and `spoolman_pending_id_timeout` (how long a shared read
@@ -374,14 +409,58 @@ PN532 is fixed at I2C address `0x24` and PN7160 at `0x28`-`0x2B` - two
 PN532s (e.g. one per gate) can't share a hardware I2C bus. Give each its
 own software I2C pin pair instead (see [Hardware Setup](#hardware-setup))
 and the fixed address stops mattering, since each is now its own private
-bus.
+bus. Each software bus needs its own pull-up resistors on both lines -
+unlike a hardware I2C bus, which gets pull-ups built into the MCU/board, a
+bit-banged pin pair has none, and without them reads fail or come back
+garbled intermittently rather than with a clean error.
+
+### Noisy neighbors
+
+With per-gate readers spaced closely, a spool parked at a neighboring gate
+can sit inside *this* gate's own RF field. Since most spools carry a tag on
+both faces, that neighbor's tag can trigger this gate's preload NFC endstop
+or an `MMU_NFC_SCAN` before the filament has moved at all, misattributing
+the neighbor's spool to this gate. Two independent settings address it,
+both off by default so a stock setup pays no extra reader I/O:
+
+- **`nfc_neighbor_check: 1`** - before trusting a read, check the tag's UID
+  against the gate map first. A tag that's unregistered, or already
+  registered to *this* gate, is read normally; a tag registered to a
+  *different* gate is refused rather than attributed - the read fails
+  cleanly instead of silently assigning the wrong spool.
+  `nfc_field_probe_reads` (default 3) controls how many times the reader is
+  probed when asking "is anything in this field at all?" before deciding -
+  a tag right at the edge of the field reads intermittently, so a single
+  probe can miss it.
+- **`nfc_neighbor_evict_distance`** - adds motion on top of the check
+  above: instead of just refusing a neighbor's tag, temporarily load that
+  neighbor gate and jog its filament this far (mm) off its park position
+  until the field clears, then re-park it - even if the eviction attempt
+  fails. Signed: positive jogs the neighbor *forward* of its own gate,
+  negative *behind* it. Must fit inside the matching half of that gate's
+  `nfc_gate_jog_scan_window`. **A forward jog is only safe when
+  `gate_homing_endstop` is the per-gate `mmu_exit` sensor** - on a shared
+  exit path, jogging a neighbor forward would push its filament into the
+  very gate you're trying to read rather than clearing it, so use a
+  negative (backward) distance there instead. 0 disables eviction (the
+  default) - reducing reader gain is *not* an equivalent fix, since a
+  neighbor's tag can simply be physically closer than your own gate's tag
+  ever gets.
+
+!!! tip
+    Both settings only ever engage on a per-gate reader whose gate is about
+    to preload or `MMU_NFC_SCAN` - the shared-reader workflow has no
+    "neighbor" concept, since nothing else is ever near a spool presented by
+    hand.
 
 ## Troubleshooting
 
 - **Reader reports `alive=0`** - check wiring and the pin/address settings
   match the physical board; try `MMU_NFC ... INIT=1` (or `INIT_ALL=1`)
   after fixing anything, since a reader that came up dead at boot isn't
-  retried automatically.
+  retried automatically. On a PN532/UART reader this is also the normal
+  symptom of an unplugged or not-yet-connected USB-serial adapter - Klipper
+  still starts fine either way; just reconnect and re-run `INIT=1`.
 - **Reads report `enabled=0`** - the reader was explicitly disabled
   (`MMU_NFC ... ENABLE=0`, or it starts that way); re-enable with
   `ENABLE=1`, which also re-initializes it.
@@ -410,6 +489,11 @@ bus.
   Expected after re-tagging a spool or fixing a mistyped UID; worth
   double-checking the spool IDs named in the message if it appears
   unexpectedly.
+- **A per-gate reader occasionally picks up a neighboring gate's spool** -
+  see [Noisy neighbors](#noisy-neighbors) under Tuning; turn on
+  `nfc_neighbor_check` (and, if that alone isn't enough,
+  `nfc_neighbor_evict_distance`) rather than trying to fix it by lowering
+  reader gain.
 
 ## See also
 
