@@ -147,10 +147,17 @@ Saved plot to sim_plot.png
 !!! warning
     Don't run `plot_sync_feedback.sh` on the Pi during an active print -
     it's CPU-intensive enough to trigger a Timer Too Close (TTC) shutdown.
-    Copy the `.jsonl` file to another machine with Happy Hare's source and
-    `matplotlib` (`pip install matplotlib`) installed, and run it there
-    instead. Running it interactively (rather than piping through SSH) also
-    opens a zoomable plot viewer for inspecting a specific region closely:
+    Copy the `.jsonl` file to another machine with Happy Hare's source
+    installed and run it there instead.
+
+!!! tip "Interactive Plot Viewer"
+    Tuning is usually a one-time activity, so it's worth doing on a desktop
+    or laptop rather than the Pi: install Happy Hare there too, copy the
+    telemetry file across, and make sure `matplotlib` is installed with
+    `pip install matplotlib`. Run `plot_sync_feedback.sh <sync.jsonl file>`
+    from a graphical session (not piped through SSH) and, alongside the
+    saved `png`, an interactive plot viewer opens with zoom and pan
+    controls for inspecting a specific region closely:
 
     <p align="center">
       <img src="Feature-FlowGuard/matplot-viewer.png" alt="The interactive matplotlib plot viewer's toolbar - pan, zoom, and save controls" width="55%">
