@@ -219,13 +219,19 @@ repo root (not under `doc/`) specifically so it's never a candidate for publishi
   "important" isn't one of them. Use `!!! warning "Important"` to get a
   styled callout with the original label preserved.
 - **Code blocks are colourised** (added 2026-08-06) via `codehilite`, not
-  Material's normal `pymdownx.highlight`/`pymdownx.superfences` recipe — see
-  **Zensical rough edges** below, this was a deliberate workaround for the
-  same non-determinism bug already known from Mermaid, newly found to affect
+  Material's normal `pymdownx.highlight` recipe — see **Zensical rough
+  edges** below, this was a deliberate workaround for the same
+  non-determinism bug already known from Mermaid, newly found to affect
   plain syntax highlighting too. Practical effect for page-writing: fence
-  config/command examples with `` ```yaml `` (matches Pygments' YAML lexer
-  coloring `key:` / `#comment` / strings reasonably even for non-YAML `.cfg`
-  content — the wiki did the same for the same reason) rather than `ini`/`text`.
+  `.cfg`-style config examples with `` ```ini `` and gcode command
+  examples/lists with `` ```text `` (confirmed 2026-08-13 against every real
+  Feature page already on the site — an earlier note here said ` ```yaml `
+  for both, which was never actually followed and has been corrected). For a
+  block that's literal console/printer output specifically (not a command
+  you'd type, but what comes back), add the `console-output` class -
+  `` ```{.text .console-output} `` - which `extra.css` renders in a distinct
+  terminal-green instead of the default text colour, so real output reads
+  differently at a glance from a command example or a `.cfg` block.
 - **"Macros" is its own top-level nav section** (added 2026-08-08, item 51),
   distinct from "Advanced Customization" — the latter is the expert-level
   internal-logic-replacement mechanism (`Custom-Load-Unload-Sequences.md`),
@@ -380,6 +386,7 @@ to its procedure instead of being repeated across two class-based pages.
 | `Feature-Eject-Buttons.md` | `Kconfig.eject_buttons` | (previously a section of `Feature-Addon-Integrations.md` — see above) | **done** — split out into its own Feature page (item 52), carrying forward the real eject-button pin-polarity footgun (normally-closed vs. normally-open wiring) and its menuconfig screenshot unchanged; only the page-level framing (no more "addon" language, no more redirect sections around it) changed. |
 | `Feature-Cold-Pull.md` | `config/macros/mmu_misc.cfg` (`[gcode_macro MMU_COLD_PULL]`) | (previously a section of `Blobbing-and-Stringing.md`) | **done (item 60)**, per explicit request — extracted the "Cleaning the Extruder with a Cold Pull" section (manual + `MMU_COLD_PULL`-guided procedures, parameters, per-material temperature table, both images) into its own Feature page; `Blobbing-and-Stringing.md` keeps only a one-line pointer plus its Step 1 cross-link, since (unlike `MMU_CALIBRATE_TOOLHEAD`, kept in place per item 57) nothing on that page's own diagrams/narrative depended on the section staying there. `MMU_COLD_PULL` is a real `gcode_macro`, not a Python `BaseCommand` - confirmed it's genuinely absent from `Reference-Commands.md` because `gen_command_reference.py` only scans `extras/mmu/**.py`, never `config/macros/*.cfg`; noted on the new page rather than silently treated as an oversight. Flagged as a separate task: several other real user-facing `MMU_*` macros (`MMU_FAN`, `MMU_DUMP_VARS`, `MMU_CHANGE_TOOL_STANDALONE`, `MMU_CHECK_GATES`, `MMU_REMAP_TTG`, `MMU_FORM_TIP`) share this same generator blind spot - some already have coverage elsewhere (e.g. `MMU_START_SETUP`/`MMU_END` on `Slicer-Setup.md`), others may not; worth a dedicated audit rather than fixing piecemeal. |
 | `Feature-Fan-Control.md` | `Kconfig.fans` + `config/macros/mmu_fan_control.cfg` (`MMU_FAN`) | new — the one real gap the audit above found; everything else it turned up was an undocumented legacy-alias macro name, explicitly out of scope per the user ("no need to document the old aliases... trying to get users to use new commands... no need to document double underscore set") | **done (item 62)** — real menuconfig screenshots (`feature-fan-control` session, boxturtle seed, scene toggles both "Has environment sensor(s)?" and "Has cooling fans?" since the feature's own `_MMU_FAN_VARS` block is gated on **both** together — verified directly against `config/base/mmu_macro_vars.cfg`'s `if MMU_HAS_FANS and MMU_HAS_ENVIRONMENT_SENSOR` guard, not assumed from the Kconfig comment header alone. **A real functional bug found and verified empirically, not just read**: `variable_fans`/`variable_fan_sensors` are documented (by the template's own header comment, and by this site's pre-existing `Reference-Macro-Vars.md` entry) as auto-populated from the configured fan/sensor pins, but the Jinja template actually references `VAR_FAN_FANS` (single-sensor case) and `PARAM_ENVIRONMENT_SENSOR_NAME_$(i)` (per-gate case) - neither of which exists as a real Kconfig symbol anywhere (confirmed by grep and by rendering the real template end-to-end via `test.hh.cfg.render()` against a synthetic profile, using a throwaway scratchpad venv with `jinja2` installed since neither this repo's venv nor `.happy-hare-src` had one). Result: `fan_sensors` alone auto-populates correctly for the single-sensor case; `fans` never does; neither does in the per-gate case. Documented as a manual-setup step on the new page and corrected `Reference-Macro-Vars.md`'s "*(auto-generated)*" claim to match. Not fixed upstream - that's Happy Hare's own repo, not this doc site. |
+| `Feature-Sensors.md` | (no dedicated Kconfig — covers the sensor layer common to every sensor type) | new (no v3 wiki page — the closest wiki content was `MMU_SENSORS DETAIL=` prose scattered across `Clog-Runout-EndlessSpool.md`/`Synchronized-Gear-Extruder.md`, folded in here instead) | **done (2026-08-13)** — added after v4 replaced `MMU_SENSORS DETAIL=1` with `SENSOR=<name> ENABLE=[0|1]` (commits `0309a9ed`/`da14e1b2`/`8f22d625` on `.happy-hare-src`, pulled same session — local checkout had been pinned 5 days stale). Deliberately narrow scope, deviating from the standard Feature template on two sections: **Hardware Setup** and **Parameter Setup** both just cross-link to each sensor type's owning page rather than containing real content, since this page is the query/enable layer sitting on top of sensors, not a sensor type of its own. Code-verified against `commands/mmu_sensors.py`, `mmu_sensor_manager.py` and `mmu_sensor_utils.py`'s `cmd_SET_FILAMENT_SENSOR`; empirically verified via the real test harness (`test/hh`, throwaway venv) rather than just reading, three rounds after an advisor review caught two overclaims in the first draft: (1) `MMU_SENSORS UNIT=N` still tags a disabled sensor `(DISABLE)` same as the no-arg form, but only for sensors belonging to that unit — a disabled sensor on a *different* unit doesn't appear in a `UNIT=`-scoped report at all (confirmed on `ercf_vvd`, a real 2-unit machine), which is plain scoping, not the disabled-sensor tag, and the page's wording was tightened to say so; (2) the exact console text for a disable and for the shared-gate-endstop warning; (3) the `sensors` printer variable (`mmu_sensor_manager.get_status()`) is scoped to the *currently selected gate* with generic, non-gate-suffixed keys, not every sensor on the machine — confirmed by selecting different gates and diffing the dict keys - both this page's own printer-variable row and the pre-existing `Reference-Printer-Variables.md#sensors` line were tightened to say so, since neither previously stated the scope at all. Also fixed two related stale spots found while scoping this: `GettingStarted-BoxTurtle.md`'s sensor-check example used `MMU_SENSORS DETAIL=1` (now plain `MMU_SENSORS`), and `Reference-Printer-Variables.md`'s `sensors` entry described disabling one via `` /sensor NAME disable `` - confirmed real (`test/console.py`'s `/sensor` simulator command, `test/README.md` line 243) but a dev-only console command that has no business on a reader-facing reference page; pointed at this new page's real mechanism instead. Reused `wiki/Mainsail-Fluidd-Integration/Type-P_All_Sensors.png` for the Concept illustration (generic position labels, not sensor-internal names, so not stale under the existing reuse policy) with a clarifying paragraph underneath rather than a caption. Added See-also cross-links (and a Troubleshooting mention on two) from `Feature-Endless-Spool-Runout.md`, `Feature-Sync-Feedback-Buffer.md`, `Feature-Encoder.md`, `Feature-FlowGuard.md`. Regenerated `Reference-Commands.md` via `make command_reference` against the freshly-pulled source - diffed old vs. new and confirmed the *only* change anywhere in the file is the `MMU_SENSORS` section (no other command's help text moved), so no other page's `Reference-Commands.md#mmu_*` anchor went stale. |
 
 ### 6. Slicer & Toolchange — done (both pages)
 
@@ -2787,3 +2794,20 @@ load/unload/toolhead-calibration sequencing all come up naturally in an
 "Operation"/"Tuning"/"Calibration" context). Whatever's next, run
 `./venv/bin/zensical build --clean` before calling it done, not a plain
 `zensical build` - see **Zensical rough edges**.
+
+**2026-08-13.** Item 64: v4's `MMU_SENSORS` dropped `DETAIL=1` in favour of
+`SENSOR=<name> ENABLE=[0|1]` (persistent per-sensor enable/disable, reaching
+virtual/analog sensors Mainsail's own toggle never could) - user asked for
+the doc site to catch up and for the newly-possible "disable a problem
+sensor instead of pausing/rewiring" workflow to be documented somewhere.
+`.happy-hare-src` was 5 days stale (pinned at `3c2222e5`); pulled to
+`d97de6ac` first. Wrote a new `Feature-Sensors.md` (§5, added to
+`mkdocs.yml` nav) covering the sensor layer common to every sensor type -
+naming/addressing (gate-suffixed vs. unit/buffer/encoder/toolhead-prefixed,
+`UNIT=` disambiguation), querying, and the three interchangeable ways to
+enable/disable one (`MMU_SENSORS`, Klipper's own `SET_FILAMENT_SENSOR`,
+Mainsail/Fluidd's toggle) - see that page's own row above for the full
+verification notes (empirical harness checks, the two other stale spots
+found and fixed, image reuse). Regenerated `Reference-Commands.md`
+(`make command_reference`) and confirmed by diffing old vs. new that
+`MMU_SENSORS` is the only section that changed anywhere in the file.
