@@ -469,6 +469,75 @@ Changing the *local* gate map in this mode doesn't stick - the next sync
 overwrites it from Spoolman. Use `MMU_SPOOLMAN GATE=<n> SPOOLID=<id>` to
 change the assignment remotely instead, which then propagates back down.
 
+### FilamentHub
+
+[FilamentHub](https://filamenthub.ru/) is a filament and spool manager with a
+Spoolman-compatible API. It can be used as an alternative backend for Happy
+Hare's existing Spoolman integration, while Happy Hare continues to use
+Moonraker's normal `[spoolman]` component and the same synchronization workflow.
+
+To let FilamentHub manage the remote gate map:
+
+1. On FilamentHub's **My Filaments** page, select the physical printer and
+   create a **Happy Hare** material system. When opened inside FilamentHub's
+   OrcaSlicer plugin, the setup can use the Moonraker connection already stored
+   in the selected OrcaSlicer printer profile.
+2. Set [`spoolman_support: pull`](#working-with-a-remote-gate-map-pull) in
+   `mmu.cfg`. FilamentHub also recommends `t_macro_color: gatemap` for the
+   displayed tool colors; see [Extruder/Filament Color](Mainsail-Fluidd-Integration.md#extruderfilament-color)
+   for what that option changes.
+3. Copy the generated block into `moonraker.conf`:
+
+    ```ini
+    [spoolman]
+    server: https://filamenthub.ru/api/v1/spool_compat/<device-key>
+    sync_rate: 5
+    ```
+
+    `sync_rate: 5` uses Moonraker's default. It isn't a FilamentHub requirement;
+    choose another interval if appropriate for the installation. See
+    [Moonraker's `[spoolman]` configuration](https://moonraker.readthedocs.io/en/latest/configuration/#spoolman)
+    for the option's definition.
+
+    !!! warning "Keep the connection URL private"
+        The generated URL contains a device key. Treat the complete URL like a
+        credential rather than sharing it as an ordinary server address.
+
+4. Restart Moonraker, then use **Check printer** in the FilamentHub OrcaSlicer
+   plugin. This reads the real gate count, state, and spool assignments through
+   OrcaSlicer's local Moonraker connection without changing either map.
+5. Assign spools to gates in FilamentHub. They arrive through the normal Happy
+   Hare sync; use **Sync Spoolman** in the panel, or the
+   [re-sync commands](#re-syncing-recovering), when an immediate refresh is
+   needed.
+
+#### Comparing the two gate maps
+
+**Check printer** always starts with a read-only comparison: the actual Happy
+Hare map is shown separately from the assignments saved in FilamentHub. Nothing
+changes until a direction is selected and confirmed:
+
+- **Use Happy Hare map** accepts recognized printer assignments in
+  FilamentHub.
+- **Restore the link** can re-associate an unambiguous spool that FilamentHub
+  previously knew in that same gate when Happy Hare still sees filament but has
+  lost the spool ID.
+- **Apply to printer** sends the saved FilamentHub assignments to Happy Hare.
+  This is available only with `spoolman_support: pull` and while the printer is
+  idle; the plugin runs the normal refresh and reads the map again to verify it.
+
+Unknown, unavailable, duplicate, or conflicting spools are never replaced
+automatically. They remain unresolved for the user to review.
+
+Gate state and spool identity also remain independent. A `spool_id` of `-1`
+means that the spool hasn't been identified - it does not make the gate empty.
+In the real eight-gate setup below, gate 0 contains buffered filament from an
+unknown spool, while gates 3 and 5 are the gates Happy Hare reported as empty.
+
+<p align="center">
+  <img src="Feature-Spoolman/filamenthub-gate-map.png" alt="FilamentHub showing a synchronized eight-gate Happy Hare map with an unidentified spool in gate 0 and empty gates 3 and 5" width="100%">
+</p>
+
 ### Re-syncing / recovering
 
 Happy Hare re-syncs on its own when it needs to, but if the local and
