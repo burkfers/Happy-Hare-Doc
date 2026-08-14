@@ -250,6 +250,10 @@ ever hand-edit the generated `.cfg` files directly.
 
 ## Validating Hardware Setup
 
+The shared [Hardware Validation](Hardware-Validation.md) checklist covers the
+MCU, selector variants, encoder and the movement/homing model in full. The
+checks below call out the Box Turtle hardware specifically.
+
 With Klipper accepting the config and no startup errors, confirm the
 physical mechanism actually does what Happy Hare thinks it does before
 calibrating anything or trying to print.
