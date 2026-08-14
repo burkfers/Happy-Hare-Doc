@@ -198,6 +198,11 @@ to ever hand-edit the generated `.cfg` files directly.
 
 ## Validating Hardware Setup
 
+Follow [Hardware Validation](Hardware-Validation.md), checking the ViViD and
+buffer MCUs separately. ViViD uses an indexed selector, so validate its index
+switches and select every gate; it has no encoder or eSpooler unless you added
+one to the standard build.
+
 ## Calibration
 
 ## Checking Basic Operation
@@ -209,4 +214,3 @@ to ever hand-edit the generated `.cfg` files directly.
 ## What Next?
 
 ---
-

@@ -90,6 +90,8 @@ the backup in `~printer_data/config/mmu.V3`
 ## See also
 
 - [Installation](Installation.md)
+- [Hardware Validation](Hardware-Validation.md) - prove the generated MCU,
+  motor and sensor setup before calibration
 - [Getting Started with Box Turtle](GettingStarted-BoxTurtle.md)
 - [Getting Started with BTT ViViD](GettingStarted-ViViD.md)
 
