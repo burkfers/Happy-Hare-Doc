@@ -164,6 +164,7 @@ nav:
       - Config Parameters: Reference-Parameters.md
       - Macro Variables: Reference-Macro-Vars.md
       - Printer Variables: Reference-Printer-Variables.md
+      - Klipper Events: Reference-Klipper-Events.md
       - MCU Reference: Reference-Mcu.md
   - Developer Guide:
       - Code Layout: Dev-Code-Layout.md
