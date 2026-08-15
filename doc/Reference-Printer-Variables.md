@@ -222,8 +222,7 @@ since Happy Hare units can have independent, differently-named encoders.
 
 ## Deprecated variables
 
-Still present in `printer.mmu`, still computed, but superseded - each is
-marked `# DEPRECATED` at its definition in the code:
+Still present in `printer.mmu`, still computed, but superseded.
 
 | Variable | Replaced by |
 |---|---|
@@ -239,6 +238,6 @@ marked `# DEPRECATED` at its definition in the code:
 
 ## See also
 
-- [Klipper Event Reference](Reference-Klipper-Events.md)
+- [Developer: Klipper Events](Dev-Klipper-Events.md)
 
 ---

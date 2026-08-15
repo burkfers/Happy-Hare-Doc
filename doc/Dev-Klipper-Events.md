@@ -1,4 +1,4 @@
-# Klipper Event Reference
+# Klipper Events
 
 Happy Hare emits Klipper events for integrations that need to react to MMU
 activity. Register a handler with
