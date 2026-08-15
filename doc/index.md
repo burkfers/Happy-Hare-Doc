@@ -1,6 +1,6 @@
 # Happy Hare
 
-<p align="center"><em>Universal Automated Filament Changer / MMU driver for Klipper</em></p>
+<p align="center"><em><strong>Universal Automated Filament Changer / MMU driver for Klipper</strong></em></p>
 
 Happy Hare is the original open-source filament changer controller for multi-color
 printing. Its philosophy is to provide a universal control system that adapts to
@@ -9,12 +9,12 @@ transitions seamlessly with you.
 
 It's implemented as a Klipper extension, driving the hardware directly and
 exposing everything else through ordinary Klipper macros - if you can write a
-`gcode_macro`, you can customize how Happy Hare behaves. If it helps to think of
+`gcode_macro`, you can customize how Happy Hare behaves. It helps to think of
 it in web-browser terms: Klipper is the browser, and Happy Hare is an extension
 that adds a whole new capability, without changing anything about how Klipper
-itself works underneath.
+works underneath.
 
-Now in it's 4th generation it supports every MMU/AFC with rich integration to
+Now in it's 4th generation, it supports every MMU/AFC with rich integration to
 Klipper, Mainsail, Fluidd, Klipperscreen and other ecosystems. It is super
 flexible and now even easier to install and setup.
 
@@ -24,41 +24,43 @@ flexible and now even easier to install and setup.
 
 ## What it drives
 
-Happy Hare doesn't assume one piece of hardware - it supports most of the
-MMU/AFC designs the community has built, from the original ERCF through
-gear-per-gate designs like Box Turtle to fully custom builds, and it's actively
-gaining more. See [What Is an MMU?](Conceptual-MMU.md) for how those designs
-differ and which family yours falls into - that page is the real reference for
-supported hardware, so this one won't repeat it.
+Happy Hare isn’t tied to a single hardware design. It supports most community-built
+MMU/AFC systems, including ERCF, Tradrack, gear-per-gate designs such as EMU and
+Box Turtle, and fully custom builds, with more being added over time.
+See [What is an MMU?](Conceptual-MMU.md) to understand how these designs differ
+and which family yours belongs to. That page is the main reference for supported
+hardware, so this page does not repeat the same details.
 
 Pair it with [KlipperScreen for Happy Hare](https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition)
-for dedicated touchscreen control, or drive everything from the Happy Hare
-panel that ships with Mainsail and Fluidd - both are shown above.
+for dedicated touchscreen control, or drive everything from the native Mainsail
+and Fluidd Happy Hare panel - both are shown above.
 
 ## What it does
 
-A short list of what's actually in Happy Hare - most of these are their own
-Feature page once you're ready for the detail:
+Here’s a quick rundown of what’s included in Happy Hare. Once you’re ready to dive
+deeper, you can find more detailed information on each feature page:
 
 - [Tool-to-gate mapping](Feature-Gate-TTG-Maps.md), so any physical spool
-  can be assigned to any tool
+  can be assigned to any tool.
 - [EndlessSpool & runout detection](Feature-Endless-Spool-Runout.md) - a
-  depleted gate hands off to a spare automatically, mid-print
+  depleted gate hands off to a spare automatically, mid-print.
 - [Spoolman integration](Feature-Spoolman.md) for tracking usage, weight and
-  attributes across a whole spool collection
-- [NFC/RFID reading](Feature-NFC.md) so gates identify their spool by tag
-  instead of by hand
+  attributes for your entire spool collection.
+- [NFC/RFID reading](Feature-NFC.md) so gates automatically identify their spool
+  by tag instead of manually by hand.
 - [Encoder-based](Feature-Encoder.md) movement validation, clog detection and
-  flow-rate verification
+  flow-rate verification.
 - [Sync-feedback](Feature-Sync-Feedback-Buffer.md) control to keep the gear
-  and extruder steppers working together instead of fighting each other
+  and extruder steppers working together instead of fighting each other and for
+  loading to extruders without toolhead or entry sensors.
 - [Motorized eSpooler](Feature-Espooler.md) support for active rewind and
-  print-time assist
-- [LED support](Feature-LEDs.md) for at-a-glance gate status
+  print-time assist.
+- [LED support](Feature-LEDs.md) for at-a-glance gate status.
+- [Environment Manager](Feature-Environment-Manager.md) for turning an enclosed MMU into a filament dryer.
 - A `menuconfig`-driven installer, so setup is a guided series of choices
-  rather than hand-editing config files from scratch
+  rather than hand-editing config files from scratch.
 - Moonraker update-manager integration, so it updates like any other Klipper
-  plugin
+  plugin.
 
 <p align="center">
   <img src="index/example_mmu_print.jpg" alt="Three small multi-color 3D prints - a penguin, an astronaut, and a sheep - each printed in several filament colors" width="70%">
@@ -66,15 +68,16 @@ Feature page once you're ready for the detail:
 
 ## How this site is organized
 
-The pages here are grouped by what you're trying to do, not by MMU brand:
+These pages are organized by what you're trying to accomplish, rather than 
+the type of MMU: 
 
 - **Getting Started** walks through a real `menuconfig` install for one MMU
-  type, screen by screen - the closest thing to "follow along and end up with
-  a working setup."
-- **Calibration** covers measuring the handful of dimensions that are
-  physical to your specific build - selector position, gear rotation
-  distance, encoder resolution, bowden length, toolhead geometry - and which
-  of those actually apply to your MMU.
+  type, screen by screen - the closest thing to _"follow along and end up with
+  a working setup"_.
+- **Calibration** covers measuring the handful of physical dimensions that are
+  specific to your build - selector position, gear rotation distance, encoder
+  resolution, bowden length, toolhead geometry - and which of those actually
+  apply to your MMU.
 - **Concepts** covers terminology and hardware taxonomy that's shared across
   every MMU type - worth reading once, regardless of which hardware you have.
 - **Features** has one page per capability (Spoolman, NFC, eSpooler, and so
@@ -87,8 +90,7 @@ The pages here are grouped by what you're trying to do, not by MMU brand:
 - **Slicer & Toolchange** covers the slicer-side setup an MMU print needs,
   and how toolhead parking/movement works around a toolchange.
 - **Operation** is day-to-day use once everything's configured - the
-  console/UI commands you'll actually run, and what to do when a print
-  pauses.
+  console/UI commands you'll actually run, and what to do when a print pauses.
 - **Tuning** is print-quality dialing-in once the basics work - toolhead
   dimensions, blobbing, and stringing.
 - **Reference** is the flat lookup layer: every `MMU_*` command and
@@ -100,9 +102,9 @@ The pages here are grouped by what you're trying to do, not by MMU brand:
 
 A few notational conventions carry across all of them: `MMU_LIKE_THIS` is a
 gcode command, `like_this.cfg` is a config file, and `printer.mmu.like_this`
-is a printer variable read from a macro or UI panel. A **warning** box means
-something that can genuinely bite you if skipped; a plain **tip** is a
-shortcut, not a requirement.
+is a printer variable that can be read from a macro or UI panel. 
+A **warning** box means something that can genuinely bite you if skipped;
+a plain **tip** is a shortcut, not a requirement.
 
 ## Donations
 
@@ -129,12 +131,14 @@ channels dedicated to each MMU type as well as the main extensions. The
 [GitHub issue tracker](https://github.com/moggieuk/Happy-Hare/issues) works
 too, checked on a less immediate cadence.
 
-Whichever you use, having these ready up front gets you a faster answer:
+Whichever avenue you use, having the following ready up front will provide
+context and a faster answer:
 
-- `klippy.log` and `mmu.log`
+- `klippy.log` and `mmu.log` <br>
+   Use `MMU_TEST_CONFIG LOG_FILE_LEVEL=3` or `=4` to dynamically increase `mmu.log` level to debug or trace without restarting Klipper
 - version info (`MMU_STATUS SHOWCONFIG=1` output)
 - the exact error text
-- what you were doing when it happened, and a picture if it's physical
+- what you were doing when it happened, and a picture or video if it's a physical issue
 
 !!! tip
     The easiest way to grab logs is through Mainsail: **Machine** tab →
