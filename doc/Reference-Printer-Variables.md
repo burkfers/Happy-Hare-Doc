@@ -42,7 +42,7 @@ unless noted.
 | `enabled` | bool | Happy Hare is enabled (`MMU ENABLE=1`/`0`) |
 | `num_gates` | int | Total gates across all units |
 | `is_homed` | bool | True only when **every** unit's selector is homed |
-| `print_state` | string | `initialized` \| `standby` \| `started` \| `printing` \| `pause_locked` \| `paused` \| `complete` \| `cancelled` \| `error` \| `ready` |
+| `print_state` | string | `initialized` \| `standby` \| `idle` \| `started` \| `printing` \| `pause_locked` \| `paused` \| `complete` \| `cancelled` \| `error` \| `ready` |
 | `unit` | int | Currently selected unit, `-1` if none |
 | `tool` | int | Currently selected tool, `-1` unknown, `-2` bypass |
 | `gate` | int | Currently selected gate (or the gate about to be selected, mid-toolchange), `-1` unknown |
@@ -176,6 +176,7 @@ themselves.
 
 | Variable | Type | Meaning |
 |---|---|---|
+| `happy_hare_version` | string | Installed Happy Hare version in `<major>.<minor>.<point>` form, for example `4.0.0` |
 | `num_units` | int | Number of configured `mmu_unit`s |
 | `num_gates` | int | Total gates, same value as `printer.mmu.num_gates` |
 | `unit_0`, `unit_1`, ... | dict | One entry per unit, see below |
@@ -261,5 +262,3 @@ their own handler (`printer.register_event_handler("mmu:xxx", callback)`).
 | `mmu:test_gen_finished` | - | Internal - a `_MMU_TEST` generator command finished |
 
 ---
-
-
