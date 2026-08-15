@@ -2,8 +2,8 @@
 
 ## Concept
 
-Happy Hare drives almost everything it does through gcode macros - tip
-forming, parking moves, LED effects, consumption counters, the pause/resume
+Happy Hare drives most customizable activities through gcode macros - tip
+forming, parking moves, consumption counters, the pause/resume
 flow, all of it. Every one of those macros is designed to be customized
 without editing Happy Hare's own shipped files, which are overwritten on
 every upgrade.
