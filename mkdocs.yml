@@ -167,6 +167,7 @@ nav:
       - MCU Reference: Reference-Mcu.md
   - Developer Guide:
       - Code Layout: Dev-Code-Layout.md
+      - Klipper Events: Dev-Klipper-Events.md
       - Kconfig & Installer Architecture: Dev-Kconfig-Structure.md
       - Testing: Dev-Testing.md
       - Developer Command Reference: Dev-Command-Reference.md
