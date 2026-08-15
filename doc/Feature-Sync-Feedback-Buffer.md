@@ -372,6 +372,9 @@ plateau at either end.
   fault - the whole mechanism works by continuously seeking the correct
   rotation distance. It doesn't affect print quality; if it's actually causing
   problems, see the Tuning notes above on filament "play" first.
+- **A faulty buffer switch is causing false triggers mid-print** - disable
+  just that sensor rather than living with it or stopping to rewire -
+  see [Feature: Sensors](Feature-Sensors.md#tuning).
 
 ## See also
 
@@ -382,6 +385,7 @@ plateau at either end.
 - [Printer Variables: sync feedback, FlowGuard and tangle prevention](Reference-Printer-Variables.md#sync-feedback-flowguard-and-tangle-prevention)
 - [Feature: FlowGuard](Feature-FlowGuard.md) - the clog/tangle detection and tangle-prevention current boost this sensor feeds
 - [Feature: FlowGuard: Tuning with telemetry](Feature-FlowGuard.md#tuning-with-telemetry) - reading a `sync_feedback_debug_log` telemetry file, including these AutoTune simulation plots' real-print counterparts
+- [Feature: Sensors](Feature-Sensors.md) - naming/addressing, querying, and enabling/disabling any sensor at runtime
 
 ---
 

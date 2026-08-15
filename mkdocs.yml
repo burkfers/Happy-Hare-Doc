@@ -3,7 +3,7 @@
 # settings just work"); see doc_tools/README.md for the reasoning. TOC.md, the
 # internal planning doc for this rewrite, lives at the repo root rather than
 # under docs_dir so it's never a candidate for publishing in the first place.
-site_name: Happy Hare (NEW SITE - UNDER CONSTRUCTION)
+site_name: Happy Hare v4
 site_description: Universal Automated Filament Changer / MMU driver for Klipper
 repo_url: https://github.com/moggieuk/Happy-Hare
 docs_dir: doc
@@ -107,6 +107,7 @@ nav:
   - Getting Started:
       - Installation: Installation.md
       - Upgrading from v3 to v4: Upgrade-v3-v4.md
+      - Hardware Validation: Hardware-Validation.md
       - Box Turtle: GettingStarted-BoxTurtle.md
       - BTT ViViD: GettingStarted-ViViD.md
   - Calibration:
@@ -139,6 +140,7 @@ nav:
       - Gate/TTG Maps: Feature-Gate-TTG-Maps.md
       - LEDs: Feature-LEDs.md
       - NFC/RFID Reading: Feature-NFC.md
+      - Sensors: Feature-Sensors.md
       - Spoolman Integration: Feature-Spoolman.md
       - State Persistence: Feature-State-Persistence.md
       - Statistics & Consumption Counters: Feature-Statistics-Counters.md
@@ -165,6 +167,7 @@ nav:
       - MCU Reference: Reference-Mcu.md
   - Developer Guide:
       - Code Layout: Dev-Code-Layout.md
+      - Klipper Events: Dev-Klipper-Events.md
       - Kconfig & Installer Architecture: Dev-Kconfig-Structure.md
       - Testing: Dev-Testing.md
       - Developer Command Reference: Dev-Command-Reference.md

@@ -564,19 +564,23 @@ MMU_SELECT BYPASS=1 ...Select the bypass (for direct-to-extruder loading)
 
 ### MMU_SENSORS
 
-*Query state of sensors fitted to mmu*
+*Query, or enable/disable, sensors fitted to mmu*
 
 **Parameters**
 
 ```{.text .console-output}
 UNIT   = #(int) Specify unit else unit with active gate will be assumed
-DETAIL = [0|1]  Set to also see disabled sensors
+SENSOR = _sensor_name_ Target one sensor by name; alone, reports just that sensor
+ENABLE = [0|1]  Persistently enable/disable the sensor named by SENSOR
 ```
 
 ```{.text .console-output}
 Examples:
-MMU_SENSORS DETAIL=1 ...report state of all sensors on all units (even disabled ones)
+MMU_SENSORS          ...report state of every sensor on all units, including disabled ones
 MMU_SENSORS UNIT=1   ...report state of active sensors on unit index 1
+MMU_SENSORS SENSOR=mmu_exit_0 ...report state of just that one sensor, even if disabled
+MMU_SENSORS SENSOR=unit0:mmu_shared_exit ENABLE=0 ...persistently disable that sensor (sticky across restarts)
+MMU_SENSORS SENSOR=mmu_exit_0 ENABLE=1 ...persistently re-enable it
 ```
 
 ### MMU_SERVO
