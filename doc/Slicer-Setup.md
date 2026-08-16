@@ -1,16 +1,16 @@
 # Slicer Setup
 
 Printing with an MMU means augmenting the gcode your slicer generates:
-initializing the MMU, loading the initial tool, and optionally resetting/
-ejecting filament at the end. Happy Hare's recommended macros handle all of
-this - enable MMU support in your slicer (**Expert Options** on, then the
-**Printer Settings** tab) and add the calls below to its custom gcode boxes.
-It's worth splitting your existing start-print macro into two parts to do
+initializing the MMU, loading the initial tool, and optionally resetting/ejecting 
+filament at the end. Happy Hare's recommended macros handle all of
+this - Enable MMU support in your slicer (**Expert Options** on, then the
+**Printer Settings** tab) and add the calls below to your slicer custom gcode
+boxes. It's worth splitting your existing start-print macro into two parts to do
 this properly - see [Start G-Code](#start-g-code) below for why.
 
 ## Start G-Code
 
-Add this to your slicer's custom start gcode box, in place of a bare call
+Add this to your slicer's custom start gcode box, in place of a single call
 to your own start-print macro:
 
 ```{.text .console-output}
@@ -27,17 +27,17 @@ SET_PRINT_STATS_INFO TOTAL_LAYER={total_layer_count} ; For pause-at-layer and be
 
 !!! note
     Keeping these as separate macro calls, rather than folding everything
-    into one big start-print macro, matters for two reasons: a pause can
+    into one big, uber start-print macro, matters for two reasons: a pause can
     only happen *between* macro calls, not mid-macro, so bundling
     everything into one long-running macro delays the first real chance to
     pause until it finishes (worse still with Klipper's pop-up dialogs,
     which can't be dismissed until the macro they came from completes); and
-    any nozzle-purging logic in your existing start macro needs to run
+    any nozzle-purging logic your existing start macro needs to run
     *after* the initial tool is loaded, not before.
 
 ### Sequence explained
 
-1. **`MMU_START_SETUP`** initializes the MMU and records what the slicer
+1. **`MMU_START_SETUP`** initializes the MMU and captures what the slicer
    expects for this print - passed either as literal slicer placeholders
    (`{initial_tool}`) or via `!referenced_tools!`-style placeholders that
    Happy Hare's Moonraker extension substitutes when the gcode file is
@@ -79,7 +79,7 @@ SET_PRINT_STATS_INFO TOTAL_LAYER={total_layer_count} ; For pause-at-layer and be
         T2   200  200   -   200  200  200  200  200  200
         T3   200  200  200   -   200  200  200  200  200
 
-    `DETAIL=1` also reports tools the slicer defined but that aren't used in
+    `DETAIL=1` also reports tools the slicer defined but aren't used in
     this particular print.
 
 2. **`MMU_START_CHECK`** confirms filament is available in every tool the
@@ -101,7 +101,7 @@ SET_PRINT_STATS_INFO TOTAL_LAYER={total_layer_count} ; For pause-at-layer and be
 
 !!! tip
     Slicer-defined tool colors can also show up directly in Mainsail/Fluidd
-    next to the `Tx` buttons - see [Mainsail / Fluidd](Mainsail-Fluidd-Integration.md#extruderfilament-color).
+    next to the `Tx` buttons - see [Mainsail/Fluidd](Mainsail-Fluidd-Integration.md#extruderfilament-color).
 
 ## End G-Code
 
@@ -137,10 +137,52 @@ change gcode should just be:
 ```{.text .console-output}
 T[next_extruder]
 ```
-
 Happy Hare's Moonraker extension rewrites `Tn` lines into
 [`MMU_CHANGE_TOOL`](Reference-Commands.md#mmu_change_tool) when it
 pre-processes an uploaded gcode file.
+<br>
+<br>
+
+!!! note
+    **OPTIONAL** Many slicers like OrcaSlicer, PrusaSlicer, and SuperSlicer insert extra 
+    retraction/un-retraction gcode around filament changes which can create small blobs 
+    post toolchange depending on retraction settings if left unhandled when using Happy 
+    Hare-controlled purging. Additional slicer settings can be passed to manage this, 
+    or the retraction setting you use hardcoded to enable Happy Hare to compensate for 
+    Slicer retractions post `Blobifier`/`MMU_PURGE` or your own custom purge macro from 
+    layer 2 onwards. 
+    
+    If firmware retraction is enabled in your slicer but not in the printer, Slicer retraction
+    compensation will be disabled. Refer to slicer **Tool Change Gcode** examples below:
+
+!!! example
+  
+    === "OrcaSlicer"
+    
+          ```{.text .console-output}
+          T[next_extruder] SLICER_RETRACTION={old_retract_length} SLICER_FW_RETRACTION={use_firmware_retraction}
+          ```
+
+    === "PrusaSlicer"
+  
+        ```{.text .console-output}
+        T[next_extruder] SLICER_RETRACTION=[retract_length] SLICER_FW_RETRACTION={use_firmware_retraction}
+        ```  
+        !!! note
+            Unlike Orca Slicer, PrusaSlicer doesn't have `old_retract_length` or a variable to pass 
+            retraction settings per filament so uses the same setting for all filaments.
+
+    === "Hard coded"
+  
+        ```{.text .console-output}
+        T[next_extruder] SLICER_RETRACTION=0.6 SLICER_FW_RETRACTION=false
+        ``` 
+        or when firmware retraction is used:
+        ```{.text .console-output}
+        T[next_extruder] SLICER_FW_RETRACTION=true
+        ```    
+
+
 
 ## Customizing the Start/End Macros
 
@@ -171,9 +213,9 @@ variable_dump_stats                    : True    ; Whether to display print stat
 An MMU error - even during these startup macros - pauses the print and, if
 `show_error_dialog: 1` in `mmu.cfg` (the default), also shows a pop-up
 dialog on Mainsail/Fluidd/KlipperScreen with recovery options. During
-startup this includes an abort option, which disappears once the print
-proper begins. Set `show_error_dialog: 0` to disable the pop-up entirely
-and rely on the console/log instead.
+startup this includes an abort option, which disappears once the actual print
+begins. Set `show_error_dialog: 0` to disable the pop-up entirely and rely
+on the console/log instead.
 
 <p align="center">
   <img src="Slicer-Setup/error_dialog_during_start.png" alt="MMU error dialog during print start" width="400">
@@ -236,7 +278,7 @@ the slicer's wipe tower enabled - it's usually on by default:
 </p>
 
 !!! note
-    SuperSlicer users: also turn off **Skinnydip**, and consider zeroing its
+    SuperSlicer users: also turn off **Skinnydip**, and consider zeroing it's
     distances too - otherwise it can push out a blob before the tip is cut.
 
     <p align="center">
@@ -279,7 +321,7 @@ SET_PRESSURE_ADVANCE ADVANCE=0.025 SMOOTH_TIME=0.001 EXTRUDER=extruder
 ```
 
 Not like this - the extra retract/extrude lines are the slicer still doing
-its own tip forming:
+it's own tip forming:
 
 ```text
 ;--------------------
