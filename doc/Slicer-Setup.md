@@ -146,9 +146,10 @@ pre-processes an uploaded gcode file.
 !!! note
     **OPTIONAL** Many slicers like OrcaSlicer, PrusaSlicer, and SuperSlicer insert extra 
     retraction/un-retraction gcode around filament changes which can create small blobs 
-    post toolchange depending on retraction settings if left unhandled. Additional slicer
-    settings can be passed to manage this, or the retraction setting you use hardcoded to
-    enable Happy Hare to compensate for Slicer retractions post Blobifier / purge from 
+    post toolchange depending on retraction settings if left unhandled when using Happy 
+    Hare-controlled purging. Additional slicer settings can be passed to manage this, 
+    or the retraction setting you use hardcoded to enable Happy Hare to compensate for 
+    Slicer retractions post `Blobifier`/`MMU_PURGE` or your own custom purge macro from 
     layer 2 onwards. 
     
     If firmware retraction is enabled in your slicer but not in the printer, Slicer retraction
