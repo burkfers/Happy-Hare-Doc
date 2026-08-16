@@ -90,7 +90,7 @@ on the same machine, override the paths directly:
 === "Per Lane Controllers"
 
     For MMU's like EMU that use dedicated controllers/MCU's per lane, support needs
-    to be enabled by specifying `-e`/`-emu` e.g. 
+    to be enabled by specifying `-e` or `--emu` e.g. 
 
     ```bash 
     ./install.sh -i -e
