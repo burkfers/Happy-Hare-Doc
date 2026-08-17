@@ -14,7 +14,7 @@ a fixed identifier unique to that tag. On its own, a UID is just a string;
 what makes it useful is [Spoolman](Feature-Spoolman.md), which resolves that
 UID to a spool record and, from there, to filament attributes and gate
 assignment. **This page covers the readers and the scan itself; what
-happens with a resolved spool is [Feature: Spoolman Integration](Feature-Spoolman.md).**
+happens with a resolved spool is [Feature: Spoolman / Filament Hub](Feature-Spoolman.md).**
 The two pages cross-reference constantly - if you're setting this up for
 the first time, read both.
 
@@ -191,7 +191,7 @@ deciding "nothing there" is really nothing there.
 Spoolman's side of this - `spoolman_nfc_auto_create` (create an unknown tag
 as a new spool) and `spoolman_pending_id_timeout` (how long a shared read
 stays pending) - live in `mmu.cfg` and are documented on
-[Feature: Spoolman Integration](Feature-Spoolman.md#parameter-setup).
+[Feature: Spoolman / Filament Hub](Feature-Spoolman.md#parameter-setup).
 
 ## Commands
 
@@ -377,7 +377,7 @@ per-gate reader:
    nothing to look up. Happy Hare binds the gate's already-cached UID onto
    spool 456, and the gate map updates as a result, no re-scan needed.
 
-See [Feature: Spoolman Integration: `MMU_SPOOLMAN_TAG`](Feature-Spoolman.md#mmu_spoolman_tag-registering-a-tag-uid)
+See [Feature: Spoolman / Filament Hub: `MMU_SPOOLMAN_TAG`](Feature-Spoolman.md#mmu_spoolman_tag-registering-a-tag-uid)
 for the command in full, including why `REGISTER=1` needs
 `spoolman_support: readonly` or `push` specifically.
 
@@ -474,7 +474,7 @@ both off by default so a stock setup pays no extra reader I/O:
   `MMU_GATE_MAP GATE=<n> AVAILABLE=1`.
 - **A shared-reader tag never resolves** - confirm Spoolman is reachable and
   at a compatible version (see
-  [Feature: Spoolman Integration troubleshooting](Feature-Spoolman.md#troubleshooting));
+  [Feature: Spoolman / Filament Hub troubleshooting](Feature-Spoolman.md#troubleshooting));
   an unresolved tag also won't retry on its own until it's removed and
   re-presented.
 - **Homing to a per-gate reader behaves oddly on PN532/PN7160** - this path
@@ -497,7 +497,7 @@ both off by default so a stock setup pays no extra reader I/O:
 
 ## See also
 
-- [Feature: Spoolman Integration](Feature-Spoolman.md) - what a resolved
+- [Feature: Spoolman / Filament Hub](Feature-Spoolman.md) - what a resolved
   tag actually does: activation, attributes, auto-create
 - [Command Reference: `MMU_NFC`](Reference-Commands.md#mmu_nfc)
 - [Command Reference: `MMU_NFC_SCAN`](Reference-Commands.md#mmu_nfc_scan)
@@ -507,4 +507,3 @@ both off by default so a stock setup pays no extra reader I/O:
 - [Printer Variables: NFC](Reference-Printer-Variables.md#nfc)
 
 ---
-

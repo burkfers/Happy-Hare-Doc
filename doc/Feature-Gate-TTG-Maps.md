@@ -290,9 +290,8 @@ instead of compounding.
 - [Command Reference: `MMU_TTG_MAP`](Reference-Commands.md#mmu_ttg_map)
 - [Command Reference: `MMU_SLICER_TOOL_MAP`](Reference-Commands.md#mmu_slicer_tool_map)
 - [Printer Variables: gate and tool maps](Reference-Printer-Variables.md#gate-and-tool-maps)
-- [Feature: Spoolman Integration](Feature-Spoolman.md)
+- [Feature: Spoolman / Filament Hub](Feature-Spoolman.md)
 - [Feature: EndlessSpool & Runout Detection](Feature-Endless-Spool-Runout.md)
 - [Feature: LEDs](Feature-LEDs.md)
 
 ---
-

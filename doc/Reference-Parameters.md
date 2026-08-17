@@ -88,7 +88,7 @@ the full picture.
 | `endless_spool_on_load` | `0` | Also apply EndlessSpool if the gate a load targets turns out to be empty |
 | `endless_spool_eject_gate` | `-1` | Which gate to eject filament remains to - `-1` = the current gate |
 | `endless_spool_groups` | *(empty)* | EndlessSpool grouping list - empty means no groups defined |
-| `spoolman_support` | `off` | `off`/`readonly`/`push`/`pull` - see [Feature: Spoolman Integration](Feature-Spoolman.md) for what each does |
+| `spoolman_support` | `off` | `off`/`readonly`/`push`/`pull` - see [Feature: Spoolman / Filament Hub](Feature-Spoolman.md) for what each does |
 | `spoolman_pending_id_timeout` | `20` s | How long a pending spool ID assignment stays valid before being voided |
 | `spoolman_led_segment` | `gate_status` | Which LED segment(s) show the pending-spool-ID overlay: `gate_status`, `status`, or `both` |
 | `spoolman_nfc_auto_create` | `0` | Auto-create a Spoolman spool from an unrecognised NFC tag's metadata - see [Feature: NFC/RFID Reading](Feature-NFC.md) |
@@ -456,4 +456,3 @@ supplies automatically.
   macro-based alternative to internal load/unload logic
 
 ---
-

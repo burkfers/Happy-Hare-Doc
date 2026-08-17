@@ -201,7 +201,6 @@ the toolchange-movement page for what happens with it.
 - [Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md)
 - [Feature: Tip Forming and Purging](Feature-Tip-Forming-Purging.md) - purge volumes
 - [Feature: LEDs](Feature-LEDs.md)
-- [Feature: Spoolman Integration](Feature-Spoolman.md) - the same `[mmu_server]` Moonraker component
+- [Feature: Spoolman / Filament Hub](Feature-Spoolman.md) - the same `[mmu_server]` Moonraker component
 
 ---
-

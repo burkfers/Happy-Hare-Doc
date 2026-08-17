@@ -1,4 +1,4 @@
-# Feature: Spoolman Integration
+# Feature: Spoolman / Filament Hub
 
 ## Concept
 
@@ -469,7 +469,40 @@ Changing the *local* gate map in this mode doesn't stick - the next sync
 overwrites it from Spoolman. Use `MMU_SPOOLMAN GATE=<n> SPOOLID=<id>` to
 change the assignment remotely instead, which then propagates back down.
 
-### FilamentHub
+### Re-syncing / recovering
+
+Happy Hare re-syncs on its own when it needs to, but if the local and
+remote gate maps ever look out of step:
+
+```text
+MMU_SPOOLMAN SYNC=1              # Re-sync local <-> remote in the direction spoolman_support implies
+MMU_SPOOLMAN REFRESH=1           # Rebuild the Moonraker cache first, then sync
+MMU_SPOOLMAN REFRESH=1 FIX=1     # ...and clear any gate with more than one spool assigned to it
+```
+
+Avoid running `REFRESH=1` against a large Spoolman database mid-print - it's
+a full cache rebuild, not a quick lookup.
+
+### Auto-setting from a QR code (or any external reader)
+
+Happy Hare's own [NFC/RFID readers](Feature-NFC.md) resolve a scanned tag
+automatically, but the same mechanism is available to *any* external
+source that can hand Happy Hare a spool ID - a QR code printed by Spoolman
+and read by a phone/webcam, or a project like
+[nfc2klipper](https://github.com/bofh69/nfc2klipper) driving its own
+reader. Whatever the source, the workflow is the same:
+
+1. Look up the spool ID (however your reader/scanner does it).
+2. Call `MMU_GATE_MAP NEXT_SPOOLID=<id>` with it.
+3. Insert the filament - either run `MMU_PRELOAD` to load and park it, or,
+   with entry sensors fitted, just feed it into the back of the gate (this
+   can even be done mid-print).
+
+The gate that ends up loaded gets that `SpoolId`, with material/color
+pulled from Spoolman - governed by the same `spoolman_pending_id_timeout`
+that bounds a shared NFC/RFID scan.
+
+## FilamentHub
 
 [FilamentHub](https://filamenthub.ru/) is a filament and spool manager with a
 Spoolman-compatible API. It can be used as an alternative backend for Happy
@@ -511,7 +544,7 @@ To let FilamentHub manage the remote gate map:
    [re-sync commands](#re-syncing-recovering), when an immediate refresh is
    needed.
 
-#### Comparing the two gate maps
+### Comparing the two gate maps
 
 **Check printer** always starts with a read-only comparison: the actual Happy
 Hare map is shown separately from the assignments saved in FilamentHub. Nothing
@@ -537,39 +570,6 @@ unknown spool, while gates 3 and 5 are the gates Happy Hare reported as empty.
 <p align="center">
   <img src="Feature-Spoolman/filamenthub-gate-map.png" alt="FilamentHub showing a synchronized eight-gate Happy Hare map with an unidentified spool in gate 0 and empty gates 3 and 5" width="100%">
 </p>
-
-### Re-syncing / recovering
-
-Happy Hare re-syncs on its own when it needs to, but if the local and
-remote gate maps ever look out of step:
-
-```text
-MMU_SPOOLMAN SYNC=1              # Re-sync local <-> remote in the direction spoolman_support implies
-MMU_SPOOLMAN REFRESH=1           # Rebuild the Moonraker cache first, then sync
-MMU_SPOOLMAN REFRESH=1 FIX=1     # ...and clear any gate with more than one spool assigned to it
-```
-
-Avoid running `REFRESH=1` against a large Spoolman database mid-print - it's
-a full cache rebuild, not a quick lookup.
-
-### Auto-setting from a QR code (or any external reader)
-
-Happy Hare's own [NFC/RFID readers](Feature-NFC.md) resolve a scanned tag
-automatically, but the same mechanism is available to *any* external
-source that can hand Happy Hare a spool ID - a QR code printed by Spoolman
-and read by a phone/webcam, or a project like
-[nfc2klipper](https://github.com/bofh69/nfc2klipper) driving its own
-reader. Whatever the source, the workflow is the same:
-
-1. Look up the spool ID (however your reader/scanner does it).
-2. Call `MMU_GATE_MAP NEXT_SPOOLID=<id>` with it.
-3. Insert the filament - either run `MMU_PRELOAD` to load and park it, or,
-   with entry sensors fitted, just feed it into the back of the gate (this
-   can even be done mid-print).
-
-The gate that ends up loaded gets that `SpoolId`, with material/color
-pulled from Spoolman - governed by the same `spoolman_pending_id_timeout`
-that bounds a shared NFC/RFID scan.
 
 ## Troubleshooting
 
@@ -624,4 +624,3 @@ that bounds a shared NFC/RFID scan.
   resolution, auto-create, and the hardware readers themselves
 
 ---
-

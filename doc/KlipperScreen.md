@@ -221,7 +221,7 @@ or with [`MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map)):
   <img src="KlipperScreen/mmu_spoolman.png" alt="KlipperScreen Spoolman filaments panel" width="80%">
 </p>
 
-See [Feature: Spoolman Integration](Feature-Spoolman.md) for the underlying
+See [Feature: Spoolman / Filament Hub](Feature-Spoolman.md) for the underlying
 sync behaviour this panel is editing.
 
 ## MMU Options
@@ -239,6 +239,6 @@ behaviour on the display side:
   panels
 - [Command Reference: `MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map)
 - [Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md)
-- [Feature: Spoolman Integration](Feature-Spoolman.md)
+- [Feature: Spoolman / Filament Hub](Feature-Spoolman.md)
 
 ---
