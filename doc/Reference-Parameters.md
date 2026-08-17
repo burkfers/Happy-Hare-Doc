@@ -349,7 +349,7 @@ the buffer-based half of this.
 | `sync_feedback_speed_multiplier` | `5`% | Gear speed delta applied to keep filament neutral in the buffer |
 | `sync_feedback_boost_multiplier` | `3`% | Extra gear speed boost while first finding the neutral position |
 | `sync_feedback_extrude_threshold` | `5` mm | Extruder movement between sync-feedback updates - keep small, but above your retract distance |
-| `sync_feedback_debug_log` | `0` | `1` = write a `sync_<gate>.jsonl` telemetry log, readable with `utils/plot_sync_feedback.sh` |
+| `sync_feedback_debug_log` | `0` | `1` = write a `sync_<gate>.jsonl` telemetry log, selectable and viewable with `make plot_sync` |
 
 ### FlowGuard clog and tangle detection
 
