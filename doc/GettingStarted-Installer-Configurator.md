@@ -1,35 +1,36 @@
 # Getting Started - Menuconfig Configurator / Installer
 
-The all _“new”_ Happy Hare v4 Installer and Configurator is a dynamic, _menuconfig_ 
-rules based configuration management system that has been designed to streamline the
-initial installation and ongoing management of Happy Hare configurations. It employs a
-structured, deterministic workflow, exposing only the configuration parameters and 
-capabilities relevant to your particular MMU system and the features it supports 
-and you have enabled.
+The Happy Hare v4 Installer and Configurator is a dynamic, menuconfig‑driven 
+configuration management system designed to streamline both initial installation
+and ongoing maintenance of Happy Hare. It uses a structured, deterministic workflow
+that exposes only the parameters and capabilities relevant to your specific MMU hardware
+and enabled features.
 
-Where possible, the installer applies recommended defaults and sensible settings across
-hardware definitions, GPIO assignments, and various Happy Hare capabilities. Configuration
-options not applicable to your MMU or configuration are suppressed and omitted from the
-generated configuration files stored in the `config/mmu/base/` directory. 
+Where appropriate, the installer applies recommended defaults and sensible settings
+across hardware definitions, GPIO assignments, and Happy Hare feature modules. Options
+not applicable to your configuration are suppressed and omitted from the generated files
+in `config/mmu/base/` folder.
 
-This rules driven approach simplifies setup, reduces configuration errors / 
-frustration, and provides a clear foundation for upgrading, managing, and 
-enabling Happy Hare capabilities.
+This rules‑driven approach simplifies setup, reduces configuration errors and frustration, 
+and provides a clear, maintainable foundation for upgrading, managing, and enabling Happy
+Hare capabilities.
 
 ## Design Goal
-The intention is for users to manage the majority of configurable settings using the 
-interactive menuconfig installer (`./install.sh -i`), without needing to edit Happy Hare
-configuration files directly. The rules‑driven interface ensures configuration
-choices always remain consistent with the selected MMU hardware and supported features.
+The intention is for users to manage most configuration settings through the interactive
+`menuconfig` installer (`./install.sh -i`), without needing to edit Happy Hare 
+configuration files directly. The rules‑driven interface ensures that all configuration
+ choices remain consistent with the selected MMU hardware and supported features.
 
-## Direct Modification of Configuration Files
+## Direct Modification of Configuration File
 Direct modification of Happy Hare configuration files remains possible when required, 
-with installer options to control merge and overwrite behavior to accommodate your preferred 
-configuration workflow. 
+with installer options available to control merge and overwrite behavior to suit your
+preferred workflow. However, users are encouraged to rely primarily on the `menuconfig`
+installer, which may require unlearning older habits of editing configuration files
+directly.
 
-All all `menuconfig` configuration selections are mastered and stored in the
-`config/mmu/.mmu-config` settings file to enable them to be back backed up along with other
-configuration by popular GitHub printer backup mechanisms.
+All menuconfig selections are mastered and stored in the `config/mmu/.mmu-config`
+settings file, ensuring they are included in popular GitHub‑based printer‑configuration
+backup mechanisms.
 
 ## Navigation
 <p align="center">
@@ -51,9 +52,9 @@ Navigation is intuitive and the same as any other `menuconfig` based interface.
 
 The top-down flow guides you through the process in a logical, step by step manner. 
 Depending on the MMU and selections you make, additional sub-menus and settings
-will appear, enabling you to configure relevant settings.
+will appear, enabling you to configure relevant settings for your setup.
 
-Review any highlighted **Config Warnings / Errors** for configuration issues you need to correct.
+**Config Warnings / Errors** are highlighted for you to review and correct.
 
 ## Managing Configuration Changes
 When the `menuconfig` installer is launched after your initial setup and configuration, 
