@@ -88,7 +88,7 @@ Applies simple parameter updates from `menuconfig` while preserving other manual
 your Happy Hare `.cfg` files. Useful when most settings are managed through `menuconfig` but
 want hardware‑specific settings or tuning to remain untouched.
 
-## Other
+## Additional Guidance
 * Running `./install.sh` will always automatically check and update Happy Hare to the
   latest release from GitHub. To prevent this, launch with `-z` flag to skip the update check.
 * `./install.sh` will never overwrite your existing configuration files. It will always create
