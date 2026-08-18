@@ -94,8 +94,7 @@ want hardware‑specific settings or tuning to remain untouched.
 
 !!! notes 
     * `menuconfig` will never overwrite your existing configuration outright - it's copied
-      to a timestamped backup directory (e.g. `mmu-20260807_102329``) before changes are 
-      applied.
+      to a timestamped backup directory before changes are applied. (e.g. `mmu-20260807_102329`) 
     * `menuconfig` will always automatically check and update Happy Hare to the latest 
       release from GitHub. To prevent this, launch `./install.sh`with `-z` flag to skip 
       the update check.
