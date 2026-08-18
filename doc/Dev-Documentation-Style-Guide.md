@@ -67,17 +67,39 @@ Recommended types:
 | Known issue | `bug` |
 | Worked example | `example` |
 
+Use `???` instead of `!!!` for collapsible admonition content.
+
 Rendered examples:
 
 !!! note "Note"
     Use this for neutral, supporting context.
 
-!!! tip "Tip"
+??? tip "Hidden Tip"
     Use this for shortcuts, defaults, and practical setup hints.
 
 !!! warning "Important"
     Use this when readers can make a costly configuration mistake.
 
+
+Tabbed admonition content using `===`
+!!! example
+  
+    === "Topic 1"
+        Use this to show multiple steps, examples or variations in a single callout to minimize
+        scrolling and clutter.
+    
+        Lorum ipsumque draconis flutare in aetherium spirat. Vexillum quondam 
+        wobblare nunc per orbem fantasticae vagatur.
+
+    === "Topic 2"
+        Lorum ipsumque draconis flutare in aetherium spirat. Vexillum quondam 
+        wobblare nunc per orbem fantasticae vagatur.
+
+    === "Topic 3"
+  
+        Lorum ipsumque draconis flutare in aetherium spirat. Vexillum quondam 
+        wobblare nunc per orbem fantasticae vagatur.
+        
 ## Tables
 
 Use simple pipe tables with short headers. Keep units in headers or in a Notes column.
