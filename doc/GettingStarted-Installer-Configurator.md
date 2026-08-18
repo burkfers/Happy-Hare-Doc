@@ -54,8 +54,11 @@ The top-down flow guides you through the process in a logical, step by step mann
 Depending on the MMU and selections you make, additional sub-menus and settings
 will appear, enabling you to configure relevant settings for your MMU.
 
-Any **Config Warnings / Errors** are highlighted for you to review and correct before saving
-and updating your configuration.
+Any non modifiable settings that have been enabled based on your MMU design or due 
+to prior selection will be indicated with `-*-` rather than `[ ]`   e.g. `-*- Has LEDs? (FIXED)`
+
+**Config Warnings / Errors** are highlighted for you to review and correct before saving
+and applying updates to your configuration.
 
 ## Managing Configuration Changes
 When the `menuconfig` installer is launched after your initial setup and configuration, 
