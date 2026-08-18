@@ -92,7 +92,11 @@ want hardware‑specific settings or tuning to remain untouched.
     * `menuconfig` will never overwrite your existing configuration outright - it's moved
       to a timestamped backup directory (e.g. mmu-20260807_102329) before applying changes.
     * `menuconfig` will always automatically check and update Happy Hare to the latest 
-      release from GitHub. To prevent this, launch with `-z` flag to skip the update check.
+      release from GitHub. To prevent this, launch `./install.sh`with `-z` flag to skip 
+      the update check.
+    * Following a klipper/kalico upgrade or hard reset, you may need to run `./install.sh` 
+      again with the `-f` flag to restore all klipper/moonraker symbolic links to make
+      sure everything is where it needs to be.
     * `menuconfig` does not have the ability to sync and import changes made directly to your Happy
       Hare `.cfg` files. If you have made changes and want them reflected in `menuconfig`, you will
       need to manually transpose them before using the `menuconfig` *Replace* option to 
