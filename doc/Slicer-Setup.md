@@ -150,22 +150,33 @@ pre-processes an uploaded gcode file.
     Hare-controlled purging. Additional slicer settings can be passed to manage this, 
     or the retraction setting you use hardcoded to enable Happy Hare to compensate for 
     Slicer retractions post `Blobifier`/`MMU_PURGE` or your own custom purge macro from 
-    layer 2 onwards. 
+    layer 2 onwards.
     
     If firmware retraction is enabled in your slicer but not in the printer, Slicer retraction
-    compensation will be disabled. Refer to slicer **Tool Change Gcode** examples below:
+    compensation will be disabled.
+
+    When enabled, you will see an info message in the log indicating Happy Hare has adjusted
+    the retraction distance (e.g. park retraction:`2.5mm`, slicer retraction: `0.4mm`):
+
+    ```json
+    // Adjusting un-retraction to 2.9mm to compensate for unhandled slicer 0.4mm retraction during toolchange
+    ...
+    // Un-retracting 3.1mm
+    ```
+
+    Refer to slicer **Tool Change Gcode** examples below:
 
 !!! example
   
     === "OrcaSlicer"
     
-          ```{.text .console-output}
+          ```ini
           T[next_extruder] SLICER_RETRACTION={old_retract_length} SLICER_FW_RETRACTION={use_firmware_retraction}
           ```
 
     === "PrusaSlicer"
   
-        ```{.text .console-output}
+        ```ini
         T[next_extruder] SLICER_RETRACTION=[retract_length] SLICER_FW_RETRACTION={use_firmware_retraction}
         ```  
         !!! note
@@ -174,15 +185,13 @@ pre-processes an uploaded gcode file.
 
     === "Hard coded"
   
-        ```{.text .console-output}
+        ```ini
         T[next_extruder] SLICER_RETRACTION=0.6 SLICER_FW_RETRACTION=false
         ``` 
         or when firmware retraction is used:
         ```{.text .console-output}
         T[next_extruder] SLICER_FW_RETRACTION=true
         ```    
-
-
 
 ## Customizing the Start/End Macros
 

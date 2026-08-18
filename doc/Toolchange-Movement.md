@@ -51,8 +51,8 @@ retraction length. Negative X/Y is fine if your printer can handle it:
 variable_park_pause: 50, 50, 5, 10, 2
 ```
 
-Parks at (50, 50), lifting 5mm with a 10mm horizontal ramp on the way up,
-retracting 2mm. `-999, -999` for X/Y does a z-hop-only move (or nothing at
+Parks at (`50`, `50`), lifting `5mm` with a `10mm` horizontal ramp on the way up,
+retracting `2mm`. `-999, -999` for X/Y does a z-hop-only move (or nothing at
 all, with `-999, -999, 0, 0, 0`).
 
 Every parking move happens above a "toolhead movement plane" - normally the
