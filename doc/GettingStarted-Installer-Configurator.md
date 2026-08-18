@@ -88,17 +88,15 @@ Applies simple parameter updates from `menuconfig` while preserving other manual
 your Happy Hare `.cfg` files. Useful when most settings are managed through `menuconfig` but
 want hardware‑specific settings or tuning to remain untouched.
 
-## Additional Guidance
-* Running `./install.sh` will always automatically check and update Happy Hare to the
-  latest release from GitHub. To prevent this, launch with `-z` flag to skip the update check.
-* `./install.sh` will never overwrite your existing configuration files. It will always create
-  a timestamped backup of your current configuration before applying any changes.
-* `./install.sh` `menuconfig` options and selections are saved to the `config/mmu/.mmu_config`
-  file.
-* `menuconfig` does not have the ability to sync and import changes made directly to your Happy
-  Hare `.cfg` files. If you have made changes and want them reflected in `menuconfig`, you will
-  need to manually transpose them before you will be able to use the `menuconfig` *Replace*
-  option to reset your configuration baseline.  It is for this reason it is recommended to
-  manage all configuration changes through `menuconfig` where possible.
+!!! notes 
+    * `menuconfig` will never overwrite your existing configuration outright - it's moved
+      to a timestamped backup directory (e.g. mmu-20260807_102329) before applying changes.
+    * `menuconfig` will always automatically check and update Happy Hare to the latest 
+      release from GitHub. To prevent this, launch with `-z` flag to skip the update check.
+    * `menuconfig` does not have the ability to sync and import changes made directly to your Happy
+      Hare `.cfg` files. If you have made changes and want them reflected in `menuconfig`, you will
+      need to manually transpose them before using the `menuconfig` *Replace* option to 
+      reset your configuration baseline.  It is for this reason it is recommended to
+      manage all configuration changes through `menuconfig` where possible.
 
 ---
