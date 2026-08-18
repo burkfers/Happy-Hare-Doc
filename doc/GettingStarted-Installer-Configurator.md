@@ -77,8 +77,8 @@ _**R**efresh_, _**R**eplace_, and _**M**erge_: <br><br>
 1. **Refresh** (**Option 1 — Default upgrade path**)<br>
 The Refresh mode preserves all parameter values that have been manually edited in your existing
 Happy Hare `.cfg` files. It will only add new or missing configuration sections and options 
-required by the current Happy Hare release. `menuconfig` values may appear outdated because
-this mode does not update or overwrite existing parameters.
+required by the current Happy Hare release. However `menuconfig` values may appear outdated 
+because this mode does not update or overwrite existing settings.
 
 2. **Replace** (**Option 2 — Recommended**)<br>
 This is the recommended mode **_when all configuration changes are managed through menuconfig_**.
