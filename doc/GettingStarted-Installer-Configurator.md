@@ -7,7 +7,7 @@ that exposes only the parameters and capabilities relevant to your specific MMU 
 and enabled features.
 
 Where appropriate, the installer applies recommended defaults and sensible settings
-across hardware definitions, GPIO assignments, and Happy Hare feature modules. Options
+across hardware definitions, GPIO assignments, and Happy Hare features. Options
 not applicable to your configuration are suppressed and omitted from the generated files
 in `config/mmu/base/` folder.
 
