@@ -21,7 +21,7 @@ The intention is for users to manage most configuration settings through the int
 configuration files directly. The rules‑driven interface ensures that all configuration
  choices remain consistent with the selected MMU hardware and supported features.
 
-## Direct Modification of Configuration File
+## Direct Modification of Configuration Files
 Direct modification of Happy Hare configuration files remains possible when required, 
 with installer options available to control merge and overwrite behavior to suit your
 preferred workflow. However, users are encouraged to rely primarily on the `menuconfig`
