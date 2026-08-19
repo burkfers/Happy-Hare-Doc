@@ -156,7 +156,8 @@ pre-processes an uploaded gcode file.
     compensation will be disabled.
 
     When enabled, you will see an info message in the log indicating Happy Hare has adjusted
-    the retraction distance e.g. park retraction:`3.5mm`, slicer retraction: `0.4mm`:
+    and reduced the un-retraction distance to compensate <br> 
+    e.g. park retraction:`3.5mm` - slicer retraction: `0.4mm`:
 
     ```json
     // Adjusting un-retraction to 3.1mm to compensate for unhandled slicer 0.4mm retraction during toolchange
