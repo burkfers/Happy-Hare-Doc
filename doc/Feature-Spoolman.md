@@ -161,8 +161,11 @@ MMU_SPOOLMAN REFRESH=1 FIX=1            # As above, and clear any gate with more
 MMU_SPOOLMAN CLEAR=1                    # Clear every gate assignment for this printer in Spoolman
 ```
 
-```{.text .console-output}
+```{.text .console-command}
 MMU_SPOOLMAN SPOOLINFO=1
+```
+
+```{.text .console-output}
 Spool is: Matte Green (id: 1)
 - Material: n/a
 - Used: 56 g
@@ -451,7 +454,7 @@ assignments are managed centrally rather than per-printer. `MMU_SPOOLMAN`
 with no parameters lists this printer's own gate assignments; add
 `PRINTER=<name>` to check another printer sharing the same database:
 
-```text
+```{.text .console-command}
 MMU_SPOOLMAN PRINTER=BigRed
 ```
 

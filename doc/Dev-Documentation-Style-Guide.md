@@ -140,6 +140,7 @@ Use fenced code blocks with explicit language.
     ```{.text .console-command}
     MMU_SLICER_TOOL_MAP PURGE_MAP=1
     ```
+
     ```{.text .console-output}
     -------- Slicer MMU Tool Summary ---------
     2 color print (Purge volume map loaded)

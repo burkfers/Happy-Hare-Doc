@@ -52,8 +52,11 @@ like it there.
 
 A plain (no Spoolman) map looks like this:
 
+```{.text .console-command}
+MMU_GATE_MAP
+```
+
 ```{.text .console-output}
-> MMU_GATE_MAP
 Gates / Filaments:
 0: On spool; TPU     | 225C | orange | Orange Pie
 1: Unknown;  PETG    | 220C | red    | eMarble

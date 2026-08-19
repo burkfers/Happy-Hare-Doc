@@ -78,8 +78,11 @@ guides show serial selection for one- and two-board examples.
 Run `MMU_SENSORS` once with every filament path empty. It reports every sensor
 Happy Hare knows about, including disabled sensors:
 
-```{.text .console-output}
+```{.text .console-command}
 MMU_SENSORS
+```
+
+```{.text .console-output}
 filament_compression  --> Open
 filament_tension      --> Open
 mmu_entry_0           --> Open

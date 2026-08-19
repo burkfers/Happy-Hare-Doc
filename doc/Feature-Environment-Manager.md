@@ -174,8 +174,11 @@ cycle ends automatically.
 
 A plain `MMU_HEATER` with no drying cycle running just reports that:
 
-```{.text .console-output}
+```{.text .console-command}
 MMU_HEATER
+```
+
+```{.text .console-output}
 Not in drying cycle and heater is off
 ```
 
@@ -321,4 +324,3 @@ sensor supports humidity at all.
   for the `drying_state` field
 
 ---
-

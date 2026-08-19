@@ -93,8 +93,11 @@ MMU_ENDLESS_SPOOL RESET=1             # Back to the default grouping (normally o
 MMU_ENDLESS_SPOOL ENABLE=0 QUIET=1    # Turn EndlessSpool off without any console/log output
 ```
 
-```{.text .console-output}
+```{.text .console-command}
 MMU_ENDLESS_SPOOL
+```
+
+```{.text .console-output}
 EndlessSpool is enabled
 EndlessSpool Groups:
 Group A: Gates: 0, 3, 6
@@ -195,4 +198,3 @@ read it, but new macros should use `endless_spool_enabled` instead.
 - [Feature: Sensors](Feature-Sensors.md) - naming/addressing, querying, and enabling/disabling any sensor at runtime
 
 ---
-

@@ -291,8 +291,11 @@ configuration needed:
 The same information is available as text from the console (remember Klipper
 can't run another command until the current one finishes):
 
-```{.text .console-output}
+```{.text .console-command}
 MMU_ESPOOLER
+```
+
+```{.text .console-output}
 0 : off     (0%)
 1 : print   (0%) [assist for 0.4s at 50% power on trigger, max 3 bursts]
 2 : off     (0%)
@@ -399,4 +402,3 @@ MMU_ESPOOLER
   for the `espooler` status field
 
 ---
-

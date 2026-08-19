@@ -276,8 +276,11 @@ direction](#pins-gear-direction) above) and try again. Repeat with
 **Sensors.** Insert a short fragment of filament into a gate's entry by
 hand and check it registers:
 
-```{.text .console-output}
+```{.text .console-command}
 MMU_SENSORS
+```
+
+```{.text .console-output}
 mmu_entry_0           --> TRIGGERED
 mmu_entry_1           --> Open
 filament_compression  --> Open
@@ -295,8 +298,11 @@ filament under **tension** (being pulled taut, not enough slack) makes it
 **fully compress**. Centered, at rest, it should read neutral. Move the
 shuttle by hand to each extreme and confirm:
 
-```{.text .console-output}
+```{.text .console-command}
 MMU_SYNC_FEEDBACK
+```
+
+```{.text .console-output}
 Sync feedback: Neutral
 ```
 
