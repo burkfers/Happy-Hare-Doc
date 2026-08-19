@@ -196,7 +196,9 @@ stays pending) - live in `mmu.cfg` and are documented on
 ## Commands
 
 Full parameter reference: [`MMU_NFC`](Reference-Commands.md#mmu_nfc),
-[`MMU_NFC_SCAN`](Reference-Commands.md#mmu_nfc_scan).
+[`MMU_NFC_SCAN`](Reference-Commands.md#mmu_nfc_scan),
+[`MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map), and
+[`MMU_SPOOLMAN_TAG`](Reference-Commands.md#mmu_spoolman_tag).
 
 `MMU_NFC` is the day-to-day status/control command, addressing either the
 shared reader, one gate, or several:
@@ -233,13 +235,60 @@ MMU_NFC_SCAN        # Scan the current gate
 MMU_NFC_SCAN GATE=2 # Scan a specific gate
 ```
 
-`APPEND=1` on a `REGISTER=1` read is for a spool with more than one physical
-tag - e.g. one stuck on each side, so either side scans to the same spool.
-It only makes sense on a per-gate reader whose gate *already* has a spool
-assigned (from an earlier scan, or set manually with
-[`MMU_GATE_MAP`](Feature-Spoolman.md#commands)/[`MMU_SPOOLMAN`](Feature-Spoolman.md#commands)):
-the newly-read tag is bound directly onto that spool instead of being
-resolved/auto-created as if it were unknown. Two cases fall back instead of
+### Managing stored RFID UIDs
+
+Happy Hare keeps two related values: the **gate RFID**, which is the single
+UID physically observed at a gate, and the **Spoolman RFIDs**, which are all
+UIDs registered to a spool.
+
+Successful NFC reads update the gate RFID automatically. A shared-reader UID
+is applied when its gate is loaded or preloaded. You can also set or clear the
+value manually:
+
+```text
+MMU_GATE_MAP GATE=2 RFID=AABBCCDD # Set the UID observed at gate 2
+MMU_GATE_MAP GATE=2 RFID=''       # Clear it
+```
+
+The value must be one even-length hexadecimal UID. It is normalized to
+uppercase; comma-separated or otherwise invalid values are ignored. Resetting
+a gate or marking it empty also clears its gate RFID. Spoolman synchronization
+never replaces this value, so it continues to identify the tag the printer
+actually observed.
+
+Use `MMU_SPOOLMAN_TAG` to manage the complete set of UIDs stored against a
+Spoolman spool. Identify the spool directly with `SPOOLID=`, or use `GATE=`
+to target the spool currently assigned to a gate:
+
+```text
+MMU_SPOOLMAN_TAG SPOOLID=45 RFID=AABBCCDD          # Replace the spool's UID set
+MMU_SPOOLMAN_TAG SPOOLID=45 RFID=AABBCCDD,EEFF0011 # Replace it with multiple UIDs
+MMU_SPOOLMAN_TAG GATE=2 RFID=AABBCCDD              # Replace by assigned gate instead
+MMU_SPOOLMAN_TAG GATE=2 RFID=EEFF0011 APPEND=1     # Add a UID without removing the others
+MMU_SPOOLMAN_TAG GATE=2 RFID=''                    # Clear every UID from the spool
+```
+
+UIDs are normalized and duplicates removed. To register a gate's already
+observed UID against an existing spool, use `REGISTER=1`; add `APPEND=1` to
+preserve that spool's other UIDs:
+
+```text
+MMU_SPOOLMAN_TAG GATE=2 SPOOLID=45 REGISTER=1
+MMU_SPOOLMAN_TAG GATE=2 SPOOLID=45 REGISTER=1 APPEND=1
+```
+
+Alternatively, read and resolve a tag directly through the gate's NFC reader:
+
+```text
+MMU_NFC GATE=2 REGISTER=1          # Resolve the UID, or auto-create a spool from its metadata
+MMU_NFC GATE=2 REGISTER=1 APPEND=1 # Attach a second tag to the gate's assigned spool
+```
+
+`APPEND=1` on an NFC read only makes sense when the addressed per-gate reader
+already has a spool assigned (from an earlier scan, or set manually with
+[`MMU_GATE_MAP`](Feature-Spoolman.md#commands)/[`MMU_SPOOLMAN`](Feature-Spoolman.md#commands)).
+The newly read tag is bound directly onto that spool instead of being
+resolved or auto-created as an unknown tag. Two cases fall back instead of
 binding:
 
 - **`SHARED=1 REGISTER=1 APPEND=1`** - the shared reader has no gate
@@ -250,15 +299,10 @@ binding:
   (logged, not an error) and the read falls back to normal resolve/
   auto-create, the same as without `APPEND=1`.
 
-Two related commands live on the Spoolman side, for binding a UID onto a
-spool record directly rather than scanning for one:
-[`MMU_SPOOLMAN_TAG ... RFID=`](Feature-Spoolman.md#mmu_spoolman_tag-registering-a-tag-uid)
-(which has its own `APPEND=1` for the same "second tag on one spool" case,
-plus `RFID=''` to clear every tag from a spool, and a `REGISTER=1` mode for
-binding a tag that's already been scanned onto a gate but didn't resolve at
-the time - see [Registering an unresolved
-tag](#registering-an-unresolved-tag-after-the-fact) below) and the `RFID=`
-parameter on [`MMU_GATE_MAP`](Reference-Commands.md#mmu_gate_map).
+See [Registering an unresolved tag](#registering-an-unresolved-tag-after-the-fact)
+for a complete after-the-fact workflow, and
+[Feature: Spoolman / Filament Hub](Feature-Spoolman.md#mmu_spoolman_tag-registering-a-tag-uid)
+for Spoolman support-mode restrictions and assignment details.
 
 ### Advanced: raw per-reader commands
 
