@@ -141,31 +141,29 @@ Happy Hare's Moonraker extension rewrites `Tn` lines into
 [`MMU_CHANGE_TOOL`](Reference-Commands.md#mmu_change_tool) when it
 pre-processes an uploaded gcode file.
 <br>
-<br>
 
-!!! note
-    **OPTIONAL** Many slicers like OrcaSlicer, PrusaSlicer, and SuperSlicer insert extra 
-    retraction/un-retraction gcode around filament changes which can create small blobs 
-    post toolchange depending on retraction settings if left unhandled when using Happy 
-    Hare-controlled purging. Additional slicer settings can be passed to manage this, 
-    or the retraction setting you use hardcoded to enable Happy Hare to compensate for 
-    Slicer retractions post `Blobifier`/`MMU_PURGE` or your own custom purge macro from 
-    layer 2 onwards.
+**OPTIONAL** Many slicers like OrcaSlicer, PrusaSlicer, and SuperSlicer insert extra 
+retraction/un-retraction gcode around filament changes which can create small blobs 
+post toolchange depending on retraction settings if left unhandled when using Happy 
+Hare controlled purging. Additional slicer settings can be passed to manage this, 
+or the retraction setting you use hardcoded to enable Happy Hare to compensate for 
+Slicer retractions post `Blobifier`/`MMU_PURGE` or your own custom purge macro from 
+layer 2 onwards.
     
-    If firmware retraction is enabled in your slicer but not in the printer, Slicer retraction
-    compensation will be disabled.
+If firmware retraction is enabled in your slicer but not in the printer, Slicer retraction
+compensation will be disabled.
 
-    When enabled, you will see an info message in the log indicating Happy Hare has adjusted
-    and reduced the un-retraction distance to compensate <br> 
-    e.g. park retraction:`3.5mm` - slicer retraction: `0.4mm`:
+When enabled, you will see an info message in the log indicating Happy Hare has adjusted
+and reduced the un-retraction distance to compensate <br> 
+e.g. park retraction:`3.5mm` - slicer retraction: `0.4mm`:
 
-    ```json
-    // Adjusting un-retraction to 3.1mm to compensate for unhandled slicer 0.4mm retraction during toolchange
-    ...
-    // Un-retracting 3.1mm
-    ```
+```ini
+// Adjusting un-retraction to 3.1mm to compensate for unhandled slicer 0.4mm retraction during toolchange
+...
+// Un-retracting 3.1mm
+```
 
-    Refer to slicer **Tool Change Gcode** examples below:
+Refer to alternate slicer **Tool Change Gcode** examples below:
 
 !!! example
   
@@ -190,7 +188,7 @@ pre-processes an uploaded gcode file.
         T[next_extruder] SLICER_RETRACTION=0.6 SLICER_FW_RETRACTION=false
         ``` 
         or when firmware retraction is used:
-        ```{.text .console-output}
+        ```ini
         T[next_extruder] SLICER_FW_RETRACTION=true
         ```    
 
