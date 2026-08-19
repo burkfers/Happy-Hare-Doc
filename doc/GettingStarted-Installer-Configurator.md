@@ -34,7 +34,7 @@ ensure it's included in popular GitHub‑based printer configuration backup mech
 
 ## Navigation
 <p align="center">
-  <img src="GettingStarted-Installer-Configurator/GettingStarted-Installer-Configurator.png" alt="Menuconfig installer and configurator" align=right width="60%">
+  <img src="GettingStarted-Installer-Configurator/GettingStarted-Installer-Configurator.png" alt="Menuconfig installer and configurator" align=right width="47%">
 </p>
 
 Navigation is intuitive and the same as any other `menuconfig` based interface.
@@ -46,8 +46,8 @@ Navigation is intuitive and the same as any other `menuconfig` based interface.
 | **↓**   | move down |
 | **↵ or space**   | select a menu or option |
 | **Esc** | go back to the previous menu |
-| **R**   | reset a setting to its default value <br> (if available) |
-| **Q**   | quit and selectively save changes <br> and update printer configuration  |
+| **R**   | reset a setting to its default value (if available) |
+| **Q**   | quit and selectively save changes and update printer configuration  |
 
 
 The top-down flow guides you through the process in a logical, step by step manner. 
@@ -55,14 +55,14 @@ Depending on the MMU and selections you make, additional sub-menus and settings
 will appear, enabling you to configure relevant settings for your MMU.
 
 Any non modifiable settings that have been enabled based on your MMU design or due 
-to prior selection will be indicated with `-*-` rather than `[ ]`   e.g. `-*- Has LEDs? (FIXED)`
+to prior selection will be indicated with <br> `-*-` rather than `[ ]`   e.g. `-*- Has LEDs? (FIXED)`
 
 **Config Warnings / Errors** are highlighted for you to review and correct before saving
 and applying updates to your configuration.
 
 ## Managing Configuration Changes
-When the `menuconfig` installer is launched after your initial setup and configuration, 
-you will be prompted to choose how it should apply and reconcile configuration changes with 
+When the `menuconfig` installer is launched after your initial setup and configuration,
+you will be prompted to choose how it should apply and reconcile configuration changes with
 locally applied settings. <br>
 
 The installer supports three distinct modes for applying configuration changes:

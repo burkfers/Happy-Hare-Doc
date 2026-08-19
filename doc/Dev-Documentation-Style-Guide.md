@@ -125,10 +125,10 @@ Use fenced code blocks with explicit language.
 
 - Use `ini` for config examples (including cfg-like snippets).
 - Use `bash` for commands genuinely entered in a Linux shell, such as cd, git, make, or installer commands.
-- Use `text` for G-code, Happy Hare commands, general command lists, and unclassified plain text.
-- Use `{.text .console-output}` for output returned by the printer. To join a
-  command and its output visually, mark the command `{.text .console-command}`
-  and put its `console-output` fence immediately afterward.
+- Use `{.text .console-command}` for console input to the printer. To join a
+  command and its output visually, put its `console-output` fence immediately afterward.
+- Use `{.text .console-output}` for output returned by the printer.
+- Use `text` for G-code and unclassified plain text.
 
 Examples:
 
@@ -151,6 +151,10 @@ MMU_SLICER_TOOL_MAP PURGE_MAP=1
 -------- Slicer MMU Tool Summary ---------
 2 color print (Purge volume map loaded)
 T0 (Gate 0, ABS, ff0000, 240°C)
+```
+
+```text
+Regular preformatted text
 ```
 
 ## Images and screenshots
