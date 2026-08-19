@@ -72,37 +72,29 @@ markdown_extensions:
   - toc:
       permalink: true
   - tables
-  - fenced_code
   - codehilite
   - admonition
   - pymdownx.tabbed
   - attr_list
   - md_in_html
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      css_class: codehilite
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.details
   - pymdownx.emoji:
       emoji_generator: !!python/name:zensical.extensions.emoji.to_svg
       emoji_index: !!python/name:zensical.extensions.emoji.twemoji
-  # NOT pymdownx.superfences/mermaid: Zensical's custom-fence handling was observed
-  # non-deterministic (~1 build in 4 rendered a ```mermaid block as a diagram; the
-  # rest rendered raw source as plain code) even with --clean. Diagrams in this
-  # Developer Guide are plain ASCII in fenced code blocks instead - guaranteed to
-  # render the same everywhere, including a raw GitHub view of the same file.
+  # SuperFences is the sole backtick-fence processor; do not also enable Python-
+  # Markdown's fenced_code, because both register the same internal processor name
+  # and SuperFences explicitly does not support loading them together. SuperFences
+  # is required for fences nested in admonitions, lists, and tabs. Its wrapper is
+  # pinned to codehilite so existing theme CSS remains valid; the codehilite
+  # extension above continues to handle traditional indented/:::lang blocks.
   #
-  # codehilite, not pymdownx.highlight, for the SAME reason: adding
-  # pymdownx.highlight + pymdownx.superfences (Material's normal syntax-highlighting
-  # recipe) reproduced the identical flakiness on ordinary (non-mermaid) code fences
-  # - 2 of 4 clean rebuilds silently rendered with zero highlighting. The flakiness
-  # is in superfences' custom-fence machinery generally, not specific to mermaid.
-  # codehilite is Python-Markdown's original highlighter, not part of that
-  # machinery, and was deterministic across 6/6 clean rebuilds in the same test -
-  # but it wraps output in <div class="codehilite">, which Material's shipped CSS
-  # doesn't style (Material only styles pymdownx.highlight's <div class="highlight">).
-  # doc/assets/stylesheets/extra.css re-points codehilite's Pygments token classes
-  # at Material's own --md-code-hl-*-color variables to compensate - see the
-  # comment there before touching either half of this.
+  # This does not enable a SuperFences Mermaid custom fence. Mermaid remains raw
+  # HTML driven by hh-mermaid.js because that custom-fence route was historically
+  # non-deterministic in Zensical; see TOC.md's "Zensical rough edges" section.
 
 nav:
   - Concepts:

@@ -267,9 +267,10 @@ all:
 1. SSH into your Raspberry Pi.
 2. Open a shell there and run:
 
-        :::bash
-        cd ~/klipper
-        make menuconfig
+    ```bash
+    cd ~/klipper
+    make menuconfig
+    ```
 
 3. Configure your board's firmware settings (chip, bootloader, communication
    interface) - specific to the MCU chip on your board, not something this
@@ -278,18 +279,21 @@ all:
 5. You will need the correct device name. You can use `lsusb` to
    list all USB devices. E.g
 
-        :::
-        Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
-        Bus 001 Device 007: ID 2e8a:0003 Raspberry Pi RP2 Boot
-        Bus 001 Device 004: ID 1d50:614e OpenMoko, Inc. stm32f446xx
+    ```text
+    Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+    Bus 001 Device 007: ID 2e8a:0003 Raspberry Pi RP2 Boot
+    Bus 001 Device 004: ID 1d50:614e OpenMoko, Inc. stm32f446xx
+    ```
    ID `2e8a:0003` should match you new device. Then flash it:
 
-        :::bash
-        make flash FLASH_DEVICE=2e8a:0003
+    ```bash
+    make flash FLASH_DEVICE=2e8a:0003
+    ```
    Alternatively you can find you device with `ls -l /dev/serial/by-id` and flash:
 
-        :::bash
-        make flash FLASH_DEVICE=/dev/serial/by-id/<your-mcu-id>
+    ```bash
+    make flash FLASH_DEVICE=/dev/serial/by-id/<your-mcu-id>
+    ```
 
 !!! warning "Important"
     CANbus boards flash differently - follow

@@ -107,21 +107,24 @@ section. Tuning by hand:
 2. Cut a ~400mm fragment of the filament you're tuning, heat the extruder,
    and hold the fragment to the gears:
 
-        :::text
-        MMU_LOAD EXTRUDER_ONLY=1
+    ```text
+    MMU_LOAD EXTRUDER_ONLY=1
+    ```
 
 3. Extrude a few mm by hand to prime, then:
 
-        :::text
-        MMU_TEST_FORM_TIP
+    ```text
+    MMU_TEST_FORM_TIP
+    ```
 
     This runs the tip-forming macro and ejects the result for inspection.
 
 4. Adjust one variable at a time on the command line - changes are sticky
    for the session:
 
-        :::text
-        MMU_TEST_FORM_TIP cooling_moves=5 unloading_speed=15
+    ```text
+    MMU_TEST_FORM_TIP cooling_moves=5 unloading_speed=15
+    ```
 
 5. Re-insert the fragment (`MMU_LOAD EXTRUDER_ONLY=1` again) and repeat.
    Expect this to take a few dozen attempts to converge.

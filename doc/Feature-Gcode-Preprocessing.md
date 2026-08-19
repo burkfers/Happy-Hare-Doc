@@ -44,9 +44,10 @@ preprocessor without removing the section entirely.
     than Moonraker's default 20-second metadata-parsing timeout. If you see
     a Moonraker timeout error on upload, raise it in `moonraker.conf`:
 
-        :::ini
-        [file_manager]
-        default_metadata_parser_timeout: 120
+    ```ini
+    [file_manager]
+    default_metadata_parser_timeout: 120
+    ```
 
 ## Parameter Setup
 
