@@ -216,8 +216,11 @@ MMU_NFC GATE=2 INIT=1          # (Re)initialize a reader that isn't responding
 MMU_NFC INIT_ALL=1             # (Re)initialize every reader on every unit
 ```
 
-```{.text .console-output}
+```{.text .console-command}
 MMU_NFC DETAILS=1
+```
+
+```{.text .console-output}
 MMU NFC readers:
 shared:  enabled=1 active=1 alive=1 tag=none
 gate 0:  enabled=1 active=1 alive=1 tag=E2003412

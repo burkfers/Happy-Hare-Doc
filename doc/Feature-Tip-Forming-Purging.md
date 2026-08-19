@@ -211,8 +211,11 @@ MMU_CALC_PURGE_VOLUMES SOURCE=gatemap MULTIPLIER=1.1     # From the gate map's (
 MMU_CALC_PURGE_VOLUMES SOURCE=slicer MIN=50              # From the slicer's own tool colors, floored at 50mm3
 ```
 
+```{.text .console-command}
+MMU_CALC_PURGE_VOLUMES SOURCE=gatemap MULTIPLIER=1.1
+```
+
 ```{.text .console-output}
-> MMU_CALC_PURGE_VOLUMES SOURCE=gatemap MULTIPLIER=1.1
 Purge map updated. Use 'MMU_SLICER_TOOL_MAP PURGE_MAP=1' to view
 ```
 
@@ -223,8 +226,11 @@ View the result with `MMU_SLICER_TOOL_MAP PURGE_MAP=1` (or
 loaded print) - each cell is the calculated purge volume, in mm³, for that
 row-to-column transition:
 
+```{.text .console-command}
+MMU_SLICER_TOOL_MAP PURGE_MAP=1
+```
+
 ```{.text .console-output}
-> MMU_SLICER_TOOL_MAP PURGE_MAP=1
 Purge Volume Map (mm^3):
 To -> T0   T1   T2   T3   T4   T5   T6   T7   T8
 T0    -   129  230  192  221  221  223  480  223
@@ -269,8 +275,11 @@ MMU_SLICER_TOOL_MAP PURGE_VOLUMES=70,70,70,...                         # NxN (or
 
 A flat `PURGE_VOLUMES=70` fills every transition with the same value:
 
+```{.text .console-command}
+MMU_SLICER_TOOL_MAP PURGE_MAP=1
+```
+
 ```{.text .console-output}
-> MMU_SLICER_TOOL_MAP PURGE_MAP=1
 Purge Volume Map:
 To -> T0   T1   T2   T3   T4   T5   T6   T7   T8
 T0    -   140  140  140  140  140  140  140  140
@@ -381,4 +390,3 @@ Filament`/`Purging` states while each of these runs.
 - [Feature: Sync-Feedback Buffer](Feature-Sync-Feedback-Buffer.md) - `sync_form_tip`/`sync_purge`
 
 ---
-

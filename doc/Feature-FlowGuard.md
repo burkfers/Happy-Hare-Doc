@@ -81,15 +81,21 @@ MMU_FLOWGUARD ENABLE=1 UNIT=ALL  # Enable on every unit
 
 Full parameter reference: [`MMU_FLOWGUARD`](Reference-Commands.md#mmu_flowguard).
 
+```{.text .console-command}
+MMU_FLOWGUARD
+```
+
 ```{.text .console-output}
-> MMU_FLOWGUARD
 FlowGuard monitoring feature is enabled and currently active on unit0
 ```
 
 or, disabled:
 
+```{.text .console-command}
+MMU_FLOWGUARD
+```
+
 ```{.text .console-output}
-> MMU_FLOWGUARD
 FlowGuard monitoring feature is disabled on unit0
 ```
 
@@ -142,7 +148,7 @@ the repository's virtual environment, installs the plotting dependencies,
 lists the available telemetry files, and opens the selected log in the
 interactive viewer:
 
-```text
+```bash
 cd ~/Happy-Hare
 make plot_sync
 ```
@@ -150,7 +156,7 @@ make plot_sync
 Log discovery defaults to Klipper's logs directory (normally
 `~/printer_data/logs`). Override it when the files are elsewhere:
 
-```{.text .console-output}
+```bash
 make plot_sync PLOT_LOG_DIR=/tmp
 Available FlowGuard telemetry logs:
   1) Gate 0  /tmp/sync_0.jsonl

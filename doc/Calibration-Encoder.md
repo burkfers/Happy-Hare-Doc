@@ -15,8 +15,11 @@ only as good as the gear move it's measuring against.
 
 Make sure filament is loaded at least as far as the encoder, then:
 
-```{.text .console-output}
+```{.text .console-command}
 MMU_CALIBRATE_ENCODER
+```
+
+```{.text .console-output}
 Calibrating over 400.0mm using 3 repeats:
 Load direction: mean=368.67 stdev=0.58 min=368 max=369
 Unload direction: mean=368.33 stdev=0.47 min=368 max=369

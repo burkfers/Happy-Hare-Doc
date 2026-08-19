@@ -94,10 +94,16 @@ for three named positions:
 
 Tune one position at a time - move it, check by eye, then save:
 
-```{.text .console-output}
+```{.text .console-command}
 MMU_SERVO POS=up
 MMU_SERVO
+```
+
+```{.text .console-output}
 Current servo angle: 125, Positions: {'down': 45, 'up': 125, 'move': 110}
+```
+
+```text
 MMU_SERVO ANGLE=128
 MMU_SERVO POS=up SAVE=1
 ```

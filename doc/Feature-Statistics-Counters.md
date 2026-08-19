@@ -129,8 +129,11 @@ MMU_STATS COUNTER=cutter_blade LIMIT=-1      # Temporarily disable its limit che
 MMU_STATS COUNTER=cutter_blade DELETE=1      # Remove it entirely
 ```
 
+```{.text .console-command}
+MMU_STATS SHOWCOUNTS=1
+```
+
 ```{.text .console-output}
-> MMU_STATS SHOWCOUNTS=1
 Consumption counters:
 Count cutter_blade: 568 (limit 4000)
 ```
@@ -207,4 +210,3 @@ including gate-map listings elsewhere on this site.
 - [Printer Variables](Reference-Printer-Variables.md#core-state) - `num_toolchanges`/`slicer_tool_map.total_toolchanges`, the only part of this feature exposed as a printer variable; everything else is console/log only
 
 ---
-
