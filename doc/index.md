@@ -155,7 +155,8 @@ context and a faster answer:
     New to Happy Hare? Walk through installing and configuring an MMU from
     scratch, `menuconfig` screen by screen.
 
-    [Box Turtle guide &rarr;](GettingStarted-BoxTurtle.md)
+    [Box Turtle guide &rarr;](GettingStarted-BoxTurtle.md) <br>
+    [ViViD](GettingStarted-ViViD.md)
 
 -   **Calibration**
 

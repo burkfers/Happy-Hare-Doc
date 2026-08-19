@@ -57,7 +57,28 @@ on the same machine, override the paths directly:
     rebuilt from your previous choices plus whatever you change this run.
 
 
-## Other, common install options
+## Arguments & other common install options
+
+=== "Full install.sh flag reference"
+    <br>
+    ```text
+    -i for interactive install (open menuconfig)
+    -u, -d for uninstall
+    -f to just restore klipper/moonraker symlinks (recover after hard klipper update)
+    -z skip github update check (nullifies -b <branch>)
+    -s to skip restart of services
+    -b <branch> to switch to specified feature branch (sticky)
+    -n to specify a multiple MMU unit setup
+    -k <dir> non-default klipper home directory
+    -c <dir> non-default klipper config directory
+    -m <dir> non-default moonraker home directory
+    -a <name>  alternative Klipper service name (e.g. when installed via Kiauh)
+    -e, --emu Enables multi MCU support (for EMU design)
+    -o Override compatibility checks (e.g. Kalico detection)
+    -t  test mode - write config to /tmp instead of your real install
+    (-q verbose make for debugging)
+    (-v verbose builder for debugging)
+    ```
 
 === "Test Mode"
 
@@ -95,28 +116,6 @@ on the same machine, override the paths directly:
     ```bash 
     ./install.sh -i -e
     ```
-
-=== "Full install flag reference"
-
-    ```text
-    -i for interactive install (open menuconfig)
-    -u, -d for uninstall
-    -f to just restore klipper/moonraker symlinks (recover after hard klipper update)
-    -z skip github update check (nullifies -b <branch>)
-    -s to skip restart of services
-    -b <branch> to switch to specified feature branch (sticky)
-    -n to specify a multiple MMU unit setup
-    -k <dir> non-default klipper home directory
-    -c <dir> non-default klipper config directory
-    -m <dir> non-default moonraker home directory
-    -a <name>  alternative Klipper service name (e.g. when installed via Kiauh)
-    -e, --emu Enables multi MCU support (for EMU design)
-    -o Override compatibility checks (e.g. Kalico detection)
-    -t  test mode - write config to /tmp instead of your real install
-    (-q verbose make for debugging)
-    (-v verbose builder for debugging)
-    ```
-
 ## Client Macros
 
 `menuconfig`'s final section asks:
