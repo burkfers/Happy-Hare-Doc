@@ -13,7 +13,7 @@ this properly - see [Start G-Code](#start-g-code) below for why.
 Add this to your slicer's custom start gcode box, in place of a single call
 to your own start-print macro:
 
-```{.text .console-output}
+```text
 MMU_START_SETUP INITIAL_TOOL={initial_tool} TOTAL_TOOLCHANGES=!total_toolchanges! REFERENCED_TOOLS=!referenced_tools! TOOL_COLORS=!colors! TOOL_TEMPS=!temperatures! TOOL_MATERIALS=!materials! FILAMENT_NAMES=!filament_names! PURGE_VOLUMES=!purge_volumes!
 
 MMU_START_CHECK
@@ -46,38 +46,43 @@ SET_PRINT_STATS_INFO TOTAL_LAYER={total_layer_count} ; For pause-at-layer and be
    the "Slicer Tool Map," available for the rest of the print as
    `printer.mmu.slicer_tool_map`:
 
-        :::ini
-        printer.mmu.slicer_tool_map:
-           initial_tool: 0          # Initial tool number expected at print start
-           tools.0.color: ff0000    # Color in RRGGBB for T0
-           tools.0.material: ABS
-           tools.0.temp: 240
-           tools.0.in_use: 1
-           tools.3.color: 00e410    # Color in RRGGBB for T3
-           tools.3.material: ASA
-           tools.3.temp: 245
-           tools.3.in_use: 1
-           purge_volumes: [[100, 100], [100, 100]]  # NxN matrix, purge volume tool X -> tool Y
+    ```ini
+    printer.mmu.slicer_tool_map:
+       initial_tool: 0          # Initial tool number expected at print start
+       tools.0.color: ff0000    # Color in RRGGBB for T0
+       tools.0.material: ABS
+       tools.0.temp: 240
+       tools.0.in_use: 1
+       tools.3.color: 00e410    # Color in RRGGBB for T3
+       tools.3.material: ASA
+       tools.3.temp: 245
+       tools.3.in_use: 1
+       purge_volumes: [[100, 100], [100, 100]]  # NxN matrix, purge volume tool X -> tool Y
+    ```
 
     Display it any time with
     [`MMU_SLICER_TOOL_MAP`](Reference-Commands.md#mmu_slicer_tool_map)
     (`PURGE_MAP=1` or `SPARSE_PURGE_MAP=1` also shows the purge matrix,
     the latter limited to tools actually referenced in the print):
 
-        :::text
-        MMU_SLICER_TOOL_MAP PURGE_MAP=1
-        -------- Slicer MMU Tool Summary ---------
-        2 color print (Purge volume map loaded)
-        T0 (Gate 0, ABS, ff0000, 240°C)
-        T3 (Gate 3, ASA, 00e410, 245°C)
-        Initial Tool: T0
-        -------------------------------------------
-        Purge Volume Map:
-        To -> T0   T1   T2   T3   T4   T5   T6   T7   T8
-        T0    -   200  200  200  200  200  200  200  200
-        T1   200   -   200  200  200  200  200  200  200
-        T2   200  200   -   200  200  200  200  200  200
-        T3   200  200  200   -   200  200  200  200  200
+    ```{.text .console-command}
+    MMU_SLICER_TOOL_MAP PURGE_MAP=1
+    ```
+
+    ```{.text .console-output}
+    -------- Slicer MMU Tool Summary ---------
+    2 color print (Purge volume map loaded)
+    T0 (Gate 0, ABS, ff0000, 240°C)
+    T3 (Gate 3, ASA, 00e410, 245°C)
+    Initial Tool: T0
+    -------------------------------------------
+    Purge Volume Map:
+    To -> T0   T1   T2   T3   T4   T5   T6   T7   T8
+    T0    -   200  200  200  200  200  200  200  200
+    T1   200   -   200  200  200  200  200  200  200
+    T2   200  200   -   200  200  200  200  200  200
+    T3   200  200  200   -   200  200  200  200  200
+    ```
 
     `DETAIL=1` also reports tools the slicer defined but aren't used in
     this particular print.
@@ -107,7 +112,7 @@ SET_PRINT_STATS_INFO TOTAL_LAYER={total_layer_count} ; For pause-at-layer and be
 
 Add this to your slicer's custom end gcode box:
 
-```{.text .console-output}
+```text
 MMU_END
 ; Place your existing print-end macro call here if you have one
 ```
@@ -122,7 +127,7 @@ since that one likely turns off heaters and motors.
 Needed for sequential printing - see [Toolchange Movement](Toolchange-Movement.md#z-hop-moves).
 Add to your slicer's custom **after layer change** gcode:
 
-```{.text .console-output}
+```text
 MMU_UPDATE_HEIGHT
 
 ; If using the Happy Hare client macros, also add this for pause-at-layer support:
@@ -134,7 +139,7 @@ SET_PRINT_STATS_INFO CURRENT_LAYER={layer_num}
 Usually already the slicer default, but worth confirming - custom tool
 change gcode should just be:
 
-```{.text .console-output}
+```text
 T[next_extruder]
 ```
 Happy Hare's Moonraker extension rewrites `Tn` lines into
@@ -171,13 +176,13 @@ pre-processes an uploaded gcode file.
   
     === "OrcaSlicer"
     
-          ```ini
+          ```text
           T[next_extruder] SLICER_RETRACTION={old_retract_length} SLICER_FW_RETRACTION={use_firmware_retraction}
           ```
 
     === "PrusaSlicer"
   
-        ```ini
+        ```text
         T[next_extruder] SLICER_RETRACTION=[retract_length] SLICER_FW_RETRACTION={use_firmware_retraction}
         ```  
         !!! note
@@ -186,11 +191,11 @@ pre-processes an uploaded gcode file.
 
     === "Hard coded"
   
-        ```ini
+        ```text
         T[next_extruder] SLICER_RETRACTION=0.6 SLICER_FW_RETRACTION=false
         ``` 
         or when firmware retraction is used:
-        ```{.text .console-output}
+        ```text
         T[next_extruder] SLICER_FW_RETRACTION=true
         ```    
 
@@ -310,7 +315,7 @@ gcode it produces around a toolchange (look for `Tn` lines, or
 run). It should look clean, with no retract/extrude moves before the tool
 change itself:
 
-```text
+```{.text .console-output}
 ;--------------------
 ; CP TOOLCHANGE START
 ; toolchange #1
@@ -333,7 +338,7 @@ SET_PRESSURE_ADVANCE ADVANCE=0.025 SMOOTH_TIME=0.001 EXTRUDER=extruder
 Not like this - the extra retract/extrude lines are the slicer still doing
 it's own tip forming:
 
-```text
+```{.text .console-output}
 ;--------------------
 ; CP TOOLCHANGE START
 ; toolchange #2

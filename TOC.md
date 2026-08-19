@@ -219,11 +219,11 @@ repo root (not under `doc/`) specifically so it's never a candidate for publishi
   renders with NO icon or colour (silently, no build warning) because
   "important" isn't one of them. Use `!!! warning "Important"` to get a
   styled callout with the original label preserved.
-- **Code blocks are colourised** (added 2026-08-06) via `codehilite`, not
-  Material's normal `pymdownx.highlight` recipe — see **Zensical rough
-  edges** below, this was a deliberate workaround for the same
-  non-determinism bug already known from Mermaid, newly found to affect
-  plain syntax highlighting too. Practical effect for page-writing: fence
+- **Code blocks are colourised** (added 2026-08-06) with SuperFences emitting
+  `codehilite` wrappers, plus the base `codehilite` extension for traditional
+  indented blocks. The site deliberately does not use Material's normal
+  `pymdownx.highlight` wrappers; see **Zensical rough edges** below. Practical
+  effect for page-writing: fence
   `.cfg`-style config examples with `` ```ini `` and gcode command
   examples/lists with `` ```text `` (confirmed 2026-08-13 against every real
   Feature page already on the site — an earlier note here said ` ```yaml `
@@ -232,7 +232,17 @@ repo root (not under `doc/`) specifically so it's never a candidate for publishi
   you'd type, but what comes back), add the `console-output` class -
   `` ```{.text .console-output} `` - which `extra.css` renders in a distinct
   terminal-green instead of the default text colour, so real output reads
-  differently at a glance from a command example or a `.cfg` block.
+  differently at a glance from a command example or a `.cfg` block. To join a
+  command and its returned output into one visual container while preserving
+  those colours, put `` ```{.text .console-command} `` immediately before the
+  `console-output` fence; the stylesheet joins their touching edges.
+  `pymdownx.superfences` is the sole backtick-fence processor so fences work
+  inside admonitions, lists, and tabs. Do not also enable `fenced_code`: both
+  extensions register the same internal processor name and SuperFences does
+  not support loading them together. SuperFences' `css_class` is pinned to
+  `codehilite`; the separate `codehilite` extension remains enabled for
+  traditional indented/`:::lang` blocks, and `extra.css` also styles
+  `.highlight` defensively for stale generated HTML.
 - **"Macros" is its own top-level nav section** (added 2026-08-08, item 51),
   distinct from "Advanced Customization" — the latter is the expert-level
   internal-logic-replacement mechanism (`Custom-Load-Unload-Sequences.md`),
@@ -511,24 +521,19 @@ noted on `Reference-Macro-Vars.md` itself; not a gap in this table.
   `` `a` \| `b` ``. Bit twice this session (`Reference-Printer-Variables.md`, then
   `Dev-Simulator.md`) before the pattern stuck; grep any new page for `` \| ``
   before considering it done.
-- **The incremental-build flakiness is in `pymdownx.superfences`'s custom-fence
-  machinery generally, not specific to Mermaid.** Tested directly (2026-08-06,
-  while trying to get colourised code blocks for `Feature-Espooler.md`):
-  enabling `pymdownx.highlight` + `pymdownx.superfences` (Material's normal
-  syntax-highlighting recipe, no Mermaid/custom-fence config involved at all)
-  reproduced the identical bug on ordinary language fences — 2 of 4 clean
-  rebuilds silently rendered with zero highlighting, same failure signature as
-  the Mermaid case above. The base `codehilite` extension (Python-Markdown's
-  original highlighter, not part of superfences) was deterministic across 6/6
-  clean rebuilds in the same test. Fix in use: `codehilite` +
-  `doc/assets/stylesheets/extra.css` re-pointing its Pygments token classes at
-  Material's own `--md-code-hl-*-color` variables (Material's shipped CSS only
-  styles `pymdownx.highlight`'s `<div class="highlight">`, not codehilite's
-  `<div class="codehilite">`) — see the CSS file's own comment for how to
-  regenerate the mapping if Pygments' class names or Material's variable names
-  ever change. **Rule of thumb going forward: avoid `pymdownx.superfences` for
-  anything**, not just Mermaid, until a Zensical release specifically claims to
-  have fixed the underlying cache bug.
+- **SuperFences and Python-Markdown's `fenced_code` must not be enabled
+  together.** The earlier 2026-08-06 investigation attributed inconsistent
+  ordinary-fence output to SuperFences itself. Rechecking on 2026-08-19 found
+  that the configuration loaded both extensions, which compete for the same
+  internal `fenced_code_block` processor registration and are explicitly not
+  supported together. SuperFences is now the sole backtick-fence processor,
+  with `css_class: codehilite`; six consecutive clean builds produced identical
+  `Slicer-Setup.md` HTML, including fences nested in admonitions and tabs. The
+  base `codehilite` extension remains for traditional indented blocks, and
+  `doc/assets/stylesheets/extra.css` maps its Pygments token classes to
+  Material's `--md-code-hl-*-color` variables. This does not overturn the
+  separate Mermaid custom-fence warning above: do not add a SuperFences Mermaid
+  custom fence without retesting that route specifically.
 - None of the above is likely specific to this repo — worth re-checking against
   a newer Zensical release before assuming they still apply.
 

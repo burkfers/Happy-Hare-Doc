@@ -19,7 +19,7 @@ Before opening a pull request, verify:
 - Page appears in [mkdocs.yml](../mkdocs.yml) nav.
 - No `[TOC]` marker is present.
 - Admonitions use `!!!` syntax.
-- Config examples use `yaml` code fences.
+- Config examples use `ini` code fences.
 - New screenshots are readable and centered where needed.
 - Page ends with a single `---` line.
 
@@ -123,13 +123,16 @@ Example:
 
 Use fenced code blocks with explicit language.
 
-- Use `yaml` for config examples (including cfg-like snippets).
-- Use `bash` for commands.
-- Use plain `text` only for raw output.
+- Use `ini` for config examples (including cfg-like snippets).
+- Use `bash` for commands genuinely entered in a Linux shell, such as cd, git, make, or installer commands.
+- Use `text` for G-code, Happy Hare commands, general command lists, and unclassified plain text.
+- Use `{.text .console-output}` for output returned by the printer. To join a
+  command and its output visually, mark the command `{.text .console-command}`
+  and put its `console-output` fence immediately afterward.
 
 Examples:
 
-```yaml
+```ini
 # mmu_parameters.cfg
 toolhead_post_load_tighten: 60
 extruder_homing_max: 50
@@ -137,8 +140,17 @@ extruder_homing_max: 50
 
 ```bash
 make docs
-make docs_build
-make docs_preview
+cd ~/Happy-Hare && ./install.sh -z -t -i
+```
+
+```{.text .console-command}
+MMU_SLICER_TOOL_MAP PURGE_MAP=1
+```
+
+```{.text .console-output}
+-------- Slicer MMU Tool Summary ---------
+2 color print (Purge volume map loaded)
+T0 (Gate 0, ABS, ff0000, 240°C)
 ```
 
 ## Images and screenshots
