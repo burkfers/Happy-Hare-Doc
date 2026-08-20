@@ -71,7 +71,7 @@ Don't worry about it here.
 <p align="center">
   <img src="GettingStarted-Tradrack/06-root-warnings.png" alt="Root menu after choosing Tradrack - one warning left" width="70%">
 </p>
-
+<br>
 
 ### Board type
 
@@ -83,20 +83,106 @@ TMC drivers throughout the rest of `menuconfig` are derived from whatever contro
 <p align="center">
   <img src="GettingStarted-Tradrack/07-board-type.png" alt="Board type list, BTT MMB v2.0 with CANBus already selected" width="70%">
 </p>
-
-
+<br>
 
 ### MCU connection
-### MMU Features / Additions
+
+++esc++ and back out to the top menu and open **MCU connection**. Tradrack defaults to USB serial, but if your setup uses CANBus, 
+select CAN instead. The installer attempts to auto‑detect USB serial device IDs and CANBus UUIDs where possible for you to choose from. 
+Unfortunately, if Klipper has previously claimed the CANBus device, UUID's can’t be rediscovered easily unless you remove all references
+from your klipper Happy Hare configuration and power cycle the printer.
+
+If you’re unsure of the CANBus UUID's when migrating to v4, you can check your saved `mmu.v3/base/mmu_hardware.cfg` configuration or
+`klippy.log` for the claimed device entries. The installer will then prompt you for your serial device or CANBus UUID, depending
+on the option selected. 
+
+Existing CANBus UUID selections/mapping are retained and not overwritten once saved.
+
+<p align="center">
+  <img src="GettingStarted-Tradrack/08-mcu-connection.png" alt="MCU connection" width="70%">
+</p>
+<br>
+
+In this example, we are switching to CANBus. Open **MCU connection** and select *CANbus*:
+<p align="center">
+  <img src="GettingStarted-Tradrack/08-mcu-connection-canbus.png" alt="MCU connection" width="70%">
+</p>
+<br>
+
+
+A list of discovered CANBus UUIDs is shown. If more than one device is found, select the one that corresponds to your Tradrack
+controller. If only one device is detected, it will be selected automatically.
+If no UUIDs are discovered, choose **Other / manually entered** and enter the correct CANBus UUID manually.
+<p align="center">
+  <img src="GettingStarted-ViViD/08-mcu-connection-canbus-uuids.png" alt="MCU connection" width="70%">
+</p>
+
 ### Pins: gear direction
+
+Select **Pins / TMC**, then **Gear pins**. GPIO Pin defaults are set based on your MCU controller board and Tradrack MMU
+selection. Review all pin settings for **Gear** and **Selector** steppers to make sure they are correct for your build. 
+Gear direction especially is the one setting that is impossible to get right by default or guessing and depends on how 
+the stepper cable is wired.
+
+<p align="center">
+  <img src="GettingStarted-Tradrack/09-gear-pins.png" alt="Gear pins list - one row per gate" width="70%">
+</p>
+<br>
+
+If the stepper spins the wrong way, you can invert it here without rewiring or hand-editing the configuration. 
+Highlight the **Gear dir pin** for the stepper and press Enter to open its editor. If that stepper needs reversing, 
+add a `!` in front of the pin name — Klipper's standard way of inverting a pin's polarity. 
+
+<p align="center">
+  <img src="GettingStarted-Tradrack/09-gear-dir-inverted.png" alt="Gear dir pin editor, showing the default pin" width="70%">
+</p>
+<br>
+
 ### Picking a toolhead
+From the top menu, select **Toolhead**.This step is optional — if you skip it, Happy Hare falls back to generic 
+“Other/Unknown” dimensions, which is a perfectly fine starting point. But if your toolhead (extruder + hotend combo)
+appears in the list, selecting it gives you real, community‑sourced measurements instead of generic estimates. Here
+we’ve chosen **A4T WWBMG for A4T Dragon Ace** to illustrate.
+
+<p align="center">
+  <img src="GettingStarted-Tradrack/10-toolhead-selected.png" alt="Toolhead list, Stealthburner Clockwork2 Revo Voron selected" width="70%">
+</p>
+<br>
+
+++esc++ to backout to the top menu and select **Toolhead sensors/settings**. This is where you can enable other features 
+such as **Toolhead cutter**, **toolhead** and **extruder** sensors if fitted. The community-sourced measurements for
+**Extruder entrance to nozzle** and **Residual filament**, under **Toolhead dimensions**,
+can be reviewed and tuned if necessary. For **A4T WWBMG for A4T Dragon Ace**, the values are`88` and `36.5`.
+
+The other two distances Happy Hare can use (toolhead sensor to nozzle & extruder sensor to entry) only appear when you 
+have enabled them and remain hidden when disabled.
+
+<p align="center">
+  <img src="GettingStarted-Tradrack/10-all-toolhead-dimensions-combined.png" alt="Toolhead dimensions, pre-filled from the selected combo" width="70%">
+</p>
+<br>
+
+This is a shortcut, not a substitute: even with a community-sourced toolhead measurements, it's useful to learn how to 
+measure and calibrate your own eventually, since small build variations and mods add up. But it's a genuinely good 
+starting point. If your exact combo isn't listed, "Other/Unknown" plus manual calibration
+([`MMU_CALIBRATE_TOOLHEAD`](Calibration-Toolhead.md)) is the process to follow.
+
+### MMU Features / Additions
+Optional Tradrack features can be enabled or disabled based on your Tradrack build here. Tradrack is a relatively simple, 
+modular design with a basic set of out-of-the-box features. Popular community authored extensions like Sync-feedback
+buffers (sensors) such as Annex Belay or more recent analog Proportional Sync Feedback sensors, Binky Encoder, etc 
+can be enabled here. 
+<p align="center">
+  <img src="GettingStarted-Tradrack/12-mmu-features.png" alt="MMU features" width="70%">
+</p>
+<br>
+
 ## Validating Hardware Setup
 ## Calibration
 ## Checking Basic Operation
 ## Slicer Setup
 ## Printing with MMU
 ## What Next?
-
 - Install [KlipperScreen (Happy Hare edition)](KlipperScreen.md) if you
   want a touchscreen front end, or drive everything from [Mainsail /
   Fluidd](Mainsail-Fluidd-Integration.md) — either works, and both are
