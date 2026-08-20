@@ -33,34 +33,27 @@ settings file with a backup maintained in `printer_data/config/mmu/.mmu-config` 
 ensure it's included in popular GitHub‑based printer configuration backup mechanisms.
 
 ## Navigation
-
 <div class="grid cards" markdown>
-- 
+-   
     Navigation is intuitive and the same as any other `menuconfig` based interface.
-    <br>
-    <br>
-
+    
     | Key | Purpose |
     | --- | ------- |
-    | ++up-arrow++   | move up |
-    | ++down-arrow++ | move down |
-    | ++enter++or ++space++ | select a menu or option |
-    | ++esc++ | go back to the previous menu |
-    | ++R++   | reset a setting to its default value (if available) |
-    | ++Q++   | quit and selectively save changes and update printer configuration  |
-    
+    | **↑**   | move up |
+    | **↓**   | move down |
+    | **Enter** or **Space** | select a menu or option |
+    | **Esc** | go back to the previous menu |
+    | **R**   | reset a setting to its default value<br> (if available) |
+    | **Q**   | quit and selectively save changes<br>and update printer configuration  |
+
     The top-down flow guides you through the process in a logical, step by step manner. 
     Depending on the MMU and selections you make, additional sub-menus and settings
     will appear, enabling you to configure relevant settings for your MMU.
 
+-   
+   <img src="GettingStarted-Installer-Configurator/GettingStarted-Installer-Configurator.png" align=left width="600px">
     Any non modifiable settings that have been enabled based on your MMU design or due 
     to prior selection will be indicated with <br> `-*-` rather than `[ ]`   e.g. `-*- Has LEDs? (FIXED)`
-
-    **Config Warnings / Errors** are highlighted for you to review and correct before saving
-    and applying updates to your configuration.
-- 
-  <img src="GettingStarted-Installer-Configurator/GettingStarted-Installer-Configurator.png" alt="Menuconfig installer and configurator" align=right width="800px">
-      
 </div>
 
 ## Navigation
