@@ -225,15 +225,4 @@ extra:
 4. Run local preview.
 5. Confirm nav placement and section anchors.
 
-++ctrl+alt+del++ <br>
-++esc++
-++enter++
-++arrow-up++
-++arrow-down++
-++up++
-++down++
-++backspace++
-++del++
-++ins++
-
 ---
