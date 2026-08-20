@@ -13,6 +13,7 @@ two separate controller boards, not one.
 From your Happy-Hare checkout:
 
 ```bash
+cd ~/Happy-Hare
 ./install.sh
 ```
 
@@ -178,6 +179,7 @@ run. After that, running `./install.sh` again just upgrades in place - it
 won't reopen the menu. To go back in and change something, use:
 
 ```bash
+cd ~/Happy-Hare
 ./install.sh -i
 ```
 

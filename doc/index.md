@@ -19,7 +19,7 @@ Klipper, Mainsail, Fluidd, Klipperscreen and other ecosystems. It is super
 flexible and now even easier to install and setup.
 
 <p align="center">
-  <img src="index/universal_mmu_driver.jpg" alt="Happy Hare driving several different MMUs through Mainsail, Fluidd, KlipperScreen and the console" width="100%">
+  <img src="index/universal_mmu_driver.png" alt="Happy Hare driving several different MMUs through Mainsail, Fluidd, KlipperScreen and the console" width="100%">
 </p>
 
 ## What it drives
@@ -37,30 +37,48 @@ and Fluidd Happy Hare panel - both are shown above.
 
 ## What it does
 
-Here’s a quick rundown of what’s included in Happy Hare. Once you’re ready to dive
-deeper, you can find more detailed information on each feature page:
+Happy Hare brings the MMU, printer, slicer, spool inventory and user interface
+together as one system:
 
-- [Tool-to-gate mapping](Feature-Gate-TTG-Maps.md), so any physical spool
-  can be assigned to any tool.
-- [EndlessSpool & runout detection](Feature-Endless-Spool-Runout.md) - a
-  depleted gate hands off to a spare automatically, mid-print.
-- [Spoolman integration](Feature-Spoolman.md) for tracking usage, weight and
-  attributes for your entire spool collection.
-- [NFC/RFID reading](Feature-NFC.md) so gates automatically identify their spool
-  by tag instead of manually by hand.
-- [Encoder-based](Feature-Encoder.md) movement validation, clog detection and
-  flow-rate verification.
-- [Sync-feedback](Feature-Sync-Feedback-Buffer.md) control to keep the gear
-  and extruder steppers working together instead of fighting each other and for
-  loading to extruders without toolhead or entry sensors.
-- [Motorized eSpooler](Feature-Espooler.md) support for active rewind and
-  print-time assist.
-- [LED support](Feature-LEDs.md) for at-a-glance gate status.
-- [Environment Manager](Feature-Environment-Manager.md) for turning an enclosed MMU into a filament dryer.
-- A `menuconfig`-driven installer, so setup is a guided series of choices
-  rather than hand-editing config files from scratch.
-- Moonraker update-manager integration, so it updates like any other Klipper
-  plugin.
+- **Automated filament changing** from gate selection and preloading through
+  load, unload, eject and complete toolchanges, with a
+  [filament bypass](Feature-Filament-Bypass.md) for ad hoc single-spool printing.
+- **Flexible multi-MMU control** for [selector and gear-per-gate designs](Conceptual-MMU.md),
+  including independent units, dissimilar hardware and multiple toolheads on
+  the same printer.
+- **Guided [calibration](Calibration.md) and
+  [hardware validation](Hardware-Validation.md)** for selectors, drive gears,
+  encoders, bowden paths, toolheads, motors and sensors.
+- **[Gate, slicer and tool-to-gate maps](Feature-Gate-TTG-Maps.md)** that track
+  every filament and remap any slicer tool to any physical spool, backed by
+  upload-time [G-code preprocessing](Feature-Gcode-Preprocessing.md).
+- **Runout, clog and tangle protection** using
+  [filament-path sensors](Feature-Sensors.md), [encoders](Feature-Encoder.md)
+  and [FlowGuard](Feature-FlowGuard.md), with automatic
+  [EndlessSpool handoff](Feature-Endless-Spool-Runout.md) to a replacement spool.
+- **Quality-focused filament movement** with synchronized gear/extruder control,
+  [sync-feedback buffers](Feature-Sync-Feedback-Buffer.md), encoder flow
+  verification, [tip forming or cutting and smart purging](Feature-Tip-Forming-Purging.md),
+  and [guided cold pulls](Feature-Cold-Pull.md).
+- **Spool intelligence** including material, color, temperature and availability,
+  full [Spoolman/Filament Hub integration](Feature-Spoolman.md), and beta
+  [NFC/RFID tag reading](Feature-NFC.md) for automatic spool identification.
+- **Active spool and enclosure hardware** with
+  [eSpooler rewind and assist](Feature-Espooler.md),
+  [functional LEDs](Feature-LEDs.md), [physical eject buttons](Feature-Eject-Buttons.md),
+  [temperature-controlled fans](Feature-Fan-Control.md) and
+  [managed filament drying](Feature-Environment-Manager.md).
+- **Persistent state and deep diagnostics** including
+  [calibration and map recovery](Feature-State-Persistence.md),
+  [toolchange statistics and maintenance counters](Feature-Statistics-Counters.md),
+  dedicated logging, built-in help, hardware tests and soak testing.
+- **Complete UI control** through native MMU panels in Mainsail and Fluidd,
+  plus the dedicated
+  [KlipperScreen Happy Hare extension](https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition)
+  for touchscreen operation.
+- **[Macro-level customization](Macro-Customization.md)** for parking,
+  pause/recovery, [load/unload sequences](Custom-Load-Unload-Sequences.md),
+  print lifecycle hooks and other printer-specific behavior.
 
 <p align="center">
   <img src="index/example_mmu_print.jpg" alt="Three small multi-color 3D prints - a penguin, an astronaut, and a sheep - each printed in several filament colors" width="70%">
@@ -249,4 +267,3 @@ context and a faster answer:
 </div>
 
 ---
-

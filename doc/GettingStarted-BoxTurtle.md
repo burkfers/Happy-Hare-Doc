@@ -11,6 +11,7 @@ a Box Turtle installed and talking to Klipper.
 From your Happy-Hare checkout:
 
 ```bash
+cd ~/Happy-Hare
 ./install.sh
 ```
 
@@ -229,6 +230,7 @@ After that, running `./install.sh` again just upgrades in place — it won't reo
 the menu. To go back in and change something, use:
 
 ```bash
+cd ~/Happy-Hare
 ./install.sh -i
 ```
 
@@ -263,7 +265,7 @@ way it spins depends entirely on how its motor cable happens to be
 plugged in. Check each one — feed a scrap of filament in by hand first
 so you can see which way it moves:
 
-```{.text .console-output}
+```text
 MMU_SELECT GATE=0
 MMU_TEST_MOVE MOVE=50
 ```
@@ -313,7 +315,7 @@ rather than second-guessing the mechanism.
 **eSpooler.** With filament at the gate, confirm the motor spins the right
 way for both directions:
 
-```{.text .console-output}
+```text
 MMU_ESPOOLER GATE=0 BURST=1 OPERATION=rewind
 MMU_ESPOOLER GATE=0 BURST=1 OPERATION=assist
 ```
@@ -331,7 +333,7 @@ buffer this guide assumes), so there's nothing to run by hand for that.
 The one step worth doing anyway is calibrating each gate/lane's gear
 stepper for an accurate `rotation_distance`:
 
-```{.text .console-output}
+```text
 MMU_CALIBRATE_GEAR MEASURED=102.5
 ```
 
@@ -347,7 +349,7 @@ Rotation Distance](Calibration-Gear.md) for the complete procedure.
 Outside of a print, confirm the basics work end to end on a gate you've
 already validated above:
 
-```{.text .console-output}
+```text
 MMU_SELECT GATE=0
 MMU_LOAD
 MMU_UNLOAD
