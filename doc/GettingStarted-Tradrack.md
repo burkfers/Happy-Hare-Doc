@@ -29,7 +29,7 @@ most of these clear themselves.
 ### Choosing the MMU type
 
 Highlight **MMU Type** and press Enter. Move down to **Tradrack** and press ++space++ to select it. Once selected `(X) Tradrack`, four new 
-options appear indented underneath — **Number of gates/lanes**, **Selector servo type**, **Project Options*** and **Design attributes** — options
+options appear indented underneath — **Number of gates/lanes**, **Selector servo type**, **Project Options** and **Design attributes** — options
 that only make sense once Happy Hare knows this is a Tradrack. Other settings and options are also enabled based on the MMU design choice. 
 <br>
 
