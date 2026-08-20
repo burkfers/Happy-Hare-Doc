@@ -45,7 +45,7 @@ own config submenu once switched on.
 | `i2c bus type` | Hardware i2c (recommended) or software i2c |
 | `Sensor type` | AHT1X / AHT2X / AHT3X (humidity + temperature) or BME280 (humidity + temperature + pressure) |
 | `i2c bus name` | Which hardware i2c bus to use, if hardware i2c is selected |
-| `i2c address` | Defaults to `56` (`0x38`) for AHT sensors, `119` (`0x77`) for BME280 |
+| `i2c address` | Defaults to `56` (`0x38`) for AHT sensors, `118` (`0x76`) for BME280 |
 | SCL/SDA pins | Only shown for software i2c |
 
 Produces, inside the unit's `[mmu_unit ...]` section in `mmu_hardware.cfg`:
