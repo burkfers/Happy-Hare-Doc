@@ -85,6 +85,10 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_generator: !!python/name:zensical.extensions.emoji.to_svg
       emoji_index: !!python/name:zensical.extensions.emoji.twemoji
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
   # SuperFences is the sole backtick-fence processor; do not also enable Python-
   # Markdown's fenced_code, because both register the same internal processor name
   # and SuperFences explicitly does not support loading them together. SuperFences
