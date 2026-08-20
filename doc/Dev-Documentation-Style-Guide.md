@@ -225,12 +225,15 @@ extra:
 4. Run local preview.
 5. Confirm nav placement and section anchors.
 
-<br>
-
-- ==This was marked (highlight)==
-- ^^This was inserted (underline)^^
-- ~~This was deleted (strikethrough)~~
-- H~2~O
-- A^T^A
+++ctrl+alt+del++ <br>
+++esc++
+++enter++
+++arrow-up++
+++arrow-down++
+++up++
+++down++
+++backspace++
+++del++
+++ins++
 
 ---
