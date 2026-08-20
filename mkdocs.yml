@@ -39,7 +39,6 @@ theme:
     - navigation.tracking
     - content.code.copy
     - search.suggest
-
 extra_css:
   - assets/stylesheets/extra.css
 
