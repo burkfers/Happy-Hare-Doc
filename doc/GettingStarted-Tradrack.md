@@ -23,11 +23,11 @@ drops you straight into the interactive `menuconfig` mode — no separate `-i` f
 <br>
 
 This is the installer's default state: `MMU Type` is `Custom Design`, the board is unknown, and the
-**CONFIG WARNINGS / ERRORS** panel at the bottom lists exactly that — four things still need a decision. 
+**`CONFIG WARNINGS / ERRORS`** panel at the bottom lists exactly that — four things still need a decision. 
 As soon as you pick a real MMU type, most of these clear themselves.
 
 ### Choosing the MMU type
-Highlight ** `MMU Type`** and press Enter. Move down to **Tradrack** and press ++space++ to select it. Once selected
+Highlight **`MMU Type`** and press Enter. Move down to **`Tradrack`** and press ++space++ to select it. Once selected
 `(X) Tradrack`, four new options appear indented underneath — **`Number of gates/lanes`**, **`Selector servo type`**,
  **`Project Options`** and **`Design attributes`** — options that only make sense once Happy Hare knows this is a 
  Tradrack. Other settings and options are also enabled based on the MMU design choice. 
@@ -136,9 +136,9 @@ add a `!` in front of the pin name — Klipper's standard way of inverting a pin
 Happy Hare requires one viable gate sensor — either a switch or an encoder. Most Tradrack builds use a single 
 shared exit (gate) sensor to detect filament presence, and this is all Happy Hare needs for a basic setup. If your 
 Tradrack uses a Binky Encoder, you may not have installed this sensor and can disable it by switching the **`Gate
-homing endstop`** to **Encoder Movement** in the **Endstops and Bowden movement** menu. Even with a Binky encoder, 
+homing endstop`** to **`Encoder Movement`** in the **`Endstops and Bowden movement`** menu. Even with a Binky encoder, 
 the gate sensor is still highly recommended, as it reacts much faster and significantly speeds up load and unload
-operations.
+operations when set as the **`Gate homing endstop`**.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/11-Endstops.png" alt="Endstops" width="70%">
@@ -151,7 +151,7 @@ From the top menu, select **Toolhead**. This step is optional — if you skip it
 of generic estimates. Here we’ve chosen **`A4T WWBMG for A4T Dragon Ace`** to illustrate.
 
 <p align="center">
-  <img src="GettingStarted-Tradrack/10-toolhead-selected.png" alt="Toolhead list, Stealthburner Clockwork2 Revo Voron selected" width="70%">
+  <img src="GettingStarted-Tradrack/10-toolhead-selected.png" alt="Toolhead list, A4T WWBMG for A4T Dragon Ace selected" width="70%">
 </p>
 <br>
 
@@ -160,7 +160,7 @@ such as **`Toolhead cutter`**, **`toolhead`** and **`extruder`** sensors if fitt
 **`Extruder entrance to nozzle`** and **`Residual filament`**, under **`Toolhead dimensions`**,
 can be reviewed and tuned if necessary. For **`A4T WWBMG for A4T Dragon Ace`**, the values are`88` and `36.5`.
 
-The other two distances Happy Hare can use (`Toolhead sensor to nozzle` & `Extruder sensor to entry`) only appear when you 
+The other two distances Happy Hare can use (**`Toolhead sensor to nozzle`** & **`Extruder sensor to entry`**) only appear when you
 have enabled them and remain hidden when disabled.
 
 <p align="center">
@@ -176,7 +176,7 @@ starting point. If your exact combo isn't listed, **`Other/Unknown`** plus manua
 ### MMU Features / Additions
 Optional Tradrack features can be enabled or disabled based on your Tradrack build here. Tradrack is a relatively simple, 
 modular design with a basic set of out-of-the-box features. Popular community authored extensions like Sync-feedback
-buffers (sensors) such as Annex Belay or more recent analog Proportional Sync Feedback sensors, Binky Encoder, etc 
+buffers (sensors) such as Annex Belay or more recent analog Proportional Sync Feedback sensors, Encoder, etc 
 can be enabled here. 
 <p align="center">
   <img src="GettingStarted-Tradrack/12-mmu-features.png" alt="MMU features" width="70%">
@@ -194,8 +194,7 @@ can be enabled here.
   covered.
 - From here, explore the rest of this site's [Features](Feature-Espooler.md)
   section one page at a time as you actually need them — Spoolman
-  integration, NFC/RFID tags, EndlessSpool, and the rest. Trying to absorb
-  all of it before your first print is the fastest way to feel
-  overwhelmed by an MMU that, day to day, mostly just works.
+  integration, Toolhead cutter, **`Blobifier`**, Shared NFC/RFID reader, EndlessSpool, and the rest. Trying to absorb
+  all of it before your first print is the fastest way to feel overwhelmed by an MMU that, day to day, mostly just works.
 
 ---
