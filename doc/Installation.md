@@ -176,6 +176,7 @@ default locations and likely miss your actual install.
 
 - [Getting Started with Box Turtle](GettingStarted-BoxTurtle.md)
 - [Getting Started with BTT ViViD](GettingStarted-ViViD.md)
+- [Getting Started with EMU](GettingStarted-EMU.md)
 - [Getting Started with ERCF](GettingStarted-ERCF.md)
 - [Getting Started with Tradrack](GettingStarted-Tradrack.md)
 - [Operation](Operation.md) - what happens when the MMU pauses, and how to

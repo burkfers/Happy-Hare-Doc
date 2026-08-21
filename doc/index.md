@@ -174,6 +174,7 @@ context and a faster answer:
     scratch, `menuconfig` screen by screen.
 
     [Box Turtle guide &rarr;](GettingStarted-BoxTurtle.md) <br>
+    [EMU guide &rarr;](GettingStarted-EMU.md) <br>
     [ERCF guide &rarr;](GettingStarted-ERCF.md) <br>
     [Tradrack guide &rarr;](GettingStarted-Tradrack.md) <br>
     [ViViD guide &rarr;](GettingStarted-ViViD.md)
