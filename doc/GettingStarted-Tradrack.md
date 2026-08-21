@@ -131,11 +131,12 @@ add a `!` in front of the pin name — Klipper's standard way of inverting a pin
 </p>
 <br>
 
-### Shared Entry Sensor (Gate Sensor)
-Most Tradrack builds use a single shared entry (gate) sensor to detect filament presence, and this is the only sensor 
+### Shared Exit Sensor (Gate Sensor)
+Most Tradrack builds use a single shared exit (gate) sensor to detect filament presence, and this is the only sensor 
 Happy Hare needs for a basic setup. If your Tradrack uses a Binky Encoder, you may not have installed this sensor and
-can disable it in the Endstops and Bowden movement menu. Even with a Binky encoder, the gate sensor is still recommended
-— it reacts faster than an encoder to accelerate load and unload operations.
+can disable by switching the **Gate homing endstop** to *Encoder Movement** in the **Endstops and Bowden movement** menu. 
+Even with a Binky encoder, the gate sensor is still recommended as it reacts much faster than an encoder to accelerate
+load and unload operations.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/11-Endstops.png" alt="Endstops" width="70%">
