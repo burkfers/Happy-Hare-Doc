@@ -160,7 +160,7 @@ such as **`Toolhead cutter`**, **`toolhead`** and **`extruder`** sensors if fitt
 **`Extruder entrance to nozzle`** and **`Residual filament`**, under **`Toolhead dimensions`**,
 can be reviewed and tuned if necessary. For **`A4T WWBMG for A4T Dragon Ace`**, the values are`88` and `36.5`.
 
-The other two distances Happy Hare can use (toolhead sensor to nozzle & extruder sensor to entry) only appear when you 
+The other two distances Happy Hare can use (`Toolhead sensor to nozzle` & `Extruder sensor to entry`) only appear when you 
 have enabled them and remain hidden when disabled.
 
 <p align="center">
