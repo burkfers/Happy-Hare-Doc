@@ -1,10 +1,11 @@
 # Getting Started with Tradrack
 
-This page walks through the first `menuconfig` pass for a Tradrack MMU — the
-screens you'll see, in the order you'll see them, and the handful of choices worth
-pausing on. It's the first of a set of getting-started pages; other pages cover
-toolhead calibration and multi-unit setups in more depth. Here we're just getting
-a Tradrack installed and talking to Klipper.
+This walks through the initial `menuconfig pass` for a Tradrack MMU — the screens you’ll see, in the order you’ll 
+see them, and the few choices worth pausing on. Tradrack is deceptively simple: it relies on a single shared gate
+(entry) sensor and forgoes pregate sensors or LED extras, focusing instead on fast, reliable filament handling
+rather than bling. Other sections cover toolhead calibration and multi‑unit setups. Here the goal is simply to 
+get a Tradrack installed and up and running with Klipper.
+
 
 ## Menuconfig Installer
 
@@ -14,18 +15,19 @@ From your Happy-Hare checkout:
 ./install.sh
 ```
 
-The very first time you run this, there's no `.mmu_config` yet, so the installer
-drops you straight into `menuconfig` — no separate flag needed.
+If this is the very first time you've run `./install.sh`, there's no `.mmu_config` yet, so the installer
+drops you straight into the interactive `menuconfig`.  — no separate `-i` flag needed.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/01-first-run.png" alt="First run: nothing configured yet" width="70%">
 </p>
+<br>
 
-This is the installer's default state: `MMU Type` is `Custom Design`, the board is
-unknown, and the **CONFIG WARNINGS / ERRORS** panel at the bottom lists exactly
-that — four things still need a decision. As soon as you pick a real MMU type,
-most of these clear themselves.
+This is the installer's default state: `MMU Type` is `Custom Design`, the board is unknown, and the
+**CONFIG WARNINGS / ERRORS** panel at the bottom lists exactly that — four things still need a decision. 
+As soon as you pick a real MMU type, most of these clear themselves.
 
+<br>
 ### Choosing the MMU type
 
 Highlight **MMU Type** and press Enter. Move down to **Tradrack** and press ++space++ to select it. Once selected `(X) Tradrack`, four new 
@@ -108,7 +110,6 @@ In this example, we are switching to CANBus. Open **MCU connection** and select 
   <img src="GettingStarted-Tradrack/08-mcu-connection-canbus.png" alt="MCU connection" width="70%">
 </p>
 <br>
-
 
 A list of discovered CANBus UUIDs is shown. If more than one device is found, select the one that corresponds to your Tradrack
 controller. If only one device is detected, it will be selected automatically.
