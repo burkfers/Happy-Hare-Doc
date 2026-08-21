@@ -1,4 +1,4 @@
-# Getting Started - Menuconfig Configurator / Installer
+# Getting Started - Menuconfig Installer / Configurator
 
 The Happy Hare v4 Installer and Configurator is a dynamic, `menuconfig` based 
 configuration management system designed to streamline both initial installation
@@ -47,12 +47,13 @@ Navigation is intuitive and the same as any other `menuconfig` based interface.
 | **R**   | reset a setting to its default value (if available) |
 | **Q**   | quit and selectively save changes and update printer configuration  |
 
-The top-down flow guides you through the process in a logical, step by step manner. 
+The top-down flow guides you through the process in a logical, step by step manner.
 Depending on the MMU and selections you make, additional sub-menus and settings
 will appear, enabling you to configure relevant settings for your MMU.
 
-Any non modifiable settings that have been enabled based on your MMU design or due 
-to prior selection will be indicated with <br> `-*-` rather than `[ ]`   e.g. `-*- Has LEDs? (FIXED)`
+Any non modifiable settings that have been enabled based on your MMU design or due
+to prior selection will be preselected with <br> `-*-` and will include the `(FIXED)`
+designation  e.g. `-*- Has LEDs? (FIXED)`
 
 **Config Warnings / Errors** are highlighted for you to review and correct before saving
 and applying updates to your configuration.
