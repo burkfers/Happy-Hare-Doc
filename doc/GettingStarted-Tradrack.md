@@ -8,8 +8,7 @@ get a Tradrack installed and up and running with Klipper.
 
 
 ## Menuconfig Installer
-
-From your Happy-Hare checkout:
+From your Happy-Hare checkout/directory:
 
 ```bash
 ./install.sh
@@ -27,9 +26,7 @@ This is the installer's default state: `MMU Type` is `Custom Design`, the board 
 **CONFIG WARNINGS / ERRORS** panel at the bottom lists exactly that — four things still need a decision. 
 As soon as you pick a real MMU type, most of these clear themselves.
 
-<br>
 ### Choosing the MMU type
-
 Highlight **MMU Type** and press Enter. Move down to **Tradrack** and press ++space++ to select it. Once selected `(X) Tradrack`, four new 
 options appear indented underneath — **Number of gates/lanes**, **Selector servo type**, **Project Options** and **Design attributes** — options
 that only make sense once Happy Hare knows this is a Tradrack. Other settings and options are also enabled based on the MMU design choice. 
@@ -73,10 +70,8 @@ Don't worry about it here.
 <p align="center">
   <img src="GettingStarted-Tradrack/06-root-warnings.png" alt="Root menu after choosing Tradrack - one warning left" width="70%">
 </p>
-<br>
 
 ### Board type
-
 Enter **Controller Board type**. Because you’ve already told the configurator this is a Tradrack, Happy Hare pre‑selects 
 `Mellow EASY-BRD v1.x with CANbus` — a popular controller choice for Tradrack builds. If your Tradrack runs a different
 board like an original or RP2040 based `EASY-BRD`, this is where you’d choose it; default pins for steppers, sensors, and
@@ -85,10 +80,8 @@ TMC drivers throughout the rest of `menuconfig` are derived from whatever contro
 <p align="center">
   <img src="GettingStarted-Tradrack/07-board-type.png" alt="Board type list, BTT MMB v2.0 with CANBus already selected" width="70%">
 </p>
-<br>
 
 ### MCU connection
-
 ++esc++ and back out to the top menu and open **MCU connection**. Tradrack defaults to USB serial, but if your setup uses CANBus, 
 select CAN instead. The installer attempts to auto‑detect USB serial device IDs and CANBus UUIDs where possible for you to choose from. 
 Unfortunately, if Klipper has previously claimed the CANBus device, UUID's can’t be rediscovered easily unless you remove all references
@@ -119,7 +112,6 @@ If no UUIDs are discovered, choose **Other / manually entered** and enter the co
 </p>
 
 ### Pins: gear direction
-
 Select **Pins / TMC**, then **Gear pins**. GPIO Pin defaults are set based on your MCU controller board and Tradrack MMU
 selection. Review all pin settings for **Gear** and **Selector** steppers to make sure they are correct for your build. 
 Gear direction especially is the one setting that is impossible to get right by default or guessing and depends on how 
@@ -138,6 +130,16 @@ add a `!` in front of the pin name — Klipper's standard way of inverting a pin
   <img src="GettingStarted-Tradrack/09-gear-dir-inverted.png" alt="Gear dir pin editor, showing the default pin" width="70%">
 </p>
 <br>
+
+### Shared Entry Sensor (Gate Sensor)
+Most Tradrack builds use a single shared entry (gate) sensor to detect filament presence, and this is the only sensor 
+Happy Hare needs for a basic setup. If your Tradrack uses a Binky Encoder, you may not have installed this sensor and
+can disable it in the Endstops and Bowden movement menu. Even with a Binky encoder, the gate sensor is still recommended
+— it reacts faster than an encoder to accelerate load and unload operations.
+
+<p align="center">
+  <img src="GettingStarted-Tradrack/11-Endstops.png" alt="Endstops" width="70%">
+</p>
 
 ### Picking a toolhead
 From the top menu, select **Toolhead**.This step is optional — if you skip it, Happy Hare falls back to generic 
@@ -176,7 +178,6 @@ can be enabled here.
 <p align="center">
   <img src="GettingStarted-Tradrack/12-mmu-features.png" alt="MMU features" width="70%">
 </p>
-<br>
 
 ## Validating Hardware Setup
 ## Calibration
