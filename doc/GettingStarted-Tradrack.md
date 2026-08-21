@@ -2,7 +2,7 @@
 
 This walks through the initial `menuconfig pass` for a Tradrack MMU — the screens you’ll see, in the order you’ll 
 see them, and the few choices worth pausing on. Tradrack is deceptively simple: it relies on a single shared gate
-(entry) sensor and forgoes pregate sensors or LED extras, focusing instead on fast, reliable filament handling
+(entry) sensor and forgoes pre-gate sensors or LED extras, focusing instead on fast, reliable filament handling
 rather than bling. Other sections cover toolhead calibration and multi‑unit setups. Here the goal is simply to 
 get a Tradrack installed and up and running with Klipper.
 
@@ -15,7 +15,7 @@ From your Happy-Hare checkout/directory:
 ```
 
 If this is the very first time you've run `./install.sh`, there's no `.mmu_config` yet, so the installer
-drops you straight into the interactive `menuconfig`.  — no separate `-i` flag needed.
+drops you straight into the interactive `menuconfig` mode — no separate `-i` flag needed.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/01-first-run.png" alt="First run: nothing configured yet" width="70%">
@@ -27,9 +27,10 @@ This is the installer's default state: `MMU Type` is `Custom Design`, the board 
 As soon as you pick a real MMU type, most of these clear themselves.
 
 ### Choosing the MMU type
-Highlight **MMU Type** and press Enter. Move down to **Tradrack** and press ++space++ to select it. Once selected `(X) Tradrack`, four new 
-options appear indented underneath — **Number of gates/lanes**, **Selector servo type**, **Project Options** and **Design attributes** — options
-that only make sense once Happy Hare knows this is a Tradrack. Other settings and options are also enabled based on the MMU design choice. 
+Highlight ** `MMU Type`** and press Enter. Move down to **Tradrack** and press ++space++ to select it. Once selected
+`(X) Tradrack`, four new options appear indented underneath — **`Number of gates/lanes`**, **`Selector servo type`**,
+ **`Project Options`** and **`Design attributes`** — options that only make sense once Happy Hare knows this is a 
+ Tradrack. Other settings and options are also enabled based on the MMU design choice. 
 <br>
 
 <p align="center">
@@ -37,15 +38,16 @@ that only make sense once Happy Hare knows this is a Tradrack. Other settings an
 </p>
 <br>
 <br>
-Enter **Number of gates/lanes** to match your setup. Tradrack is a modular type-A design with support for as many lanes as you can accommodate
-in your build. The default is 10, but you can change it to any number from 1 to Happy Hare's maximum of 20.
+Enter **`Number of gates/lanes`** to match your setup. Tradrack is a modular type-A design with support for as few or
+as many lanes as you can accommodate in your build. The default is 10, but you can change it to any number from 1 
+to Happy Hare's maximum of 20.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/03-lanes.png" alt="Defaults to 10" width="70%">
 </p>
 <br>
 <br>
-Next select the **Selector servo type**. Common options are provided - `Feetech FT1117M` (default) for people who sourced their servos in 
+Next select the **`Selector servo type`**. Common options are provided - `Feetech FT1117M` (default) for people who sourced their servos in 
 the US, `JX PS-1171MG` Aliexpress alternate and `Not listed` if you have a different servo. Servo settings such as min/max pulse widths, etc
 are managed using `(Top) → Other Settings → Selector servo` options later in the `menuconfig` flow.
 
@@ -61,7 +63,6 @@ Next, review applicable Project Options. If you added an optional Binky encoder,
 </p>
 <br>
 <br>
-
 Back out twice (++esc++, ++esc++) to return to the top menu, and review the warnings panel again. Three of the 
 four warnings are already gone. The one that's left — *"`Toolhead type is 'other'`"* — is exactly what it sounds
 like: Happy Hare still doesn't know your toolhead, and that's covered in a different getting-started page. 
@@ -82,7 +83,7 @@ TMC drivers throughout the rest of `menuconfig` are derived from whatever contro
 </p>
 
 ### MCU connection
-++esc++ and back out to the top menu and open **MCU connection**. Tradrack defaults to USB serial, but if your setup uses CANBus, 
+++esc++ and back out to the top menu and open **`MCU connection`**. Tradrack defaults to USB serial, but if your setup uses CANBus,
 select CAN instead. The installer attempts to auto‑detect USB serial device IDs and CANBus UUIDs where possible for you to choose from. 
 Unfortunately, if Klipper has previously claimed the CANBus device, UUID's can’t be rediscovered easily unless you remove all references
 from your klipper Happy Hare configuration and power cycle the printer.
@@ -98,7 +99,7 @@ Existing CANBus UUID selections/mapping are retained and not overwritten once sa
 </p>
 <br>
 
-In this example, we are switching to CANBus. Open **MCU connection** and select *CANbus*:
+In this example, we are switching to CANBus. Open **`MCU connection`** and select **`CANbus`**:
 <p align="center">
   <img src="GettingStarted-Tradrack/08-mcu-connection-canbus.png" alt="MCU connection" width="70%">
 </p>
@@ -106,16 +107,16 @@ In this example, we are switching to CANBus. Open **MCU connection** and select 
 
 A list of discovered CANBus UUIDs is shown. If more than one device is found, select the one that corresponds to your Tradrack
 controller. If only one device is detected, it will be selected automatically.
-If no UUIDs are discovered, choose **Other / manually entered** and enter the correct CANBus UUID manually.
+If no UUIDs are discovered, choose **`Other / manually entered`** and enter the correct CANBus UUID manually.
 <p align="center">
-  <img src="GettingStarted-ViViD/08-mcu-connection-canbus-uuids.png" alt="MCU connection" width="70%">
+  <img src="GettingStarted-Tradrack/08-mcu-connection-canbus-uuids.png" alt="MCU connection" width="70%">
 </p>
 
 ### Pins: gear direction
-Select **Pins / TMC**, then **Gear pins**. GPIO Pin defaults are set based on your MCU controller board and Tradrack MMU
-selection. Review all pin settings for **Gear** and **Selector** steppers to make sure they are correct for your build. 
-Gear direction especially is the one setting that is impossible to get right by default or guessing and depends on how 
-the stepper cable is wired.
+++esc++ and back out to the top menu and open **`Pins / TMC`**, then **`Gear pins`**. GPIO Pin defaults are set based on 
+your MCU controller board and Tradrack MMU selection. Review all pin settings for **Gear** and **Selector** steppers
+to make sure they are correct for your build. Gear direction especially is the one setting that is impossible to set
+correctly by default or guessing and depends on how the stepper cable is _actually wired_.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/09-gear-pins.png" alt="Gear pins list - one row per gate" width="70%">
@@ -123,7 +124,7 @@ the stepper cable is wired.
 <br>
 
 If the stepper spins the wrong way, you can invert it here without rewiring or hand-editing the configuration. 
-Highlight the **Gear dir pin** for the stepper and press Enter to open its editor. If that stepper needs reversing, 
+Highlight the **`Gear dir pin`** for the stepper and press Enter to open its editor. If that stepper needs reversing, 
 add a `!` in front of the pin name — Klipper's standard way of inverting a pin's polarity. 
 
 <p align="center">
@@ -132,21 +133,22 @@ add a `!` in front of the pin name — Klipper's standard way of inverting a pin
 <br>
 
 ### Shared Exit Sensor (Gate Sensor)
-Happy Hare requires one viable gate sensor — either a switch or a Binky encoder. Most Tradrack builds use a single 
+Happy Hare requires one viable gate sensor — either a switch or an encoder. Most Tradrack builds use a single 
 shared exit (gate) sensor to detect filament presence, and this is all Happy Hare needs for a basic setup. If your 
-Tradrack uses a Binky Encoder, you may not have installed this sensor and can disable it by switching Gate homing 
-endstop to Encoder Movement in the Endstops and Bowden movement menu. Even with a Binky encoder, the gate sensor 
-is still recommended, as it reacts much faster and significantly speeds up load and unload operations.
+Tradrack uses a Binky Encoder, you may not have installed this sensor and can disable it by switching the **`Gate
+homing endstop`** to **Encoder Movement** in the **Endstops and Bowden movement** menu. Even with a Binky encoder, 
+the gate sensor is still highly recommended, as it reacts much faster and significantly speeds up load and unload
+operations.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/11-Endstops.png" alt="Endstops" width="70%">
 </p>
 
 ### Picking a toolhead
-From the top menu, select **Toolhead**.This step is optional — if you skip it, Happy Hare falls back to generic 
-“Other/Unknown” dimensions, which is a perfectly fine starting point. But if your toolhead (extruder + hotend combo)
-appears in the list, selecting it gives you real, community‑sourced measurements instead of generic estimates. Here
-we’ve chosen **A4T WWBMG for A4T Dragon Ace** to illustrate.
+From the top menu, select **Toolhead**. This step is optional — if you skip it, Happy Hare falls back to generic 
+**`Other/Unknown`** default  dimensions, which is a perfectly fine starting point. But if your toolhead 
+(extruder + hotend combo) appears in the list, selecting it gives you real, community‑sourced measurements instead
+of generic estimates. Here we’ve chosen **`A4T WWBMG for A4T Dragon Ace`** to illustrate.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/10-toolhead-selected.png" alt="Toolhead list, Stealthburner Clockwork2 Revo Voron selected" width="70%">
@@ -154,9 +156,9 @@ we’ve chosen **A4T WWBMG for A4T Dragon Ace** to illustrate.
 <br>
 
 ++esc++ to backout to the top menu and select **Toolhead sensors/settings**. This is where you can enable other features 
-such as **Toolhead cutter**, **toolhead** and **extruder** sensors if fitted. The community-sourced measurements for
-**Extruder entrance to nozzle** and **Residual filament**, under **Toolhead dimensions**,
-can be reviewed and tuned if necessary. For **A4T WWBMG for A4T Dragon Ace**, the values are`88` and `36.5`.
+such as **`Toolhead cutter`**, **`toolhead`** and **`extruder`** sensors if fitted. The community-sourced measurements for
+**`Extruder entrance to nozzle`** and **`Residual filament`**, under **`Toolhead dimensions`**,
+can be reviewed and tuned if necessary. For **`A4T WWBMG for A4T Dragon Ace`**, the values are`88` and `36.5`.
 
 The other two distances Happy Hare can use (toolhead sensor to nozzle & extruder sensor to entry) only appear when you 
 have enabled them and remain hidden when disabled.
@@ -166,9 +168,9 @@ have enabled them and remain hidden when disabled.
 </p>
 <br>
 
-This is a shortcut, not a substitute: even with a community-sourced toolhead measurements, it's useful to learn how to 
+This is a shortcut, not a substitute: even with community-sourced toolhead measurements, it's useful to learn how to 
 measure and calibrate your own eventually, since small build variations and mods add up. But it's a genuinely good 
-starting point. If your exact combo isn't listed, "Other/Unknown" plus manual calibration
+starting point. If your exact combo isn't listed, **`Other/Unknown`** plus manual calibration
 ([`MMU_CALIBRATE_TOOLHEAD`](Calibration-Toolhead.md)) is the process to follow.
 
 ### MMU Features / Additions
