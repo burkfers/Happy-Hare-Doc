@@ -47,6 +47,46 @@ function syncPageNavToContent() {
 
 var backToTopButton = null;
 
+// Keep the primary sidebar tidy by treating its top-level sections as an
+// accordion. Zensical renders each expandable section as a checkbox followed
+// by its nested nav, so leave its normal click/keyboard handling in charge and
+// only close checked siblings after a section has been opened. The listener is
+// delegated from document because navigation.instant can replace the sidebar
+// without reloading this script.
+document.addEventListener("change", function (event) {
+  var opened = event.target;
+  if (
+    !opened.matches ||
+    !opened.matches(".md-sidebar--primary .md-nav__toggle") ||
+    !opened.checked
+  ) {
+    return;
+  }
+
+  var item = opened.parentElement;
+  var list = item && item.parentElement;
+  var nav = list && list.parentElement;
+  if (
+    !item ||
+    !item.classList.contains("md-nav__item--nested") ||
+    !nav ||
+    !nav.matches("nav.md-nav[data-md-level='0']")
+  ) {
+    return;
+  }
+
+  Array.prototype.forEach.call(list.children, function (siblingItem) {
+    if (siblingItem === item) return;
+
+    var siblingToggle = siblingItem.querySelector(":scope > .md-nav__toggle");
+    if (!siblingToggle || !siblingToggle.checked) return;
+
+    siblingToggle.checked = false;
+    var siblingNav = siblingItem.querySelector(":scope > nav.md-nav");
+    if (siblingNav) siblingNav.setAttribute("aria-expanded", "false");
+  });
+});
+
 function updateBackToTopVisibility() {
   if (!backToTopButton) return;
   var y = window.scrollY || document.documentElement.scrollTop || 0;
