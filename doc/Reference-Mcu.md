@@ -175,7 +175,7 @@ BTT EBB36:
 ??? Wiring
     Solo Lane Board v1.0 wiring diagram for EMU MMU
     <p align="center">
-     <img src="Reference-Mcu/SLB_V1.0_Wiring.jpg" alt="Solo Lane Board v1 wiring diagram">
+     <img src="Reference-Mcu/SLB_v1.0_Wiring.jpg" alt="Solo Lane Board v1 wiring diagram">
     </p>
 
 ??? Firmware 
