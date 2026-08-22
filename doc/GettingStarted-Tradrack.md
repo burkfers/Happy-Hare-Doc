@@ -224,7 +224,8 @@ for details.
 
 ### Shared exit sensor
 When filament isn't present, the `mmu_shared_exit` sensor should report as `Open`. Insert a short piece of filament into `gate 0` after homing
-(**`MMU_HOME`**) until it triggers the Tradrack `gate sensor`. If it's working correctly, it should report as `Triggered` and `Open` when removed.
+(**`MMU_HOME`**) until it triggers the Tradrack `gate sensor`. If it's working correctly, `mmu_shared_exit` should report as `Triggered` 
+and `Open` when removed.
 
 Use the following command to verify or use the Mainsail/Fluid sensor status.
 ```{.text .console-command}
