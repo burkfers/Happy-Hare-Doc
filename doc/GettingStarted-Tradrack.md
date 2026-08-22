@@ -261,7 +261,7 @@ calibrated once.
 Refer to [Gear Rotation Distance Calibration](Calibration-Gear.md) for details on how to calibrate this for an accurate `rotation_distance`.
 
 If you have extruder sensors, refer to the [Calibration](Calibration-Toolhead.md) page for details on how to calibrate toolhead and filament
-handling for more detailed information.
+handling.
 
 ## What Next?
 - Install [KlipperScreen (Happy Hare edition)](KlipperScreen.md) if you
