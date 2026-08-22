@@ -163,7 +163,7 @@ BTT EBB36:
   <img src="Reference-Mcu/Mellow_CAN_v2.png" alt="Mellow EASY-BRD CAN v2 pinout">
 </p>
 
-??? note
+??? Firmware
     See [Esoterical's Mellow Fly SB2040 flashing guide](https://canbus.esoterical.online/toolhead_flashing/common_hardware/Mellow%20Fly%20SB2040/README.html)
     for CANbus-specific flashing steps.
 
