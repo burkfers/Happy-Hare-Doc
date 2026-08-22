@@ -112,7 +112,7 @@ If no UUIDs are discovered, choose **`Other / manually entered`** and enter the 
   <img src="GettingStarted-Tradrack/08-mcu-connection-canbus-uuids.png" alt="MCU connection" width="70%">
 </p>
 
-### Pins: gear direction
+### Pins: gear and selector direction
 ++esc++ and back out to the top menu and open **`Pins / TMC`**, then **`Gear pins`**. GPIO Pin defaults are set based on 
 your MCU controller board and Tradrack MMU selection. Review all pin settings for **Gear** and **Selector** steppers
 to make sure they are correct for your build. Gear direction especially is the one setting that is impossible to set
@@ -131,6 +131,8 @@ add a `!` in front of the pin name — Klipper's standard way of inverting a pin
   <img src="GettingStarted-Tradrack/09-gear-dir-inverted.png" alt="Gear dir pin editor, showing the default pin" width="70%">
 </p>
 <br>
+
+**Repeat** this for the **`selector stepper`**.
 
 ### Shared Exit Sensor (Gate Sensor)
 Happy Hare requires one viable gate sensor — either a switch or an encoder. Most Tradrack builds use a single 
@@ -182,11 +184,85 @@ can be enabled here.
   <img src="GettingStarted-Tradrack/12-mmu-features.png" alt="MMU features" width="70%">
 </p>
 
-## Validating Hardware Setup
-## Calibration
+## Validating Hardware setup & initial calibration
+The [Hardware Validation](Hardware-Validation.md) checklist covers the MCU, selector variants, encoder and the movement/homing
+model in more detail. The guide below calls out the Tradrack specific hardware and initial calibration needed.
+
+### Selector servo
+Tradrack includes a 3D printed servo tool to help orientate the servo arm correctly on the shaft before securing. 
+With the servo removed and arm unattached, set the servo angle to 0 (**`MMU_SERVO ANGLE=0`**), power down and use the tool
+to position and secure the servo arm in the correct position trying not to move the servo as you do it. Install the servo, and
+power up so you can validate servo angles.  
+
+1. Disable steppers (**`MMU_MOTORS_OFF`**).
+2. Line up the selector with a gate until you can insert a short piece of filament though the gate into the selector.
+3. Issue the following commands to validate the servo angles and expected results:
+
+| Command              | Default angle | Expected Result                             |
+|----------------------|---------------|---------------------------------------------|
+| `MMU_SERVO POS=up`   |     `145°`    | Filament can be inserted and removed easily |
+| `MMU_SERVO POS=down` |      `1°`     | Filament is gripped securely                |
+
+Servo angles can be adjusted dynamically using **`MMU_SERVO ANGLE=<angle>`**. To save the angle into the **`mmu/mmu_vars.cfg`** 
+state file, issue **`MMU_SERVO POS=<position> SAVE=1`** when you are happy with the angles e.g. **`MMU_SERVO POS=up SAVE=1`**.
+
+### Stepper direction and homing
+* Buzz the **`gear`** stepper to identify the correct stepper moves (**`MMU_TEST_BUZZ_MOTOR MOTOR=gear`**).  Power down and swap the
+stepper cables over or update gear stepper pin settings in **`menuconfig`** if the incorrect stepper moves - whichever is easiest.
+* Disable the steppers (**`MMU_MOTORS_OFF`**) and move the selector away from the homing end stop.
+* Buzz the selector stepper to identify it's direction. It should initially move to the right when you issue 
+  **`MMU_TEST_BUZZ_MOTOR MOTOR=selector`**. 
+  If it moves to the left, update and invert the **`selector stepper dir pin`** in **`menuconfig`** (e.g. add or remove the **`!`** 
+  in front of the pin.
+* Once the steppers are moving in the correct direction, issue **`MMU_HOME`** to home Tradrack. 
+  The selector should move to the left and home the MMU.
+
+### Selector calibration
+Issue `MMU_CALIBRATE_SELECTOR AUTO=1` to calibrate the selector and inter-gate spacing. Depending on your build and homing end-stop offset, you
+_"may"_ need to manually calibrate the selector position and offsets for each gate - refer to [MMU_CALIBRATE_SELECTOR](Calibration-Selector.md)
+for details.
+
+### Shared exit sensor
+When filament isn't present, the `mmu_shared_exit` sensor should report as `Open`. Insert a short piece of filament into `gate 0` after homing
+(**`MMU_HOME`**) until it triggers the Tradrack `gate sensor`. If it's working correctly, it should report as `Triggered` and `Open` when removed.
+
+Use the following command to verify or use the Mainsail/Fluid sensor status.
+```{.text .console-command}
+MMU_SENSORS
+
+mmu_shared_exit       --> Open
+```
+
 ## Checking Basic Operation
-## Slicer Setup
-## Printing with MMU
+That's it, you should now be able to load and unload filament using your Tradrack MMU. The bowden length will be automatically calibrated
+the first time you attempt to load filament (default, `autocal_bowden_length: 1` setting) using collision based homing by default, extruder 
+sensors, or compression / proportional sync feedback sensors if defined and set as the **`extruder homing endstop`** in **`menuconfig`**.
+
+Outside of a print, confirm the basics work end to end (if using ASB/ASA, preheat the extruder to an appropriate temperature as the default
+minimum preheat temperature is 210°C).
+
+Issue the following commands to validate the basic load/unload operation:
+
+```{.text .console-command}
+MMU_SELECT GATE=0
+MMU_LOAD
+MMU_UNLOAD
+```
+
+Each command should complete without error — no pauses, no "not calibrated" warnings you weren't expecting. If something goes wrong here, 
+it's much easier to diagnose now than mid-print; see [Operation: Debugging Problems](Operation.md#debugging-problems) if any of 
+it doesn't behave as expected.
+
+## Closing Thoughts
+It's worthwhile manually calibrating the gear stepper rotation distance to fine tune out-of-the-box defaults as BMG extruder gear 
+manufacturing tolerances do matter, affecting accuracy. As the Tradrack uses a single BMG gear set for all gates, it only needs to be
+calibrated once.
+
+Refer to [Gear Rotation Distance Calibration](Calibration-Gear.md) for details on how to calibrate this for an accurate `rotation_distance`.
+
+Refer to the [Calibration](Calibration-Toolhead.md) page for details on how to calibrate toolhead and filament handling; and 
+[Basic Operation](Basic-Operation.md) for more detailed information.
+
 ## What Next?
 - Install [KlipperScreen (Happy Hare edition)](KlipperScreen.md) if you
   want a touchscreen front end, or drive everything from [Mainsail /
