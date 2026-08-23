@@ -38,18 +38,19 @@ Highlight **`MMU Type`** and press Enter. Move down to **`Tradrack`** and press 
 </p>
 <br>
 <br>
-Enter **`Number of gates/lanes`** to match your setup. Tradrack is a modular type-A design with support for as few or
-as many lanes as you can accommodate in your build. The default is 10, but you can change it to any number from 1 
-to Happy Hare's maximum of 20.
+Enter **`Number of gates/lanes`** to match your setup. Tradrack is a modular Type-A MMU design with support 
+for as few or many lanes as you can accommodate in your build. The default is 10, but you can change it to any 
+number from 1 to Happy Hare's maximum of 20.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/03-lanes.png" alt="Defaults to 10" width="70%">
 </p>
 <br>
 <br>
-Next select the **`Selector servo type`**. Common options are provided - `Feetech FT1117M` (default) for people who sourced their servos in 
-the US, `JX PS-1171MG` Aliexpress alternate and `Not listed` if you have a different servo. Servo settings such as min/max pulse widths, etc
-are managed using `(Top) → Other Settings → Selector servo` options later in the `menuconfig` flow.
+Next select the **`Selector servo type`**. Common options are provided - `Feetech FT1117M` (default) for people who
+sourced their servos in the US, the `JX PS-1171MG` Aliexpress alternate and `Not listed` if you have a different servo.
+Servo settings such as min/max pulse widths, etc. are managed using `(Top) → Other Settings → Selector servo` options
+later in the `menuconfig` flow.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/04-selector-servo-type.png" alt="Selector servo type" width="70%">
@@ -116,7 +117,10 @@ If no UUIDs are discovered, choose **`Other / manually entered`** and enter the 
 ++esc++ and back out to the top menu and open **`Pins / TMC`**, then **`Gear pins`**. GPIO Pin defaults are set based on 
 your MCU controller board and Tradrack MMU selection. Review all pin settings for **Gear** and **Selector** steppers
 to make sure they are correct for your build. Gear direction especially is the one setting that is impossible to set
-correctly by default or guessing and depends on how the stepper cable is _actually wired_.
+correctly by default or guessing and depends on how the stepper cable is _actually wired_. You will validate this later 
+when you buzz the steppers and validate their direction in
+[Stepper direction and homing](GettingStarted-Tradrack/10-stepper-direction-and-homing.md). 
+This is where you would change the stepper direction if needed.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/09-gear-pins.png" alt="Gear pins list - one row per gate" width="70%">
@@ -140,7 +144,7 @@ shared exit (gate) sensor to detect filament presence, and this is all Happy Har
 Tradrack uses a Binky Encoder, you may not have installed this sensor and can disable it by switching the **`Gate
 homing endstop`** to **`Encoder Movement`** in the **`Endstops and Bowden movement`** menu. Even with a Binky encoder, 
 the gate sensor is still highly recommended, as it reacts much faster and significantly speeds up load and unload
-operations when set as the **`Gate homing endstop`**.
+operations when set as the **`Gate homing endstop`**. This guide assumes you have a gate sensor installed.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/11-Endstops.png" alt="Endstops" width="70%">
@@ -149,8 +153,8 @@ operations when set as the **`Gate homing endstop`**.
 ### Picking a toolhead
 From the top menu, select **Toolhead**. This step is optional — if you skip it, Happy Hare falls back to generic 
 **`Other/Unknown`** default  dimensions, which is a perfectly fine starting point. But if your toolhead 
-(extruder + hotend combo) appears in the list, selecting it gives you real, community‑sourced measurements instead
-of generic estimates. Here we’ve chosen **`A4T WWBMG for A4T Dragon Ace`** to illustrate.
+(extruder + hotend combo) appears in the list, selecting it gives you real, community‑contributed measurements
+instead of generic estimates. Here we’ve chosen **`A4T WWBMG for A4T Dragon Ace`** to illustrate.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/10-toolhead-selected.png" alt="Toolhead list, A4T WWBMG for A4T Dragon Ace selected" width="70%">
@@ -158,12 +162,12 @@ of generic estimates. Here we’ve chosen **`A4T WWBMG for A4T Dragon Ace`** to 
 <br>
 
 ++esc++ to backout to the top menu and select **Toolhead sensors/settings**. This is where you can enable other features 
-such as **`Toolhead cutter`**, **`toolhead`** and **`extruder`** sensors if fitted. The community-sourced measurements for
-**`Extruder entrance to nozzle`** and **`Residual filament`**, under **`Toolhead dimensions`**,
+such as **`Toolhead cutter`**, **`toolhead`** and **`extruder`** sensors if fitted. The community-contributed
+measurements for **`Extruder entrance to nozzle`** and **`Residual filament`**, under **`Toolhead dimensions`**,
 can be reviewed and tuned if necessary. For **`A4T WWBMG for A4T Dragon Ace`**, the values are`88` and `36.5`.
 
-The other two distances Happy Hare can use (**`Toolhead sensor to nozzle`** & **`Extruder sensor to entry`**) only appear when you
-have enabled them and remain hidden when disabled.
+The other two distances Happy Hare can use (**`Toolhead sensor to nozzle`** & **`Extruder sensor to entry`**) 
+only appear when you have enabled them and remain hidden when disabled.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/10-all-toolhead-dimensions-combined.png" alt="Toolhead dimensions, pre-filled from the selected combo" width="70%">
@@ -172,14 +176,14 @@ have enabled them and remain hidden when disabled.
 
 This is a shortcut, not a substitute: even with community-sourced toolhead measurements, it's useful to learn how to 
 measure and calibrate your own eventually, since small build variations and mods add up. But it's a genuinely good 
-starting point. If your exact combo isn't listed, **`Other/Unknown`** plus manual calibration
-([`MMU_CALIBRATE_TOOLHEAD`](Calibration-Toolhead.md)) is the process to follow.
+starting point. If your exact combo isn't listed, select **`Other/Unknown`** and follow the manual calibration
+[`MMU_CALIBRATE_TOOLHEAD`](Calibration-Toolhead.md) process.
 
 ### MMU Features / Additions
-Optional Tradrack features can be enabled or disabled based on your Tradrack build here. Tradrack is a relatively simple, 
-modular design with a basic set of out-of-the-box features. Popular community authored extensions like Sync-feedback
-buffers (sensors) such as Annex Belay or more recent analog Proportional Sync Feedback sensors, Encoder, etc 
-can be enabled here. 
+Optional Tradrack features can be enabled or disabled based on your Tradrack build here. Tradrack is a deceptively simple, 
+modular design with a basic set of out-of-the-box features. Popular community contributed extensions like Sync-feedback
+buffers (sensors) such as Annex Belay or more recent analog Proportional Sync Feedback sensors, Encoder, etc. can be 
+enabled here. 
 <p align="center">
   <img src="GettingStarted-Tradrack/12-mmu-features.png" alt="MMU features" width="70%">
 </p>
@@ -190,21 +194,23 @@ model in more detail. The guide below calls out the Tradrack specific hardware a
 
 ### Selector servo
 Tradrack includes a 3D printed servo tool to help orientate the servo arm correctly on the shaft before securing. 
-With the servo removed and arm unattached, set the servo angle to 0 (**`MMU_SERVO ANGLE=0`**), power down and use the tool
-to position and secure the servo arm in the correct position trying not to move the servo as you do it. Install the servo, and
-power up so you can validate servo angles.  
+With the servo removed (not unplugged) and arm unattached, set the servo angle to 0 (**`MMU_SERVO ANGLE=0`**), power 
+down and use the tool to position and secure the servo arm in the correct position trying not to move the servo as 
+you do. Install the servo, and power up so you can validate servo angles.  
 
 1. Disable steppers (**`MMU_MOTORS_OFF`**).
-2. Line up the selector with a gate until you can insert a short piece of filament though the gate into the selector.
-3. Issue the following commands to validate the servo angles and expected results:
+2. Move the servo to the up position (**`MMU_SERVO POS=up`**).
+3. Line up the selector with a gate until you can insert a short piece of filament though the gate and into the selector.
+4. Issue the following commands to validate the servo angles and expected results:
 
 | Command              | Default angle | Expected Result                             |
 |----------------------|---------------|---------------------------------------------|
-| `MMU_SERVO POS=up`   |     `145°`    | Filament can be inserted and removed easily |
 | `MMU_SERVO POS=down` |      `1°`     | Filament is gripped securely                |
+| `MMU_SERVO POS=up`   |     `145°`    | Filament can be inserted and removed easily |
 
 Servo angles can be adjusted dynamically using **`MMU_SERVO ANGLE=<angle>`**. To save the angle into the **`mmu/mmu_vars.cfg`** 
-state file, issue **`MMU_SERVO POS=<position> SAVE=1`** when you are happy with the angles e.g. **`MMU_SERVO POS=up SAVE=1`**.
+persistent state file, issue **`MMU_SERVO POS=<position> SAVE=1`** when you are happy with the angles 
+e.g. **`MMU_SERVO POS=up SAVE=1`**.
 
 ### Stepper direction and homing
 * Buzz the **`gear`** stepper to identify the correct stepper moves (**`MMU_TEST_BUZZ_MOTOR MOTOR=gear`**).  Power down and swap the
@@ -215,7 +221,7 @@ stepper cables over or update gear stepper pin settings in **`menuconfig`** if t
   If it moves to the left, update and invert the **`selector stepper dir pin`** in **`menuconfig`** (e.g. add or remove the **`!`** 
   in front of the pin.
 * Once the steppers are moving in the correct direction, issue **`MMU_HOME`** to home Tradrack. 
-  The selector should move to the left and home the MMU.
+  The selector should move to the homing endstop (on the left) and home the MMU.
 
 ### Selector calibration
 Issue `MMU_CALIBRATE_SELECTOR AUTO=1` to calibrate the selector and inter-gate spacing. Depending on your build and homing end-stop offset, you
