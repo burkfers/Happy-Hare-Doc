@@ -121,7 +121,7 @@ your MCU controller board and Tradrack MMU selection. Review all pin settings fo
 to make sure they are correct for your build. Gear direction especially is the one setting that is impossible to set
 correctly by default or guessing and depends on how the stepper cable is _actually wired_. You will validate this later 
 when you buzz the steppers to verify their direction in
-[Stepper direction and homing](GettingStarted-Tradrack/10-stepper-direction-and-homing.md). 
+[Stepper direction and homing](#stepper-direction-and-homing).
 This is where you would change the stepper direction if needed.
 
 <p align="center">
@@ -266,7 +266,7 @@ it doesn't behave as expected.
 - [Gear Rotation Distance Calibration](Calibration-Gear.md) - It's worthwhile manually calibrating the gear stepper rotation 
   distance to fine tune out-of-the-box defaults as BMG extruder gear manufacturing tolerances do matter, affecting accuracy. 
   As the Tradrack uses a single BMG gear for all gates, it only needs to be calibrated once.
-- [Purge and Tip Forming](Purge-Tip-Forming.md) to get your Tradrack ready for printing
+- [Tip Forming and Purge](Feature-Tip-Forming-Purging.md) to get your Tradrack ready for printing
 - Install [KlipperScreen (Happy Hare edition)](KlipperScreen.md) if you
   want a touchscreen front end, or drive everything from [Mainsail /
   Fluidd](Mainsail-Fluidd-Integration.md) — either works, and both are

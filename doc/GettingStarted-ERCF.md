@@ -149,7 +149,7 @@ on your MCU controller board and ERCF MMU version selection. Review all pin sett
 steppers to make sure they are correct for your build. Gear direction especially is the one setting that is impossible
 to set correctly by default or guessing and depends on how the stepper cable is _actually wired_. You will validate
 this later when you buzz the steppers to verify their direction in
-[Stepper direction and homing](GettingStarted-ERCF/10-stepper-direction-and-homing.md).
+[Stepper direction and homing](#stepper-direction-and-homing).
 
 This is where you would change the stepper direction if needed.
 
@@ -247,7 +247,7 @@ it doesn't behave as expected.
   **`Autotune rotation distance`** in `(Top) → Other Settings → Calibration/Autotuning` to enable Happy Hare to automatically
   tune `rotation distance`** for each gate when it's loaded. **NOTE** This can mask other selector build issues so defaults
   to **OFF**.
-- [Purge and Tip Forming](Purge-Tip-Forming.md) to get your ERCF ready for printing
+- [Tip Forming and Purge](Feature-Tip-Forming-Purging.md) to get your ERCF ready for printing
 - Install [KlipperScreen (Happy Hare edition)](KlipperScreen.md) if you
   want a touchscreen front end, or drive everything from [Mainsail /
   Fluidd](Mainsail-Fluidd-Integration.md) — either works, and both are
