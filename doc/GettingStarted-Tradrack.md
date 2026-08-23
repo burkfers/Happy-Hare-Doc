@@ -89,18 +89,20 @@ select CAN instead. The installer attempts to auto‑detect USB serial device ID
 Unfortunately, if Klipper has previously claimed the CANBus device, UUID's can’t be rediscovered easily unless you remove all references
 from your klipper Happy Hare configuration and power cycle the printer.
 
-If you’re unsure of the CANBus UUID's when migrating to v4, you can check your saved `mmu.v3/base/mmu_hardware.cfg` configuration or
-`klippy.log` for the claimed device entries. The installer will then prompt you for your serial device or CANBus UUID, depending
-on the option selected. 
+If you’re unsure of the USB serial or CANBus UUID's when migrating to v4, you can check your saved `mmu.v3/base/mmu_hardware.cfg` 
+configuration or `klippy.log` for the claimed device entries. The installer will then prompt you for your serial device or CANBus
+UUID, depending on the option selected. 
 
-Existing CANBus UUID selections/mapping are retained and not overwritten once saved.
+Existing connection selections/mapping are retained and not overwritten once saved.
+
+The first discovered serial device is selected by default. Press enter to choose a different discovered device.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/08-mcu-connection.png" alt="MCU connection" width="70%">
 </p>
 <br>
 
-In this example, we are switching to CANBus. Open **`MCU connection`** and select **`CANbus`**:
+In this example, we are going to switch to CANBus. Open **`MCU connection`** and select **`CANbus`**:
 <p align="center">
   <img src="GettingStarted-Tradrack/08-mcu-connection-canbus.png" alt="MCU connection" width="70%">
 </p>
@@ -115,11 +117,11 @@ If no UUIDs are discovered, choose **`Other / manually entered`** and enter the 
 
 ### Pins: gear and selector direction
 ++esc++ and back out to the top menu and open **`Pins / TMC`**, then **`Gear pins`**. GPIO Pin defaults are set based on 
-your MCU controller board and Tradrack MMU selection. Review all pin settings for **Gear** and **Selector** steppers
+your MCU controller board and Tradrack MMU selection. Review all pin settings for **`Gear`** and **`Selector`** steppers
 to make sure they are correct for your build. Gear direction especially is the one setting that is impossible to set
 correctly by default or guessing and depends on how the stepper cable is _actually wired_. You will validate this later 
-when you buzz the steppers and validate their direction in
-[Stepper direction and homing](GettingStarted-Tradrack/10-stepper-direction-and-homing.md). 
+when you buzz the steppers to verify their direction in
+[Stepper direction and homing](#stepper-direction-and-homing).
 This is where you would change the stepper direction if needed.
 
 <p align="center">
@@ -162,12 +164,12 @@ instead of generic estimates. Here we’ve chosen **`A4T WWBMG for A4T Dragon Ac
 <br>
 
 ++esc++ to backout to the top menu and select **Toolhead sensors/settings**. This is where you can enable other features 
-such as **`Toolhead cutter`**, **`toolhead`** and **`extruder`** sensors if fitted. The community-contributed
+such as **`Toolhead cutter`**, **`toolhead`** and **`extruder entry`** sensors if fitted. The community-contributed
 measurements for **`Extruder entrance to nozzle`** and **`Residual filament`**, under **`Toolhead dimensions`**,
 can be reviewed and tuned if necessary. For **`A4T WWBMG for A4T Dragon Ace`**, the values are`88` and `36.5`.
 
 The other two distances Happy Hare can use (**`Toolhead sensor to nozzle`** & **`Extruder sensor to entry`**) 
-only appear when you have enabled them and remain hidden when disabled.
+only appear when you have enabled the sensors and remain hidden when disabled.
 
 <p align="center">
   <img src="GettingStarted-Tradrack/10-all-toolhead-dimensions-combined.png" alt="Toolhead dimensions, pre-filled from the selected combo" width="70%">
@@ -218,22 +220,22 @@ stepper cables over or update gear stepper pin settings in **`menuconfig`** if t
 * Disable the steppers (**`MMU_MOTORS_OFF`**) and move the selector away from the homing end stop.
 * Buzz the selector stepper to identify it's direction. It should initially move to the right when you issue 
   **`MMU_TEST_BUZZ_MOTOR MOTOR=selector`**. 
-  If it moves to the left, update and invert the **`selector stepper dir pin`** in **`menuconfig`** (e.g. add or remove the **`!`** 
+  If it moves to the left, update and invert the **`selector stepper dir pin`** in **`menuconfig`** (e.g. add or remove the **`!`**) 
   in front of the pin.
 * Once the steppers are moving in the correct direction, issue **`MMU_HOME`** to home Tradrack. 
   The selector should move to the homing endstop (on the left) and home the MMU.
 
 ### Selector calibration
-Issue `MMU_CALIBRATE_SELECTOR AUTO=1` to calibrate the selector and inter-gate spacing. Depending on your build and homing end-stop offset, you
-_"may"_ need to manually calibrate the selector position and offsets for each gate - refer to [MMU_CALIBRATE_SELECTOR](Calibration-Selector.md)
-for details.
+Issue `MMU_CALIBRATE_SELECTOR AUTO=1` to calibrate the selector and inter-gate spacing. Depending on your build and homing end-stop offset, 
+if the gate spacing isn't _CAD_ perfect or tightly butted up against each other, you _"may"_ need to manually calibrate the selector
+position and offsets for each gate - refer to [MMU_CALIBRATE_SELECTOR](Calibration-Selector.md) for details.
 
 ### Shared exit sensor
 When filament isn't present, the `mmu_shared_exit` sensor should report as `Open`. Insert a short piece of filament into `gate 0` after homing
 (**`MMU_HOME`**) until it triggers the Tradrack `gate sensor`. If it's working correctly, `mmu_shared_exit` should report as `Triggered` 
 and `Open` when removed.
 
-Use the following command to verify or use the Mainsail/Fluid sensor status.
+Use the foldoc/GettingStarted-Tradrack.mdlowing command to verify or use the Mainsail/Fluid sensor status.
 ```{.text .console-command}
 MMU_SENSORS
 
@@ -242,7 +244,7 @@ mmu_shared_exit       --> Open
 
 ## Checking Basic Operation
 That's it, you should now be able to load and unload filament using your Tradrack MMU. The bowden length will be automatically calibrated
-the first time you attempt to load filament (default, `autocal_bowden_length: 1` setting) using collision based homing by default, extruder 
+the first time you attempt to load filament (`autocal_bowden_length: 1` setting) using collision based homing by default, extruder 
 sensors, or compression / proportional sync feedback sensors if defined and set as the **`extruder homing endstop`** in **`menuconfig`**.
 
 Outside of a print, confirm the basics work end to end (if using ASB/ASA, preheat the extruder to an appropriate temperature as the default
@@ -260,17 +262,11 @@ Each command should complete without error — no pauses, no "not calibrated" wa
 it's much easier to diagnose now than mid-print; see [Operation: Debugging Problems](Operation.md#debugging-problems) if any of 
 it doesn't behave as expected.
 
-## Closing Thoughts
-It's worthwhile manually calibrating the gear stepper rotation distance to fine tune out-of-the-box defaults as BMG extruder gear 
-manufacturing tolerances do matter, affecting accuracy. As the Tradrack uses a single BMG gear set for all gates, it only needs to be
-calibrated once.
-
-Refer to [Gear Rotation Distance Calibration](Calibration-Gear.md) for details on how to calibrate this for an accurate `rotation_distance`.
-
-If you have extruder sensors, refer to the [Calibration](Calibration-Toolhead.md) page for details on how to calibrate toolhead and filament
-handling.
-
 ## What Next?
+- [Gear Rotation Distance Calibration](Calibration-Gear.md) - It's worthwhile manually calibrating the gear stepper rotation 
+  distance to fine tune out-of-the-box defaults as BMG extruder gear manufacturing tolerances do matter, affecting accuracy. 
+  As the Tradrack uses a single BMG gear for all gates, it only needs to be calibrated once.
+- [Tip Forming and Purge](Feature-Tip-Forming-Purging.md) to get your Tradrack ready for printing
 - Install [KlipperScreen (Happy Hare edition)](KlipperScreen.md) if you
   want a touchscreen front end, or drive everything from [Mainsail /
   Fluidd](Mainsail-Fluidd-Integration.md) — either works, and both are

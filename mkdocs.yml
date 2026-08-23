@@ -109,6 +109,7 @@ nav:
       - Hardware Validation: Hardware-Validation.md
       - Box Turtle: GettingStarted-BoxTurtle.md
       - BTT ViViD: GettingStarted-ViViD.md
+      - ERCF: GettingStarted-ERCF.md
       - Tradrack: GettingStarted-Tradrack.md
   - Calibration:
       - Overview: Calibration.md
