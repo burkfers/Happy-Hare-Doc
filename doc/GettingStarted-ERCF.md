@@ -243,10 +243,10 @@ it doesn't behave as expected.
 ## What Next?
 - [Gear Rotation Distance Calibration](Calibration-Gear.md) - It's worthwhile manually calibrating the gear stepper rotation 
   distance to fine tune out-of-the-box defaults as BMG extruder gear manufacturing tolerances do matter, affecting accuracy. 
-  As the ERCF uses separate BMG gearsets for each gate, each gate needs to be calibrated individually. You can also enable
+  As the ERCF uses separate BMG gear-sets for each gate, each gate needs to be calibrated individually. You can also enable
   **`Autotune rotation distance`** in `(Top) → Other Settings → Calibration/Autotuning` to enable Happy Hare to automatically
   tune `rotation distance`** for each gate when it's loaded. **NOTE** This can mask other selector build issues so defaults
-  to **OFF**.
+  to off.
 - [Tip Forming and Purge](Feature-Tip-Forming-Purging.md) to get your ERCF ready for printing
 - Install [KlipperScreen (Happy Hare edition)](KlipperScreen.md) if you
   want a touchscreen front end, or drive everything from [Mainsail /
