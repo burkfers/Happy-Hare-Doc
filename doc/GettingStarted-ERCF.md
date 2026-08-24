@@ -1,4 +1,4 @@
-# Getting Started with Enrage Rabbit Carrot Feeder (ERCF)
+# Getting Started with Enraged Rabbit Carrot Feeder (ERCF)
 
 The Enraged Rabbit Carrot Feeder (ERCF) is the original Multi Material Unit for Voron printers that started it all.
 It's evolved considerably since it's formative v1.0 release. This guide walks through the initial
@@ -13,7 +13,7 @@ including:
 * Different encoder options (TCRT, and Binky optical encoders)
 * Direct‑drive and geared NEMA 14 & 17 options
 * Optional entry sensors
-* Optional LEDS/Neopixel bling
+* Optional LED's/Neopixel entry / exit / logo bling
 * Optional integrated filament buffer
 
 Each revision introduces its own mechanical differences, quality of life improvements and optional features, 
