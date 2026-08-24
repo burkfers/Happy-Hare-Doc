@@ -170,7 +170,7 @@ add a `!` in front of the pin name — Klipper's standard way of inverting a pin
 **Repeat** this for the **`selector stepper`**.
 
 ### Encoder
-ERCF uses an encoder for filament loading, and ... Happy Hare requires one viable gate sensor — either a switch or an encoder. Most Tradrack builds use a single 
+ERCF uses an encoder for filament loading, and ... **[WIP]**
 
 <p align="center">
   <img src="GettingStarted-ERCF/11-Endstops.png" alt="Endstops" width="70%">
@@ -218,8 +218,11 @@ Note the Encoder is mandatory and is enabled by default as it's required for the
 
 ## Validating Hardware setup & initial calibration
 ### Stepper direction and homing
+**[WIP]**
 ### Selector calibration
+**[WIP]**
 ### Encoder calibration
+**[WIP]**
 ## Checking Basic Operation
 That's it, you should now be able to load and unload filament using your ERCF MMU. The bowden length will be automatically calibrated
 the first time you attempt to load filament (`autocal_bowden_length: 1` setting) using collision based homing by default, extruder
