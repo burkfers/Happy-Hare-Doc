@@ -536,7 +536,7 @@ class Menuconfig:
         Height that can be given back without crowding the help text against the menu.
 
         The layout is: breadcrumb, title bar, menu window, separator bar, a help pane
-        of a FIXED eight rows (menuconfig.py:251 _SHOW_HELP_HEIGHT), then two rows of
+        of a FIXED seven rows (menuconfig.py:251 _SHOW_HELP_HEIGHT), then one row of
         key hints. Shrinking the terminal takes rows off the menu window only, so the
         blank space inside the help pane is overhead that cannot be reclaimed and must
         not be counted here - subtracting it would cut into the menu and bring the
@@ -600,10 +600,9 @@ class Menuconfig:
         """
         Step the highlight until it lands on `text` or stops moving.
 
-        "Stopped moving" is the whole screen being identical, not the selected text
-        being identical: menus contain blank separator lines, the highlight lands on
-        them, and two of those in a row would otherwise look like the end of the list
-        and abandon the search halfway down.
+        "Stopped moving" is the whole screen being identical, not an assumed change of
+        one displayed row. Comment headings remain visible but are not selectable, so
+        one arrow key can jump across several displayed rows to the next config option.
         """
         for _ in range(limit):
             before = self._snapshot()
