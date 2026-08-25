@@ -136,8 +136,8 @@ SET_PRINT_STATS_INFO CURRENT_LAYER={layer_num}
 
 ## Tool Change G-Code
 
-Usually already the slicer default, but worth confirming - custom tool
-change gcode should just be:
+Usually already the slicer default, but worth confirming - as a minimum, custom slicer tool
+change gcode should be:
 
 ```text
 T[next_extruder]
@@ -147,14 +147,14 @@ Happy Hare's Moonraker extension rewrites `Tn` lines into
 pre-processes an uploaded gcode file.
 <br>
 
-**OPTIONAL** Many slicers like OrcaSlicer, PrusaSlicer, and SuperSlicer insert extra 
-retraction/un-retraction gcode around filament changes which can create small blobs 
-post toolchange depending on retraction settings if left unhandled when using Happy 
-Hare controlled purging. Additional slicer settings can be passed to manage this, 
-or the retraction setting you use hardcoded to enable Happy Hare to compensate for 
+Many slicers like OrcaSlicer, PrusaSlicer, and SuperSlicer also insert extra
+retraction/un-retraction gcode around filament changes which can create small blobs
+post toolchange depending on retraction settings if left unhandled when using Happy
+Hare controlled purging. Additional slicer settings can now be passed to manage this,
+or the retraction setting you use hardcoded to enable Happy Hare to compensate for
 Slicer retractions post `Blobifier`/`MMU_PURGE` or your own custom purge macro from 
 layer 2 onwards.
-    
+
 If firmware retraction is enabled in your slicer but not in the printer, Slicer retraction
 compensation will be disabled.
 
