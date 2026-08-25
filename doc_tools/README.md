@@ -193,8 +193,9 @@ is not using, down to a floor of **30 rows**. The floor is presentation, not a
 technical limit — menuconfig lays out happily in about 15 — but a set of screenshots
 reads badly at wildly different heights, and a two-item menu shrunk to fit looks like a
 cropped fragment rather than the installer. Change it with `--min-rows`, or `min_rows`
-on a session. The eight rows menuconfig reserves for the help pane below the separator
-are fixed, so blank space *there* is overhead that no height can reclaim.
+on a session. The seven rows menuconfig reserves for the help pane below the separator,
+followed by the single row of navigation controls, are fixed, so blank space *there* is
+overhead that no height can reclaim.
 
 Reclaiming never goes all the way, either: **2 rows** (`GAP_ROWS` in
 `doc_tools/capture.py`) always stay between the last menu item and the separator bar,
@@ -207,7 +208,7 @@ arrow that says "too narrow". The default is **110 columns**, wide enough that l
 board names and pin lists sit on one line rather than wrapping; override with `--cols`
 or `'cols'` on a session.
 
-Two things are worth knowing if you touch this:
+Three things are worth knowing if you touch this:
 
 * A menu keeps its **scroll offset** across a resize. Coming back from a submenu on a
   short terminal leaves the list scrolled, and no amount of growing clears the
@@ -217,6 +218,10 @@ Two things are worth knowing if you touch this:
   relayout the menu behind it, and the arrows the edit box draws itself mean the value
   is wider than the field, which no height fixes. `mc.edit()` therefore fits the menu
   before opening the box.
+* **Comment headings are not selectable.** Up/down navigation skips over them to the
+  previous or next config option, and `mc.select()` handles that automatically. Do not
+  use a comment's text as the target of `mc.select()` or `mc.enter()`; navigate to a
+  selectable option within that section instead.
 
 `--no-fit` (or `'fit': False` on a session) pins `--rows` instead. Either way, a shot
 that ends up with arrows on it says so on stderr rather than shipping quietly.
