@@ -269,7 +269,7 @@ These are default angles for popular ERCF servos. Note angles differences and ju
 
 | Command                                    | Savox SH0255MG  |   GDW DS041MG   |   GUOHUA A0090  | Expected Result                                         |
 |--------------------------------------------|-----------------|-----------------|-----------------|---------------------------------------------------------|
-| `MMU_SERVO POS=up`                         |      `140°`     |     `145°`      |     `145°`      | Filament can be inserted and removed easily             |
+| `MMU_SERVO POS=up`                         |      `140°`     |      `30°`      |      `30°`      | Filament can be inserted and removed easily             |
 | `MMU_SERVO POS=down`                       |       `30°`     |     `100°`      |     `100°`      | Filament is gripped securely                            |
 | For 3 position servos `MMU_SERVO POS=move` |      `109°`     |      `50°`      |      `50°`      | Servo arm is central in top hat channel and doesn't rub |
 
