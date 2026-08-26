@@ -192,13 +192,14 @@ enabled here.
 
 ## Validating Hardware setup & initial calibration
 The [Hardware Validation](Hardware-Validation.md) checklist covers the MCU, selector variants, encoder and the movement/homing
-model in more detail. The guide below calls out the Tradrack specific hardware and initial calibration needed.
+model in more detail. The guide below calls out Tradrack specific hardware and initial calibration needed.
 
 ### Selector servo
-Tradrack includes a 3D printed servo tool to help orientate the servo arm correctly on the shaft before securing. 
-With the servo removed (not unplugged) and arm unattached, set the servo angle to 0 (**`MMU_SERVO ANGLE=0`**), power 
-down and use the tool to position and secure the servo arm in the correct position trying not to move the servo as 
-you do. Install the servo, and power up so you can validate servo angles.  
+For first time builds and initial hardware setup, Tradrack includes a 3D printed servo tool to help you orientate the
+servo arm correctly on the shaft before securing. With the servo removed (not unplugged) and arm unattached, set the servo
+angle to the default down position (**`MMU_SERVO POS=down`**), power down and use the tool to position and secure the servo
+arm in the correct position trying not to move the servo as you do. Install the servo, and power up so you can validate
+and adjust servo angles if needed.
 
 1. Disable steppers (**`MMU_MOTORS_OFF`**).
 2. Move the servo to the up position (**`MMU_SERVO POS=up`**).
@@ -219,7 +220,7 @@ e.g. **`MMU_SERVO POS=up SAVE=1`**.
 stepper cables over or update gear stepper pin settings in **`menuconfig`** if the incorrect stepper moves - whichever is easiest.
 * Disable the steppers (**`MMU_MOTORS_OFF`**) and move the selector away from the homing end stop.
 * Buzz the selector stepper to identify it's direction. It should initially move to the right when you issue 
-  **`MMU_TEST_BUZZ_MOTOR MOTOR=selector`**. 
+  **`MMU_TEST_BUZZ_MOTOR MOTOR=selector`** when looking from the bowden side of the unit. 
   If it moves to the left, update and invert the **`selector stepper dir pin`** in **`menuconfig`** (e.g. add or remove the **`!`**) 
   in front of the pin.
 * Once the steppers are moving in the correct direction, issue **`MMU_HOME`** to home Tradrack. 
