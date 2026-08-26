@@ -170,11 +170,40 @@ add a `!` in front of the pin name — Klipper's standard way of inverting a pin
 **Repeat** this for the **`selector stepper`**.
 
 ### Encoder
-ERCF uses an encoder for filament loading, and ... **[WIP]**
+++esc++ and back out to the top menu and open **`MMU Features / Additions`**, then **`Encoder config`**.
+ERCF requires an encoder to operate (enabled by default) for filament loading and unloading which can also
+be used for clog detection by the Happy Hare Flowguard facility and automatically calibrating bowden 
+lengths and **`Rotation Distances`**. Different ERCF encoder hardware and encoder resolutions are
+supported depending on your build.
+
+Optional ERCF features also can be enabled or disabled here - entry sensors, LED's, 
+and popular community contributed extensions like Sync-feedback buffers (sensors) such as 
+Annex Belay or more recent analog Proportional Sync Feedback sensors, etc.
+  
+<p align="center">
+  <img src="GettingStarted-ERCF/12-mmu-features.png" alt="MMU Features" width="70%">
+</p>
+<br>
+
+By default, a **`Binky 12-vane Encoder`** is selected. If you have a different encoder configuration open **`Type`**
+to change options. Encoder accuracy is dependent on this configuration and the type and number of vanes the installed
+encoder wheel has.
+<p align="center">
+  <img src="GettingStarted-ERCF/12-mmu-encoder.png" alt="Encoder settings" width="70%">
+</p>
+<br>
+
+Select the appropriate type that matches your configuration. `12` (Default) & `8-vane` Binky based encoders are
+the most common. However as the the original reason for reverting to fewer vanes (`8` or `10`) for direct-drive
+configurations no longer applies, it's recommended to swap back to **`12-vanes`** for better fidelity and 
+performance.
+
+The TCRT 5000 based encoders are only applicable to original ERCF v1.x builds.
 
 <p align="center">
-  <img src="GettingStarted-ERCF/11-Endstops.png" alt="Endstops" width="70%">
+  <img src="GettingStarted-ERCF/12-mmu-encoder-settings.png" alt="Encoder settings" width="70%">
 </p>
+<br>
 
 ### Picking a toolhead
 From the top menu, select **Toolhead**. This step is optional — if you skip it, Happy Hare falls back to generic
@@ -204,17 +233,6 @@ This is a shortcut, not a substitute: even with community-sourced toolhead measu
 measure and calibrate your own eventually, since small build variations and mods add up. But it's a genuinely good 
 starting point. If your exact combo isn't listed, select **`Other/Unknown`** and follow the manual calibration
 [`MMU_CALIBRATE_TOOLHEAD`](Calibration-Toolhead.md) process.
-
-### MMU Features / Additions
-Optional ERCF features can be enabled or disabled based on your ERCF build here. Popular community contributed 
-extensions like Sync-feedback buffers (sensors) such as Annex Belay or more recent analog Proportional Sync 
-Feedback sensors, Encoder, etc. can be enabled here.
-
-Note the Encoder is mandatory and is enabled by default as it's required for the ERCF to function correctly.
-
-<p align="center">
-  <img src="GettingStarted-ERCF/12-mmu-features.png" alt="MMU features" width="70%">
-</p>
 
 ## Validating Hardware setup & initial calibration
 The [Hardware Validation](Hardware-Validation.md) checklist covers the MCU, selector variants, encoder and the movement/homing
