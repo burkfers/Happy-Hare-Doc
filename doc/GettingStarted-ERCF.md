@@ -171,10 +171,11 @@ add a `!` in front of the pin name — Klipper's standard way of inverting a pin
 
 ### Encoder
 ++esc++ and back out to the top menu and open **`MMU Features / Additions`**, then **`Encoder config`**.
+
 ERCF requires an encoder to operate (enabled by default) for filament loading and unloading which can also
-be used for clog detection by the Happy Hare Flowguard facility and automatically calibrating bowden 
+be used for clog detection by the Happy Hare Flowguard facility and automatic calibration of bowden
 lengths and **`Rotation Distances`**. Different ERCF encoder hardware and encoder resolutions are
-supported depending on your build.
+supported depending on your specific build.
 
 Optional ERCF features also can be enabled or disabled here - entry sensors, LED's, 
 and popular community contributed extensions like Sync-feedback buffers (sensors) such as 
