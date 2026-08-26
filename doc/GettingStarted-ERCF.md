@@ -270,15 +270,14 @@ position and offsets for each gate - refer to [MMU_CALIBRATE_SELECTOR](Calibrati
 ### Calibration Gear Rotation Distance
 While Happy Hare sets the default BMG `Rotation Distance` out-of-the-box, for reliable Encoder operation it's worthwhile manually calibrating
 the gear stepper `Rotation Distance` prior to calibrating the Encoder as BMG extruder gear manufacturing tolerances do matter, affecting accuracy. 
-Also as the ERCF uses separate BMG gear-sets for each gate, each gate should be calibrated individually. 
+Also as the ERCF uses separate BMG gear-sets for each gate, each gate needs to be calibrated individually. 
 
 Once the `Rotation Distance` for the `Gate 0` reference has been set, you "can" optionally enable **`Autotune rotation distance`** in 
 `(Top) → Other Settings → Calibration/Autotuning` to enable Happy Hare to automatically tune `rotation distance`** for each gate when
 it's loaded. 
 ??? warning
     As this _can_ mask other selector build issues, **`Authotune rotation distance`** defaults to off. For accuracy, it's recommended to 
-    manually calibrate `Rotation Distance` for subsequent gates using <br> 
-    the `MMU_CALIBRATE_GATE GATE=<n>` command.
+    manually calibrate `Rotation Distance` for subsequent gates using the `MMU_CALIBRATE_GATE GATE=<n>` command.
 
 [Calibration: Gear Rotation Distance](Calibration-Gear.md) 
 
