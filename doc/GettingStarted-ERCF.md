@@ -282,8 +282,24 @@ it's loaded.
 [Calibration: Gear Rotation Distance](Calibration-Gear.md) 
 
 ### Encoder calibration
-Using `gate 0` as the reference gate, insert a 500mm + piece of filament and run `MMU_CALIBRATE_ENCODER`. Ideally, you are looking for
-symmetrical `in` and `out` counts with a standard deviation as close to 0.0 as possible. One or two count differences is acceptable.
+Using `gate 0` as the reference, make sure you have 500mm+ of filament ready to go before running `MMU_CALIBRATE_ENCODER`. Ideally,
+you are looking for symmetrical **`+`** and **`-`** counts with a standard deviation as close to **`0.0`** as possible in both 
+directions. One or two count differences are acceptable. The number of counts will be less depending on the number of vanes your encoder
+wheel has. Expected counts using an Encoder with a 12-vane wheel:
+```{.text .console-command}
+// Calibrating over 400.0mm...
+// + counts: 424
+// - counts: 423
+// + counts: 424
+// - counts: 424
+// + counts: 424
+// - counts: 422
+// Load direction:   mean=424.00 stdev=0.00 min=424 max=424 range=0
+// Unload direction: mean=423.00 stdev=1.00 min=422 max=424 range=2
+// Before calibration measured length: 400.33mm
+// Calculated resolution of the encoder: 0.9445 (currently: 0.9453)
+// Encoder calibration has been saved
+```
 [Calibration: Encoder](Calibration-Encoder.md)
 
 ## Checking Basic Operation
