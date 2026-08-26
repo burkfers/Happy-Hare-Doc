@@ -217,12 +217,75 @@ Note the Encoder is mandatory and is enabled by default as it's required for the
 </p>
 
 ## Validating Hardware setup & initial calibration
+The [Hardware Validation](Hardware-Validation.md) checklist covers the MCU, selector variants, encoder and the movement/homing
+model in more detail. The guide below calls out ERCF specific hardware and initial calibration needed.
+
+### Selector servo
+For first time builds and initial hardware setup, start the process with the servo arm removed so you can set the
+initial angle on the shaft to the default `DOWN` position before positioning and securing it. 
+!!! note
+    Different versions of ERCF top hats like for ERCF v2/2.5 may have separate `MOVE`, `UP`, & `DOWN` positions. Other versions
+    only `DOWN` and `UP` positions (e.g. `MOVE` = `UP` angle). 
+
+With the servo connected and arm unattached, power up and set the servo to the `DOWN` position using **`MMU_SERVO POS=down`**.
+
+Power down and position the servo arm on the shaft so it sits in the indentation of the top hat in the `DOWN` position taking
+care not to move the servo shaft as you do. Power up so you can validate and adjust servo angles if needed.  
+
+1. Disable steppers (**`MMU_MOTORS_OFF`**).
+2. Set servo to `UP` position using **`MMU_SERVO POS=up`**. 
+3. Line up the selector with a gate until you can insert a short piece of filament though the gate and into the selector.
+4. Issue the following commands to validate the servo angles and expected results:
+
+These are default angles for popular ERCF servos. Note angles differences and just two positions for ERCF v3:
+
+| Command                                    | Savox SH0255MG  |   GDW DS041MG   |   GUOHUA A0090  | Expected Result                                         |
+|--------------------------------------------|-----------------|-----------------|-----------------|---------------------------------------------------------|
+| `MMU_SERVO POS=up`                         |      `140°`     |     `145°`      |     `145°`      | Filament can be inserted and removed easily             |
+| `MMU_SERVO POS=down`                       |       `30°`     |     `100°`      |     `100°`      | Filament is gripped securely                            |
+| For 3 position servos `MMU_SERVO POS=move` |      `109°`     |      `50°`      |      `50°`      | Servo arm is central in top hat channel and doesn't rub |
+
+
+Servo angles can be adjusted dynamically using **`MMU_SERVO ANGLE=<angle>`**. To save the angle into the **`mmu/mmu_vars.cfg`** 
+persistent state file, issue **`MMU_SERVO POS=<position> SAVE=1`** when you are happy with the angles 
+e.g. **`MMU_SERVO POS=up SAVE=1`**.
+
 ### Stepper direction and homing
-**[WIP]**
+* Buzz the **`gear`** stepper to identify the correct stepper moves (**`MMU_TEST_BUZZ_MOTOR MOTOR=gear`**).  Power down and swap the
+stepper cables over or update gear stepper pin settings in **`menuconfig`** if the incorrect stepper moves - whichever is easiest.
+* Disable the steppers (**`MMU_MOTORS_OFF`**) and move the selector away from the homing end stop.
+* Buzz the selector stepper to identify it's direction. It should initially move to the right when you issue 
+  **`MMU_TEST_BUZZ_MOTOR MOTOR=selector`** when looking from the bowden/encoder side of the unit. 
+  If it moves to the left, update and invert the **`selector stepper dir pin`** in **`menuconfig`** (e.g. add or remove the **`!`**) 
+  in front of the pin.
+* Once the steppers are moving in the correct direction, issue **`MMU_HOME`** to home ERCF. 
+  The selector should move to the homing endstop (on the left) and home the MMU.
+
 ### Selector calibration
-**[WIP]**
+Issue `MMU_CALIBRATE_SELECTOR AUTO=1` to calibrate the selector and inter-gate spacing. Depending on your build and homing end-stop offset, 
+if the gate spacing isn't _CAD_ perfect or gates tightly butted up against each other, you _"may"_ need to manually calibrate the selector
+position and offsets for each gate - refer to [MMU_CALIBRATE_SELECTOR](Calibration-Selector.md) for details.
+
+### Calibration Gear Rotation Distance
+While Happy Hare sets the default BMG `Rotation Distance` out-of-the-box, for reliable Encoder operation it's worthwhile manually calibrating
+the gear stepper `Rotation Distance` prior to calibrating the Encoder as BMG extruder gear manufacturing tolerances do matter, affecting accuracy. 
+Also as the ERCF uses separate BMG gear-sets for each gate, each gate should be calibrated individually. 
+
+Once the `Rotation Distance` for the `Gate 0` reference has been set, you "can" optionally enable **`Autotune rotation distance`** in 
+`(Top) → Other Settings → Calibration/Autotuning` to enable Happy Hare to automatically tune `rotation distance`** for each gate when
+it's loaded. 
+??? warning
+    As this _can_ mask other selector build issues, **`Authotune rotation distance`** defaults to off. For accuracy, it's recommended to 
+    manually calibrate `Rotation Distance` for subsequent gates using <br> 
+    the `MMU_CALIBRATE_GATE GATE=<n>` command.
+
+[Calibration: Gear Rotation Distance](Calibration-Gear.md) 
+
 ### Encoder calibration
-**[WIP]**
+Using `gate 0` as the reference gate, insert a 500mm + piece of filament and run `MMU_CALIBRATE_ENCODER`. Ideally, you are looking for
+symmetrical `in` and `out` counts with a standard deviation as close to 0.0 as possible. One or two count differences is acceptable.
+[Calibration: Encoder](Calibration-Encoder.md)
+
 ## Checking Basic Operation
 That's it, you should now be able to load and unload filament using your ERCF MMU. The bowden length will be automatically calibrated
 the first time you attempt to load filament (`autocal_bowden_length: 1` setting) using collision based homing by default, extruder
@@ -243,13 +306,7 @@ Each command should complete without error — no pauses, no "not calibrated" wa
 it's much easier to diagnose now than mid-print; see [Operation: Debugging Problems](Operation.md#debugging-problems) if any of 
 it doesn't behave as expected.
 
-## What Next?
-- [Gear Rotation Distance Calibration](Calibration-Gear.md) - It's worthwhile manually calibrating the gear stepper rotation 
-  distance to fine tune out-of-the-box defaults as BMG extruder gear manufacturing tolerances do matter, affecting accuracy. 
-  As the ERCF uses separate BMG gear-sets for each gate, each gate needs to be calibrated individually. You can also enable
-  **`Autotune rotation distance`** in `(Top) → Other Settings → Calibration/Autotuning` to enable Happy Hare to automatically
-  tune `rotation distance`** for each gate when it's loaded. **NOTE** This can mask other selector build issues so defaults
-  to off.
+## What Next? 
 - [Tip Forming and Purge](Feature-Tip-Forming-Purging.md) to get your ERCF ready for printing
 - Install [KlipperScreen (Happy Hare edition)](KlipperScreen.md) if you
   want a touchscreen front end, or drive everything from [Mainsail /

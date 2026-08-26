@@ -174,7 +174,10 @@ context and a faster answer:
     scratch, `menuconfig` screen by screen.
 
     [Box Turtle guide &rarr;](GettingStarted-BoxTurtle.md) <br>
-    [ViViD](GettingStarted-ViViD.md)
+    [ERCF guide &rarr;](GettingStarted-ERCF.md) <br>
+    [Tradrack guide &rarr;](GettingStarted-Tradrack.md) <br>
+    [ViViD guide &rarr;](GettingStarted-ViViD.md)
+
 
 -   **Calibration**
 
