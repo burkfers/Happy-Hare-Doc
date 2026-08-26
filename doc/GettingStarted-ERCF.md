@@ -230,7 +230,8 @@ initial angle on the shaft to the default `DOWN` position before positioning and
 With the servo connected and arm unattached, power up and set the servo to the `DOWN` position using **`MMU_SERVO POS=down`**.
 
 Power down and position the servo arm on the shaft so it sits in the indentation of the top hat in the `DOWN` position taking
-care not to move the servo shaft as you do. Power up so you can validate and adjust servo angles if needed.  
+care not to move the servo shaft as you do. Secure the arm on the servo shaft and power up so you can validate and adjust servo
+angles if needed.  
 
 1. Disable steppers (**`MMU_MOTORS_OFF`**).
 2. Set servo to `UP` position using **`MMU_SERVO POS=up`**. 
