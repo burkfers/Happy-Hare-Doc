@@ -157,7 +157,7 @@ For menuconfig or UI screenshots in narrative pages, center images and set width
 
 ```html
 <p align="center">
-  <img src="Feature-Example/screen-01.png" alt="Feature setup screen" width="70%">
+  <img class="floating" src="Feature-Example/screen-01.png" alt="Feature setup screen" width="70%">
 </p>
 ```
 
@@ -186,15 +186,15 @@ This site uses Material-style icon identifiers in config (examples: `material/ta
 
 Useful icon references:
 
- <img src="https://api.iconify.design/simple-icons:lucide.svg?color=%23cfd3dc" alt="Lucide icon" width="12">  [Lucide](https://lucide.dev/icons/)
+ <img class="floating" src="https://api.iconify.design/simple-icons:lucide.svg?color=%23cfd3dc" alt="Lucide icon" width="12">  [Lucide](https://lucide.dev/icons/)
 <br>
- <img src="https://api.iconify.design/simple-icons:materialdesignicons.svg?color=%23cfd3dc" alt="Material Design icon" width="12">  [Material Design](https://pictogrammers.com/library/mdi/)
+ <img class="floating" src="https://api.iconify.design/simple-icons:materialdesignicons.svg?color=%23cfd3dc" alt="Material Design icon" width="12">  [Material Design](https://pictogrammers.com/library/mdi/)
 <br>
-<img src="https://api.iconify.design/simple-icons:fontawesome.svg?color=%23cfd3dc" alt="FontAwesome icon" width="12">   [FontAwesome](https://fontawesome.com/search?m=free)
+<img class="floating" src="https://api.iconify.design/simple-icons:fontawesome.svg?color=%23cfd3dc" alt="FontAwesome icon" width="12">   [FontAwesome](https://fontawesome.com/search?m=free)
 <br>
-<img src="https://api.iconify.design/simple-icons:github.svg?color=%23cfd3dc" alt="Octicons icon" width="12">   [Octicons](https://octicons.github.com/)
+<img class="floating" src="https://api.iconify.design/simple-icons:github.svg?color=%23cfd3dc" alt="Octicons icon" width="12">   [Octicons](https://octicons.github.com/)
 <br>
- <img src="https://api.iconify.design/simple-icons:simpleicons.svg?color=%23cfd3dc" alt="Simple Icons icon" width="12">   [Simple Icons](https://simpleicons.org/)
+ <img class="floating" src="https://api.iconify.design/simple-icons:simpleicons.svg?color=%23cfd3dc" alt="Simple Icons icon" width="12">   [Simple Icons](https://simpleicons.org/)
 
 Example social icon entries:
 

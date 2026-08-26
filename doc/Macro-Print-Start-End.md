@@ -25,7 +25,7 @@ calling convention):
 ## Configuration
 
 <p align="center">
-  <img src="Macro-Print-Start-End/print-start-end.png" alt="menuconfig: Print start/end (_MMU_SOFTWARE) screen, showing start-of-print checks, automap strategy, and end-of-print behavior" width="85%">
+  <img class="floating" src="Macro-Print-Start-End/print-start-end.png" alt="menuconfig: Print start/end (_MMU_SOFTWARE) screen, showing start-of-print checks, automap strategy, and end-of-print behavior" width="85%">
 </p>
 
 Every setting here lives in `_MMU_SOFTWARE_VARS` in `mmu_macro_vars.cfg`,

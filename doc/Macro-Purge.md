@@ -21,7 +21,7 @@ length itself is calculated.
 ## Configuration
 
 <p align="center">
-  <img src="Macro-Purge/purge.png" alt="menuconfig: Purge (_MMU_PURGE) screen, showing the single extruder purge speed setting" width="85%">
+  <img class="floating" src="Macro-Purge/purge.png" alt="menuconfig: Purge (_MMU_PURGE) screen, showing the single extruder purge speed setting" width="85%">
 </p>
 
 `_MMU_PURGE_VARS` in `mmu_macro_vars.cfg`, reachable from menuconfig's

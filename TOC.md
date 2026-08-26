@@ -164,6 +164,14 @@ repo root (not under `doc/`) specifically so it's never a candidate for publishi
   every page (present and future) rather than per-page markup. Added
   2026-08-06 on request ("liked the visual color icons... helps provide
   visual separation").
+- **Article images have rounded corners and a subtle shadow site-wide**, via
+  `doc/assets/stylesheets/extra.css` (`.md-typeset img.floating`) — published
+  article images carry the generic `floating` class, giving screenshots and
+  illustrations a slightly floating presentation without affecting theme chrome
+  such as the header logo or footer art. The home page's
+  `index/universal_mmu_driver.png` hero is the deliberate exception. Slate mode
+  uses a directional light shadow against its dark page background. Added
+  2026-08-26; class scope clarified 2026-08-27.
 - **Reuse a wiki diagram even if its labels are stale — but only if it's an
   editable diagram, not a screenshot of real output.** Added 2026-08-06 after
   the user pushed back on `Conceptual-MMU.md` skipping the wiki's images

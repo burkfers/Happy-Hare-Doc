@@ -13,7 +13,7 @@ projects, if you want the latest without waiting.
 ## Main Panel
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_mmu_panel.png" alt="Mainsail MMU panel" width="65%">
+  <img class="floating" src="Mainsail-Fluidd-Integration/mainsail_mmu_panel.png" alt="Mainsail MMU panel" width="65%">
 </p>
 
 The MMU panel is dedicated to monitoring and operating the MMU at the
@@ -21,7 +21,7 @@ physical gate level - the Extruder panel (below) still handles day-to-day
 tool selection.
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_annotated_panel.png" alt="Mainsail MMU panel, annotated" width="100%">
+  <img class="floating" src="Mainsail-Fluidd-Integration/mainsail_annotated_panel.png" alt="Mainsail MMU panel, annotated" width="100%">
 </p>
 
 The general workflow is: select the gate/lane to operate on, then pick an
@@ -31,7 +31,7 @@ non-active gate opens a menu of what's possible there, such as ejecting
 filament from a gate that isn't loaded:
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/non-selected-gate.png" alt="Actions available on a non-selected gate" width="20%">
+  <img class="floating" src="Mainsail-Fluidd-Integration/non-selected-gate.png" alt="Actions available on a non-selected gate" width="20%">
 </p>
 
 ## Tool-to-Gate Mapping
@@ -41,7 +41,7 @@ slicer expects onto the MMU's physical gates; the same map can also be
 edited at any time outside of a print.
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_annotated_ttg_editor.png" alt="Mainsail Tool-to-Gate editor, annotated" width="100%">
+  <img class="floating" src="Mainsail-Fluidd-Integration/mainsail_annotated_ttg_editor.png" alt="Mainsail Tool-to-Gate editor, annotated" width="100%">
 </p>
 
 See [Feature: Gate/TTG Maps](Feature-Gate-TTG-Maps.md) for how the mapping
@@ -54,7 +54,7 @@ a gate to a Spoolman spool and lets Happy Hare pull attributes from there
 instead.
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_annotated_gate_editor.png" alt="Mainsail Gate Map editor, annotated" width="100%">
+  <img class="floating" src="Mainsail-Fluidd-Integration/mainsail_annotated_gate_editor.png" alt="Mainsail Gate Map editor, annotated" width="100%">
 </p>
 
 See [Feature: Spoolman / Filament Hub](Feature-Spoolman.md) for the Spoolman
@@ -67,7 +67,7 @@ fixes that; the **Maintenance** screen covers setup/operations specific to
 your particular MMU.
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_annotated_maintenance.png" alt="Mainsail MMU maintenance panel, annotated" width="100%">
+  <img class="floating" src="Mainsail-Fluidd-Integration/mainsail_annotated_maintenance.png" alt="Mainsail MMU maintenance panel, annotated" width="100%">
 </p>
 
 See [Operation](Operation.md#state-recovery) for what state recovery
@@ -98,19 +98,19 @@ A three-color print (`T0`, `T1`, `T2`) with the default `slicer` setting -
 unused tools show no color:
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_slicer.png" alt="Mainsail extruder colors, slicer mode" width="40%">
+  <img class="floating" src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_slicer.png" alt="Mainsail extruder colors, slicer mode" width="40%">
 </p>
 
 `allgates` instead shows every gate's actual loaded color:
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_allgates.png" alt="Mainsail extruder colors, allgates mode" width="40%">
+  <img class="floating" src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_allgates.png" alt="Mainsail extruder colors, allgates mode" width="40%">
 </p>
 
 `gatemap` is the same idea but hides gates with nothing loaded:
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_gatemap.png" alt="Mainsail extruder colors, gatemap mode" width="40%">
+  <img class="floating" src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_gatemap.png" alt="Mainsail extruder colors, gatemap mode" width="40%">
 </p>
 
 `allgates`/`gatemap` both respect the Tool-to-Gate map - remapping `T0` to
@@ -118,7 +118,7 @@ gate 7 with `MMU_TTG_MAP TOOL=0 GATE=7` immediately changes `T0`'s displayed
 color to whatever gate 7 has loaded:
 
 <p align="center">
-  <img src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_ttg_0_7.png" alt="Mainsail extruder colors after remapping T0 to gate 7" width="40%">
+  <img class="floating" src="Mainsail-Fluidd-Integration/mainsail_extruder_colors_ttg_0_7.png" alt="Mainsail extruder colors after remapping T0 to gate 7" width="40%">
 </p>
 
 !!! tip

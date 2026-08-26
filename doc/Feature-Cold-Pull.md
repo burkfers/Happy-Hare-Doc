@@ -74,8 +74,8 @@ regular nozzle, or the right for a CHT nozzle (getting a clean CHT pull
 needs the right temperature and a bit of luck):
 
 <p align="center">
-  <img src="Feature-Cold-Pull/Cold_Pull_Normal_Example.png" alt="Successful cold pull, regular nozzle" width="40%">
-  <img src="Feature-Cold-Pull/Cold_Pull_CHT_Example.png" alt="Successful cold pull, CHT nozzle" width="40%">
+  <img class="floating" src="Feature-Cold-Pull/Cold_Pull_Normal_Example.png" alt="Successful cold pull, regular nozzle" width="40%">
+  <img class="floating" src="Feature-Cold-Pull/Cold_Pull_CHT_Example.png" alt="Successful cold pull, CHT nozzle" width="40%">
 </p>
 
 It can take a few attempts to get a clean result.

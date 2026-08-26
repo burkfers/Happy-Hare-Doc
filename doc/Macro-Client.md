@@ -29,7 +29,7 @@ settings apply regardless.
 ## Configuration
 
 <p align="center">
-  <img src="Macro-Client/client.png" alt="menuconfig: Client macros (_MMU_CLIENT) screen, showing the cancel-behavior toggles and the three pause/resume/cancel extension hooks" width="85%">
+  <img class="floating" src="Macro-Client/client.png" alt="menuconfig: Client macros (_MMU_CLIENT) screen, showing the cancel-behavior toggles and the three pause/resume/cancel extension hooks" width="85%">
 </p>
 
 `_MMU_CLIENT_VARS` in `mmu_macro_vars.cfg`, reachable from menuconfig's

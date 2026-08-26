@@ -38,17 +38,17 @@ controls something more specific than it sounds - it's a **UI rendering
 choice**, not "does this unit have a bypass":
 
 <p align="center">
-  <img src="Feature-Filament-Bypass/design-attributes-bypass.png" alt="Design attributes screen: Associate bypass with this unit? checkbox, off by default" width="85%">
+  <img class="floating" src="Feature-Filament-Bypass/design-attributes-bypass.png" alt="Design attributes screen: Associate bypass with this unit? checkbox, off by default" width="85%">
 </p>
 
 <table>
   <tr>
     <td align="center">
-      <img src="Feature-Filament-Bypass/mmu_unit_ercf_bypass.png" alt="Mainsail gate strip with BYPASS rendered as part of the same unit panel as gates 0-8" width="95%"><br>
+      <img class="floating" src="Feature-Filament-Bypass/mmu_unit_ercf_bypass.png" alt="Mainsail gate strip with BYPASS rendered as part of the same unit panel as gates 0-8" width="95%"><br>
       Enabled - bypass shares the unit's own panel
     </td>
     <td align="center">
-      <img src="Feature-Filament-Bypass/mmu_unit_ercf_no_bypass.png" alt="Mainsail gate strip with BYPASS rendered as a separate panel to the right" width="95%"><br>
+      <img class="floating" src="Feature-Filament-Bypass/mmu_unit_ercf_no_bypass.png" alt="Mainsail gate strip with BYPASS rendered as a separate panel to the right" width="95%"><br>
       Disabled (default) - bypass renders as its own separate panel
     </td>
   </tr>

@@ -152,7 +152,7 @@ one fitted.
 ### Encoder meter (Mainsail/Fluidd)
 
 <p align="center">
-  <img src="Feature-Encoder/encoder-meter.png" alt="Mainsail/Fluidd FlowGuard meter widget for an encoder-equipped unit, with callouts for flow rate, current measurement, detection mode, and the headroom danger zone" width="70%">
+  <img class="floating" src="Feature-Encoder/encoder-meter.png" alt="Mainsail/Fluidd FlowGuard meter widget for an encoder-equipped unit, with callouts for flow rate, current measurement, detection mode, and the headroom danger zone" width="70%">
 </p>
 
 Mainsail and Fluidd render this as a gauge rather than plain numbers: the

@@ -75,7 +75,7 @@ linear carriage, one index switch per gate, a rotary carriage, or a
 servo-driven arm.
 
 <p align="center">
-  <img src="Conceptual-MMU/typeA_mmu.png" alt="Type A: single shared gear stepper and filament drive, with a moving selector choosing the gate" width="90%">
+  <img class="floating" src="Conceptual-MMU/typeA_mmu.png" alt="Type A: single shared gear stepper and filament drive, with a moving selector choosing the gate" width="90%">
 </p>
 
 **Trade-offs:** cost-effective for a large number of gates, straightforward
@@ -86,8 +86,8 @@ gear-per-gate design.
 **Examples:**
 
 <p align="center">
-  <img src="Conceptual-MMU/default_ercf.png" alt="Default ERCF sensor layout: pre-gate sensors, encoder, toolhead sensor" width="44.5%">
-  <img src="Conceptual-MMU/default_tradrack.png" alt="Default Tradrack sensor layout: gate sensor, toolhead sensor" width="44.5%">
+  <img class="floating" src="Conceptual-MMU/default_ercf.png" alt="Default ERCF sensor layout: pre-gate sensors, encoder, toolhead sensor" width="44.5%">
+  <img class="floating" src="Conceptual-MMU/default_tradrack.png" alt="Default Tradrack sensor layout: gate sensor, toolhead sensor" width="44.5%">
 </p>
 
 ERCF relies on the encoder exclusively for gate homing and move validation;
@@ -106,7 +106,7 @@ merges every gate's bowden into one feed to the toolhead (see
 [Terminology](#terminology) above).
 
 <p align="center">
-  <img src="Conceptual-MMU/typeB_mmu.png" alt="Type B: one gear stepper per gate, filament combiner, no moving selector" width="90%">
+  <img class="floating" src="Conceptual-MMU/typeB_mmu.png" alt="Type B: one gear stepper per gate, filament combiner, no moving selector" width="90%">
 </p>
 
 **Trade-offs:** easy to build, needs less tuning - but a more costly build
@@ -120,7 +120,7 @@ something it models.
 **Example:**
 
 <p align="center">
-  <img src="Conceptual-MMU/default_box_turtle.png" alt="Default Box Turtle sensor layout: pre-gate and post-gear sensors per lane, shared hub sensor, turtle-neck sync-feedback" width="90%">
+  <img class="floating" src="Conceptual-MMU/default_box_turtle.png" alt="Default Box Turtle sensor layout: pre-gate and post-gear sensors per lane, shared hub sensor, turtle-neck sync-feedback" width="90%">
 </p>
 
 ### Gear-per-gate *and* a moving selector ("Type-C")
@@ -130,7 +130,7 @@ still a physical carriage that moves to line the selected gate up with the
 extruder path (as in Type-A).
 
 <p align="center">
-  <img src="Conceptual-MMU/typeC_mmu.png" alt="Type C: one gear stepper per gate, plus a moving selector" width="90%">
+  <img class="floating" src="Conceptual-MMU/typeC_mmu.png" alt="Type C: one gear stepper per gate, plus a moving selector" width="90%">
 </p>
 
 No vendor defaults to this yet, but it's available as a manual selection for
