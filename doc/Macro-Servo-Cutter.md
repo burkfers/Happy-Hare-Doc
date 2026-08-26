@@ -3,7 +3,7 @@
 ## What it does
 
 <p align="center">
-  <img src="Macro-Servo-Cutter/erec-logo.jpg" alt="EREC filament cutter" width="45%">
+  <img class="floating" src="Macro-Servo-Cutter/erec-logo.jpg" alt="EREC filament cutter" width="45%">
 </p>
 
 Tunes a servo-actuated cutter mounted **at the MMU** end of the bowden -
@@ -44,7 +44,7 @@ variable_user_post_unload_extension : 'SERVO_CUTTER_ACTION'
 ## Configuration
 
 <p align="center">
-  <img src="Macro-Servo-Cutter/servo-cutter.png" alt="menuconfig: Servo cutter at MMU (_MMU_SERVO_CUTTER) screen, showing servo angles/timing and feed/cut length settings" width="85%">
+  <img class="floating" src="Macro-Servo-Cutter/servo-cutter.png" alt="menuconfig: Servo cutter at MMU (_MMU_SERVO_CUTTER) screen, showing servo angles/timing and feed/cut length settings" width="85%">
 </p>
 
 `_MMU_SERVO_CUTTER_VARS` in `mmu_macro_vars.cfg`, reachable from

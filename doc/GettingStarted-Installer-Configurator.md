@@ -33,7 +33,7 @@ settings file with a backup maintained in `printer_data/config/mmu/.mmu-config` 
 ensure it's included in popular GitHub‑based printer configuration backup mechanisms.
 
 ## Navigation
-<img src="GettingStarted-Installer-Configurator/GettingStarted-Installer-Configurator.png" alt="Menuconfig installer and configurator" align=right width="50%">
+<img class="floating" src="GettingStarted-Installer-Configurator/GettingStarted-Installer-Configurator.png" alt="Menuconfig installer and configurator" align=right width="50%">
 
 Navigation is intuitive and the same as any other `menuconfig` based interface.
 
@@ -68,7 +68,7 @@ _**R**efresh_, _**R**eplace_, and _**M**erge_: <br><br>
 
 <div width="100%">
 <p align="center">
-  <img src="GettingStarted-Installer-Configurator/GettingStarted-Menuconfig-Update-Options.png" alt="Menuconfig configuration update options" align=center width="60%">
+  <img class="floating" src="GettingStarted-Installer-Configurator/GettingStarted-Menuconfig-Update-Options.png" alt="Menuconfig configuration update options" align=center width="60%">
 </p>
 </div>
 

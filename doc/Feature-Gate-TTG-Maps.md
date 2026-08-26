@@ -27,7 +27,7 @@ automatically when one runs out.
 ### Gate map
 
 <p align="center">
-  <img src="Feature-Gate-TTG-Maps/visual_ttg.png" alt="Diagram: a slicer's 4 tool colors mapped through the TTG map onto an 8-gate MMU, with two gates of the same color grouped into an EndlessSpool group" width="80%">
+  <img class="floating" src="Feature-Gate-TTG-Maps/visual_ttg.png" alt="Diagram: a slicer's 4 tool colors mapped through the TTG map onto an 8-gate MMU, with two gates of the same color grouped into an EndlessSpool group" width="80%">
 </p>
 
 ```text
@@ -222,10 +222,10 @@ and Mainsail/Fluidd both have a TTG editor:
 <table>
   <tr>
     <td align="center">
-      <img src="Feature-Gate-TTG-Maps/klipperscreen_mmu_toolmap.png" alt="KlipperScreen Happy Hare edition TTG editor: T0-T8 mapped to gates, with an EndlessSpool group editor" width="100%">
+      <img class="floating" src="Feature-Gate-TTG-Maps/klipperscreen_mmu_toolmap.png" alt="KlipperScreen Happy Hare edition TTG editor: T0-T8 mapped to gates, with an EndlessSpool group editor" width="100%">
     </td>
     <td align="center">
-      <img src="Feature-Gate-TTG-Maps/mainsail_edit_ttg_map.png" alt="Mainsail Edit TTG Map dialog: tool cards, a crossbar diagram, and a spool detail list" width="90%">
+      <img class="floating" src="Feature-Gate-TTG-Maps/mainsail_edit_ttg_map.png" alt="Mainsail Edit TTG Map dialog: tool cards, a crossbar diagram, and a spool detail list" width="90%">
     </td>
   </tr>
 </table>
@@ -244,7 +244,7 @@ and Mainsail/Fluidd both have a TTG editor:
 ### Automatic TTG mapping
 
 <p align="center">
-  <img src="Feature-Gate-TTG-Maps/automap-strategy.png" alt="Automap strategy menuconfig screen: strategy choice and the reset-TTG-map-at-end-of-print checkbox" width="85%">
+  <img class="floating" src="Feature-Gate-TTG-Maps/automap-strategy.png" alt="Automap strategy menuconfig screen: strategy choice and the reset-TTG-map-at-end-of-print checkbox" width="85%">
 </p>
 
 Rather than remap tools by hand every time, Happy Hare can do it

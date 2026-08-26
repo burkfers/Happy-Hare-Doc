@@ -20,7 +20,7 @@ process this documentation calls **AutoTune**. Four sensor styles are
 supported:
 
 <p align="center">
-  <img src="Feature-Sync-Feedback-Buffer/typical-buffer.png" alt="A tension/compression buffer mechanism between the MMU and the printer, with a tension switch on the printer side and a compression switch on the MMU side" width="70%">
+  <img class="floating" src="Feature-Sync-Feedback-Buffer/typical-buffer.png" alt="A tension/compression buffer mechanism between the MMU and the printer, with a tension switch on the printer side and a compression switch on the MMU side" width="70%">
 </p>
 
 - **Tension-only (TO)** - a single switch that trips when the filament is
@@ -52,7 +52,7 @@ of two algorithms it runs:
   accurate once converged.
 
 <p align="center">
-  <img src="Feature-Sync-Feedback-Buffer/type-co-simulation.png" alt="Simulated AutoTune convergence with a Type-CO switch sensor: the gear rotation distance oscillates in decreasing swings around the correct value as AutoTune converges" width="90%">
+  <img class="floating" src="Feature-Sync-Feedback-Buffer/type-co-simulation.png" alt="Simulated AutoTune convergence with a Type-CO switch sensor: the gear rotation distance oscillates in decreasing swings around the correct value as AutoTune converges" width="90%">
 </p>
 
 The gear's rotation distance (heavy blue line) starts off `20`, but the
@@ -63,7 +63,7 @@ sensor](Feature-Sync-Feedback-Buffer/type-d-simulation.png) looks similar.
 EKF mode converges the same way, just without the oscillation:
 
 <p align="center">
-  <img src="Feature-Sync-Feedback-Buffer/type-p-simulation.png" alt="Simulated AutoTune convergence with a Type-P proportional sensor: the gear rotation distance converges smoothly on the correct value with no oscillation" width="90%">
+  <img class="floating" src="Feature-Sync-Feedback-Buffer/type-p-simulation.png" alt="Simulated AutoTune convergence with a Type-P proportional sensor: the gear rotation distance converges smoothly on the correct value with no oscillation" width="90%">
 </p>
 
 A sync-feedback sensor isn't only useful for AutoTune - a compression switch
@@ -80,7 +80,7 @@ Enable this under **MMU Features / Additions**, in a **Buffer config**
 submenu that only appears once **Has sync-feedback buffer?** is selected:
 
 <p align="center">
-  <img src="Feature-Sync-Feedback-Buffer/buffer-config.png" alt="Buffer config screen: buffer name, sensor range and max range, resting spring state, both a compression and tension switch pin fitted, and the Feedback Tuning section below" width="80%">
+  <img class="floating" src="Feature-Sync-Feedback-Buffer/buffer-config.png" alt="Buffer config screen: buffer name, sensor range and max range, resting spring state, both a compression and tension switch pin fitted, and the Feedback Tuning section below" width="80%">
 </p>
 
 | Setting | Purpose |
@@ -162,7 +162,7 @@ setting from the buffer itself, under **Other Settings → MMU/Extruder
 sync**:
 
 <p align="center">
-  <img src="Feature-Sync-Feedback-Buffer/motor-sync.png" alt="MMU/Extruder sync screen: dynamic sync feedback enabled, synchronized gear current at 100 percent, and the two toolhead tension toggles" width="80%">
+  <img class="floating" src="Feature-Sync-Feedback-Buffer/motor-sync.png" alt="MMU/Extruder sync screen: dynamic sync feedback enabled, synchronized gear current at 100 percent, and the two toolhead tension toggles" width="80%">
 </p>
 
 ```ini
@@ -258,7 +258,7 @@ in the printer variable reference - `sync_feedback_state`,
 ### Sync-feedback meter (Mainsail/Fluidd)
 
 <p align="center">
-  <img src="Feature-Sync-Feedback-Buffer/sync-feedback-meter.png" alt="Mainsail/Fluidd FlowGuard meter for a sync-feedback-equipped unit, with callouts for the neutral point, current measurement, flow rate, and the tangle/clog trigger points" width="70%">
+  <img class="floating" src="Feature-Sync-Feedback-Buffer/sync-feedback-meter.png" alt="Mainsail/Fluidd FlowGuard meter for a sync-feedback-equipped unit, with callouts for the neutral point, current measurement, flow rate, and the tangle/clog trigger points" width="70%">
 </p>
 
 Extreme tension or compression is called out directly on the gate icon too,
@@ -267,11 +267,11 @@ for a quick glance without opening the meter:
 <table>
   <tr>
     <td align="center">
-      <img src="Feature-Sync-Feedback-Buffer/switch-sensor-compressed.png" alt="Switch-type buffer showing an extreme compression indicator" width="90%"><br>
+      <img class="floating" src="Feature-Sync-Feedback-Buffer/switch-sensor-compressed.png" alt="Switch-type buffer showing an extreme compression indicator" width="90%"><br>
       Switch sensor at an extreme (compression shown)
     </td>
     <td align="center">
-      <img src="Feature-Sync-Feedback-Buffer/p-sensor-position.png" alt="Proportional sensor showing its normalised position" width="90%"><br>
+      <img class="floating" src="Feature-Sync-Feedback-Buffer/p-sensor-position.png" alt="Proportional sensor showing its normalised position" width="90%"><br>
       Proportional sensor's live position (<code>0.25</code> here)
     </td>
   </tr>

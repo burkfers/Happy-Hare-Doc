@@ -7,7 +7,7 @@ ejects that gate's filament directly, no console/UI interaction needed.
 Enable under **MMU Features / Additions**:
 
 <p align="center">
-  <img src="Feature-Eject-Buttons/eject-buttons.png" alt="Mmu eject buttons config screen: one pin prompt per gate, blank by default" width="80%">
+  <img class="floating" src="Feature-Eject-Buttons/eject-buttons.png" alt="Mmu eject buttons config screen: one pin prompt per gate, blank by default" width="80%">
 </p>
 
 Each configured pin produces a `[gcode_button ...]` in `mmu_hardware.cfg`

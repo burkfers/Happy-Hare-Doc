@@ -32,7 +32,7 @@ the same parameters the original call received.
 ## Configuration
 
 <p align="center">
-  <img src="Macro-State-Change-Hooks/state-change-hooks.png" alt="menuconfig: State change hooks (_MMU_STATE) screen, showing the three extension-macro hooks and the servo/cutter consumption-warning limits" width="85%">
+  <img class="floating" src="Macro-State-Change-Hooks/state-change-hooks.png" alt="menuconfig: State change hooks (_MMU_STATE) screen, showing the three extension-macro hooks and the servo/cutter consumption-warning limits" width="85%">
 </p>
 
 `_MMU_STATE_VARS` in `mmu_macro_vars.cfg`, reachable from menuconfig's

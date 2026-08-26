@@ -159,7 +159,7 @@ inside a `.md` file:
 
 ```html
 <p align="center">
-  <img src="GettingStarted-BoxTurtle/01-first-run.png" alt="..." width="70%">
+  <img class="floating" src="GettingStarted-BoxTurtle/01-first-run.png" alt="..." width="70%">
 </p>
 ```
 

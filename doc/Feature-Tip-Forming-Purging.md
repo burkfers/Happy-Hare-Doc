@@ -8,7 +8,7 @@ doesn't jam, and a **purge** big enough to clear the old color/material
 out of the nozzle without wasting excessive filament.
 
 <p align="center">
-  <img src="Feature-Tip-Forming-Purging/good_tips.png" alt="Well-formed filament tips, free of blobs or hairs" width="30%">
+  <img class="floating" src="Feature-Tip-Forming-Purging/good_tips.png" alt="Well-formed filament tips, free of blobs or hairs" width="30%">
 </p>
 
 Each has the same three-way choice, and they're independent of each other:
@@ -30,7 +30,7 @@ unload; you still form a decent tip beforehand the normal way.
 Two independent menus, both unconditional (every MMU type gets them):
 
 <p align="center">
-  <img src="Feature-Tip-Forming-Purging/tip-forming-cutting.png" alt="Tip Forming / Cutting screen: servo cutter off, standalone tip forming selected and forced" width="85%">
+  <img class="floating" src="Feature-Tip-Forming-Purging/tip-forming-cutting.png" alt="Tip Forming / Cutting screen: servo cutter off, standalone tip forming selected and forced" width="85%">
 </p>
 
 | Setting | Purpose |
@@ -41,7 +41,7 @@ Two independent menus, both unconditional (every MMU type gets them):
 | `Extruder tip forming current` | 100-150%, extra torque for the rapid tip-forming moves; 100 disables the boost |
 
 <p align="center">
-  <img src="Feature-Tip-Forming-Purging/purging.png" alt="Purging screen: Blobifier off, simple bucket purge selected" width="85%">
+  <img class="floating" src="Feature-Tip-Forming-Purging/purging.png" alt="Purging screen: Blobifier off, simple bucket purge selected" width="85%">
 </p>
 
 | Setting | Purpose |
@@ -89,14 +89,14 @@ filament presets tagged **@MMU** in the name are the multi-material ones
 with real tip-forming settings behind them:
 
 <p align="center">
-  <img src="Feature-Tip-Forming-Purging/prusa_starting_point.png" alt="PrusaSlicer MMU printer/filament preset picker" width="55%">
+  <img class="floating" src="Feature-Tip-Forming-Purging/prusa_starting_point.png" alt="PrusaSlicer MMU printer/filament preset picker" width="55%">
 </p>
 
 Pick the filament type you're tuning for (PLA, ABS, PETG, ...) and use its
 Multimaterial section settings as your own starting point:
 
 <p align="center">
-  <img src="Feature-Tip-Forming-Purging/prusa_tip_params.png" alt="PrusaSlicer toolchange tip-forming parameters" width="40%">
+  <img class="floating" src="Feature-Tip-Forming-Purging/prusa_tip_params.png" alt="PrusaSlicer toolchange tip-forming parameters" width="40%">
 </p>
 
 Its tuning variables live in `mmu_macro_vars.cfg`'s
@@ -184,10 +184,10 @@ waste:
 <table>
   <tr>
     <td align="center">
-      <img src="Feature-Tip-Forming-Purging/manual_purging_volumes.png" alt="PrusaSlicer simple per-tool purge volume panel" width="90%">
+      <img class="floating" src="Feature-Tip-Forming-Purging/manual_purging_volumes.png" alt="PrusaSlicer simple per-tool purge volume panel" width="90%">
     </td>
     <td align="center">
-      <img src="Feature-Tip-Forming-Purging/matrix_purging_volumes.png" alt="PrusaSlicer full N by N purge volume matrix" width="90%">
+      <img class="floating" src="Feature-Tip-Forming-Purging/matrix_purging_volumes.png" alt="PrusaSlicer full N by N purge volume matrix" width="90%">
     </td>
   </tr>
 </table>
@@ -322,7 +322,7 @@ MMU_TEST_CONFIG toolhead_ooze_reduction=1
 ```
 
 <p align="center">
-  <img src="Feature-Tip-Forming-Purging/toolhead_ooze_reduction.png" alt="A purge tower with blobs/gaps at different toolhead_ooze_reduction values from -3 to 8mm, with +1mm marked as correct" width="60%">
+  <img class="floating" src="Feature-Tip-Forming-Purging/toolhead_ooze_reduction.png" alt="A purge tower with blobs/gaps at different toolhead_ooze_reduction values from -3 to 8mm, with +1mm marked as correct" width="60%">
 </p>
 
 Blobs on the purge tower after a load mean the value is too low (more
