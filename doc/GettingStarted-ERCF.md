@@ -55,6 +55,13 @@ indented underneath — **`Version`**,**`Number of gates/lanes`**, **`Selector s
   <img src="GettingStarted-ERCF/02-mmu-type-ercf.png" alt="MMU Type list, with ERCF selected" width="70%">
 </p>
 <br>
+Confirm the version of your ERCF build. Because the ERCF has evolved significantly over time, Happy Hare needs
+to know which version you built so it can recommend and set appropriate defaults.
+
+<p align="center">
+  <img src="GettingStarted-ERCF/02-ercf-version.png" alt="ERCF version defaults" width="70%">
+</p>
+<br>
 <br>
 Enter the **`Number of gates/lanes`** to match your ERCF build. Different ERCF generations use different
 gate conventions, so lane counts typically fall into multiples of **`3`** or **`4`** depending on the generation
@@ -92,9 +99,9 @@ Next, review applicable Project Options. If your ERCF build uses the servo-less 
 </p>
 <br>
 <br>
-Back out twice (++esc++, ++esc++) to return to the top menu, and review the warnings panel again. Three of the 
-four warnings are already gone. The one that's left — *"`Toolhead type is 'other'`"* — is exactly what it sounds
-like: Happy Hare still doesn't know your toolhead, and that's covered in a different getting-started page. 
+++esc++ and back out to the top menu, and review the warnings panel again. Three of the four warnings are
+already gone. The one that's left — *"`Toolhead type is 'other'`"* — is exactly what it sounds like: 
+Happy Hare still doesn't know your toolhead, and that's covered in a different getting-started page. 
 Don't worry about it here.
 
 <p align="center">
@@ -186,8 +193,9 @@ Annex Belay or more recent analog Proportional Sync Feedback sensors, etc.
 </p>
 <br>
 
-By default, a **`Binky 12-vane Encoder`** is selected. If you have a different encoder configuration open **`Type`**
-to change options. Encoder accuracy is dependent on this configuration and the type and number of vanes the installed
+The most common choice based on the ERCF version you selected is enabled by default - in this case, for ERCF v3,
+a **`Binky 12-vane Encoder`**. If you have a different encoder configuration open **`Type`** to change options. 
+Encoder accuracy is dependent on this configuration and the type and actual number of vanes the installed
 encoder wheel has.
 <p align="center">
   <img src="GettingStarted-ERCF/12-mmu-encoder.png" alt="Encoder settings" width="70%">
