@@ -1,12 +1,5 @@
 # Feature: NFC/RFID Reading
 
-!!! warning "Important"
-    NFC/RFID support is **beta**. The core reading and Spoolman-resolution
-    path is solid, but using a reader as a homing target (see
-    [Per-gate readers: automatic reads during preload](#per-gate-readers-automatic-reads-during-preload)
-    below) has only been confirmed on the RC522 (SPI) reader - the PN532 and
-    PN7160 (I2C) haven't yet had the same bench verification.
-
 ## Concept
 
 An NFC/RFID reader scans the tag on a filament spool and reports its UID -
@@ -524,11 +517,6 @@ both off by default so a stock setup pays no extra reader I/O:
   [Feature: Spoolman / Filament Hub troubleshooting](Feature-Spoolman.md#troubleshooting));
   an unresolved tag also won't retry on its own until it's removed and
   re-presented.
-- **Homing to a per-gate reader behaves oddly on PN532/PN7160** - this path
-  is confirmed only on RC522 so far (see the beta note at the top of this
-  page); fall back to `MMU_NFC_SCAN` (a plain read after the fact, not a
-  homing target) if preload's automatic behaviour is unreliable on your
-  reader.
 - **A scan logs "tag ... was registered to spool X - moving it to spool
   Y"** - informational, not an error: the tag was already bound to a
   different spool and Happy Hare re-pointed it to the one just scanned (see
