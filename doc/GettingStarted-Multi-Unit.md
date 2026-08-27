@@ -115,13 +115,34 @@ Configure this unit as thoroughly as a first installation:
    with an existing unit.
 7. Resolve every configuration warning, press **Q**, and save.
 
-The Getting Started guide for the selected MMU design provides the detailed
-walkthrough for these unit-specific choices:
+## Removing a unit
 
-- [Box Turtle](GettingStarted-BoxTurtle.md)
-- [BTT ViViD](GettingStarted-ViViD.md)
-- [ERCF](GettingStarted-ERCF.md)
-- [Tradrack](GettingStarted-Tradrack.md)
+From the `Happy-Hare` directory, rerun the interactive installer:
+
+```bash
+./install.sh -i
+```
+
+On the first, teal-coloured **Shared Config** pass, open **MMU unit names** and
+remove the symbolic name of the unit you no longer want. Save the shared
+configuration, then complete the remaining unit-specific passes. When the
+installer finishes, it removes the generated configuration for the deleted unit.
+
+!!! warning "Symbolic names cannot be renamed"
+    The installer cannot currently rename an established unit's symbolic name.
+    The only workaround is to edit `.mmu_config` and every affected per-unit file,
+    such as `.mmu_config_unit0` and `.mmu_config_unit1`, by hand so that all names
+    remain consistent. Use the unit's **Display name** instead when you only want
+    to change the name shown in Mainsail, Fluidd or KlipperScreen.
+
+!!! note "Where menuconfig choices are stored"
+    `.mmu_config` contains the shared choices used by `menuconfig`, while files
+    such as `.mmu_config_unit0` and `.mmu_config_unit1` contain each unit's
+    choices. The installer also copies these files into
+    `~/printer_data/config/mmu/`. Before applying an installation, it backs up
+    the previous `mmu` directory to a timestamped location such as
+    `~/printer_data/config/mmu.old-20260827-143000`, so the earlier menuconfig
+    choices remain available if they are needed for recovery.
 
 ## Sharing components between units
 
