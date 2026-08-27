@@ -3,7 +3,7 @@
 ## What it does
 
 <p align="center">
-  <img class="floating" src="Macro-Blobifier/blobifier.jpg" alt="Blobifier purge system" width="45%">
+  <img src="Macro-Blobifier/blobifier.jpg" alt="Blobifier purge system" width="45%">
 </p>
 
 Tunes Blobifier, a standalone purge system that replaces the slicer's wipe
@@ -47,7 +47,7 @@ them blank for the default bed-mounted brush.
 ## Configuration
 
 <p align="center">
-  <img class="floating" src="Macro-Blobifier/blobifier.png" alt="menuconfig: Blobifier (_BLOBIFIER) screen, showing purge speed/temperature, toolhead offsets, tray positions, blob tuning, purge length tuning, bucket, and retraction settings" width="75%">
+  <img src="Macro-Blobifier/blobifier.png" alt="menuconfig: Blobifier (_BLOBIFIER) screen, showing purge speed/temperature, toolhead offsets, tray positions, blob tuning, purge length tuning, bucket, and retraction settings" width="75%">
 </p>
 
 `_BLOBIFIER_VARS` in `mmu_macro_vars.cfg`, reachable from menuconfig's

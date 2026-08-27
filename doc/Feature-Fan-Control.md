@@ -39,7 +39,7 @@ Enabled under **MMU Features / Additions** → **Has cooling fans?**,
 alongside **Has environment sensor(s)?** from Environment Manager.
 
 <p align="center">
-  <img class="floating" src="Feature-Fan-Control/fan-config.png" alt="Fan config screen: fan maximum power, fan kick start time, and fan pin" width="80%">
+  <img src="Feature-Fan-Control/fan-config.png" alt="Fan config screen: fan maximum power, fan kick start time, and fan pin" width="80%">
 </p>
 
 | Setting | Purpose |
@@ -74,7 +74,7 @@ kick_start_time : 0.5
 ## Parameter Setup
 
 <p align="center">
-  <img class="floating" src="Feature-Fan-Control/fan-controls.png" alt="Fan controls screen: on/off temperature thresholds, polling time, control enabled toggle, and forced state choice" width="80%">
+  <img src="Feature-Fan-Control/fan-controls.png" alt="Fan controls screen: on/off temperature thresholds, polling time, control enabled toggle, and forced state choice" width="80%">
 </p>
 
 Software tuning lives in `mmu_macro_vars.cfg`'s `_MMU_FAN_VARS` block:

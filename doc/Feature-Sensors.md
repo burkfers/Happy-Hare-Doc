@@ -14,7 +14,7 @@ addressed, how to query their state, and how to enable or disable one at
 runtime without touching a wire.
 
 <p align="center">
-  <img class="floating" src="Feature-Sensors/all-sensors-ui.png" alt="Mainsail/Fluidd MMU status panel showing generic sensor position labels along the filament path: Pre-Gate, Gear, Gate, Encoder, Extruder, Toolhead" width="45%">
+  <img src="Feature-Sensors/all-sensors-ui.png" alt="Mainsail/Fluidd MMU status panel showing generic sensor position labels along the filament path: Pre-Gate, Gear, Gate, Encoder, Extruder, Toolhead" width="45%">
 </p>
 
 The labels above (`Pre-Gate`, `Gear`, `Gate`, `Encoder`, `Extruder`,

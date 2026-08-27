@@ -33,7 +33,7 @@ nothing to configure or restore by hand.
 ## Configuration
 
 <p align="center">
-  <img class="floating" src="Macro-Tip-Forming/tip-forming.png" alt="menuconfig: Tip forming (_MMU_FORM_TIP) screen, showing the ramming, nozzle separation, cooling, skinnydip, and parking steps" width="85%">
+  <img src="Macro-Tip-Forming/tip-forming.png" alt="menuconfig: Tip forming (_MMU_FORM_TIP) screen, showing the ramming, nozzle separation, cooling, skinnydip, and parking steps" width="85%">
 </p>
 
 `_MMU_FORM_TIP_VARS` in `mmu_macro_vars.cfg`, reachable from menuconfig's

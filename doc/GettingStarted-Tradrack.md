@@ -18,7 +18,7 @@ If this is the very first time you've run `./install.sh`, there's no `.mmu_confi
 drops you straight into the interactive `menuconfig` mode — no separate `-i` flag needed.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/01-first-run.png" alt="First run: nothing configured yet" width="70%">
+  <img src="GettingStarted-Tradrack/01-first-run.png" alt="First run: nothing configured yet" width="70%">
 </p>
 <br>
 
@@ -34,7 +34,7 @@ Highlight **`MMU Type`** and press Enter. Move down to **`Tradrack`** and press 
 <br>
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/02-mmu-type-tradrack.png" alt="MMU Type list, with Tradrack selected" width="70%">
+  <img src="GettingStarted-Tradrack/02-mmu-type-tradrack.png" alt="MMU Type list, with Tradrack selected" width="70%">
 </p>
 <br>
 <br>
@@ -43,7 +43,7 @@ for as few or many lanes as you can accommodate in your build. The default is 10
 number from 1 to Happy Hare's maximum of 20.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/03-lanes.png" alt="Defaults to 10" width="70%">
+  <img src="GettingStarted-Tradrack/03-lanes.png" alt="Defaults to 10" width="70%">
 </p>
 <br>
 <br>
@@ -53,14 +53,14 @@ Servo settings such as min/max pulse widths, etc. are managed using `(Top) → O
 later in the `menuconfig` flow.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/04-selector-servo-type.png" alt="Selector servo type" width="70%">
+  <img src="GettingStarted-Tradrack/04-selector-servo-type.png" alt="Selector servo type" width="70%">
 </p>
 <br>
 <br>
 Next, review applicable Project Options. If you added an optional Binky encoder, you can select and enable this here.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/05-project-options.png" alt="Project Options" width="70%">
+  <img src="GettingStarted-Tradrack/05-project-options.png" alt="Project Options" width="70%">
 </p>
 <br>
 <br>
@@ -70,7 +70,7 @@ like: Happy Hare still doesn't know your toolhead, and that's covered in a diffe
 Don't worry about it here.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/06-root-warnings.png" alt="Root menu after choosing Tradrack - one warning left" width="70%">
+  <img src="GettingStarted-Tradrack/06-root-warnings.png" alt="Root menu after choosing Tradrack - one warning left" width="70%">
 </p>
 
 ### Board type
@@ -80,7 +80,7 @@ board like an original or RP2040 based `EASY-BRD`, this is where you’d choose 
 TMC drivers throughout the rest of `menuconfig` are derived from whatever controller you select here.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/07-board-type.png" alt="Board type list, BTT MMB v2.0 with CANBus already selected" width="70%">
+  <img src="GettingStarted-Tradrack/07-board-type.png" alt="Board type list, BTT MMB v2.0 with CANBus already selected" width="70%">
 </p>
 
 ### MCU connection
@@ -98,13 +98,13 @@ Existing connection selections/mapping are retained and not overwritten once sav
 The first discovered serial device is selected by default. Press enter to choose a different discovered device.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/08-mcu-connection.png" alt="MCU connection" width="70%">
+  <img src="GettingStarted-Tradrack/08-mcu-connection.png" alt="MCU connection" width="70%">
 </p>
 <br>
 
 In this example, we are going to switch to CANBus. Open **`MCU connection`** and select **`CANbus`**:
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/08-mcu-connection-canbus.png" alt="MCU connection" width="70%">
+  <img src="GettingStarted-Tradrack/08-mcu-connection-canbus.png" alt="MCU connection" width="70%">
 </p>
 <br>
 
@@ -112,7 +112,7 @@ A list of discovered CANBus UUIDs is shown. If more than one device is found, se
 controller. If only one device is detected, it will be selected automatically.
 If no UUIDs are discovered, choose **`Other / manually entered`** and enter the correct CANBus UUID manually.
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/08-mcu-connection-canbus-uuids.png" alt="MCU connection" width="70%">
+  <img src="GettingStarted-Tradrack/08-mcu-connection-canbus-uuids.png" alt="MCU connection" width="70%">
 </p>
 
 ### Pins: gear and selector direction
@@ -125,7 +125,7 @@ when you buzz the steppers to verify their direction in
 This is where you would change the stepper direction if needed.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/09-gear-pins.png" alt="Gear pins list - one row per gate" width="70%">
+  <img src="GettingStarted-Tradrack/09-gear-pins.png" alt="Gear pins list - one row per gate" width="70%">
 </p>
 <br>
 
@@ -134,7 +134,7 @@ Highlight the **`Gear dir pin`** for the stepper and press Enter to open its edi
 add a `!` in front of the pin name — Klipper's standard way of inverting a pin's polarity. 
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/09-gear-dir-inverted.png" alt="Gear dir pin editor, showing the default pin" width="70%">
+  <img src="GettingStarted-Tradrack/09-gear-dir-inverted.png" alt="Gear dir pin editor, showing the default pin" width="70%">
 </p>
 <br>
 
@@ -149,7 +149,7 @@ the gate sensor is still highly recommended, as it reacts much faster and signif
 operations when set as the **`Gate homing endstop`**. This guide assumes you have a gate sensor installed.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/11-Endstops.png" alt="Endstops" width="70%">
+  <img src="GettingStarted-Tradrack/11-Endstops.png" alt="Endstops" width="70%">
 </p>
 
 ### Picking a toolhead
@@ -159,7 +159,7 @@ From the top menu, select **Toolhead**. This step is optional — if you skip it
 instead of generic estimates. Here we’ve chosen **`A4T WWBMG for A4T Dragon Ace`** to illustrate.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/10-toolhead-selected.png" alt="Toolhead list, A4T WWBMG for A4T Dragon Ace selected" width="70%">
+  <img src="GettingStarted-Tradrack/10-toolhead-selected.png" alt="Toolhead list, A4T WWBMG for A4T Dragon Ace selected" width="70%">
 </p>
 <br>
 
@@ -172,7 +172,7 @@ The other two distances Happy Hare can use (**`Toolhead sensor to nozzle`** & **
 only appear when you have enabled the sensors and remain hidden when disabled.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/10-all-toolhead-dimensions-combined.png" alt="Toolhead dimensions, pre-filled from the selected combo" width="70%">
+  <img src="GettingStarted-Tradrack/10-all-toolhead-dimensions-combined.png" alt="Toolhead dimensions, pre-filled from the selected combo" width="70%">
 </p>
 <br>
 
@@ -187,7 +187,7 @@ modular design with a basic set of out-of-the-box features. Popular community co
 buffers (sensors) such as Annex Belay or more recent analog Proportional Sync Feedback sensors, Encoder, etc. can be 
 enabled here. 
 <p align="center">
-  <img class="floating" src="GettingStarted-Tradrack/12-mmu-features.png" alt="MMU features" width="70%">
+  <img src="GettingStarted-Tradrack/12-mmu-features.png" alt="MMU features" width="70%">
 </p>
 
 ## Validating Hardware setup & initial calibration

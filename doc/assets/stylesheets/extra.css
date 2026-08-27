@@ -20,11 +20,11 @@ body {
  * Theme chrome (the header logo, favicon, and footer art) lives outside
  * .md-typeset, so this remains scoped to images embedded in documentation.
  */
-.md-typeset img.floating {
+.md-typeset img:not(.no-floating) {
   border-radius: 0.5rem;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
 }
-[data-md-color-scheme="slate"] .md-typeset img.floating {
+[data-md-color-scheme="slate"] .md-typeset img:not(.no-floating) {
   box-shadow: 0 6px 14px rgba(255, 255, 255, 0.3);
 }
 

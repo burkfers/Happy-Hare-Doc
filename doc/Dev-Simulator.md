@@ -10,7 +10,7 @@ Here's what a real session looks like - the pinned status header (gate table, LE
 selector position), a tool change, and a load in progress:
 
 <p align="center">
-  <img class="floating" src="Dev-Simulator/Simulator.png" alt="A real make console session: pinned status header showing two units, 13 gates, per-unit LEDs, and a load in progress" width="100%">
+  <img src="Dev-Simulator/Simulator.png" alt="A real make console session: pinned status header showing two units, 13 gates, per-unit LEDs, and a load in progress" width="100%">
 </p>
 
 That header - the gate table, per-unit LED rows, selector position, tool/gate mapping - is

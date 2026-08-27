@@ -56,10 +56,10 @@ relationship between these concrete:
 ### With Tip Forming
 
 <p align="center">
-  <img class="floating" src="Blobbing-and-Stringing/Unloading_Tip_Forming.png" alt="Unloading with tip forming, dimensions annotated">
+  <img src="Blobbing-and-Stringing/Unloading_Tip_Forming.png" alt="Unloading with tip forming, dimensions annotated">
 </p>
 <p align="center">
-  <img class="floating" src="Blobbing-and-Stringing/Loading_Tip_Forming.png" alt="Loading with tip forming, dimensions annotated" width="70%">
+  <img src="Blobbing-and-Stringing/Loading_Tip_Forming.png" alt="Loading with tip forming, dimensions annotated" width="70%">
 </p>
 
 ### With Toolhead Tip Cutting
@@ -68,10 +68,10 @@ Tip cutting is a little more involved, and introduces two more macro
 variables (see [Calibrating the Toolhead](#calibrating-the-toolhead) below):
 
 <p align="center">
-  <img class="floating" src="Blobbing-and-Stringing/Unloading_Tip_Cutting.png" alt="Unloading with tip cutting, dimensions annotated">
+  <img src="Blobbing-and-Stringing/Unloading_Tip_Cutting.png" alt="Unloading with tip cutting, dimensions annotated">
 </p>
 <p align="center">
-  <img class="floating" src="Blobbing-and-Stringing/Loading_Tip_Cutting.png" alt="Loading with tip cutting, dimensions annotated" width="70%">
+  <img src="Blobbing-and-Stringing/Loading_Tip_Cutting.png" alt="Loading with tip cutting, dimensions annotated" width="70%">
 </p>
 
 The remaining cut filament fragment and the residual filament are both
@@ -106,7 +106,7 @@ cutaway below). With a toolhead sensor fitted, there's a faster, automated
 way: [`MMU_CALIBRATE_TOOLHEAD`](Reference-Commands.md#mmu_calibrate_toolhead).
 
 <p align="center">
-  <img class="floating" src="Blobbing-and-Stringing/CHT_Cutaway.png" alt="CHT nozzle cutaway showing the internal shoulder reference point" width="40%">
+  <img src="Blobbing-and-Stringing/CHT_Cutaway.png" alt="CHT nozzle cutaway showing the internal shoulder reference point" width="40%">
 </p>
 
 ### Step 1: Cold pull to empty the nozzle
@@ -148,7 +148,7 @@ you've copied them into `mmu.cfg` yourself, once the whole calibration
 below is finished.
 
 <p align="center">
-  <img class="floating" src="Blobbing-and-Stringing/Probe_Nozzle_Shoulder.png" alt="Probing the nozzle shoulder to establish the clean toolhead dimensions" width="40%">
+  <img src="Blobbing-and-Stringing/Probe_Nozzle_Shoulder.png" alt="Probing the nozzle shoulder to establish the clean toolhead dimensions" width="40%">
 </p>
 
 Because the extruder started empty, this step establishes the internal
@@ -203,7 +203,7 @@ New calibrated ooze reduction active until restart. Update mmu.cfg to persist
 ```
 
 <p align="center">
-  <img class="floating" src="Blobbing-and-Stringing/Probe_Filament_Remains.png" alt="Probing residual filament left behind after unloading a dirty nozzle" width="40%">
+  <img src="Blobbing-and-Stringing/Probe_Filament_Remains.png" alt="Probing residual filament left behind after unloading a dirty nozzle" width="40%">
 </p>
 
 The difference between this reading and Step 2's clean one is exactly what
@@ -266,7 +266,7 @@ next load.
     blade's own thickness.
 
 <p align="center">
-  <img class="floating" src="Blobbing-and-Stringing/Probe_Cut_Remains.png" alt="Probing the cut blade position and remaining filament after a tip cut" width="40%">
+  <img src="Blobbing-and-Stringing/Probe_Cut_Remains.png" alt="Probing the cut blade position and remaining filament after a tip cut" width="40%">
 </p>
 
 A larger `variable_retract_length` needs less purge to clear the previous

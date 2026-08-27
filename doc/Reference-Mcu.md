@@ -14,14 +14,14 @@ for what that screen actually looks like.
 ### Standard EASY-BRD (SAMD21)
 
 <p align="center">
-  <img class="floating" src="Reference-Mcu/Easy_Brd_Pcb.jpg" alt="Standard EASY-BRD PCB">
+  <img src="Reference-Mcu/Easy_Brd_Pcb.jpg" alt="Standard EASY-BRD PCB">
 </p>
 
 ??? Firmware 
     Klipper make menuconfig settings for Easy Brd  
 
     <p align="center">
-      <img class="floating" src="Reference-Mcu/menuconfig_easy_brd_v11.jpg" alt="Klipper make menuconfig settings for EASY-BRD v1.1">
+      <img src="Reference-Mcu/menuconfig_easy_brd_v11.jpg" alt="Klipper make menuconfig settings for EASY-BRD v1.1">
     </p>
 
     See [Flashing Firmware](#flashing-firmware) below for the full procedure. 
@@ -29,19 +29,19 @@ for what that screen actually looks like.
 ### Fysetc Burrows ERB v2
 
 <p align="center">
-  <img class="floating" src="Reference-Mcu/ERB_V2_Pinout_White.png" alt="Fysetc Burrows ERB v2 pinout">
+  <img src="Reference-Mcu/ERB_V2_Pinout_White.png" alt="Fysetc Burrows ERB v2 pinout">
 </p>
 
 ??? Wiring
     Fystec Burrows ERB v2 wiring diagram:
     <p align="center">
-     <img class="floating" src="Reference-Mcu/ERB_v2_Wiring.png" alt="Fysetc Burrows ERB v2 wiring diagram">
+     <img src="Reference-Mcu/ERB_v2_Wiring.png" alt="Fysetc Burrows ERB v2 wiring diagram">
     </p>
 
 ??? Firmware 
     Klipper make menuconfig settings for Fysetc Burrows ERB v2
     <p align="center">
-      <img class="floating" src="Reference-Mcu/menuconfig_fysetc_erb_v2.png" alt="Klipper make menuconfig settings for Fysetc Burrows ERB v2">
+      <img src="Reference-Mcu/menuconfig_fysetc_erb_v2.png" alt="Klipper make menuconfig settings for Fysetc Burrows ERB v2">
     </p>
 
     See [Flashing Firmware](#flashing-firmware) below for the full procedure.
@@ -49,7 +49,7 @@ for what that screen actually looks like.
 ### BTT MMB CAN v1.0
 
 <p align="center">
-  <img class="floating" src="Reference-Mcu/MMB_CAN_v1.0_Pinout.jpg" alt="BTT MMB CAN v1.0 pinout">
+  <img src="Reference-Mcu/MMB_CAN_v1.0_Pinout.jpg" alt="BTT MMB CAN v1.0 pinout">
 </p>
 
 ??? Firmware
@@ -61,7 +61,7 @@ for what that screen actually looks like.
 ### BTT MMB CAN v2.0
 
 <p align="center">
-  <img class="floating" src="Reference-Mcu/MMB_CAN_v2.0_Pinout.png" alt="BTT MMB CAN v2.0 pinout">
+  <img src="Reference-Mcu/MMB_CAN_v2.0_Pinout.png" alt="BTT MMB CAN v2.0 pinout">
 </p>
 
 ??? Firmware
@@ -80,12 +80,12 @@ layout matches that hardware directly.
 
 BTT EBB42:
 <p align="center">
-  <img class="floating" src="Reference-Mcu/EBB42_CAN_v1.0_Pinout.png" alt="BTT EBB42 CAN v1.0 pinout">
+  <img src="Reference-Mcu/EBB42_CAN_v1.0_Pinout.png" alt="BTT EBB42 CAN v1.0 pinout">
 </p>
 
 BTT EBB36:
 <p align="center">
-  <img class="floating" src="Reference-Mcu/EBB36_CAN_v1.0_Pinout.png" alt="BTT EBB36 CAN v1.0 pinout">
+  <img src="Reference-Mcu/EBB36_CAN_v1.0_Pinout.png" alt="BTT EBB36 CAN v1.0 pinout">
 </p>
 
 !!! note
@@ -95,7 +95,7 @@ BTT EBB36:
 ??? Firmware 
     Klipper make menuconfig settings for BTT EBB CAN v1.0
     <p align="center">
-      <img class="floating" src="Reference-Mcu/menuconfig_btt_ebb_can_v1.0.png" alt="Klipper make menuconfig settings for BTT EBB CAN v1.0">
+      <img src="Reference-Mcu/menuconfig_btt_ebb_can_v1.0.png" alt="Klipper make menuconfig settings for BTT EBB CAN v1.0">
     </p>
 
     See [Esoterical's CANbus flashing guide](https://canbus.esoterical.online/toolhead_flashing.html)
@@ -105,18 +105,18 @@ BTT EBB36:
 
 BTT EBB42:
 <p align="center">
-  <img class="floating" src="Reference-Mcu/EBB42_CAN_v1.1_v1.2_Pinout.png" alt="BTT EBB42 CAN v1.1/v1.2 pinout">
+  <img src="Reference-Mcu/EBB42_CAN_v1.1_v1.2_Pinout.png" alt="BTT EBB42 CAN v1.1/v1.2 pinout">
 </p>
 
 BTT EBB36:
 <p align="center">
-  <img class="floating" src="Reference-Mcu/EBB36_CAN_v1.1_v1.2_Pinout.png" alt="BTT EBB36 CAN v1.1/v1.2 pinout">
+  <img src="Reference-Mcu/EBB36_CAN_v1.1_v1.2_Pinout.png" alt="BTT EBB36 CAN v1.1/v1.2 pinout">
 </p>
 
 ??? Firmware 
     Klipper make menuconfig settings for BTT EBB CAN v1.1/v1.2
     <p align="center">
-     <img class="floating" src="Reference-Mcu/menuconfig_btt_ebb_can_v1.1_v1.2.png" alt="Klipper make menuconfig settings for BTT EBB CAN v1.1/v1.2">
+     <img src="Reference-Mcu/menuconfig_btt_ebb_can_v1.1_v1.2.png" alt="Klipper make menuconfig settings for BTT EBB CAN v1.1/v1.2">
     </p>
 
     See [Esoterical's CANbus flashing guide](https://canbus.esoterical.online/toolhead_flashing.html)
@@ -126,12 +126,12 @@ BTT EBB36:
 
 BTT EBB42:
 <p align="center">
-  <img class="floating" src="Reference-Mcu/EBB42_CAN_Gen2_Pinout.jpg" alt="BTT EBB42 CAN Gen2 pinout">
+  <img src="Reference-Mcu/EBB42_CAN_Gen2_Pinout.jpg" alt="BTT EBB42 CAN Gen2 pinout">
 </p>
 
 BTT EBB36:
 <p align="center">
-  <img class="floating" src="Reference-Mcu/EBB36_CAN_Gen2_Pinout.jpg" alt="BTT EBB36 CAN Gen2 pinout">
+  <img src="Reference-Mcu/EBB36_CAN_Gen2_Pinout.jpg" alt="BTT EBB36 CAN Gen2 pinout">
 </p>
 
 !!! note
@@ -141,7 +141,7 @@ BTT EBB36:
 ??? Firmware 
     Klipper make menuconfig settings for BTT EBB CAN Gen2
     <p align="center">
-      <img class="floating" src="Reference-Mcu/menuconfig_btt_ebb_can_gen2.png" alt="Klipper make menuconfig settings for BTT EBB CAN Gen2">
+      <img src="Reference-Mcu/menuconfig_btt_ebb_can_gen2.png" alt="Klipper make menuconfig settings for BTT EBB CAN Gen2">
     </p>
 
     See [Esoterical's CANbus flashing guide](https://canbus.esoterical.online/toolhead_flashing.html)
@@ -150,7 +150,7 @@ BTT EBB36:
 ### Mellow EASY-BRD CAN v1
 
 <p align="center">
-  <img class="floating" src="Reference-Mcu/Mellow_CAN_v1.png" alt="Mellow EASY-BRD CAN v1 pinout">
+  <img src="Reference-Mcu/Mellow_CAN_v1.png" alt="Mellow EASY-BRD CAN v1 pinout">
 </p>
 
 ??? Firmware 
@@ -160,7 +160,7 @@ BTT EBB36:
 ### Mellow EASY-BRD CAN v2
 
 <p align="center">
-  <img class="floating" src="Reference-Mcu/Mellow_CAN_v2.png" alt="Mellow EASY-BRD CAN v2 pinout">
+  <img src="Reference-Mcu/Mellow_CAN_v2.png" alt="Mellow EASY-BRD CAN v2 pinout">
 </p>
 
 ??? Firmware
@@ -170,23 +170,23 @@ BTT EBB36:
 ### Solo Lane Board v1
 
 <p align="center">
-  <img class="floating" src="Reference-Mcu/SLB_v1.0_Pinout.jpg" alt="Solo Lane Board v1 pinout">
+  <img src="Reference-Mcu/SLB_v1.0_Pinout.jpg" alt="Solo Lane Board v1 pinout">
 </p>
 ??? Wiring
     Solo Lane Board v1.0 wiring diagram for EMU MMU
     <p align="center">
-     <img class="floating" src="Reference-Mcu/SLB_v1.0_Wiring.jpg" alt="Solo Lane Board v1 wiring diagram">
+     <img src="Reference-Mcu/SLB_v1.0_Wiring.jpg" alt="Solo Lane Board v1 wiring diagram">
     </p>
 
 ??? Firmware 
     Katapult make menuconfig settings for SLB v1.0  
     <p align="center">
-      <img class="floating" src="Reference-Mcu/SLB_v1.0_Flashing_Katapult.jpg" alt="Katapult make menuconfig settings for SLB v1.0">
+      <img src="Reference-Mcu/SLB_v1.0_Flashing_Katapult.jpg" alt="Katapult make menuconfig settings for SLB v1.0">
     </p>
     <br>
     Klipper make menuconfig settings for SLB v1.0  
     <p align="center">
-     <img class="floating" src="Reference-Mcu/SLB_v1.0_Flashing_Klipper.jpg" alt="Klipper make menuconfig settings for SLB v1.0"">
+     <img src="Reference-Mcu/SLB_v1.0_Flashing_Klipper.jpg" alt="Klipper make menuconfig settings for SLB v1.0"">
     </p>
 
     See [SLB v1.0 Flashing guide](https://github.com/kashine6/SLB-Board-For-EMU#5-flashing-guide-optional) for CANbus-specific flashing steps.
@@ -194,13 +194,13 @@ BTT EBB36:
 ### AFC Pro v1.0
 
 <p align="center">
-  <img class="floating" src="Reference-Mcu/AFC_Pro_Pcb.png" alt="AFC Pro v1.0 board photo">
+  <img src="Reference-Mcu/AFC_Pro_Pcb.png" alt="AFC Pro v1.0 board photo">
 </p>
 
 ??? Firmware 
     Klipper make menuconfig settings for AFC Pro v1.0  
     <p align="center">
-      <img class="floating" src="Reference-Mcu/menuconfig_afc_pro.png" alt="Klipper make menuconfig settings for AFC Pro v1.0"">
+      <img src="Reference-Mcu/menuconfig_afc_pro.png" alt="Klipper make menuconfig settings for AFC Pro v1.0"">
     </p>
 
     See [Flashing Firmware](#flashing-firmware) below for the full procedure.
@@ -208,13 +208,13 @@ BTT EBB36:
 ### AFC Lite v1.0
 
 <p align="center">
-  <img class="floating" src="Reference-Mcu/AFC_Lite_Pcb.png" alt="AFC Lite v1.0 board photo">
+  <img src="Reference-Mcu/AFC_Lite_Pcb.png" alt="AFC Lite v1.0 board photo">
 </p>
 
 ??? Firmware 
     Klipper make menuconfig settings for AFC Lite v1.0
     <p align="center">
-      <img class="floating" src="Reference-Mcu/menuconfig_afc_lite.png" alt="Klipper make menuconfig settings for AFC Lite v1.0">
+      <img src="Reference-Mcu/menuconfig_afc_lite.png" alt="Klipper make menuconfig settings for AFC Lite v1.0">
     </p>
 
     See [Flashing Firmware](#flashing-firmware) below for the full procedure.

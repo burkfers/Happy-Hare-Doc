@@ -19,7 +19,7 @@ Klipper, Mainsail, Fluidd, Klipperscreen and other ecosystems. It is super
 flexible and now even easier to install and setup.
 
 <p align="center">
-  <img src="index/universal_mmu_driver.png" alt="Happy Hare driving several different MMUs through Mainsail, Fluidd, KlipperScreen and the console" width="100%">
+  <img class="no-floating" src="index/universal_mmu_driver.png" alt="Happy Hare driving several different MMUs through Mainsail, Fluidd, KlipperScreen and the console" width="100%">
 </p>
 
 ## What it drives
@@ -81,7 +81,7 @@ together as one system:
   print lifecycle hooks and other printer-specific behavior.
 
 <p align="center">
-  <img class="floating" src="index/example_mmu_print.jpg" alt="Three small multi-color 3D prints - a penguin, an astronaut, and a sheep - each printed in several filament colors" width="70%">
+  <img src="index/example_mmu_print.jpg" alt="Three small multi-color 3D prints - a penguin, an astronaut, and a sheep - each printed in several filament colors" width="70%">
 </p>
 
 ## How this site is organized
@@ -138,7 +138,7 @@ whichever MMU/AFC you're running. Thank you!
 
 <p align="center">
   <a href="https://www.paypal.me/moggieuk">
-    <img class="floating" src="assets/images/donate.svg" width="30%">
+    <img src="assets/images/donate.svg" width="30%">
   </a>
 </p>
 

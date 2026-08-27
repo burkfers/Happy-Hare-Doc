@@ -25,7 +25,7 @@ Sequences](Custom-Load-Unload-Sequences.md) for how these fit around the
 ## Configuration
 
 <p align="center">
-  <img class="floating" src="Macro-Sequence/sequence.png" alt="menuconfig: Sequence macros (_MMU_SEQUENCE) screen, showing park position tuples, restore-XY-position choice, movement speeds, and extension hooks" width="85%">
+  <img src="Macro-Sequence/sequence.png" alt="menuconfig: Sequence macros (_MMU_SEQUENCE) screen, showing park position tuples, restore-XY-position choice, movement speeds, and extension hooks" width="85%">
 </p>
 
 `_MMU_SEQUENCE_VARS` in `mmu_macro_vars.cfg`, reachable from menuconfig's

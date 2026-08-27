@@ -66,7 +66,7 @@ Enable this in menuconfig with **Has NFC reader(s) for RFID tag?** under
 | *(PN7160 only)* `VEN pin`, `IRQ pin` | Both optional; `IRQ pin` is recommended - it lets the presence probe ask the line directly instead of a speculative read every tick |
 
 <p align="center">
-  <img class="floating" src="Feature-NFC/shared-reader-config.png" alt="NFC reader config menuconfig screen with Has common NFC reader enabled, showing the RC522/SPI defaults - reader name, CS pin, SPI bus and speed" width="70%">
+  <img src="Feature-NFC/shared-reader-config.png" alt="NFC reader config menuconfig screen with Has common NFC reader enabled, showing the RC522/SPI defaults - reader name, CS pin, SPI bus and speed" width="70%">
 </p>
 
 A single shared reader - one physical reader a spool is presented to by

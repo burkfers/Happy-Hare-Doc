@@ -88,7 +88,7 @@ They're hidden by default in the Spoolman web UI - open **Hide Columns** and
 select them to see gate assignments there:
 
 <p align="center">
-  <img class="floating" src="Feature-Spoolman/moonraker-extra-columns.png" alt="Spoolman's Hide Columns menu with Printer Name and MMU Gate selected" width="60%">
+  <img src="Feature-Spoolman/moonraker-extra-columns.png" alt="Spoolman's Hide Columns menu with Printer Name and MMU Gate selected" width="60%">
 </p>
 
 An alternative to showing these columns is Spoolman's own "Location" field,
@@ -138,7 +138,7 @@ MMU_GATE_MAP NEXT_SPOOLID=45           # Auto-assign spool 45 to whichever gate 
 ```
 
 <p align="center">
-  <img class="floating" src="Feature-Spoolman/gate-map-update-example.png" alt="Spoolman web interface showing a spool's Printer Name and MMU Gate after an MMU_GATE_MAP update" width="100%">
+  <img src="Feature-Spoolman/gate-map-update-example.png" alt="Spoolman web interface showing a spool's Printer Name and MMU Gate after an MMU_GATE_MAP update" width="100%">
 </p>
 
 `NEXT_SPOOLID` isn't available in `pull` mode - Spoolman already owns the
@@ -285,7 +285,7 @@ On toolchange, Happy Hare deactivates the previous spool and activates the
 new one - Mainsail and Fluidd's own Spoolman panel reflects this:
 
 <p align="center">
-  <img class="floating" src="Feature-Spoolman/mainsail-spool-activation.png" alt="Mainsail Spoolman panel showing the currently active spool" width="60%">
+  <img src="Feature-Spoolman/mainsail-spool-activation.png" alt="Mainsail Spoolman panel showing the currently active spool" width="60%">
 </p>
 
 [KlipperScreen Happy Hare Edition](https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition)
@@ -293,7 +293,7 @@ visualizes the gate map with Spoolman data (material, color, remaining
 weight) alongside each gate, and lets you edit a gate's `SpoolId` directly:
 
 <p align="center">
-  <img class="floating" src="Feature-Spoolman/klipperscreen-gate-view.png" alt="KlipperScreen Happy Hare Edition gate list showing Spoolman material, color and remaining weight per gate" width="60%">
+  <img src="Feature-Spoolman/klipperscreen-gate-view.png" alt="KlipperScreen Happy Hare Edition gate list showing Spoolman material, color and remaining weight per gate" width="60%">
 </p>
 
 And in Spoolman's own web UI, once the extra columns are shown (see
@@ -301,7 +301,7 @@ And in Spoolman's own web UI, once the extra columns are shown (see
 printer and gate it's currently assigned to:
 
 <p align="center">
-  <img class="floating" src="Feature-Spoolman/spoolman-web-table.png" alt="Spoolman web UI spool table with Printer Name and MMU Gate columns visible" width="100%">
+  <img src="Feature-Spoolman/spoolman-web-table.png" alt="Spoolman web UI spool table with Printer Name and MMU Gate columns visible" width="100%">
 </p>
 
 ## Tuning
@@ -571,7 +571,7 @@ In the real eight-gate setup below, gate 0 contains buffered filament from an
 unknown spool, while gates 3 and 5 are the gates Happy Hare reported as empty.
 
 <p align="center">
-  <img class="floating" src="Feature-Spoolman/filamenthub-gate-map.png" alt="FilamentHub showing a synchronized eight-gate Happy Hare map with an unidentified spool in gate 0 and empty gates 3 and 5" width="100%">
+  <img src="Feature-Spoolman/filamenthub-gate-map.png" alt="FilamentHub showing a synchronized eight-gate Happy Hare map with an unidentified spool in gate 0 and empty gates 3 and 5" width="100%">
 </p>
 
 ## Troubleshooting
@@ -586,7 +586,7 @@ unknown spool, while gates 3 and 5 are the gates Happy Hare reported as empty.
 - **A boot-time console line like this appears, unprompted:**
 
     <p align="center">
-      <img class="floating" src="Feature-Spoolman/boot-sync-console.png" alt="Console showing an automatic MMU_GATE_MAP MAP= sync command at startup" width="70%">
+      <img src="Feature-Spoolman/boot-sync-console.png" alt="Console showing an automatic MMU_GATE_MAP MAP= sync command at startup" width="70%">
     </p>
 
     This is the normal startup sync writing the fetched gate map back

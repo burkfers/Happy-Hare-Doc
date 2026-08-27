@@ -3,7 +3,7 @@
 ## Concept
 
 <p align="center">
-  <img class="floating" src="Feature-Espooler/espooler.png" alt="Mainsail MMU panel showing per-gate eSpooler status: an up-arrow (assist) on gate 0, a percentage on gate 1, a down-arrow (rewind) on gate 3" width="55%">
+  <img src="Feature-Espooler/espooler.png" alt="Mainsail MMU panel showing per-gate eSpooler status: an up-arrow (assist) on gate 0, a percentage on gate 1, a down-arrow (rewind) on gate 3" width="55%">
 </p>
 
 An eSpooler is a small DC motor (typically an N20 gearmotor) mounted so it can
@@ -103,7 +103,7 @@ the tuning knobs from [Parameter Setup](#parameter-setup) first, then a pin
 row per gate at the bottom:
 
 <p align="center">
-  <img class="floating" src="Feature-Espooler/espooler-pins.png" alt="menuconfig: eSpooler config screen, showing the tuning parameters followed by enable/rewind/forward/trigger pins for 4 gates on a Box Turtle" width="85%">
+  <img src="Feature-Espooler/espooler-pins.png" alt="menuconfig: eSpooler config screen, showing the tuning parameters followed by enable/rewind/forward/trigger pins for 4 gates on a Box Turtle" width="85%">
 </p>
 
 That produces one `[mmu_espooler <unit_name>]` section in `mmu_hardware.cfg`
@@ -278,11 +278,11 @@ configuration needed:
 <table>
   <tr>
     <td align="center">
-      <img class="floating" src="Feature-Espooler/assist2.png" alt="Assisting gate/lane 0" width="90%"><br>
+      <img src="Feature-Espooler/assist2.png" alt="Assisting gate/lane 0" width="90%"><br>
       Assisting gate/lane 0 (load and in-print)
     </td>
     <td align="center">
-      <img class="floating" src="Feature-Espooler/rewind2.png" alt="Rewinding gate/lane 4" width="90%"><br>
+      <img src="Feature-Espooler/rewind2.png" alt="Rewinding gate/lane 4" width="90%"><br>
       Rewinding gate/lane 4 (respooling)
     </td>
   </tr>
