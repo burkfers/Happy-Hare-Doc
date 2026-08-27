@@ -190,6 +190,46 @@ def _getting_started_vivid(mc, shot):
     # same Software Options screen, not a submenu; the item above is selectable in place.
 
 
+def _getting_started_multi_unit_shared(mc, shot):
+    """
+    For doc/GettingStarted-Multi-Unit.md - the aquatic-coloured shared-config
+    entry point used by install.sh -i -n.
+    """
+    # The shared screen's persistent Help pane makes the general autofit/repaint
+    # cycle inappropriate here. MMU unit names is the initial selection, so open
+    # its array editor directly in the fixed-height capture.
+    mc.step(b'l', lambda menu: menu.in_editor())
+    # The array editor presents one unit per line. The existing unit0 row is
+    # retained and Enter appends a second row for unit1.
+    mc.step(b'\runit1', lambda menu: menu.has('unit1'))
+    shot('02-unit-names-editor')                     # array editor with the new unit appended
+    mc.cancel()
+    shot('01-shared-config')                         # alternate palette and shared settings
+
+
+def _getting_started_multi_unit_second(mc, shot):
+    """
+    For doc/GettingStarted-Multi-Unit.md - a brand-new unit1. This is a per-unit
+    parse, so it uses menuconfig's normal palette and exposes sharing choices for
+    hardware which may already exist on unit0.
+    """
+    mc.select('MMU Type')
+    shot('03-unit1-config')                          # regular palette, Unit: unit1
+
+    mc.enter('MMU Features / Additions')
+    mc.select('Has sync-feedback buffer?')
+    mc.toggle()
+    mc.enter('Buffer config')
+    mc.select('Shared with existing unit?')
+    mc.toggle()
+    shot('04-unit1-shared-buffer')                   # sharing enabled for unit1
+
+    mc.edit('Shared buffer name')
+    mc.write('unit0')
+    shot('05-shared-buffer-name')                    # object owned by the first unit
+    mc.cancel()
+
+
 def _feature_espooler(mc, shot):
     """
     For doc/Feature-Espooler.md - the per-gate pin entry screen for the eSpooler
@@ -615,6 +655,27 @@ SESSIONS = [
         'scenes': _getting_started_vivid,
         'outdir': 'GettingStarted-ViViD',
         'seed': 'none',
+    },
+    {
+        'name': 'getting-started-multi-unit-shared',
+        'caption': 'doc/GettingStarted-Multi-Unit.md - shared configuration and unit list',
+        'scenes': _getting_started_multi_unit_shared,
+        'outdir': 'GettingStarted-Multi-Unit',
+        'seed': 'none',
+        'multi_unit': True,
+        'entry_point': True,
+        'fit': False,
+        'rows': 35,
+    },
+    {
+        'name': 'getting-started-multi-unit-second',
+        'caption': 'doc/GettingStarted-Multi-Unit.md - unit1 and a shared sync-feedback buffer',
+        'scenes': _getting_started_multi_unit_second,
+        'outdir': 'GettingStarted-Multi-Unit',
+        'seed': 'none',
+        'unit_name': 'unit1',
+        'multi_unit': True,
+        'entry_point': False,
     },
     {
         'name': 'macro-print-start-end',
