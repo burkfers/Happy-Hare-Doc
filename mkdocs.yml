@@ -111,6 +111,7 @@ nav:
       - BTT ViViD: GettingStarted-ViViD.md
       - ERCF: GettingStarted-ERCF.md
       - Tradrack: GettingStarted-Tradrack.md
+      - Multiple MMU Units: GettingStarted-Multi-Unit.md
   - Calibration:
       - Overview: Calibration.md
       - Selector: Calibration-Selector.md

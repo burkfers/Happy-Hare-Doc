@@ -342,6 +342,7 @@ anything. Don't silently decide something wasn't worth keeping.
 | `Upgrading-from-v3.md` | `wiki/Upgrade-Notice.md`, `wiki/Change-Log.md` | rewrite for v4 |
 | `GettingStarted-3MS.md` | `wiki/Quick-Start-3MS.md` | new — found during the 2026-08-07 wiki-gap audit (item 47 below), not previously on this table at all. Same genre as the two `GettingStarted-*.md` pages above (real menuconfig screenshots via `doc_tools/shots.py`, not a port of the wiki's raw command transcript). |
 | `GettingStarted-QuattroBox.md` | `wiki/Quick-Start-QuattroBox.md` | new — same finding/genre as 3MS above. |
+| `GettingStarted-Multi-Unit.md` | current installer multi-unit workflow | **initial draft** — conversion from a working single unit, shared and per-unit menuconfig passes, symbolic/display names, dissimilar unit types, shared encoder/buffer, bypass association, global gate/tool numbering, `UNIT=` command targeting, generated per-unit files, and reconfiguration; includes five reproducible menuconfig screenshots plus the three-unit Mainsail panel. |
 
 ### 2. Concepts
 

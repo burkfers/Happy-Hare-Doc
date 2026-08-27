@@ -474,7 +474,10 @@ class Menuconfig:
     def selection(self):
         """(row, text) of the highlighted item - see note 2 in the header."""
         best, width = -1, 0
-        for y in range(self.rows):
+        # The aquatic multi-unit entry point paints its full-width title and
+        # footer bars blue. They are decorative, not selections, so exclude the
+        # fixed header/footer rows from the width heuristic.
+        for y in range(2, max(2, self.rows - 2)):
             run = self._blue_run(y)
             if run > width:
                 best, width = y, run
@@ -684,7 +687,7 @@ class Menuconfig:
     # The input dialog titles itself '<prompt> (string)' - or (int)/(hex) - which is
     # both how the tool knows an editor opened and the only reliable way to tell an
     # editor from a submenu, since Enter opens whichever the item happens to be.
-    _EDITOR = ('(string)', '(int)', '(hex)')
+    _EDITOR = ('(string)', '(int)', '(hex)', '(string array)')
 
     def in_editor(self):
         return any(self.has(kind) for kind in self._EDITOR)
