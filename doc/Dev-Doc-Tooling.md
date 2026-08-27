@@ -14,6 +14,15 @@ by Happy Hare, the installer or the tests. The dependencies (`pyte`, `Pillow`, `
 live in `doc_tools/requirements.txt` and are installed into `./venv` on demand by the
 `shots`/`docs`/`docs_build` targets.
 
+The generators that read Happy Hare source use a gitignored `.happy-hare-src/`
+checkout by default. This managed cache is refreshed to the latest commit at the
+branch, tag or commit named in `HAPPY_HARE_REF` before every `make shots` or
+`make command_reference` run, so source changes made inside it are not preserved.
+To use a checkout you manage instead, set
+`HAPPY_HARE_SRC=/path/to/Happy-Hare`. Explicitly supplied checkouts are read
+as-is and are never fetched, switched, or removed; `make clean-source` only
+removes the default managed cache.
+
 ## Generating the Command Reference
 
 `doc_tools/gen_command_reference.py` walks the whole `extras/mmu/` tree (not just
@@ -254,5 +263,4 @@ on a machine with no printer attached**, or the MCU screens will show your hardw
   `gen_command_reference.py` reads independently.
 
 ---
-
 
