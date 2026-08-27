@@ -184,7 +184,7 @@ a two-gate 3MS. The unit cards also make the continuous numbering visible: the
 ERCF uses gates 0-3, the Box Turtle uses gates 4-6, and the 3MS uses gates 7-8.
 
 <p align="center">
-  <img src="GettingStarted-Multi-Unit/multi_unit_mainsail.png" alt="Mainsail MMU panel showing a four-gate ERCF with bypass, a three-gate Box Turtle, and a two-gate 3MS on one printer" width="100%">
+  <img src="GettingStarted-Multi-Unit/multi_unit_mainsail.png" alt="Mainsail MMU panel showing a four-gate ERCF with bypass, a three-gate Box Turtle, and a two-gate 3MS on one printer" width="60%">
 </p>
 
 See [Mainsail / Fluidd](Mainsail-Fluidd-Integration.md) and
