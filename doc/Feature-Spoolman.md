@@ -84,11 +84,10 @@ version" message on the console). Once connected, it adds three extra
 fields to Spoolman's spool records: `Printer Name`, `MMU Gate`, and `RFID`
 (the tag UID(s) bound to that spool - a spool can carry more than one, e.g.
 a tag stuck on each side, see [NFC/RFID Reading](Feature-NFC.md)).
-They're hidden by default in the Spoolman web UI - open **Hide Columns** and
-select them to see gate assignments there:
+They show up below the spool's main data in the details view in Spoolman:
 
 <p align="center">
-  <img src="Feature-Spoolman/moonraker-extra-columns.png" alt="Spoolman's Hide Columns menu with Printer Name and MMU Gate selected" width="60%">
+  <img src="Feature-Spoolman/moonraker-extra-columns.png" alt="Spoolman's spool detail view with the new columns highlighted" width="60%">
 </p>
 
 An alternative to showing these columns is Spoolman's own "Location" field,
@@ -136,10 +135,6 @@ MMU_GATE_MAP GATE=0 SPOOLID=5          # Assign spool 5 to gate 0
 MMU_GATE_MAP GATE=0 SPOOLID=-1         # Unset gate 0's spool (other attributes can still be set manually)
 MMU_GATE_MAP NEXT_SPOOLID=45           # Auto-assign spool 45 to whichever gate is loaded/preloaded next (0 cancels)
 ```
-
-<p align="center">
-  <img src="Feature-Spoolman/gate-map-update-example.png" alt="Spoolman web interface showing a spool's Printer Name and MMU Gate after an MMU_GATE_MAP update" width="100%">
-</p>
 
 `NEXT_SPOOLID` isn't available in `pull` mode - Spoolman already owns the
 gate assignment there, so a locally-pending one has nothing to attach to;
@@ -296,12 +291,17 @@ weight) alongside each gate, and lets you edit a gate's `SpoolId` directly:
   <img src="Feature-Spoolman/klipperscreen-gate-view.png" alt="KlipperScreen Happy Hare Edition gate list showing Spoolman material, color and remaining weight per gate" width="60%">
 </p>
 
-And in Spoolman's own web UI, once the extra columns are shown (see
-[Moonraker Setup](#moonraker-setup) above), every spool's row shows which
+And in Spoolman's own web UI, every spool's row in the library view shows which
 printer and gate it's currently assigned to:
 
 <p align="center">
-  <img src="Feature-Spoolman/spoolman-web-table.png" alt="Spoolman web UI spool table with Printer Name and MMU Gate columns visible" width="100%">
+  <img src="Feature-Spoolman/spoolman-location-library.png" alt="Spoolman web UI spool library with location visible">
+</p>
+
+You can also group the dashboard by printer name:
+
+<p align="center">
+  <img src="Feature-Spoolman/spoolman-location-dashboard.png" alt="Spoolman web UI dashbord grouped by printer">
 </p>
 
 ## Tuning
