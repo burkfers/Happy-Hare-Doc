@@ -45,6 +45,21 @@ unit list.
     carried forward. Changing it at this point would create a new unit rather than
     preserve the existing one.
 
+!!! tip "Try the multi-unit installer safely first"
+    Add the `-t` flag to rehearse the complete multi-unit installer workflow in
+    test mode:
+
+    ```bash
+    ./install.sh -i -n -t
+    ```
+
+    Test mode uses a disposable configuration under `/tmp/mmu_test` and disables
+    service restarts, leaving the printer's real configuration untouched. It is an
+    ideal way to explore the shared and per-unit screens before repeating the
+    process for real without `-t`. See [Running `./install.sh` without touching
+    your printer](Dev-Kconfig-Structure.md#running-installsh-without-touching-your-printer)
+    for details and the location of the generated test files.
+
 ## Pass 1: shared configuration
 
 The first `menuconfig` pass has a different colour scheme and is labelled
