@@ -36,7 +36,7 @@ own config submenu once switched on.
 ### Environment sensor
 
 <p align="center">
-  <img class="floating" src="Feature-Environment-Manager/environment-sensor-config.png" alt="Environment sensor config screen: sensor name, i2c bus type and bus, sensor type (AHT2X shown), and i2c address" width="80%">
+  <img src="Feature-Environment-Manager/environment-sensor-config.png" alt="Environment sensor config screen: sensor name, i2c bus type and bus, sensor type (AHT2X shown), and i2c address" width="80%">
 </p>
 
 | Setting | Purpose |
@@ -65,7 +65,7 @@ environment_sensors : temperature_sensor unit0_Env0, temperature_sensor unit0_En
 ### Heater(s)
 
 <p align="center">
-  <img class="floating" src="Feature-Environment-Manager/heater-config.png" alt="Heater config screen: per-gate heaters toggle, enclosure heater name, and the heater controller defaults - max temp, default dry temp/time/humidity, vent macro, vent interval, rotate interval" width="80%">
+  <img src="Feature-Environment-Manager/heater-config.png" alt="Heater config screen: per-gate heaters toggle, enclosure heater name, and the heater controller defaults - max temp, default dry temp/time/humidity, vent macro, vent interval, rotate interval" width="80%">
 </p>
 
 | Setting | Purpose |

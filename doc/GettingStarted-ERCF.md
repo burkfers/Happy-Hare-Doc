@@ -35,7 +35,7 @@ If this is the very first time you've run `./install.sh`, there's no `.mmu_confi
 drops you straight into the interactive `menuconfig` mode — no separate `-i` flag needed.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/01-first-run.png" alt="First run: nothing configured yet" width="70%">
+  <img src="GettingStarted-ERCF/01-first-run.png" alt="First run: nothing configured yet" width="70%">
 </p>
 <br>
 
@@ -52,14 +52,14 @@ indented underneath — **`Version`**,**`Number of gates/lanes`**, **`Selector s
 <br>
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/02-mmu-type-ercf.png" alt="MMU Type list, with ERCF selected" width="70%">
+  <img src="GettingStarted-ERCF/02-mmu-type-ercf.png" alt="MMU Type list, with ERCF selected" width="70%">
 </p>
 <br>
 Confirm the version of your ERCF build. Because the ERCF has evolved significantly over time, Happy Hare needs
 to know which version you built so it can recommend and set appropriate defaults.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/02-ercf-version.png" alt="ERCF version defaults" width="70%">
+  <img src="GettingStarted-ERCF/02-ercf-version.png" alt="ERCF version defaults" width="70%">
 </p>
 <br>
 <br>
@@ -70,7 +70,7 @@ built (e.g. versions < v2.x, groups of **`3`**, others groups of **`4`**).
 The default is **`8`** gates, but you can change it to match your build — in this case, setting it to **`6`** gates.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/03-lanes.png" alt="Defaults to 10" width="70%">
+  <img src="GettingStarted-ERCF/03-lanes.png" alt="Defaults to 10" width="70%">
 </p>
 <br>
 <br>
@@ -87,7 +87,7 @@ pulse widths, etc. are managed using `(Top) → Other Settings → Selector serv
 In this example, we have selected the **`Savox SH-0255MG`** servo.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/04-selector-servo-type.png" alt="Selector servo type" width="70%">
+  <img src="GettingStarted-ERCF/04-selector-servo-type.png" alt="Selector servo type" width="70%">
 </p>
 <br>
 <br>
@@ -95,7 +95,7 @@ Next, review applicable Project Options. If your ERCF build uses the servo-less 
 **Enraged Rabbit Cotton Tail** (ERCT) Filament Buffer, select and enable these here.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/05-project-options.png" alt="Project Options" width="70%">
+  <img src="GettingStarted-ERCF/05-project-options.png" alt="Project Options" width="70%">
 </p>
 <br>
 <br>
@@ -105,7 +105,7 @@ Happy Hare still doesn't know your toolhead, and that's covered in a different g
 Don't worry about it here.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/06-root-warnings.png" alt="Root menu after choosing ERCF - one warning left" width="70%">
+  <img src="GettingStarted-ERCF/06-root-warnings.png" alt="Root menu after choosing ERCF - one warning left" width="70%">
 </p>
 
 ### Board type
@@ -115,7 +115,7 @@ If your ERCF runs a different controller, this is where you’d choose it; defau
 TMC drivers throughout the rest of `menuconfig` are derived from whatever controller you select here.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/07-board-type.png" alt="Board type list, BTT MMB v2.0 with CANBus already selected" width="70%">
+  <img src="GettingStarted-ERCF/07-board-type.png" alt="Board type list, BTT MMB v2.0 with CANBus already selected" width="70%">
 </p>
 
 ### MCU connection
@@ -133,13 +133,13 @@ Existing connection selections/mapping's are retained and not overwritten once s
 The first discovered serial device is selected by default. Press enter to choose a different discovered device.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/08-mcu-connection.png" alt="MCU connection" width="70%">
+  <img src="GettingStarted-ERCF/08-mcu-connection.png" alt="MCU connection" width="70%">
 </p>
 <br>
 
 In this example, we are going to switch to CANBus. Open **`MCU connection`** and select **`CANbus`**:
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/08-mcu-connection-canbus.png" alt="MCU connection" width="70%">
+  <img src="GettingStarted-ERCF/08-mcu-connection-canbus.png" alt="MCU connection" width="70%">
 </p>
 <br>
 
@@ -147,7 +147,7 @@ A list of discovered CANBus UUIDs is shown. If more than one device is found, se
 your ERCF controller. If only one device is detected, it will be selected automatically.
 If no UUIDs are discovered, choose **`Other / manually entered`** and enter the correct CANBus UUID manually.
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/08-mcu-connection-canbus-uuids.png" alt="MCU connection" width="70%">
+  <img src="GettingStarted-ERCF/08-mcu-connection-canbus-uuids.png" alt="MCU connection" width="70%">
 </p>
 
 ### Pins: gear and selector direction
@@ -161,7 +161,7 @@ this later when you buzz the steppers to verify their direction in
 This is where you would change the stepper direction if needed.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/09-gear-pins.png" alt="Gear pins list - one row per gate" width="70%">
+  <img src="GettingStarted-ERCF/09-gear-pins.png" alt="Gear pins list - one row per gate" width="70%">
 </p>
 <br>
 
@@ -170,7 +170,7 @@ Highlight the **`Gear dir pin`** for the stepper and press Enter to open its edi
 add a `!` in front of the pin name — Klipper's standard way of inverting a pin's polarity.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/09-gear-dir-inverted.png" alt="Gear dir pin editor, showing the default pin" width="70%">
+  <img src="GettingStarted-ERCF/09-gear-dir-inverted.png" alt="Gear dir pin editor, showing the default pin" width="70%">
 </p>
 <br>
 
@@ -189,7 +189,7 @@ and popular community contributed extensions like Sync-feedback buffers (sensors
 Annex Belay or more recent analog Proportional Sync Feedback sensors, etc.
   
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/12-mmu-features.png" alt="MMU Features" width="70%">
+  <img src="GettingStarted-ERCF/12-mmu-features.png" alt="MMU Features" width="70%">
 </p>
 <br>
 
@@ -198,7 +198,7 @@ a **`Binky 12-vane Encoder`**. If you have a different encoder configuration ope
 Encoder accuracy is dependent on this configuration and the type and actual number of vanes the installed
 encoder wheel has.
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/12-mmu-encoder.png" alt="Encoder settings" width="70%">
+  <img src="GettingStarted-ERCF/12-mmu-encoder.png" alt="Encoder settings" width="70%">
 </p>
 <br>
 
@@ -210,7 +210,7 @@ performance.
 The TCRT 5000 based encoders are only applicable to original ERCF v1.x builds.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/12-mmu-encoder-settings.png" alt="Encoder settings" width="70%">
+  <img src="GettingStarted-ERCF/12-mmu-encoder-settings.png" alt="Encoder settings" width="70%">
 </p>
 <br>
 
@@ -221,7 +221,7 @@ From the top menu, select **Toolhead**. This step is optional — if you skip it
 instead of generic estimates. Here we’ve chosen **`A4T WWBMG for A4T Dragon Ace`** to illustrate.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/10-toolhead-selected.png" alt="Toolhead list, Stealthburner Clockwork2 Rapido HF selected" width="70%">
+  <img src="GettingStarted-ERCF/10-toolhead-selected.png" alt="Toolhead list, Stealthburner Clockwork2 Rapido HF selected" width="70%">
 </p>
 <br>
 
@@ -234,7 +234,7 @@ The other two distances Happy Hare can use (**`Toolhead sensor to nozzle`** & **
 only appear when you have enabled the sensors and remain hidden when disabled.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ERCF/10-all-toolhead-dimensions-combined.png" alt="Toolhead dimensions, pre-filled from the selected combo" width="70%">
+  <img src="GettingStarted-ERCF/10-all-toolhead-dimensions-combined.png" alt="Toolhead dimensions, pre-filled from the selected combo" width="70%">
 </p>
 <br>
 

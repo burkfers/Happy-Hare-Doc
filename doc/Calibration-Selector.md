@@ -87,9 +87,9 @@ for three named positions:
   never set separately.
 
 <p align="center">
-  <img class="floating" src="Calibration-Selector/servo-up.jpeg" alt="Servo in the up position - trap released for normal printing" width="30%">
-  <img class="floating" src="Calibration-Selector/servo-move.jpeg" alt="Servo in the move position - trap locked for selector movement" width="30%">
-  <img class="floating" src="Calibration-Selector/servo-down.jpeg" alt="Servo in the down position - trap released for load/unload or synced printing" width="30%">
+  <img src="Calibration-Selector/servo-up.jpeg" alt="Servo in the up position - trap released for normal printing" width="30%">
+  <img src="Calibration-Selector/servo-move.jpeg" alt="Servo in the move position - trap locked for selector movement" width="30%">
+  <img src="Calibration-Selector/servo-down.jpeg" alt="Servo in the down position - trap released for load/unload or synced printing" width="30%">
 </p>
 
 Tune one position at a time - move it, check by eye, then save:

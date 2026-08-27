@@ -27,7 +27,7 @@ Space to select it. A second line appears indented directly underneath it -
 **BTT ViViD buffer** - already checked:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ViViD/01-mmu-type-vivid.png" alt="MMU Type list, BTT ViViD selected with its buffer sub-option already checked" width="70%">
+  <img src="GettingStarted-ViViD/01-mmu-type-vivid.png" alt="MMU Type list, BTT ViViD selected with its buffer sub-option already checked" width="70%">
 </p>
 
 Leave **BTT ViViD buffer** checked if you have the official buffer board
@@ -41,7 +41,7 @@ instead.
 board, **BTT ViViD MCU**, and it's already selected:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ViViD/02-board-type.png" alt="Board type screen showing BTT ViViD MCU as the only, already-selected option" width="70%">
+  <img src="GettingStarted-ViViD/02-board-type.png" alt="Board type screen showing BTT ViViD MCU as the only, already-selected option" width="70%">
 </p>
 
 Gate count is fixed at `4` too; unlike a modular design, there's no separate
@@ -57,7 +57,7 @@ own serial device.
 From the top menu, enter **MCU connection**:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ViViD/03-mcu-connection.png" alt="MCU connection submenu for the MMU: connection type Serial, resolved serial device Other/manually entered" width="80%">
+  <img src="GettingStarted-ViViD/03-mcu-connection.png" alt="MCU connection submenu for the MMU: connection type Serial, resolved serial device Other/manually entered" width="80%">
 </p>
 
 This is a small submenu, not a single screen: the first row is the
@@ -83,7 +83,7 @@ Back out to the top and enter the buffer's own connection screen, **Buffer
 MCU connection**:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ViViD/04-mcu-connection-buffer.png" alt="Buffer MCU connection submenu: connection type Serial, resolved serial device Other/manually entered" width="80%">
+  <img src="GettingStarted-ViViD/04-mcu-connection-buffer.png" alt="Buffer MCU connection submenu: connection type Serial, resolved serial device Other/manually entered" width="80%">
 </p>
 
 Same shape, same list, but this time enter **Select serial device for
@@ -108,7 +108,7 @@ show up.
 Worth a glance even though there's nothing to add for a stock ViViD:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ViViD/05-mmu-features.png" alt="MMU Features / Additions screen: LEDs, sync-feedback buffer, environment sensor, heater and NFC readers all fixed on; fans, eject buttons and encoder left as genuine off-by-default options" width="80%">
+  <img src="GettingStarted-ViViD/05-mmu-features.png" alt="MMU Features / Additions screen: LEDs, sync-feedback buffer, environment sensor, heater and NFC readers all fixed on; fans, eject buttons and encoder left as genuine off-by-default options" width="80%">
 </p>
 
 **LEDs**, the **sync-feedback buffer** (supplied by the buffer board from the
@@ -125,7 +125,7 @@ default off; enable whichever ones you actually built.
 From the top menu, enter **Toolhead**:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ViViD/06-toolhead-selected.png" alt="Toolhead list, Stealthburner Clockwork2 Revo Voron selected" width="70%">
+  <img src="GettingStarted-ViViD/06-toolhead-selected.png" alt="Toolhead list, Stealthburner Clockwork2 Revo Voron selected" width="70%">
 </p>
 
 This step is entirely optional - skip it and Happy Hare falls back to
@@ -145,7 +145,7 @@ is worth calling out specifically rather than skimming past: **Auto-create a
 Spoolman spool from an unknown NFC/RFID tag?**
 
 <p align="center">
-  <img class="floating" src="GettingStarted-ViViD/07-spoolman-nfc-autocreate.png" alt="Software Options screen, Spoolman section, Auto-create a Spoolman spool from an unknown NFC/RFID tag toggled on" width="80%">
+  <img src="GettingStarted-ViViD/07-spoolman-nfc-autocreate.png" alt="Software Options screen, Spoolman section, Auto-create a Spoolman spool from an unknown NFC/RFID tag toggled on" width="80%">
 </p>
 
 **Select spoolman spool manager support** defaults to `Off` regardless of MMU

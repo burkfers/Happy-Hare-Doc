@@ -10,7 +10,7 @@ both, all combined into a single logical arrangement Happy Hare controls as
 one:
 
 <p align="center">
-  <img class="floating" src="Feature-LEDs/led_connection.jpg" alt="LED wiring diagram: a chain of indexed LEDs mapped to gates in default and reversed order, with per-gate LEDs and an optional exit-effect LED called out" width="80%">
+  <img src="Feature-LEDs/led_connection.jpg" alt="LED wiring diagram: a chain of indexed LEDs mapped to gates in default and reversed order, with per-gate LEDs and an optional exit-effect LED called out" width="80%">
 </p>
 
 Physical LEDs are grouped into up to four logical **segments**, each
@@ -42,7 +42,7 @@ animations.
 Enable under **MMU Features / Additions**:
 
 <p align="center">
-  <img class="floating" src="Feature-LEDs/led-config.png" alt="Led config screen: enable LEDs and animation, frame rate, chain count, color order, and the exit/entry/status/logo LED segment definitions" width="85%">
+  <img src="Feature-LEDs/led-config.png" alt="Led config screen: enable LEDs and animation, frame rate, chain count, color order, and the exit/entry/status/logo LED segment definitions" width="85%">
 </p>
 
 | Setting | Purpose |
@@ -56,7 +56,7 @@ Enable under **MMU Features / Additions**:
 | `Neopixel pin` | The physical pin driving the main chain - also reachable from the top-level **Pins / TMC** screen alongside every other MMU pin |
 
 <p align="center">
-  <img class="floating" src="Feature-LEDs/neopixel-pin.png" alt="The Pins / TMC screen, where every MMU pin including Neopixel pin can also be reviewed in one place" width="85%">
+  <img src="Feature-LEDs/neopixel-pin.png" alt="The Pins / TMC screen, where every MMU pin including Neopixel pin can also be reviewed in one place" width="85%">
 </p>
 
 Together these produce, in `mmu_hardware.cfg`:

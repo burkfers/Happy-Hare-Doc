@@ -35,7 +35,7 @@ Sync-Feedback Buffer](Feature-Sync-Feedback-Buffer.md) and [Feature:
 Encoder](Feature-Encoder.md) for wiring either sensor.
 
 <p align="center">
-  <img class="floating" src="Feature-FlowGuard/flowguard-config.png" alt="FlowGuard config screen: enable checkbox, max relief movement, tangle prevention threshold/release, and encoder detection mode" width="85%">
+  <img src="Feature-FlowGuard/flowguard-config.png" alt="FlowGuard config screen: enable checkbox, max relief movement, tangle prevention threshold/release, and encoder detection mode" width="85%">
 </p>
 
 ## Parameter Setup
@@ -183,7 +183,7 @@ or `PLOT_OUT=/path/to/graph.png` to change the saved image path.
     and pan controls for inspecting a specific region closely:
 
     <p align="center">
-      <img class="floating" src="Feature-FlowGuard/matplot-viewer.png" alt="The interactive matplotlib plot viewer's toolbar - pan, zoom, and save controls" width="55%">
+      <img src="Feature-FlowGuard/matplot-viewer.png" alt="The interactive matplotlib plot viewer's toolbar - pan, zoom, and save controls" width="55%">
     </p>
 
 **Reading the plot**: the fine red "ramp" trace is the key signal - a
@@ -196,7 +196,7 @@ a large-ID or long bowden lets filament coil up inside it, which reads as
 more relief movement than a "perfect", play-free system would actually see.
 
 <p align="center">
-  <img class="floating" src="Feature-FlowGuard/tuning-flowguard.png" alt="Annotated FlowGuard telemetry plot: the ramp trace crossing zero at the trigger point, with flowguard_max_relief called out" width="70%">
+  <img src="Feature-FlowGuard/tuning-flowguard.png" alt="Annotated FlowGuard telemetry plot: the ramp trace crossing zero at the trigger point, with flowguard_max_relief called out" width="70%">
 </p>
 
 A full simulated example, tripping a tangle on a Type-P (proportional)
@@ -204,7 +204,7 @@ sensor - the same shape a real print's telemetry takes when
 `flowguard_max_relief` is set tighter than the filament path's actual play:
 
 <p align="center">
-  <img class="floating" src="Feature-FlowGuard/type-p-simulation-tangle.png" alt="Simulated FlowGuard telemetry tripping a tangle on a Type-P sensor, annotated with the trigger reason and triggering parameter" width="90%">
+  <img src="Feature-FlowGuard/type-p-simulation-tangle.png" alt="Simulated FlowGuard telemetry tripping a tangle on a Type-P sensor, annotated with the trigger reason and triggering parameter" width="90%">
 </p>
 
 !!! note

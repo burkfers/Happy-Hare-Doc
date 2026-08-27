@@ -19,7 +19,7 @@ The very first time you run this, there's no `.mmu_config` yet, so the installer
 drops you straight into `menuconfig` — no separate flag needed.
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/01-first-run.png" alt="First run: nothing configured yet" width="70%">
+  <img src="GettingStarted-BoxTurtle/01-first-run.png" alt="First run: nothing configured yet" width="70%">
 </p>
 
 This is the installer's default state: `MMU Type` is `Custom Design`, the board is
@@ -41,7 +41,7 @@ A quick word on the controls, since you'll use them constantly:
 Highlight **MMU Type** and press Enter:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/02-mmu-type-boxturtle.png" alt="MMU Type list, with Box Turtle selected" width="70%">
+  <img src="GettingStarted-BoxTurtle/02-mmu-type-boxturtle.png" alt="MMU Type list, with Box Turtle selected" width="70%">
 </p>
 
 Move down to **Box Turtle** and press Space to select it. Two things happen
@@ -52,7 +52,7 @@ that only make sense once Happy Hare knows this is a Box Turtle.
 Enter **Turtle Neck** to see the buffer choice:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/03-turtleneck-buffer.png" alt="Turtle Neck buffer choice, v2 already selected" width="70%">
+  <img src="GettingStarted-BoxTurtle/03-turtleneck-buffer.png" alt="Turtle Neck buffer choice, v2 already selected" width="70%">
 </p>
 
 **Turtle Neck v2** is already the default — it's the buffer most Box Turtles ship
@@ -64,7 +64,7 @@ Back out twice (Esc, Esc) to return to the top menu, and look at the warnings
 panel again:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/04-root-warnings.png" alt="Root menu after choosing Box Turtle - one warning left" width="70%">
+  <img src="GettingStarted-BoxTurtle/04-root-warnings.png" alt="Root menu after choosing Box Turtle - one warning left" width="70%">
 </p>
 
 Three of the four warnings are already gone. The one that's left — *"Toolhead type
@@ -77,7 +77,7 @@ about it here.
 Enter **Board type**:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/05-board-type.png" alt="Board type list, AFC Lite v1.0 already selected" width="70%">
+  <img src="GettingStarted-BoxTurtle/05-board-type.png" alt="Board type list, AFC Lite v1.0 already selected" width="70%">
 </p>
 
 Because you already told it this is a Box Turtle, Happy Hare has pre-selected
@@ -91,7 +91,7 @@ on the rest of the menu come from whatever you choose here.
 Back out to the top and enter **MCU connection**:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/06-mcu-connection.png" alt="MCU connection, Serial already selected" width="70%">
+  <img src="GettingStarted-BoxTurtle/06-mcu-connection.png" alt="MCU connection, Serial already selected" width="70%">
 </p>
 
 Again, already right for a board like the AFC Lite that plugs in over USB:
@@ -105,7 +105,7 @@ Turtle, Serial is what you want and there's nothing to change.
 Back out and enter **MMU Features / Additions**:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/07-mmu-features.png" alt="MMU Features panel - LEDs, eSpooler and buffer already enabled" width="70%">
+  <img src="GettingStarted-BoxTurtle/07-mmu-features.png" alt="MMU Features panel - LEDs, eSpooler and buffer already enabled" width="70%">
 </p>
 
 This is worth a look even though — for a stock Box Turtle — there's nothing to
@@ -122,7 +122,7 @@ This is the one setting on this page that's genuinely impossible to get right by
 guessing. Back out to the top, enter **Pins / TMC**, then **Gear pins**:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/08-gear-pins.png" alt="Gear pins list - one row per gate" width="70%">
+  <img src="GettingStarted-BoxTurtle/08-gear-pins.png" alt="Gear pins list - one row per gate" width="70%">
 </p>
 
 Every gate has its own UART, step, dir, enable and diag pin, all filled in from
@@ -135,14 +135,14 @@ runs backwards.
 Highlight **Gear dir pin** and press Enter to open its editor:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/09-gear-dir-editor.png" alt="Gear dir pin editor, showing the default pin" width="70%">
+  <img src="GettingStarted-BoxTurtle/09-gear-dir-editor.png" alt="Gear dir pin editor, showing the default pin" width="70%">
 </p>
 
 If that gear needs reversing, add a `!` in front of the pin name — Klipper's
 standard way of inverting a pin's polarity:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/10-gear-dir-inverted.png" alt="Gear dir pin editor, with ! typed to invert it" width="70%">
+  <img src="GettingStarted-BoxTurtle/10-gear-dir-inverted.png" alt="Gear dir pin editor, with ! typed to invert it" width="70%">
 </p>
 
 That's it — no rewiring, no `.cfg` files to hand-edit. Press Enter to accept the
@@ -156,7 +156,7 @@ to whatever Happy Hare would have picked on its own.
 From the top menu, enter **Toolhead**:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/11-toolhead-selected.png" alt="Toolhead list, Stealthburner Clockwork2 Revo Voron selected" width="70%">
+  <img src="GettingStarted-BoxTurtle/11-toolhead-selected.png" alt="Toolhead list, Stealthburner Clockwork2 Revo Voron selected" width="70%">
 </p>
 
 This step is entirely optional — skip it and Happy Hare falls back to generic
@@ -169,7 +169,7 @@ what selecting one does.
 Back out and enter **Toolhead sensors/settings** to see the effect:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/12-toolhead-dimensions.png" alt="Toolhead dimensions, pre-filled from the selected combo" width="70%">
+  <img src="GettingStarted-BoxTurtle/12-toolhead-dimensions.png" alt="Toolhead dimensions, pre-filled from the selected combo" width="70%">
 </p>
 
 **Extruder entrance to nozzle** and **Residual filament**, under **Toolhead dimensions**,
@@ -191,7 +191,7 @@ From the top menu, enter **Software Options**, then **Select spoolman
 spool manager support**:
 
 <p align="center">
-  <img class="floating" src="GettingStarted-BoxTurtle/13-spoolman-readonly.png" alt="Spoolman support set to Read-only" width="70%">
+  <img src="GettingStarted-BoxTurtle/13-spoolman-readonly.png" alt="Spoolman support set to Read-only" width="70%">
 </p>
 
 This is one small example of the many software-side options living under

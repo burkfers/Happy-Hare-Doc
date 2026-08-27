@@ -47,7 +47,7 @@ fitted and active.
 Two checkboxes live under **Software Options** in menuconfig:
 
 <p align="center">
-  <img class="floating" src="Feature-Endless-Spool-Runout/endless-spool-options.png" alt="Software Options screen, EndlessSpool section: Enable EndlessSpool and Apply EndlessSpool automatically when loading an empty gate, both off by default" width="80%">
+  <img src="Feature-Endless-Spool-Runout/endless-spool-options.png" alt="Software Options screen, EndlessSpool section: Enable EndlessSpool and Apply EndlessSpool automatically when loading an empty gate, both off by default" width="80%">
 </p>
 
 Both default **off**. They set two plain settings in `mmu.cfg`, alongside two

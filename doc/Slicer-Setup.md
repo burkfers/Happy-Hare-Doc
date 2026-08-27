@@ -231,7 +231,7 @@ begins. Set `show_error_dialog: 0` to disable the pop-up entirely and rely
 on the console/log instead.
 
 <p align="center">
-  <img class="floating" src="Slicer-Setup/error_dialog_during_start.png" alt="MMU error dialog during print start" width="400">
+  <img src="Slicer-Setup/error_dialog_during_start.png" alt="MMU error dialog during print start" width="400">
 </p>
 
 !!! warning "Important"
@@ -257,7 +257,7 @@ The primary retract/extrude oscillation that does most of the tip-forming
 and cooling movement is disabled on the **Printer Settings** tab:
 
 <p align="center">
-  <img class="floating" src="Slicer-Setup/printer_settings.png" alt="Slicer printer settings" width="500">
+  <img src="Slicer-Setup/printer_settings.png" alt="Slicer printer settings" width="500">
 </p>
 
 !!! note
@@ -271,7 +271,7 @@ too, leaving only timing values (worth tuning once you know your MMU's
 typical load/unload time):
 
 <p align="center">
-  <img class="floating" src="Slicer-Setup/filament_settings.png" alt="Slicer filament settings" width="680">
+  <img src="Slicer-Setup/filament_settings.png" alt="Slicer filament settings" width="680">
 </p>
 
 Per-extruder, disable the initial retraction/extrude that would otherwise
@@ -279,7 +279,7 @@ leave a blob on the wipe tower - Happy Hare already loads filament exactly
 to the nozzle, so any extra extrusion here just blobs:
 
 <p align="center">
-  <img class="floating" src="Slicer-Setup/printer_settings_extruder.png" alt="Slicer per-extruder printer settings" width="500">
+  <img src="Slicer-Setup/printer_settings_extruder.png" alt="Slicer per-extruder printer settings" width="500">
 </p>
 
 Unless using a dedicated purge system instead (see
@@ -287,7 +287,7 @@ Unless using a dedicated purge system instead (see
 the slicer's wipe tower enabled - it's usually on by default:
 
 <p align="center">
-  <img class="floating" src="Slicer-Setup/print_settings.png" alt="Slicer print settings" width="500">
+  <img src="Slicer-Setup/print_settings.png" alt="Slicer print settings" width="500">
 </p>
 
 !!! note
@@ -295,7 +295,7 @@ the slicer's wipe tower enabled - it's usually on by default:
     distances too - otherwise it can push out a blob before the tip is cut.
 
     <p align="center">
-      <img class="floating" src="Slicer-Setup/skinny_dip.png" alt="Disabling SuperSlicer Skinnydip" width="500">
+      <img src="Slicer-Setup/skinny_dip.png" alt="Disabling SuperSlicer Skinnydip" width="500">
     </p>
 
 ### Turning off the slicer wipe tower

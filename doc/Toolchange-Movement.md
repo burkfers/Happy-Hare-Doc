@@ -129,14 +129,14 @@ printing here - it's effectively disabled; you'll likely still want it for
 pause/cancel/complete, and for runout even though normal toolchanges have
 no parking.
 
-<img class="floating" src="Toolchange-Movement/parking_example_1.png" alt="Example 1: slicer control with wipe tower" width="900">
+<img src="Toolchange-Movement/parking_example_1.png" alt="Example 1: slicer control with wipe tower" width="900">
 
 **Happy Hare tip forming, parking and purging on the wipe tower** -
 similar trade-offs, but tip forming only needs tuning in one place. A
 simple z-hop parks the toolhead while Happy Hare forms the tip, then it's
 lowered onto the wipe tower for the slicer's own purge.
 
-<img class="floating" src="Toolchange-Movement/parking_example_2.png" alt="Example 2: Happy Hare tip forming with wipe tower" width="900">
+<img src="Toolchange-Movement/parking_example_2.png" alt="Example 2: Happy Hare tip forming with wipe tower" width="900">
 
 ### Tip Cutting Options
 
@@ -153,7 +153,7 @@ for the whole toolchange** - allows a brush-cleaning move after the new
 filament loads, before returning to the wipe tower
 (`variable_restore_xy_pos`); supports sequential printing.
 
-<img class="floating" src="Toolchange-Movement/parking_example_3.png" alt="Example 3: cutting tip, single park area" width="900">
+<img src="Toolchange-Movement/parking_example_3.png" alt="Example 3: cutting tip, single park area" width="900">
 
 **Cutting the tip, with a separate initial park at the cutter and a
 second park at the purge bucket** - the initial toolchange park is a 1mm
@@ -161,7 +161,7 @@ z-hop to the cutter pin; after cutting, `post_form_tip_position` moves to
 the purge bucket for the rest of the toolchange (a
 `variable_user_post_load_extension` hook would typically purge/wipe here).
 
-<img class="floating" src="Toolchange-Movement/parking_example_4.png" alt="Example 4: cutting tip, two park positions" width="900">
+<img src="Toolchange-Movement/parking_example_4.png" alt="Example 4: cutting tip, two park positions" width="900">
 
 **Cutting the tip with a fully custom park and purge, no wipe tower at
 all** - the full build plate is available since the wipe tower is disabled,
@@ -171,7 +171,7 @@ and a custom park location can reduce ooze; supports sequential printing.
 More setup, more steps - there's more than one way to build this, and this
 is just one example.
 
-<img class="floating" src="Toolchange-Movement/parking_example_5.png" alt="Example 5: fully custom park and purge, no wipe tower" width="900">
+<img src="Toolchange-Movement/parking_example_5.png" alt="Example 5: fully custom park and purge, no wipe tower" width="900">
 
 ## Return to Print Movement
 
@@ -223,9 +223,9 @@ knowing apart when debugging unexpected movement:
   there's no separate always-on lift distinct from the configured park
   move itself.
 
-<img class="floating" src="Toolchange-Movement/toolchange_z_hop.png" alt="Toolchange z-hop, visualized" width="100%">
+<img src="Toolchange-Movement/toolchange_z_hop.png" alt="Toolchange z-hop, visualized" width="100%">
 
-<img class="floating" src="Toolchange-Movement/toolchange_z_hop_config.png" alt="Toolchange z-hop configuration options" width="100%">
+<img src="Toolchange-Movement/toolchange_z_hop_config.png" alt="Toolchange z-hop configuration options" width="100%">
 
 A reasonable starting point: 1mm toolchange z-hop with a 10mm ramp, slicer
 z-hop at 0.2mm, and a larger 5-10mm z-hop for pause/complete/cancel.
