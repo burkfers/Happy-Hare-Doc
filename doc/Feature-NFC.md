@@ -47,16 +47,82 @@ Enable this in menuconfig with **Has NFC reader(s) for RFID tag?** under
 
 **Shared reader** (toggle **Has common NFC reader?**):
 
-| Setting | Purpose |
-|---|---|
-| `NFC reader name` | Klipper object name - defaults to `<unit>_nfc` |
-| `Reader type` | RC522/SPI, PN5180/SPI, PN532/I2C, PN532/UART, PN532/SPI, or PN7160/I2C |
-| *(SPI types)* `CS pin`, `SPI bus name`, `SPI speed` | Chip-select pin is required; bus/speed are optional (defaults to the MCU's hardware SPI bus, 1MHz) |
-| *(PN5180 only)* `BUSY pin`, `RST pin` | Both required - PN5180 has no interrupt line, so BUSY is how the driver knows a command finished, and RST is the only recovery if the chip stops responding |
-| *(PN532/PN7160)* `I2C MCU name`, `I2C address`, `I2C bus type` | Address defaults to `0x24` (PN532, fixed) or `0x28` (PN7160, range `0x28`-`0x2B`) |
-| *(software I2C)* `SCL pin`, `SDA pin` | Bit-banged I2C on any two GPIO pins - the only way to run more than one PN532 (fixed address) on the same MCU |
-| *(UART)* `Serial device path`, `Baud rate` | PN532 in HSU mode over a USB-serial adapter plugged into the host, not an MCU - one reader per adapter |
-| *(PN7160 only)* `VEN pin`, `IRQ pin` | Both optional; `IRQ pin` is recommended - it lets the presence probe ask the line directly instead of a speculative read every tick |
+!!! example "Reader settings by type"
+
+    === "RC522 (SPI)"
+
+        | Setting | Purpose |
+        |---|---|
+        | `NFC reader name` | Klipper object name - defaults to `<unit>_nfc` |
+        | `Reader type` | Select **RC522 / SPI** |
+        | `CS pin` | Required chip-select pin |
+        | `SPI bus name` | Optional hardware SPI bus; blank uses the MCU's default bus |
+        | `SPI speed` | Defaults to 1MHz; RC522 supports up to 10MHz |
+        | `Receiver gain` | `0` keeps the chip default (33dB); selectable values are 18, 23, 33, 38, 43, or 48dB |
+
+    === "PN5180 (SPI)"
+
+        | Setting | Purpose |
+        |---|---|
+        | `NFC reader name` | Klipper object name - defaults to `<unit>_nfc` |
+        | `Reader type` | Select **PN5180 / SPI** |
+        | `CS pin` | Required chip-select pin |
+        | `SPI bus name` | Optional hardware SPI bus; blank uses the MCU's default bus |
+        | `SPI speed` | Defaults to 1MHz; PN5180 supports up to 7MHz |
+        | `BUSY pin` | Required; signals when a command has completed |
+        | `RST pin` | Required; lets the driver recover an unresponsive reader |
+        | `Receiver gain` | `0` keeps the chip default (50dB); selectable values are 33, 40, 50, or 57dB |
+
+    === "PN532 (I2C)"
+
+        | Setting | Purpose |
+        |---|---|
+        | `NFC reader name` | Klipper object name - defaults to `<unit>_nfc` |
+        | `Reader type` | Select **PN532 / I2C** |
+        | `I2C MCU name` | MCU that owns the I2C bus |
+        | `I2C address` | Fixed at `0x24` |
+        | `I2C bus type` | Hardware I2C, or software I2C on a dedicated GPIO pair |
+        | *(hardware)* `I2C bus name` | Optional hardware I2C bus; blank uses the MCU's default bus |
+        | *(software)* `SCL pin`, `SDA pin` | Required bit-banged bus pins; give each PN532 on the same MCU its own pair |
+        | `I2C speed` | Defaults to 100kHz |
+        | `Receiver gain` | `0` keeps the chip default (33dB); selectable values are 18, 23, 33, 38, 43, or 48dB |
+
+    === "PN532 (UART)"
+
+        | Setting | Purpose |
+        |---|---|
+        | `NFC reader name` | Klipper object name - defaults to `<unit>_nfc` |
+        | `Reader type` | Select **PN532 / UART** |
+        | `Serial device path` | Stable `/dev/serial/by-id/` path for the reader's host USB-serial adapter |
+        | `Baud rate` | Defaults to 115200; one reader requires one adapter |
+        | `Receiver gain` | `0` keeps the chip default (33dB); selectable values are 18, 23, 33, 38, 43, or 48dB |
+
+    === "PN532 (SPI)"
+
+        | Setting | Purpose |
+        |---|---|
+        | `NFC reader name` | Klipper object name - defaults to `<unit>_nfc` |
+        | `Reader type` | Select **PN532 / SPI** |
+        | `CS pin` | Required chip-select pin |
+        | `SPI bus name` | Optional hardware SPI bus; blank uses the MCU's default bus |
+        | `SPI speed` | Defaults to 1MHz |
+        | `Receiver gain` | `0` keeps the chip default (33dB); selectable values are 18, 23, 33, 38, 43, or 48dB |
+
+    === "PN7160 (I2C)"
+
+        | Setting | Purpose |
+        |---|---|
+        | `NFC reader name` | Klipper object name - defaults to `<unit>_nfc` |
+        | `Reader type` | Select **PN7160 / I2C** |
+        | `I2C MCU name` | MCU that owns the I2C bus |
+        | `I2C address` | Defaults to `0x28`; selectable range is `0x28`-`0x2B` |
+        | `I2C bus type` | Hardware I2C, or software I2C on any GPIO pair |
+        | *(hardware)* `I2C bus name` | Optional hardware I2C bus; blank uses the MCU's default bus |
+        | *(software)* `SCL pin`, `SDA pin` | Required bit-banged bus pins |
+        | `I2C speed` | Defaults to 100kHz |
+        | `VEN pin` | Optional reader-enable pin |
+        | `IRQ pin` | Optional but recommended; lets the presence probe check the line directly |
+        | `Receiver gain` | `0` keeps the protocol-profile defaults (53dB for NFC-A, 51dB for ISO15693); selectable values are 18, 26, 32, 39, 44, 51, 53, or 60dB |
 
 <p align="center">
   <img src="Feature-NFC/shared-reader-config.png" alt="NFC reader config menuconfig screen with Has common NFC reader enabled, showing the RC522/SPI defaults - reader name, CS pin, SPI bus and speed" width="70%">
