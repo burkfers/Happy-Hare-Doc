@@ -12,14 +12,14 @@ Q ?= @
 HAPPY_HARE_REPO_URL ?= https://github.com/moggieuk/Happy-Hare.git
 HAPPY_HARE_REF      := $(shell cat HAPPY_HARE_REF)
 
-# Where the fetched checkout lands - gitignored, never committed here. Override to
+# Where the managed checkout lands - gitignored, never committed here. Override to
 # point at a checkout you already have for fast local iteration, e.g.:
 #   HAPPY_HARE_SRC=/path/to/Happy-Hare make shots
-HAPPY_HARE_SRC ?= $(CURDIR)/.happy-hare-src
+MANAGED_HAPPY_HARE_SRC := $(CURDIR)/.happy-hare-src
+HAPPY_HARE_SRC ?= $(MANAGED_HAPPY_HARE_SRC)
 
-# Stamp files avoid Make target parsing issues when workspace paths contain
+# The stamp avoids Make target parsing issues when workspace paths contain
 # spaces or '#'.
-SOURCE_FETCH_STAMP := .make/source-fetched.stamp
 VENV_READY_STAMP   := .make/venv-ready.stamp
 
 # Shared venv for doc tooling (pyte, Pillow, zensical - see doc_tools/requirements.txt)
@@ -43,26 +43,34 @@ help:  # Print this help and exit
 # 'docs'/'docs_build'/'docs_preview' only render already-committed doc/*.md and
 # never touch this, which is also why the CI deploy workflow doesn't fetch it.
 #
-# Tries a fast shallow clone first (works for a branch or tag name); falls back to
-# a full clone + checkout, which is needed if HAPPY_HARE_REF is ever pinned to an
-# arbitrary commit SHA rather than a branch/tag.
-$(SOURCE_FETCH_STAMP):
-	$(Q)echo "Fetching Happy-Hare @ $(HAPPY_HARE_REF) into $(HAPPY_HARE_SRC)"
-	$(Q)mkdir -p "$(dir $@)"
-	$(Q)if ! test -d "$(HAPPY_HARE_SRC)/.git"; then \
-			if git clone --depth 1 --branch "$(HAPPY_HARE_REF)" "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)" 2>/dev/null; then \
-				: ; \
-			else \
-				git clone "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)" && \
-				cd "$(HAPPY_HARE_SRC)" && git checkout "$(HAPPY_HARE_REF)"; \
+# The default checkout is a disposable managed cache, refreshed every time a
+# source-dependent target runs. An explicitly supplied HAPPY_HARE_SRC is treated
+# as user-owned and is only validated; it is never fetched, checked out or cleaned.
+fetch-source:  ## Fetch or refresh Happy-Hare source
+	$(Q)if [ "$(abspath $(HAPPY_HARE_SRC))" != "$(abspath $(MANAGED_HAPPY_HARE_SRC))" ]; then \
+			git -C "$(HAPPY_HARE_SRC)" rev-parse --is-inside-work-tree >/dev/null 2>&1 || { \
+				echo "HAPPY_HARE_SRC is not a git checkout: $(HAPPY_HARE_SRC)" >&2; exit 2; \
+			}; \
+			echo "Using external Happy-Hare checkout at $(HAPPY_HARE_SRC)"; \
+		else \
+			echo "Refreshing Happy-Hare @ $(HAPPY_HARE_REF) in $(HAPPY_HARE_SRC)"; \
+			if [ ! -e "$(HAPPY_HARE_SRC)" ]; then \
+				git clone --filter=blob:none --no-checkout "$(HAPPY_HARE_REPO_URL)" "$(HAPPY_HARE_SRC)"; \
+			elif [ ! -d "$(HAPPY_HARE_SRC)/.git" ]; then \
+				echo "Managed source path exists but is not a git checkout; run 'make clean-source' first" >&2; exit 2; \
 			fi; \
+			git -C "$(HAPPY_HARE_SRC)" remote set-url origin "$(HAPPY_HARE_REPO_URL)"; \
+			git -C "$(HAPPY_HARE_SRC)" fetch --force --depth 1 origin "$(HAPPY_HARE_REF)" || \
+				git -C "$(HAPPY_HARE_SRC)" fetch --force origin "$(HAPPY_HARE_REF)"; \
+			git -C "$(HAPPY_HARE_SRC)" checkout --detach --force FETCH_HEAD; \
+			git -C "$(HAPPY_HARE_SRC)" clean -ffd; \
 		fi
-	$(Q)touch "$@"
-fetch-source: $(SOURCE_FETCH_STAMP)  ## Fetch Happy-Hare source
 
-clean-source:  ## Remove fetched source
-	$(Q)rm -rf "$(HAPPY_HARE_SRC)"
-	$(Q)rm -f "$(SOURCE_FETCH_STAMP)"
+clean-source:  ## Remove the managed source cache
+	$(Q)if [ "$(abspath $(HAPPY_HARE_SRC))" != "$(abspath $(MANAGED_HAPPY_HARE_SRC))" ]; then \
+			echo "Refusing to remove external HAPPY_HARE_SRC: $(HAPPY_HARE_SRC)" >&2; exit 2; \
+		fi
+	$(Q)rm -rf "$(MANAGED_HAPPY_HARE_SRC)"
 
 
 #######################

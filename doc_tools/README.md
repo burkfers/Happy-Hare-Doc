@@ -17,13 +17,18 @@ live in `doc_tools/requirements.txt` and are installed into `./venv` on demand b
 **This repo (Happy-Hare-Doc) is separate from Happy Hare's source code**, so the two
 tools above that read that source directly (`gen_command_reference.py`'s
 `extras/mmu/**` walk, `capture.py`'s `installer/Kconfig` parse) need a Happy-Hare
-checkout to point at. `HAPPY_HARE_SRC` is that pointer - `make shots`/`make
-command_reference` fetch one automatically (pinned to the branch/tag named in
-[`HAPPY_HARE_REF`](../HAPPY_HARE_REF)) into a gitignored `.happy-hare-src/`, or set
-it yourself to a checkout you already have for faster iteration:
-`HAPPY_HARE_SRC=/path/to/Happy-Hare make shots`. `docs`/`docs_build`/`docs_preview`
-need none of this - they only render the `doc/*.md` and images already committed
-here.
+checkout to point at. `HAPPY_HARE_SRC` is that pointer. By default, `make shots`
+and `make command_reference` maintain a gitignored `.happy-hare-src/` cache and
+refresh it to the latest commit at the branch, tag or commit named in
+[`HAPPY_HARE_REF`](../HAPPY_HARE_REF) before every run. The cache is disposable;
+do not make source changes inside it.
+
+For faster iteration against a checkout you manage, use
+`HAPPY_HARE_SRC=/path/to/Happy-Hare make shots`. An explicitly supplied checkout
+is read as-is and is never fetched, switched, or removed by these targets.
+`make clean-source` only removes the default managed cache.
+`docs`/`docs_build`/`docs_preview` need none of this - they only render the
+`doc/*.md` and images already committed here.
 
 ## Generating the Command Reference
 

@@ -15,9 +15,11 @@ repo root (not under `doc/`) specifically so it's never a candidate for publishi
   pull that down. `doc_tools/gen_command_reference.py` and `doc_tools/capture.py`
   still need to read Happy-Hare's source tree (`extras/mmu/**`,
   `installer/Kconfig*`) to regenerate `Reference-Commands.md`/screenshots — that
-  happens via `HAPPY_HARE_SRC`, fetched automatically by `make
-  shots`/`command_reference` (pinned to the branch/tag in `HAPPY_HARE_REF`, or
-  point it at a checkout you already have). `docs`/`docs_build`/`docs_preview`
+  happens via `HAPPY_HARE_SRC`. The default gitignored `.happy-hare-src/` is a
+  disposable managed cache refreshed to the latest commit at the branch, tag or
+  commit in `HAPPY_HARE_REF` before each source-dependent run. An explicitly
+  supplied checkout is read as-is and never fetched, switched, or removed.
+  `docs`/`docs_build`/`docs_preview`
   (and this repo's CI/Pages deploy) need none of that — they only render the
   `doc/*.md` and images already committed here. See the root `README.md` for the
   contributor-facing version of this, and `doc_tools/README.md` for exactly how
