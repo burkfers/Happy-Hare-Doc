@@ -55,7 +55,7 @@ indented underneath — **`Version`**,**`Number of gates/lanes`**, **`Selector s
   <img src="GettingStarted-ERCF/02-mmu-type-ercf.png" alt="MMU Type list, with ERCF selected" width="70%">
 </p>
 <br>
-Confirm the version of your ERCF build. Because the ERCF has evolved significantly over time, Happy Hare needs
+Confirm the version of your ERCF build. Because ERCF has evolved significantly over time, Happy Hare needs
 to know which version you built so it can recommend and set appropriate defaults.
 
 <p align="center">
