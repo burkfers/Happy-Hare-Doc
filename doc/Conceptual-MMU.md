@@ -208,7 +208,7 @@ varies by design and budget.
 | NFC/RFID reader (per gate) | Reads a tag on the spool and can also act as a "tag detected" homing endstop during a gear move. |
 
 !!! note
-    Virtual versions of some of these sensors can be setup when using hall-effect sensors such as filament diameter monitor on the extruder entrance for Qidi printers. Notes on the setup of these are present in the config files but it is often easier to sk on the [Happy Hare Discord](https://discord.com/invite/98TYYUf6f2) forum.
+    Virtual versions of some of these sensors can be setup when using hall-effect sensors such as filament diameter monitor on the extruder entrance for Qidi printers. Notes on the setup of these are present in the config files but it is often easier to sk on the [Happy Hare Discord](https://discord.gg/98TYYUf6f2) forum.
 
 ## EndlessSpool
 
