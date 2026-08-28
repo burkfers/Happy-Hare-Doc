@@ -256,6 +256,21 @@ body {
 }
 
 /*
+ * Zensical makes the logo in the primary sidebar title a home link, but emits
+ * the adjacent site name as plain text. hh-page-nav.js wraps that text in an
+ * anchor using the logo's own site-root URL; keep it visually identical to
+ * the theme title while providing a clear hover/focus affordance.
+ */
+.hh-sidebar-home-link {
+  color: inherit;
+  text-decoration: none;
+}
+.hh-sidebar-home-link:hover,
+.hh-sidebar-home-link:focus-visible {
+  color: var(--md-accent-fg-color);
+}
+
+/*
  * Previous/Next page nav. Injected by extra_javascript/hh-page-nav.js, not
  * written into each page's markdown - it reads the already-rendered primary
  * sidebar (which already has every real page in nav order, indistinguishable
