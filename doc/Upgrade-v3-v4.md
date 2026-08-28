@@ -94,5 +94,6 @@ the backup in `~printer_data/config/mmu.V3`
   motor and sensor setup before calibration
 - [Getting Started with Box Turtle](GettingStarted-BoxTurtle.md)
 - [Getting Started with BTT ViViD](GettingStarted-ViViD.md)
-
+- [Getting Started with ERCF](GettingStarted-ERCF.md)
+- [Getting Started with Tradrack](GettingStarted-Tradrack.md)
 ---
