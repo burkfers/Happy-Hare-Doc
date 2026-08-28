@@ -3,7 +3,7 @@
 ## Reporting a problem
 
 If you need help with your own setup, the
-[Discord server](https://discord.gg/HXEHUb9W) is the right place - GitHub
+[Discord server](https://discord.gg/98TYYUf6f2) is the right place - GitHub
 issues are for bugs and feature requests, not individual setup problems.
 
 Found an actual bug?
@@ -88,5 +88,4 @@ you haven't yet, these are the pages worth reading first:
   around both of the above.
 
 ---
-
 

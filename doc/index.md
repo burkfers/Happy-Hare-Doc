@@ -144,7 +144,7 @@ whichever MMU/AFC you're running. Thank you!
 
 ## Getting help
 
-Join the [Happy Hare Discord](https://discord.gg/aABQUjkZPk) - there are
+Join the [Happy Hare Discord](https://discord.gg/98TYYUf6f2) - there are
 channels dedicated to each MMU type as well as the main extensions. The
 [GitHub issue tracker](https://github.com/moggieuk/Happy-Hare/issues) works
 too, checked on a less immediate cadence.

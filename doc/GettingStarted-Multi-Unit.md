@@ -9,7 +9,7 @@ printer-wide settings are configured once.
 This guide starts with a working single-unit installation and adds a second unit.
 The same process can be repeated for further units.
 
-## Configure the first unit normally
+## Configure first unit
 
 Install and configure the first MMU in the normal way described by the Getting
 Started guide for that design:
@@ -27,7 +27,7 @@ The initial unit is configured under the symbolic name `unit0` by default.
     add the next unit. This makes wiring and configuration problems much easier to
     isolate.
 
-## Convert the installation to multi-unit
+## Convert to multi-unit
 
 From the `Happy-Hare` directory, rerun the interactive installer with `-n`:
 
@@ -100,7 +100,7 @@ as `ERCF Left` or `Box Turtle`, including spaces. Mainsail, Fluidd and
 KlipperScreen use the display name where appropriate without changing the
 symbolic names in the configuration.
 
-## Pass 2: review the existing unit0
+## Pass 2: review existing unit0
 
 The next `menuconfig` pass returns to the normal colour scheme and is labelled
 **Unit: unit0**. It contains only settings specific to the first physical unit.
@@ -110,7 +110,7 @@ parameters before saving.
 
 Press **Q** and save when the `unit0` configuration is correct.
 
-## Pass 3: configure the new unit1
+## Pass 3: configure new unit1
 
 The installer then opens a fresh unit-specific configuration labelled
 **Unit: unit1**.
@@ -159,7 +159,7 @@ installer finishes, it removes the generated configuration for the deleted unit.
     `~/printer_data/config/mmu.old-20260827-143000`, so the earlier menuconfig
     choices remain available if they are needed for recovery.
 
-## Sharing components between units
+## Sharing components
 
 Multi-unit configurations can reuse hardware that is genuinely common to more
 than one filament path:
@@ -207,7 +207,7 @@ Only one unit may have **Associate bypass with this unit?** enabled. Leave it of
 for every unit if the bypass should remain visually separate. See
 [Filament Bypass](Feature-Filament-Bypass.md) for the available layouts.
 
-## Mainsail, Fluidd and KlipperScreen display
+## Mainsail / Fluidd / KlipperScreen
 
 Mainsail, Fluidd and KlipperScreen display each physical MMU unit separately
 while presenting them as parts of the same logical MMU. Each unit keeps its own
@@ -338,7 +338,7 @@ Shared configuration remains in the common Happy Hare files. This separation
 keeps each physical unit's hardware and movement settings readable while allowing
 Happy Hare to present all configured units as one logical MMU.
 
-## Reconfigure or add more units later
+## Reconfigure or add more units
 
 Once the installation is multi-unit, rerun the normal interactive command:
 

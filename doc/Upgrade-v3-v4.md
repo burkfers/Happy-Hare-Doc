@@ -9,7 +9,7 @@ by v4 code, and vice versa.
 This matters more than a normal version bump because of how most people
 update Happy Hare.
 
-## Why this needs its own page
+## Why this is significant
 
 Happy Hare registers with Moonraker's `update_manager` as a plain
 `type: git_repo`. That means Mainsail/Fluidd's "Update" button does nothing
