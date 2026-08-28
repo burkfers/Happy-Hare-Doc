@@ -228,7 +228,7 @@ instead of generic estimates. Here we’ve chosen **`A4T WWBMG for A4T Dragon Ac
 ++esc++ to backout to the top menu and select **Toolhead sensors/settings**. This is where you can enable other features 
 such as **`Toolhead cutter`**, **`toolhead`** and **`extruder entry`** sensors if fitted. The community-contributed
 measurements for **`Extruder entrance to nozzle`** and **`Residual filament`**, under **`Toolhead dimensions`**,
-can be reviewed and tuned if necessary. For **`Stealthburner Clockwork2 Rapido HF`**, the values are`88` and `36.5`.
+can be reviewed and tuned if necessary. For **`A4T WWBMG for A4T Dragon Ace`**, the values are`88` and `36.5`.
 
 The other two distances Happy Hare can use (**`Toolhead sensor to nozzle`** & **`Extruder sensor to entry`**) 
 only appear when you have enabled the sensors and remain hidden when disabled.
