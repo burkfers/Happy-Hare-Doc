@@ -211,6 +211,13 @@ repo root (not under `doc/`) specifically so it's never a candidate for publishi
     without affecting that box's own height/animation at all;
     `.md-header__inner` separately gets a plain `min-height` bump so there's
     header background for it to float onto.
+- **The primary-sidebar "Happy Hare v4" title links to the home page**
+  (added 2026-08-28) — Zensical only links the adjacent logo by default and
+  emits the site-name text as a bare text node. `hh-page-nav.js` wraps that
+  text in an anchor using the logo's own site-root URL on every
+  `document$` update, so it continues to work with `navigation.instant` and
+  does not require a vendored-template override. `extra.css` preserves the
+  theme's title styling and adds the normal accent hover/focus affordance.
 - **Don't drop wiki illustrations, admonitions, or worked examples without a
   specific reason** (added 2026-08-06) — the first `Feature-Espooler.md` draft
   over-compressed the ported wiki content (dropped the UI screenshots, the
