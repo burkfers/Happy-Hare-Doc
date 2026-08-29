@@ -95,6 +95,108 @@ groups included in the status report:
 MMU_STATUS SHOWCONFIG=1 DETAIL=1
 ```
 
+## Reading the compact state displays
+
+The compact table and filament-path line answer different questions. The
+table covers every unit and gate; the path line covers only the currently
+selected tool and gate. Read the table first to establish the selection,
+then read the path from the selected gate on the left toward the nozzle on
+the right.
+
+The following two examples are independent snapshots: the table has T8
+selected, while the path line begins with T9.
+
+### Unit, gate, tool, and availability table
+
+```{.text .console-output}
+Unit : ----------------- unit0 -----------------   ----- unit1 -----
+Gate : | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |Byp|   | 9 | 10| 11| 12|
+Tools: |T0 |T1 |T2 |T3 |T4 |T5 |T6 |T7 |T8 | - |   |T9 |T10|T11|T12|
+Avail: |■■■|■■■| - |■■■|■?■|■?■|■■■|■?■|■?■|   |   |■■■|■■■| - | - |
+Selct: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\▼/|~~~~   ~~~~~~~~~~~~~~~~~ T8
+```
+
+Each four-character column describes one physical gate:
+
+| Row | How to read it |
+|---|---|
+| `Unit` | The dashed headings group gates by MMU unit. Here unit0 owns gates 0-8 and the bypass; unit1 owns gates 9-12. This row is omitted on a single-unit machine. |
+| `Gate` | Global physical gate numbers. They remain unique across units. `Byp` is the direct filament-bypass path, attached to unit0 in this example. |
+| `Tools` | The logical tool currently mapped to each physical gate by the TTG map. The bypass has no logical tool, so it shows `-`. If several tools map to one gate, the short column can end in `+`; use `MMU_TTG_MAP` to see the complete mapping. |
+| `Avail` | Happy Hare's gate-availability state, supplemented by filament-color swatches when colored console output is enabled. This is tracked state; it is not itself a live sensor reading. |
+| `Selct` | Selector state and the one active gate. The tool printed at the far right is the selected logical tool. |
+
+The availability cells use the center character to distinguish state:
+
+| Cell | Meaning |
+|---|---|
+| `■■■` | Filament is known to be available. Run `MMU_GATE_MAP` to distinguish **On spool** from **Buffered**. |
+| `■?■` | Availability is unknown. The outer squares are color swatches or visual framing, not proof that filament is present. |
+| ` - ` | The gate is recorded as empty. |
+| `W` | A configured EndlessSpool waste/eject gate; the exact width depends on console formatting. |
+| blank bypass cell | No filament is currently tracked as loaded through the bypass. |
+
+In the selection row, `~` means that unit's selector is homed and `X` means
+it is not homed. `|\▼/|` points at the active physical gate; the triangle is
+rendered in that gate's filament color when possible. In this snapshot gate
+8 is selected on unit0, its TTG mapping is T8, and unit1 has no selected
+gate. The table also shows gates 2, 11, and 12 as empty, gates 4, 5, 7, and
+8 as unknown, and the remaining gates as available.
+
+### Filament position line
+
+```{.text .console-output}
+[T9] ■◉■■◉■┈┈┈┈┈┈┈┈┈┈ [◁ ▷] ┈┈┈┈┈┈┈Ex┈┈┈◯┈┈┈┤Nz UNLOADED 0.0mm
+```
+
+Read this from left to right:
+
+| Part | Meaning |
+|---|---|
+| `[T9]` | The selected logical tool. Its TTG-mapped physical gate and owning unit supply the path being drawn. `[BYPASS]` or `[T?]` can appear instead. |
+| `■` | Filament is known or inferred to occupy that part of the path. With colored output, the line uses the selected filament's color. |
+| `┈` | Filament has not reached that part of the path, or Happy Hare has no evidence that it has. |
+| `◉` / `◯` | A fitted filament sensor is triggered / open. Gate-area sensors appear in physical order; use `MMU_SENSORS` to match the markers to their exact names. |
+| `[◁ ▷]` | The sync-feedback buffer. Outward arrows show the tension-side switch; inward arrows show compression. The blank center here means sync feedback is not currently active. When active, the center can show `T`, `C`, or `N`; a proportional sensor can show a number, while `x` means disabled and `?` means indeterminate. |
+| `Ex` / `Nz` | Extruder and nozzle landmarks. The open `◯` between them in this example is the fitted toolhead sensor. |
+| `UNLOADED` | Happy Hare's discrete tracked filament state. Unloaded means parked at the gate, not necessarily absent—the solid gate-side segment and triggered gate sensors are therefore expected. Other reports can show `EMPTY`, `UNKNOWN`, `LOADED`, `▷▷▷` while loading, or `◁◁◁` while unloading. |
+| `0.0mm` | The MMU drive's tracked stepper coordinate, not an independent measurement of the filament tip. With encoder validation enabled, a separate `(e:...mm)` measurement appears for comparison. |
+
+This example says that T9 is selected, filament is parked across the fitted
+gate sensors, and nothing extends into the bowden, extruder, or nozzle. The
+toolhead sensor is open. The tension-side buffer switch is physically
+triggered, but the empty center of `[◁ ▷]` shows that sync feedback is
+inactive because filament is not loaded through the buffer.
+
+!!! note "Sync-feedback forms"
+    The buffer segment combines the physical switch position (the arrows)
+    with the controller's interpretation (the center). These are the common
+    forms:
+
+    | Form | Meaning |
+    |---|---|
+    | `[◁ ▷]` | Tension-side switch triggered; blank center means sync feedback is currently inactive. |
+    | `[ ▷ ◁ ]` | Compression-side switch triggered; sync feedback inactive. |
+    | <code>[&nbsp;&nbsp;&nbsp;]</code> | Neither digital switch triggered; sync feedback inactive (three spaces between the brackets). |
+    | `[◁T▷]` | Active and reporting tension. |
+    | `[ ▷C◁ ]` | Active and reporting compression. |
+    | `[ N ]` | Active and neutral. |
+    | `[-0.4 ]` | Proportional-sensor value. The normalized range is `-1.0` (tension) through `0.0` (neutral) to `1.0` (compression). |
+    | `[ x ]` | Sync feedback is disabled. |
+    | `[ ? ]` | The state is indeterminate. |
+
+    `x`, `?`, and the state letters can also appear between outward or
+    inward arrows when a digital switch is physically triggered; for
+    example, `[◁x▷]` means the tension switch is triggered while feedback
+    is disabled. A tension-only sensor can only produce the outward-arrow
+    side, a compression-only sensor the inward-arrow side, and a dual sensor
+    either. See [Sync-Feedback Buffer](Feature-Sync-Feedback-Buffer.md) for
+    the supported sensor hardware.
+
+    The exact path length and glyph style vary with the fitted sensors and
+    the console's bold/color settings. Trust the landmarks and sensor
+    markers, not a fixed character position copied from another MMU design.
+
 ## What is loaded in each gate
 
 `MMU_GATE_MAP` describes the physical gates. Availability and filament
