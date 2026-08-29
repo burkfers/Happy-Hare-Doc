@@ -178,11 +178,11 @@ measured distance are normal (calibration accuracy, minor slippage) and not
 a cause for concern below roughly 5%.
 
 !!! tip
-    [`MMU_STATUS SHOWCONFIG=1`](Reference-Commands.md#mmu_status) prints an
-    English-language description of the load/unload sequence exactly as
-    your current configuration would run it, parameter values included -
-    genuinely useful while tuning, and worth running once just to see what
-    it says.
+    [`MMU_STATUS SHOWCONFIG=1`](Understanding-Operation.md#machine-state-and-configured-sequences) prints an
+    English-language description of the preload, load, and unload sequences
+    exactly as your current configuration would run them, parameter values
+    included - genuinely useful while tuning, and worth running once just to
+    see what it says.
 
 This is deliberately the overview level - the underlying state machine and
 the `_MMU_STEP_*` commands each phase is actually built from are covered in
@@ -249,7 +249,7 @@ and uses that to decide what a command should do next. Fixing a problem
 fixing it by hand (moving filament, swapping a gate's spool) can leave it
 stale, which then surfaces as a confusing second error on `RESUME`.
 
-[`MMU_STATUS`](Reference-Commands.md#mmu_status) shows the current tracked
+[`MMU_STATUS`](Understanding-Operation.md) shows the current tracked
 state - gate/tool availability, current selection, and filament position -
 so you can judge whether anything needs correcting:
 
