@@ -124,6 +124,7 @@ nav:
       - Slicer Setup: Slicer-Setup.md
       - Toolchange Movement: Toolchange-Movement.md
   - Operation:
+      - Understanding MMU State: Understanding-Operation.md
       - Operation: Operation.md
       - KlipperScreen: KlipperScreen.md
       - Mainsail / Fluidd: Mainsail-Fluidd-Integration.md
