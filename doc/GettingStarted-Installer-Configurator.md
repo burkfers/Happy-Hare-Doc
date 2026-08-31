@@ -1,4 +1,4 @@
-# Getting Started - Menuconfig Installer / Configurator
+# Menuconfig
 
 The Happy Hare v4 Installer and Configurator is a dynamic, `menuconfig` based 
 configuration management system designed to streamline both initial installation
@@ -28,8 +28,8 @@ preferred workflow. However, users are encouraged to rely primarily on the `menu
 installer, which may require unlearning older habits of editing configuration files
 directly.
 
-All menuconfig selections are mastered and stored in the `Happy-Hare/.mmu-config` 
-settings file with a backup maintained in `printer_data/config/mmu/.mmu-config` to
+All menuconfig selections are mastered and stored in the `Happy-Hare/.mmu_config`
+settings file with a backup maintained in `printer_data/config/mmu/.mmu_config` to
 ensure it's included in popular GitHub‑based printer configuration backup mechanisms.
 
 ## Navigation
@@ -90,11 +90,12 @@ your Happy Hare `.cfg` files. Useful when most settings are managed through `men
 want hardware‑specific settings or tuning to remain untouched.
 <br><br>
 
-!!! notes 
+!!! note "Notes"
     * `menuconfig` will never overwrite your existing configuration outright - it's copied
-      to a timestamped backup directory before changes are applied. (e.g. `mmu-20260807_102329`) 
+      to a timestamped backup directory before changes are applied (e.g.
+      `mmu.old-20260807-102329`).
     * `menuconfig` will always automatically check and update Happy Hare to the latest 
-      release from GitHub. To prevent this, launch `./install.sh`with `-z` flag to skip 
+      release from GitHub. To prevent this, launch `./install.sh` with the `-z` flag to skip
       the update check.
     * Following a klipper/kalico upgrade or hard reset, you may need to run `./install.sh -f` 
       to restore all klipper/moonraker symbolic links to make sure everything is where it
@@ -108,5 +109,43 @@ want hardware‑specific settings or tuning to remain untouched.
       `menuconfig`, you will need to manually transpose them before using `menuconfig`
       *Replace* to reset your configuration baseline.  It's for this reason it's 
       recommended to manage all configuration changes through `menuconfig` where possible.
-    
+
+## Recovering Configuration from a Backup
+
+Every normal install preserves the existing `mmu` configuration directory as a
+timestamped backup alongside it. If a configuration change goes wrong, run the
+installer with `--prev` (or its short form, `-p`) to choose which saved state to
+restore:
+
+```{.text .console-command}
+./install.sh -i --prev
+```
+```{.text .console-output}
+Available MMU configuration backups:
+  1) mmu (current config)
+  2) mmu.old-20260831-115007 (2026-08-31 11:50:07)
+  3) mmu.old-20260830-174053 (2026-08-30 17:40:53)
+
+Choose backup to restore from (1-3)?
+```
+
+The current `mmu` directory is listed first when it contains a saved
+`.mmu_config`; timestamped backups then appear from newest to oldest. Choose a
+number to restore that directory and continue through the normal installation.
+If you select a timestamped backup, the installer first preserves your current
+`mmu` directory as another timestamped backup, then restores the selected
+directory and recovers its `.mmu_config` files into the Happy Hare checkout.
+This means the configuration you are replacing remains available if you need to
+return to it.
+
+Use `-i` with `--prev` when you want to review or adjust the recovered settings
+in `menuconfig`, as shown above. Without `-i`, the installer applies the recovered
+settings directly through its normal safe re-install/upgrade path.
+
+For unattended recovery, `--last` (or `-l`) recovers the saved `.mmu_config`
+without showing the selection menu. It uses the current installed configuration
+when available, otherwise the newest timestamped backup. `--last` and `--prev`
+cannot be used together, and neither recovery option can be combined with
+uninstall mode.
+
 ---
